@@ -77,4 +77,10 @@ public class ITextvergleicherImpl implements ITextvergleicher {
         
         return lines;
     }
+
+	@Override
+	public void vergleiche() {
+		// TODO Auto-generated method stub
+		
+	}
 }

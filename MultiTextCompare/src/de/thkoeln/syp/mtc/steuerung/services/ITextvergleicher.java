@@ -19,4 +19,6 @@ public interface ITextvergleicher {
 	List<Delta> getDeltas() throws IOException;
 
 	List<String> fileToLines(File file) throws IOException;
+
+	void vergleiche();
 }
