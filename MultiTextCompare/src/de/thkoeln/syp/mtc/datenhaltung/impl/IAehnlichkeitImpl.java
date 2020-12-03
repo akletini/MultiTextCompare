@@ -8,7 +8,7 @@ public class IAehnlichkeitImpl implements IAehnlichkeit {
 
 	private File von, zu;
 	private double wert;
-	private String farbe;
+
 
 	@Override
 	public boolean setVon(File von) {
@@ -28,11 +28,6 @@ public class IAehnlichkeitImpl implements IAehnlichkeit {
 		return true;
 	}
 
-	@Override
-	public boolean setFarbe(String farbe) {
-		this.farbe = farbe;
-		return true;
-	}
 
 	@Override
 	public File getVon() {
@@ -48,9 +43,6 @@ public class IAehnlichkeitImpl implements IAehnlichkeit {
 	public double getWert() {
 		return wert;
 	}
-
-	@Override
-	public String getFarbe() {
-		return farbe;
-	}
 }
+
+

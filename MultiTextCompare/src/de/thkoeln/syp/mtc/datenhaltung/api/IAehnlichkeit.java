@@ -8,8 +8,6 @@ public interface IAehnlichkeit {
 	boolean setZu(File zu);
 
 	boolean setWert(double wert);
-	
-	boolean setFarbe(String farbe);
 
 	File getVon();
 
@@ -17,5 +15,4 @@ public interface IAehnlichkeit {
 
 	double getWert();
 	
-	String getFarbe();
 }
