@@ -4,9 +4,11 @@ import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
 
 public class IConfigImpl implements IConfig {
 
-	private boolean beachteLeerzeichen, beachteSatzzeichen, beachteGrossschreibung;
+	private boolean beachteLeerzeichen, beachteSatzzeichen,
+			beachteGrossschreibung;
 	private String rootDir;
-	
+	private String path;
+
 	@Override
 	public boolean setBeachteLeerzeichen(boolean beachteLeerzeichen) {
 		this.beachteLeerzeichen = beachteLeerzeichen;
@@ -32,6 +34,12 @@ public class IConfigImpl implements IConfig {
 	}
 
 	@Override
+	public boolean setPath(String path) {
+		this.path = path;
+		return true;
+	}
+
+	@Override
 	public boolean getBeachteLeerzeichen() {
 		return beachteLeerzeichen;
 	}
@@ -49,5 +57,10 @@ public class IConfigImpl implements IConfig {
 	@Override
 	public String getRootDir() {
 		return rootDir;
+	}
+
+	@Override
+	public String getPath() {
+		return path;
 	}
 }
