@@ -21,7 +21,9 @@ public interface IFileImporter {
 
 	boolean exportConfigdatei(IConfigImpl iConfigImpl);
 
-	boolean importTextdateien();
+	boolean importTextdateien(List<File> textdateien);
 
 	boolean importTextRoot();
+	
+	public boolean createTempFiles();
 }

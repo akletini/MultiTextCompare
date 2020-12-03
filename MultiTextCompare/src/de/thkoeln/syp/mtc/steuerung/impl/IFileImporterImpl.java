@@ -1,11 +1,15 @@
 package de.thkoeln.syp.mtc.steuerung.impl;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -38,14 +42,6 @@ public class IFileImporterImpl implements IFileImporter {
 		return iConfigImpl;
 	}
 
-	public boolean setConfig(IConfigImpl iConfigImpl) {
-		if (iConfigImpl != null) {
-			this.iConfigImpl = iConfigImpl;
-			return true;
-		}
-		return false;
-	}
-
 	@Override
 	public List<File> getTextdateien() {
 		return textdateien;
@@ -61,13 +57,13 @@ public class IFileImporterImpl implements IFileImporter {
 			if (!DEFAULT_CONFIG.exists()) {
 				try {
 					outputStream = new FileOutputStream(
-							System.getProperty("user.dir")
-									+ "/config.properties");
+							System.getProperty("user.dir") + File.separator
+									+ "config.properties");
 
 					prop.store(outputStream, null);
 
 					iConfigImpl.setPath(System.getProperty("user.dir")
-							+ "/config.properties");
+							+ File.separator + "config.properties");
 
 					outputStream.close();
 				} catch (IOException e) {
@@ -142,9 +138,12 @@ public class IFileImporterImpl implements IFileImporter {
 	}
 
 	@Override
-	public boolean importTextdateien() {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean importTextdateien(List<File> data) {
+		for (File f : data) {
+			textdateien.add(f);
+		}
+
+		return true;
 	}
 
 	@Override
@@ -153,4 +152,41 @@ public class IFileImporterImpl implements IFileImporter {
 		return false;
 	}
 
+	@Override
+	public boolean createTempFiles() {
+		BufferedReader reader;
+		BufferedWriter writer;
+
+		new File(System.getProperty("user.dir") + File.separator + "TempFiles")
+				.mkdirs();
+
+		for (File f : this.textdateien) {
+			File temp = new File(System.getProperty("user.dir")
+					+ File.separator + "TempFiles" + File.separator + "temp_"
+					+ f.getName());
+
+			try {
+				if (temp.exists()) {
+					temp.delete();
+				}
+				temp.createNewFile();
+
+				reader = new BufferedReader(new InputStreamReader(
+						new FileInputStream(f)));
+				writer = new BufferedWriter(new OutputStreamWriter(
+						new FileOutputStream(temp)));
+
+				String line;
+				while ((line = reader.readLine()) != null)
+					writer.write(line.replaceAll("\\s", "\n") + "\n");
+
+				reader.close();
+				writer.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+		return true;
+	}
 }
