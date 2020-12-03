@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import de.thkoeln.syp.mtc.datenhaltung.impl.IAehnlichkeitImpl;
 import difflib.Chunk;
 import difflib.Delta;
 
@@ -21,4 +22,6 @@ public interface ITextvergleicher {
 	List<String> fileToLines(File file) throws IOException;
 
 	void vergleiche();
+	
+	List<IAehnlichkeitImpl> getVergleiche(List<File> files);
 }
