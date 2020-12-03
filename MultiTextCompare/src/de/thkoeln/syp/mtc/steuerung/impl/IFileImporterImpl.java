@@ -38,6 +38,14 @@ public class IFileImporterImpl implements IFileImporter {
 		return iConfigImpl;
 	}
 
+	public boolean setConfig(IConfigImpl iConfigImpl) {
+		if (iConfigImpl != null) {
+			this.iConfigImpl = iConfigImpl;
+			return true;
+		}
+		return false;
+	}
+
 	@Override
 	public List<File> getTextdateien() {
 		return textdateien;
@@ -144,4 +152,5 @@ public class IFileImporterImpl implements IFileImporter {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
 }
