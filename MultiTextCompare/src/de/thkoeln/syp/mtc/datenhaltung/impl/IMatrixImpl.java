@@ -12,4 +12,10 @@ public class IMatrixImpl implements IMatrix {
 	public List<IAehnlichkeitImpl> getInhalt() {
 		return inhalt;
 	}
+	
+	@Override
+	public void setInhalt(List<IAehnlichkeitImpl> inhalt) {
+		this.inhalt = inhalt;
+	}
+	
 }
