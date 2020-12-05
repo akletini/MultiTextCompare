@@ -32,6 +32,7 @@ public class ITextvergleicherImplTest {
 
 	@Test
 	public void testVergleichsalorithmus() {
+		System.out.println("Vergleiche für Matrixaufbau");
 		paarungen = iText.getVergleiche(textdateien);
 		assertEquals(6, paarungen.size());
 
@@ -39,10 +40,12 @@ public class ITextvergleicherImplTest {
 			System.out
 					.println(s.getVon().getName().replaceFirst("[.][^.]+$", "") + "," + s.getZu().getName().replaceFirst("[.][^.]+$", ""));
 		}
+		System.out.println("");
 	}
 
 	@Test
-	public void test_vergleich() {
+	public void test_vergleichWortFuerWort() {
+		System.out.println("Vergleiche WortFuerWort");
 		double[] ähnlichkeit = new double[6];
 		paarungen = iText.getVergleiche(textdateien);
 		iText.vergleiche();
@@ -52,6 +55,22 @@ public class ITextvergleicherImplTest {
 			System.out.println(ähnlichkeit[i]);
 		}
 		assertEquals(0.5 , ähnlichkeit[3], 0.0000001);
+		System.out.println("");
+	}
+	
+	@Test
+	public void test_vergleichZeichenmenge() {
+		System.out.println("Vergleiche Zeichenmenge");
+		double[] ähnlichkeit = new double[6];
+		paarungen = iText.getVergleiche(textdateien);
+		iText.vergleicheUeberGanzesDokument();
+		
+		for(int i = 0; i < paarungen.size();i++){
+			ähnlichkeit[i] = paarungen.get(i).getWert();
+			System.out.println(ähnlichkeit[i]);
+		}
+		assertEquals(0.5 , ähnlichkeit[3], 0.0000001);
+		System.out.println("");
 	}
 
 }
