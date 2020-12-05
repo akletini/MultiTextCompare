@@ -20,5 +20,7 @@ public interface ITextvergleicher {
 	void setVgl(File vgl);
 
 	List<IAehnlichkeitImpl> getPaarungen();
+
+	void vergleicheUeberGanzesDokument();
 	
 }
