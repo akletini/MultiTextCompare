@@ -7,21 +7,18 @@ import java.util.List;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IAehnlichkeitImpl;
 import difflib.Chunk;
 import difflib.Delta;
+import difflib.Delta.TYPE;
 
 public interface ITextvergleicher {
-	List<Chunk> getChangesFromOriginal() throws IOException;
 
-	List<Chunk> getInsertsFromOriginal() throws IOException;
-
-	List<Chunk> getDeletesFromOriginal() throws IOException;
-
-	List<Chunk> getChunksByType(Delta.TYPE type) throws IOException;
-
-	List<Delta> getDeltas() throws IOException;
-
-	List<String> fileToLines(File file) throws IOException;
+	List<IAehnlichkeitImpl> getVergleiche(List<File> files);
 
 	void vergleiche();
+
+	void setRef(File von);
+
+	void setVgl(File vgl);
+
+	List<IAehnlichkeitImpl> getPaarungen();
 	
-	List<IAehnlichkeitImpl> getVergleiche(List<File> files);
 }
