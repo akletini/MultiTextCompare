@@ -244,14 +244,14 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	private double[] berechneMetrik(double gewicht, List<String> refList,
 			List<String> vglList) {
 		int norm = normalizeStringLists(refList, vglList);
-		int max = 2;
+		int max = refList.size();
 		if (norm == 0) {
 			max = refList.size();
 		} else if (norm == 1) {
 			max = vglList.size();
 		}
 
-		double[] metrikProZeile = new double[vglList.size()];
+		double[] metrikProZeile = new double[max];
 		for (int i = 0; i < max; i++) {
 			String ref = refList.get(i);
 			String vlg = vglList.get(i);

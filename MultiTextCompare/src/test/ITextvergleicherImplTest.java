@@ -23,10 +23,16 @@ public class ITextvergleicherImplTest {
 	@BeforeClass
 	public static void beforeAllTests() {
 		textdateien = new ArrayList<File>();
-		textdateien.add(new File(System.getProperty("user.dir") + File.separator +  "/src/test/testFiles/FileA.txt"));
-		textdateien.add(new File(System.getProperty("user.dir") + File.separator +  "/src/test/testFiles/FileB.txt"));
-		textdateien.add(new File(System.getProperty("user.dir") + File.separator +  "/src/test/testFiles/FileC.txt"));
-		textdateien.add(new File(System.getProperty("user.dir") + File.separator +  "/src/test/testFiles/FileD.txt"));
+		textdateien.add(new File(System.getProperty("user.dir")
+				+ File.separator + "/src/test/testFiles/FileA.txt"));
+		textdateien.add(new File(System.getProperty("user.dir")
+				+ File.separator + "/src/test/testFiles/FileB.txt"));
+		textdateien.add(new File(System.getProperty("user.dir")
+				+ File.separator + "/src/test/testFiles/FileC.txt"));
+		textdateien.add(new File(System.getProperty("user.dir")
+				+ File.separator + "/src/test/testFiles/FileD.txt"));
+		textdateien.add(new File(System.getProperty("user.dir")
+				+ File.separator + "/src/test/testFiles/FileE.txt"));
 		iText = new ITextvergleicherImpl();
 	}
 
@@ -34,11 +40,12 @@ public class ITextvergleicherImplTest {
 	public void testVergleichsalorithmus() {
 		System.out.println("Vergleiche für Matrixaufbau");
 		paarungen = iText.getVergleiche(textdateien);
-		assertEquals(6, paarungen.size());
+		assertEquals(10, paarungen.size());
 
 		for (IAehnlichkeitImpl s : paarungen) {
-			System.out
-					.println(s.getVon().getName().replaceFirst("[.][^.]+$", "") + "," + s.getZu().getName().replaceFirst("[.][^.]+$", ""));
+			System.out.println(s.getVon().getName()
+					.replaceFirst("[.][^.]+$", "")
+					+ "," + s.getZu().getName().replaceFirst("[.][^.]+$", ""));
 		}
 		System.out.println("");
 	}
@@ -46,31 +53,44 @@ public class ITextvergleicherImplTest {
 	@Test
 	public void test_vergleichWortFuerWort() {
 		System.out.println("Vergleiche WortFuerWort");
-		double[] ähnlichkeit = new double[6];
 		paarungen = iText.getVergleiche(textdateien);
+		double[] ähnlichkeit = new double[paarungen.size()];
 		iText.vergleiche();
-		
-		for(int i = 0; i < paarungen.size();i++){
+
+		for (int i = 0; i < paarungen.size(); i++) {
 			ähnlichkeit[i] = paarungen.get(i).getWert();
-			System.out.println(ähnlichkeit[i]);
+			System.out.println("Von "
+					+ paarungen.get(i).getVon().getName()
+							.replaceFirst("[.][^.]+$", "")
+					+ " Zu "
+					+ paarungen.get(i).getZu().getName()
+							.replaceFirst("[.][^.]+$", "")
+					+ " mit Ähnlichkeit " + ähnlichkeit[i]);
 		}
-		assertEquals(0.5 , ähnlichkeit[3], 0.0000001);
 		System.out.println("");
+		assertEquals(0.5, ähnlichkeit[4], 0.0000001);
 	}
-	
+
 	@Test
 	public void test_vergleichZeichenmenge() {
 		System.out.println("Vergleiche Zeichenmenge");
-		double[] ähnlichkeit = new double[6];
 		paarungen = iText.getVergleiche(textdateien);
+		double[] ähnlichkeit = new double[paarungen.size()];
+
 		iText.vergleicheUeberGanzesDokument();
-		
-		for(int i = 0; i < paarungen.size();i++){
+
+		for (int i = 0; i < paarungen.size(); i++) {
 			ähnlichkeit[i] = paarungen.get(i).getWert();
-			System.out.println(ähnlichkeit[i]);
+			System.out.println("Von "
+					+ paarungen.get(i).getVon().getName()
+							.replaceFirst("[.][^.]+$", "")
+					+ " Zu "
+					+ paarungen.get(i).getZu().getName()
+							.replaceFirst("[.][^.]+$", "")
+					+ " mit Ähnlichkeit " + ähnlichkeit[i]);
 		}
-		assertEquals(0.5 , ähnlichkeit[3], 0.0000001);
 		System.out.println("");
+		assertEquals(0.5, ähnlichkeit[4], 0.0000001);		
 	}
 
 }
