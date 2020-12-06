@@ -24,7 +24,6 @@ public class IFileImporterImpl implements IFileImporter {
 	private Properties prop;
 
 	public IFileImporterImpl() {
-		iConfigImpl = null;
 		textdateien = new ArrayList<>();
 		prop = new Properties();
 
@@ -32,13 +31,11 @@ public class IFileImporterImpl implements IFileImporter {
 		prop.setProperty(PROP_SATZZEICHEN, "false");
 		prop.setProperty(PROP_GROSSSCHREIBUNG, "false");
 		prop.setProperty(PROP_ROOT, System.getProperty("user.dir"));
+		importConfigdatei(DEFAULT_CONFIG);
 	}
 
 	@Override
 	public IConfigImpl getConfig() {
-		if (iConfigImpl == null)
-			importConfigdatei(DEFAULT_CONFIG);
-
 		return iConfigImpl;
 	}
 
@@ -138,18 +135,43 @@ public class IFileImporterImpl implements IFileImporter {
 	}
 
 	@Override
-	public boolean importTextdateien(List<File> data) {
-		for (File f : data) {
-			textdateien.add(f);
+	public boolean importTextdateien(List<String> textdateien) {
+		for (String str : textdateien) {
+			File file = new File(str);
+
+			if (file.exists())
+				this.textdateien.add(file);
 		}
 
 		return true;
 	}
 
 	@Override
-	public boolean importTextRoot() {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean importTextRoot(String fileName) {
+		File rootDir = new File(iConfigImpl.getRootDir());
+
+		if (!rootDir.isDirectory())
+			return false;
+
+		searchInDir(rootDir, fileName);
+
+		return true;
+	}
+
+	private void searchInDir(File file, String fileName) {
+		for (File f : file.listFiles()) {
+			if (f.isDirectory())
+				searchInDir(f, fileName);
+			else if (f.getName().equals(fileName))
+				this.textdateien.add(f);
+		}
+	}
+
+	@Override
+	public boolean loescheImports() {
+		textdateien.clear();
+
+		return true;
 	}
 
 	@Override
