@@ -23,7 +23,7 @@ public interface IFileImporter {
 
 	boolean importTextdateien(List<String> textdateien);
 
-	boolean importTextRoot();
+	boolean importTextRoot(String fileName);
 	
 	boolean loescheImports();
 	
