@@ -138,9 +138,12 @@ public class IFileImporterImpl implements IFileImporter {
 	}
 
 	@Override
-	public boolean importTextdateien(List<File> data) {
-		for (File f : data) {
-			textdateien.add(f);
+	public boolean importTextdateien(List<String> textdateien) {
+		for (String str : textdateien) {
+			File file = new File(str);
+
+			if (file.exists())
+				this.textdateien.add(file);
 		}
 
 		return true;
