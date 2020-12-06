@@ -9,25 +9,26 @@ public class IAehnlichkeitImpl implements IAehnlichkeit {
 	private File von, zu;
 	private double wert;
 
-
 	@Override
-	public boolean setVon(File von) {
-		this.von = von;
-		return true;
+	public void setVon(File von) {
+		if (von != null) {
+			this.von = von;
+		}
 	}
 
 	@Override
-	public boolean setZu(File zu) {
-		this.zu = zu;
-		return true;
+	public void setZu(File zu) {
+		if (zu != null) {
+			this.zu = zu;
+		}
 	}
 
 	@Override
-	public boolean setWert(double wert) {
-		this.wert = wert;
-		return true;
+	public void setWert(double wert) {
+		if (wert >= 0 && wert <= 1) {
+			this.wert = wert;
+		}
 	}
-
 
 	@Override
 	public File getVon() {
@@ -44,5 +45,3 @@ public class IAehnlichkeitImpl implements IAehnlichkeit {
 		return wert;
 	}
 }
-
-

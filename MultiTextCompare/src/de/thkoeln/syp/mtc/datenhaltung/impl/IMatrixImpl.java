@@ -15,7 +15,9 @@ public class IMatrixImpl implements IMatrix {
 	
 	@Override
 	public void setInhalt(List<IAehnlichkeitImpl> inhalt) {
-		this.inhalt = inhalt;
+		if(inhalt != null){
+			this.inhalt = inhalt;
+		}
 	}
 	
 }
