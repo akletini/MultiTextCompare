@@ -156,6 +156,13 @@ public class IFileImporterImpl implements IFileImporter {
 	}
 
 	@Override
+	public boolean loescheImports() {
+		textdateien.clear();
+
+		return true;
+	}
+
+	@Override
 	public boolean createTempFiles() {
 		BufferedReader reader;
 		BufferedWriter writer;

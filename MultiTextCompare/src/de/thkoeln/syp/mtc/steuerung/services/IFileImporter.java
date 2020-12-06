@@ -25,5 +25,7 @@ public interface IFileImporter {
 
 	boolean importTextRoot();
 	
+	boolean loescheImports();
+	
 	public boolean createTempFiles();
 }
