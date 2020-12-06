@@ -2,6 +2,7 @@ package de.thkoeln.syp.mtc.steuerung.impl;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,7 +14,6 @@ import de.thkoeln.syp.mtc.datenhaltung.impl.IMatrixImpl;
 import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
 import difflib.Chunk;
 import difflib.Delta;
-import difflib.Delta.TYPE;
 import difflib.DiffUtils;
 import difflib.Patch;
 
@@ -33,70 +33,9 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	public ITextvergleicherImpl() {
 
 	}
-
-	/**
-	 * @param type
-	 *            entscheidet ob Unterschied in die Liste für INSERT,DELETE oder
-	 *            CHANGE geschrieben wird
-	 * @return listOfChanges je nach Typ eine Liste mit neuen,gelöschten oder
-	 *         geänderten Zeilen
-	 */
-	private List<Chunk> getChunksByType(Delta.TYPE type) throws IOException {
-		final List<Chunk> listOfChanges = new ArrayList<Chunk>();
-		final List<Delta> deltas = getDeltas();
-		for (Delta delta : deltas) {
-			if (delta.getType() == type) {
-				listOfChanges.add(delta.getRevised());
-			}
-		}
-		return listOfChanges;
-	}
-
-	/**
-	 * @return patch.getDeltas Gibt deltas der beiden verglichenen Files zurück
-	 */
-	private List<Delta> getDeltas() throws IOException {
-
-		final List<String> originalFileLines = fileToLines(ref);
-		final List<String> revisedFileLines = fileToLines(vgl);
-
-		final Patch patch = DiffUtils.diff(originalFileLines, revisedFileLines);
-
-		return patch.getDeltas();
-	}
-
-	/**
-	 * Liest Datei zeilenweise aus und speichert die Zeilen in lines
-	 * 
-	 * @param file
-	 *            Datei deren Zeilen in eine Liste konvertiert werden sollen
-	 * @return lines Liste mit Zeilen von file
-	 */
-	private List<String> fileToLines(File file) throws IOException {
-		final List<String> lines = new ArrayList<String>();
-		String line;
-		final BufferedReader in = new BufferedReader(new FileReader(file));
-		while ((line = in.readLine()) != null) {
-			lines.add(line);
-		}
-		in.close();
-		return lines;
-	}
-
-	private List<Chunk> getUnchangedChunksByType(Delta.TYPE type)
-			throws IOException {
-		final List<Chunk> listOfChanges = new ArrayList<Chunk>();
-		final List<Delta> deltas = getDeltas();
-		for (Delta delta : deltas) {
-			if (delta.getType() == type) {
-				listOfChanges.add(delta.getOriginal());
-			}
-		}
-		return listOfChanges;
-	}
-
+	
 	@Override
-	public void vergleiche() {
+	public void vergleicheZeilenweise() {
 		for (IAehnlichkeit a : paarungen) {
 			this.ref = a.getVon();
 			this.vgl = a.getZu();
@@ -119,19 +58,19 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 
 					List<Chunk> unchangedChunks = comp.getChangesInReference();
 
-					int anzahlGleicherZeilen = 0, anzahlGelöschterZeilen = 0, anzahlGeänderterZeilen = 0;
+					int anzahlGleicherZeilen = 0, anzahlGeloeschterZeilen = 0, anzahlGeaenderterZeilen = 0;
 					for (int i = 0; i < deletedChunks.size(); i++) {
-						anzahlGelöschterZeilen += deletedChunks.get(i)
+						anzahlGeloeschterZeilen += deletedChunks.get(i)
 								.getLines().size();
 					}
 
 					for (int i = 0; i < unchangedChunks.size(); i++) {
-						anzahlGeänderterZeilen += unchangedChunks.get(i)
+						anzahlGeaenderterZeilen += unchangedChunks.get(i)
 								.getLines().size();
 					}
 
 					anzahlGleicherZeilen = refList.size()
-							- anzahlGelöschterZeilen - anzahlGeänderterZeilen;
+							- anzahlGeloeschterZeilen - anzahlGeaenderterZeilen;
 
 					if (changedChunks.size() == 0) {
 						aehnlichkeit = anzahlGleicherZeilen * gewicht;
@@ -167,7 +106,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	/**
 	 * Verkettet sowohl Referenz- als auch Vergleichsdatei zu je einem String
 	 * und vergleicht jeweils die Zeichenmengen miteinander. Anwendung: Wenn die
-	 * Reihenfolge der Wörter keine große Rolle spielt.
+	 * Reihenfolge der Woerter keine große Rolle spielt.
 	 */
 	@Override
 	public void vergleicheUeberGanzesDokument() {
@@ -207,6 +146,72 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 
 		}
 	}
+	
+	/**
+	 * @param type
+	 *            entscheidet ob Unterschied in die Liste fuer INSERT,DELETE oder
+	 *            CHANGE geschrieben wird
+	 * @return listOfChanges je nach Typ eine Liste mit neuen,geloeschten oder
+	 *         geaenderten Zeilen
+	 */
+	private List<Chunk> getChunksByType(Delta.TYPE type) throws IOException {
+		final List<Chunk> listOfChanges = new ArrayList<Chunk>();
+		final List<Delta> deltas = getDeltas();
+		for (Delta delta : deltas) {
+			if (delta.getType() == type) {
+				listOfChanges.add(delta.getRevised());
+			}
+		}
+		return listOfChanges;
+	}
+
+	/**
+	 * @return patch.getDeltas Gibt deltas der beiden verglichenen Files zurueck
+	 */
+	private List<Delta> getDeltas() throws IOException {
+
+		final List<String> originalFileLines = fileToLines(ref);
+		final List<String> revisedFileLines = fileToLines(vgl);
+
+		final Patch patch = DiffUtils.diff(originalFileLines, revisedFileLines);
+
+		return patch.getDeltas();
+	}
+
+	/**
+	 * Liest Datei zeilenweise aus und speichert die Zeilen in lines
+	 * 
+	 * @param file
+	 *            Datei deren Zeilen in eine Liste konvertiert werden sollen
+	 * @return lines Liste mit Zeilen von file
+	 */
+	private List<String> fileToLines(File file) throws IOException {
+		final List<String> lines = new ArrayList<String>();
+		String line;
+		final BufferedReader in = new BufferedReader(new FileReader(file));
+		while ((line = in.readLine()) != null) {
+			lines.add(line);
+		}
+		in.close();
+		return lines;
+	}
+	
+	private List<Chunk> getUnchangedChunksByType(Delta.TYPE type)
+			throws IOException {
+		final List<Chunk> listOfChanges = new ArrayList<Chunk>();
+		final List<Delta> deltas = getDeltas();
+		for (Delta delta : deltas) {
+			if (delta.getType() == type) {
+				listOfChanges.add(delta.getOriginal());
+			}
+		}
+		return listOfChanges;
+	}
+	
+	private void fillMatrix(){
+		iMatrixImpl = new IMatrixImpl();
+		iMatrixImpl.setInhalt(paarungen);
+	}
 
 	private double ermittleGewicht(int refSize, int vglSize) {
 		double gewicht = 0;
@@ -230,7 +235,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	}
 
 	/**
-	 * Berechnet die Aehnlichkeitsmetrix für geänderte Zeilen
+	 * Berechnet die Aehnlichkeitsmetrix fuer geaenderte Zeilen
 	 * 
 	 * @param gewicht
 	 *            die Gewichtung einer einzigen Zeile := 1/max. Anzahl der
@@ -279,7 +284,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	 *            Liste mit Zeilen der Referenzdatei
 	 * @param vglList
 	 *            Liste mit Zahlen der Vergleichsdatei
-	 * @return 0 wenn refList größer ist, 1 wenn vglList größer ist und 2 wenn
+	 * @return 0 wenn refList groeßer ist, 1 wenn vglList groeßer ist und 2 wenn
 	 *         beide gleich groß sind
 	 */
 	private int normalizeStringLists(List<String> refList, List<String> vglList) {
@@ -303,10 +308,10 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 
 	/**
 	 * @param files
-	 *            die Liste der Textdateien die für den Vergleich ausgewählt
+	 *            die Liste der Textdateien die fuer den Vergleich ausgewaehlt
 	 *            wurden
-	 * @return paarungen die Einträge der Ähnlichkeitsmatrix ohne den
-	 *         Ähnlichkeitswert
+	 * @return paarungen die Eintraege der Aehnlichkeitsmatrix ohne den
+	 *         Aehnlichkeitswert
 	 */
 	public List<IAehnlichkeitImpl> getVergleiche(List<File> files) {
 		paarungen = new ArrayList<IAehnlichkeitImpl>();

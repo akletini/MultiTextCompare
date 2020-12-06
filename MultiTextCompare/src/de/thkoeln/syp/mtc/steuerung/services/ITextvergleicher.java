@@ -13,7 +13,7 @@ public interface ITextvergleicher {
 
 	List<IAehnlichkeitImpl> getVergleiche(List<File> files);
 
-	void vergleiche();
+	void vergleicheZeilenweise();
 
 	void setRef(File von);
 
