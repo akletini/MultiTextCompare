@@ -11,7 +11,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import de.thkoeln.syp.mtc.datenhaltung.impl.IConfigImpl;
@@ -21,10 +23,12 @@ public class IFileImporterImpl implements IFileImporter {
 
 	private IConfigImpl iConfigImpl;
 	private List<File> textdateien;
+	private Map<File, File> tempFiles;
 	private Properties prop;
 
 	public IFileImporterImpl() {
 		textdateien = new ArrayList<>();
+		tempFiles = new HashMap<>();
 		prop = new Properties();
 
 		prop.setProperty(PROP_LEERZEICHEN, "false");
@@ -42,6 +46,11 @@ public class IFileImporterImpl implements IFileImporter {
 	@Override
 	public List<File> getTextdateien() {
 		return textdateien;
+	}
+
+	@Override
+	public Map<File, File> getTempFilesMap() {
+		return tempFiles;
 	}
 
 	@Override
@@ -184,8 +193,8 @@ public class IFileImporterImpl implements IFileImporter {
 
 		for (File f : this.textdateien) {
 			File temp = new File(System.getProperty("user.dir")
-					+ File.separator + "TempFiles" + File.separator + "temp_"
-					+ f.getName());
+					+ File.separator + "TempFiles" + File.separator
+					+ f.hashCode());
 
 			try {
 				if (temp.exists()) {
@@ -202,6 +211,8 @@ public class IFileImporterImpl implements IFileImporter {
 				while ((line = reader.readLine()) != null)
 					writer.write(line.replaceAll("\\s", "\n") + "\n");
 
+				tempFiles.put(f, temp);
+
 				reader.close();
 				writer.close();
 			} catch (IOException e) {
@@ -209,6 +220,21 @@ public class IFileImporterImpl implements IFileImporter {
 				return false;
 			}
 		}
+
+		return true;
+	}
+
+	@Override
+	public boolean deleteTempFiles() {
+		File tempFiles = new File(System.getProperty("user.dir")
+				+ File.separator + "TempFiles");
+
+		if (tempFiles.exists() && tempFiles.isDirectory()) {
+			for (File f : tempFiles.listFiles())
+				f.delete();
+			tempFiles.delete();
+		}
+
 		return true;
 	}
 }

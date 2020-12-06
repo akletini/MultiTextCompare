@@ -2,6 +2,7 @@ package de.thkoeln.syp.mtc.steuerung.services;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 import de.thkoeln.syp.mtc.datenhaltung.impl.IConfigImpl;
 
@@ -16,6 +17,8 @@ public interface IFileImporter {
 	IConfigImpl getConfig();
 
 	List<File> getTextdateien();
+	
+	Map<File, File> getTempFilesMap();
 
 	boolean importConfigdatei(File config);
 
@@ -27,5 +30,7 @@ public interface IFileImporter {
 	
 	boolean loescheImports();
 	
-	public boolean createTempFiles();
+	boolean createTempFiles();
+	
+	boolean deleteTempFiles();
 }
