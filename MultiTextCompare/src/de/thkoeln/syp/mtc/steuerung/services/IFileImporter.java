@@ -20,7 +20,7 @@ public interface IFileImporter {
 
 	Map<File, File> getTempFilesMap();
 
-	boolean importConfigdatei(File config);
+	boolean importConfigdatei(String configPfad);
 
 	boolean exportConfigdatei();
 

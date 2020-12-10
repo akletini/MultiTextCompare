@@ -39,7 +39,7 @@ public class IFileImporterImpl implements IFileImporter {
 		prop.setProperty(PROP_SATZZEICHEN, "false");
 		prop.setProperty(PROP_GROSSSCHREIBUNG, "false");
 		prop.setProperty(PROP_ROOT, System.getProperty("user.dir"));
-		importConfigdatei(DEFAULT_CONFIG);
+		importConfigdatei(DEFAULT_CONFIG.getAbsolutePath());
 	}
 
 	@Override
@@ -61,8 +61,8 @@ public class IFileImporterImpl implements IFileImporter {
 	 * Versucht die uebergebene Config zu importieren, wenn nicht moeglich dann
 	 * wird die Default-Config geladen
 	 * 
-	 * @param config
-	 *            die Config, welche importiert und uebernommen werden soll
+	 * @param configPfad
+	 *            die Config, welche importiert und uebernommen werden soll als Pfad
 	 * 
 	 * @return true: bei erfolgreichem Laden der uebergebenen oder
 	 *         Default-Config
@@ -70,11 +70,12 @@ public class IFileImporterImpl implements IFileImporter {
 	 *         false: bei Fehlschlag des Imports
 	 */
 	@Override
-	public boolean importConfigdatei(File config) {
+	public boolean importConfigdatei(String configPfad) {
+		File config = new File(configPfad);
 		iConfigImpl = new IConfigImpl();
 		OutputStream outputStream;
 		InputStream inputStream;
-
+		
 		if (!config.exists()) {
 			if (!DEFAULT_CONFIG.exists()) {
 				try {
