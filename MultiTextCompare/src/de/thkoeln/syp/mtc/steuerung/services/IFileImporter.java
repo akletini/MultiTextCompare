@@ -17,7 +17,7 @@ public interface IFileImporter {
 	IConfigImpl getConfig();
 
 	List<File> getTextdateien();
-	
+
 	Map<File, File> getTempFilesMap();
 
 	boolean importConfigdatei(File config);
@@ -27,10 +27,10 @@ public interface IFileImporter {
 	boolean importTextdateien(List<String> textdateien);
 
 	boolean importTextRoot(String fileName);
-	
-	boolean loescheImports();
-	
+
+	void loescheImports();
+
 	boolean createTempFiles();
-	
+
 	boolean deleteTempFiles();
 }

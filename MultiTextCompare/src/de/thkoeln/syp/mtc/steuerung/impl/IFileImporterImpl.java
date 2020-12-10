@@ -26,6 +26,10 @@ public class IFileImporterImpl implements IFileImporter {
 	private Map<File, File> tempFiles;
 	private Properties prop;
 
+	/**
+	 * Klassen Konstruktor initialisiert die Klassen-Attribute und lädt die
+	 * Default-Config fuer den Textvergleich
+	 */
 	public IFileImporterImpl() {
 		textdateien = new ArrayList<>();
 		tempFiles = new HashMap<>();
@@ -53,6 +57,18 @@ public class IFileImporterImpl implements IFileImporter {
 		return tempFiles;
 	}
 
+	/**
+	 * Versucht die uebergebene Config zu importieren, wenn nicht moeglich dann
+	 * wird die Default-Config geladen
+	 * 
+	 * @param config
+	 *            die Config, welche importiert und uebernommen werden soll
+	 * 
+	 * @return true: bei erfolgreichem Laden der uebergebenen oder
+	 *         Default-Config
+	 * 
+	 *         false: bei Fehlschlag des Imports
+	 */
 	@Override
 	public boolean importConfigdatei(File config) {
 		iConfigImpl = new IConfigImpl();
@@ -116,6 +132,17 @@ public class IFileImporterImpl implements IFileImporter {
 		return true;
 	}
 
+	/**
+	 * Aktuelle Config kann abgespeichert werden um die abgespeicherten Werte
+	 * spaeter wieder importieren zu koennen
+	 * 
+	 * @param iConfigImpl
+	 *            die Config, welche abgespeichert werden soll
+	 * 
+	 * @return true: bei erfolgreichem Export
+	 * 
+	 *         false: bei Fehlschlag des Exports
+	 */
 	@Override
 	public boolean exportConfigdatei(IConfigImpl iConfigImpl) {
 		Properties prop = new Properties();
@@ -143,6 +170,18 @@ public class IFileImporterImpl implements IFileImporter {
 		return true;
 	}
 
+	/**
+	 * Uebergebene Textdateien werden von der Festplatte importiert in lokaler
+	 * Variable 'textdateien' abgespeichert
+	 * 
+	 * @param textdateien
+	 *            Pfade der zu importierenden Textdateien werden als Liste von
+	 *            Strings uebergeben
+	 * 
+	 * @return true: bei erfolgreichem Import
+	 * 
+	 *         false: falls keine Textdatei importiert wurde
+	 */
 	@Override
 	public boolean importTextdateien(List<String> textdateien) {
 		for (String str : textdateien) {
@@ -152,9 +191,23 @@ public class IFileImporterImpl implements IFileImporter {
 				this.textdateien.add(file);
 		}
 
+		if (this.textdateien.isEmpty())
+			return false;
+
 		return true;
 	}
 
+	/**
+	 * Es wird das gesamte Root-Directory rekursiv nach Textdateien durchsucht
+	 * 
+	 * @param fileName
+	 *            Name der zu importierende(n) Dateie(n)
+	 * 
+	 * @return true: bei erfolgreichem Import
+	 * 
+	 *         false: falls in der aktiven Config ein unzulaessiges rootDir
+	 *         festgelegt wurde
+	 */
 	@Override
 	public boolean importTextRoot(String fileName) {
 		File rootDir = new File(iConfigImpl.getRootDir());
@@ -167,6 +220,17 @@ public class IFileImporterImpl implements IFileImporter {
 		return true;
 	}
 
+	/**
+	 * Methode hilt beim Suchen nach Textdateien im Root-Directory
+	 * 
+	 * @param file
+	 *            Ort an dem nach 'fileName' gesucht werden soll
+	 * 
+	 * @param fileName
+	 *            Name des Files nach dem gesucht werden soll
+	 * 
+	 * @see {@link #importTextRoot(String)}
+	 */
 	private void searchInDir(File file, String fileName) {
 		for (File f : file.listFiles()) {
 			if (f.isDirectory())
@@ -176,13 +240,26 @@ public class IFileImporterImpl implements IFileImporter {
 		}
 	}
 
+	/**
+	 * Alles importierten Textdateien werden aus der lokalen Variablen geloescht
+	 */
 	@Override
-	public boolean loescheImports() {
+	public void loescheImports() {
 		textdateien.clear();
-
-		return true;
 	}
 
+	/**
+	 * Erstellt aus den bereits importierten Textdateien temporaere Dateien im
+	 * Ordner 'TempFiles', welche fuer den anschliessenden Textvergleich
+	 * formatiert werden. Die temporaeren Dateien werden in einer HashMap
+	 * gespeichert um von diesen auch wieder auf die originalen Dateien
+	 * schliessen zu koennen
+	 * 
+	 * @return true: bei erfolgreichem Erstellen der temporaeren Dateien
+	 * 
+	 *         false: falls beim Lesen/Erstellen der temporaeren Dateien ein
+	 *         Fehler auftritt
+	 */
 	@Override
 	public boolean createTempFiles() {
 		BufferedReader reader;
@@ -224,6 +301,16 @@ public class IFileImporterImpl implements IFileImporter {
 		return true;
 	}
 
+	/**
+	 * Loescht die zuvor erstellten temporaeren Dateien samt Ordner aus dem
+	 * Dateisystem
+	 * 
+	 * @return true: bei erfolgreichem Loeschen der temporaeren Dateien
+	 * 
+	 *         false: falls der Ordner 'TempFiles' gar nicht existiert
+	 * 
+	 * @see {@link #createTempFiles()}
+	 */
 	@Override
 	public boolean deleteTempFiles() {
 		File tempFiles = new File(System.getProperty("user.dir")
@@ -233,8 +320,10 @@ public class IFileImporterImpl implements IFileImporter {
 			for (File f : tempFiles.listFiles())
 				f.delete();
 			tempFiles.delete();
+
+			return true;
 		}
 
-		return true;
+		return false;
 	}
 }
