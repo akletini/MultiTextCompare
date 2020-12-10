@@ -22,7 +22,7 @@ public interface IFileImporter {
 
 	boolean importConfigdatei(File config);
 
-	boolean exportConfigdatei(IConfigImpl iConfigImpl);
+	boolean exportConfigdatei();
 
 	boolean importTextdateien(List<String> textdateien);
 

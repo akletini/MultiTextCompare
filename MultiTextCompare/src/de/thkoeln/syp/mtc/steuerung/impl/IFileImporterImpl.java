@@ -136,15 +136,12 @@ public class IFileImporterImpl implements IFileImporter {
 	 * Aktuelle Config kann abgespeichert werden um die abgespeicherten Werte
 	 * spaeter wieder importieren zu koennen
 	 * 
-	 * @param iConfigImpl
-	 *            die Config, welche abgespeichert werden soll
-	 * 
 	 * @return true: bei erfolgreichem Export
 	 * 
 	 *         false: bei Fehlschlag des Exports
 	 */
 	@Override
-	public boolean exportConfigdatei(IConfigImpl iConfigImpl) {
+	public boolean exportConfigdatei() {
 		Properties prop = new Properties();
 		OutputStream outputStream;
 
