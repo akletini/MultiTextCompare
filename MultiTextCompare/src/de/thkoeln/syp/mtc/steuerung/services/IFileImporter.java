@@ -24,7 +24,7 @@ public interface IFileImporter {
 
 	boolean exportConfigdatei();
 
-	boolean importTextdateien(List<String> textdateien);
+	boolean importTextdateien(List<File> textdateien);
 
 	boolean importTextRoot(String fileName);
 

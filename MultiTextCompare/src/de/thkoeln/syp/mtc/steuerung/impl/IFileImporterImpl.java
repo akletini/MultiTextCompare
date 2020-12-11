@@ -51,6 +51,7 @@ public class IFileImporterImpl implements IFileImporter {
 	public List<File> getTextdateien() {
 		return textdateien;
 	}
+	
 
 	@Override
 	public Map<File, File> getTempFilesMap() {
@@ -173,17 +174,15 @@ public class IFileImporterImpl implements IFileImporter {
 	 * Variable 'textdateien' abgespeichert
 	 * 
 	 * @param textdateien
-	 *            Pfade der zu importierenden Textdateien werden als Liste von
-	 *            Strings uebergeben
+	 *            Die zu importierenden Textdateien
 	 * 
 	 * @return true: bei erfolgreichem Import
 	 * 
 	 *         false: falls keine Textdatei importiert wurde
 	 */
 	@Override
-	public boolean importTextdateien(List<String> textdateien) {
-		for (String str : textdateien) {
-			File file = new File(str);
+	public boolean importTextdateien(List<File> textdateien) {
+		for (File file : textdateien) {
 
 			if (file.exists())
 				this.textdateien.add(file);

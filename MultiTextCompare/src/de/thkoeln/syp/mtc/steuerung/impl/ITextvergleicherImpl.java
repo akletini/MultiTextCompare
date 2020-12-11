@@ -2,11 +2,11 @@ package de.thkoeln.syp.mtc.steuerung.impl;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IAehnlichkeit;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IAehnlichkeitImpl;
@@ -21,6 +21,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 
 	private IMatrixImpl iMatrixImpl;
 	private List<IAehnlichkeitImpl> paarungen;
+	private List<File> tempFiles;
 	private List<String> referenzZeilen;
 	private List<String> vergleichsZeilen;
 	private File ref, vgl;
@@ -101,6 +102,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 				}
 			}
 		}
+		fillMatrix();
 	}
 
 	/**
@@ -144,6 +146,15 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 				e.printStackTrace();
 			}
 
+		}
+		fillMatrix();
+	}
+	
+	@Override
+	public void getTempfilesFromHashMap(Map<File, File> map){
+		tempFiles = new ArrayList<File>();
+		for(Map.Entry<File, File> entry : map.entrySet()){
+			tempFiles.add(entry.getValue());
 		}
 	}
 	
@@ -405,6 +416,16 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	@Override
 	public List<IAehnlichkeitImpl> getPaarungen() {
 		return paarungen;
+	}
+	
+	@Override
+	public List<File> getTempFiles(){
+		return tempFiles;
+	}
+	
+	@Override
+	public IMatrixImpl getMatrix(){
+		return iMatrixImpl;
 	}
 
 }
