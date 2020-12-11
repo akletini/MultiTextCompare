@@ -53,7 +53,7 @@ public class DateiauswahlView extends JFrame {
 		Action details = dateiSystem.getActionMap().get("viewTypeDetails");
 		details.actionPerformed(null);
 		dateiSystem.setMultiSelectionEnabled(true);
-		dateiSystem.setCurrentDirectory(new File("F:\\"));
+		dateiSystem.setCurrentDirectory(new File("."));
 		dateiSystem.showOpenDialog(panel);
 		
 
