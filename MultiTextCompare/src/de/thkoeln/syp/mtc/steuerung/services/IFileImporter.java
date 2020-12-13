@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
-import de.thkoeln.syp.mtc.datenhaltung.impl.IConfigImpl;
+import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
 
 public interface IFileImporter {
 	final String PROP_LEERZEICHEN = "beachteLeerzeichen";
@@ -14,13 +14,13 @@ public interface IFileImporter {
 	final File DEFAULT_CONFIG = new File(System.getProperty("user.dir")
 			+ "/config.properties");
 
-	IConfigImpl getConfig();
+	IConfig getConfig();
 
 	List<File> getTextdateien();
 
 	Map<File, File> getTempFilesMap();
 
-	boolean importConfigdatei(String configPfad);
+	boolean importConfigdatei(File config);
 
 	boolean exportConfigdatei();
 

@@ -16,12 +16,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IConfigImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
 
 public class IFileImporterImpl implements IFileImporter {
 
-	private IConfigImpl iConfigImpl;
+	private IConfig iConfig;
 	private List<File> textdateien;
 	private Map<File, File> tempFiles;
 	private Properties prop;
@@ -39,19 +40,18 @@ public class IFileImporterImpl implements IFileImporter {
 		prop.setProperty(PROP_SATZZEICHEN, "false");
 		prop.setProperty(PROP_GROSSSCHREIBUNG, "false");
 		prop.setProperty(PROP_ROOT, System.getProperty("user.dir"));
-		importConfigdatei(DEFAULT_CONFIG.getAbsolutePath());
+		importConfigdatei(DEFAULT_CONFIG);
 	}
 
 	@Override
-	public IConfigImpl getConfig() {
-		return iConfigImpl;
+	public IConfig getConfig() {
+		return iConfig;
 	}
 
 	@Override
 	public List<File> getTextdateien() {
 		return textdateien;
 	}
-	
 
 	@Override
 	public Map<File, File> getTempFilesMap() {
@@ -63,7 +63,8 @@ public class IFileImporterImpl implements IFileImporter {
 	 * wird die Default-Config geladen
 	 * 
 	 * @param configPfad
-	 *            die Config, welche importiert und uebernommen werden soll als Pfad
+	 *            die Config, welche importiert und uebernommen werden soll als
+	 *            Pfad
 	 * 
 	 * @return true: bei erfolgreichem Laden der uebergebenen oder
 	 *         Default-Config
@@ -71,12 +72,11 @@ public class IFileImporterImpl implements IFileImporter {
 	 *         false: bei Fehlschlag des Imports
 	 */
 	@Override
-	public boolean importConfigdatei(String configPfad) {
-		File config = new File(configPfad);
-		iConfigImpl = new IConfigImpl();
+	public boolean importConfigdatei(File config) {
+		iConfig = new IConfigImpl();
 		OutputStream outputStream;
 		InputStream inputStream;
-		
+
 		if (!config.exists()) {
 			if (!DEFAULT_CONFIG.exists()) {
 				try {
@@ -86,7 +86,7 @@ public class IFileImporterImpl implements IFileImporter {
 
 					prop.store(outputStream, null);
 
-					iConfigImpl.setPath(System.getProperty("user.dir")
+					iConfig.setPath(System.getProperty("user.dir")
 							+ File.separator + "config.properties");
 
 					outputStream.close();
@@ -100,7 +100,7 @@ public class IFileImporterImpl implements IFileImporter {
 
 					prop.load(inputStream);
 
-					iConfigImpl.setPath(DEFAULT_CONFIG.getAbsolutePath());
+					iConfig.setPath(DEFAULT_CONFIG.getAbsolutePath());
 
 					inputStream.close();
 				} catch (IOException e) {
@@ -114,7 +114,7 @@ public class IFileImporterImpl implements IFileImporter {
 
 				prop.load(inputStream);
 
-				iConfigImpl.setPath(config.getAbsolutePath());
+				iConfig.setPath(config.getAbsolutePath());
 
 				inputStream.close();
 			} catch (IOException e) {
@@ -123,13 +123,13 @@ public class IFileImporterImpl implements IFileImporter {
 			}
 		}
 
-		iConfigImpl.setBeachteLeerzeichen(Boolean.parseBoolean(prop
+		iConfig.setBeachteLeerzeichen(Boolean.parseBoolean(prop
 				.getProperty(PROP_LEERZEICHEN)));
-		iConfigImpl.setBeachteSatzzeichen(Boolean.parseBoolean(prop
+		iConfig.setBeachteSatzzeichen(Boolean.parseBoolean(prop
 				.getProperty(PROP_SATZZEICHEN)));
-		iConfigImpl.setBeachteGrossschreibung(Boolean.parseBoolean(prop
+		iConfig.setBeachteGrossschreibung(Boolean.parseBoolean(prop
 				.getProperty(PROP_GROSSSCHREIBUNG)));
-		iConfigImpl.setRootDir(prop.getProperty(PROP_ROOT));
+		iConfig.setRootDir(prop.getProperty(PROP_ROOT));
 
 		return true;
 	}
@@ -148,15 +148,15 @@ public class IFileImporterImpl implements IFileImporter {
 		OutputStream outputStream;
 
 		try {
-			outputStream = new FileOutputStream(iConfigImpl.getPath());
+			outputStream = new FileOutputStream(iConfig.getPath());
 
 			prop.setProperty(PROP_LEERZEICHEN,
-					Boolean.toString(iConfigImpl.getBeachteLeerzeichen()));
+					Boolean.toString(iConfig.getBeachteLeerzeichen()));
 			prop.setProperty(PROP_SATZZEICHEN,
-					Boolean.toString(iConfigImpl.getBeachteSatzzeichen()));
+					Boolean.toString(iConfig.getBeachteSatzzeichen()));
 			prop.setProperty(PROP_GROSSSCHREIBUNG,
-					Boolean.toString(iConfigImpl.getBeachteGrossschreibung()));
-			prop.setProperty(PROP_ROOT, iConfigImpl.getRootDir());
+					Boolean.toString(iConfig.getBeachteGrossschreibung()));
+			prop.setProperty(PROP_ROOT, iConfig.getRootDir());
 
 			prop.store(outputStream, null);
 
@@ -182,14 +182,13 @@ public class IFileImporterImpl implements IFileImporter {
 	 */
 	@Override
 	public boolean importTextdateien(List<File> textdateien) {
-		for (File file : textdateien) {
+		if (textdateien.isEmpty())
+			return false;
 
+		for (File file : textdateien) {
 			if (file.exists())
 				this.textdateien.add(file);
 		}
-
-		if (this.textdateien.isEmpty())
-			return false;
 
 		return true;
 	}
@@ -207,7 +206,7 @@ public class IFileImporterImpl implements IFileImporter {
 	 */
 	@Override
 	public boolean importTextRoot(String fileName) {
-		File rootDir = new File(iConfigImpl.getRootDir());
+		File rootDir = new File(iConfig.getRootDir());
 
 		if (!rootDir.isDirectory())
 			return false;
