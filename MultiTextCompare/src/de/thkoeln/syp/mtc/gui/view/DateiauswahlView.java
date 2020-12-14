@@ -1,5 +1,6 @@
 package de.thkoeln.syp.mtc.gui.view;
 
+import java.awt.FileDialog;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,38 +24,73 @@ import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
 public class DateiauswahlView extends JFrame {
 	JPanel panel;
 	JFileChooser dateiSystem;
+	FileDialog fd;
 	private File[] auswahl;
 	
 	IFileImporter fileImport;
 	ITextvergleicher textVergleicher;
-	private IMatrix matrix;
+	private IMatrixImpl matrix;
 
 	public DateiauswahlView() {
+		
 		panel = new JPanel();
 		dateiSystem = new JFileChooser();
 		fileImport = new IFileImporterImpl();
 		textVergleicher = new ITextvergleicherImpl();
 		matrix = new IMatrixImpl();
-
+		
+		
 		panel.setBorder(BorderFactory.createEmptyBorder(20, 60, 20, 60));
 		panel.setLayout(new GridLayout(0, 1));
 		
+		fd = new FileDialog(this, "Dateiauswahl", FileDialog.LOAD);
+		fd.setMultipleMode(true);
+		fd.setDirectory(".");
+		fd.setFile("*.txt");
+		fd.setVisible(true);
+		
+		int anzahlDateien = fd.getFiles().length;
+		String[] nameDateien = new String[anzahlDateien];
+		for(int i=0; i<anzahlDateien; i++){
+			nameDateien[i] = fd.getFiles()[i].getName();
+		}
+		
+		
+		while(fd.getFiles().length == 1){
+			new PopupView();
+			fd = new FileDialog(this, "Dateiauswahl", FileDialog.LOAD);
+			fd.setMultipleMode(true);
+			fd.setDirectory(".");
+			fd.setFile("*.txt");
+			fd.setVisible(true);
+		}
+		
+		
+//		dateiSystem.add(panel);
+//		Action details = dateiSystem.getActionMap().get("viewTypeDetails");
+//		details.actionPerformed(null);
+//		dateiSystem.setMultiSelectionEnabled(true);
+//		dateiSystem.setCurrentDirectory(new File("."));
+//		dateiSystem.setDialogTitle("Dateiauswahl");
+//		dateiSystem.setMultiSelectionEnabled(true);
+//		dateiSystem.showOpenDialog(panel);
+		
+		
+		
+		
 		//----------------------------------------------------------------
 		//Code der so in etwa in den Controller ausgelagert werden müsste
-		auswahl = dateiSystem.getSelectedFiles();
+		auswahl = fd.getFiles();
 		fileImport.importTextdateien(fileArrayToList(getAuswahl()));
 		fileImport.createTempFiles();
 		textVergleicher.getTempfilesFromHashMap(fileImport.getTempFilesMap());
 		textVergleicher.getVergleiche(textVergleicher.getTempFiles());
 		textVergleicher.vergleicheUeberGanzesDokument();
 		matrix = textVergleicher.getMatrix();
+		MatrixView matrixView = new MatrixView(matrix, anzahlDateien, nameDateien);
 		//----------------------------------------------------------------
 		
-		Action details = dateiSystem.getActionMap().get("viewTypeDetails");
-		details.actionPerformed(null);
-		dateiSystem.setMultiSelectionEnabled(true);
-		dateiSystem.setCurrentDirectory(new File("."));
-		dateiSystem.showOpenDialog(panel);
+		
 		
 
 		this.setLocationRelativeTo(null);

@@ -21,7 +21,7 @@ public class HomeController{
 		this.homeView.addDateiauswahl2Listener(new Dateiauswahl2Listener());
 		this.homeView.addKonfigurationListener(new KonfigurationListener());
 		this.homeView.addHilfeListener(new HilfeListener());
-		this.homeView.addMatrixListenerTEST(new MatrixListenerTEST());
+//		this.homeView.addMatrixListenerTEST(new MatrixListenerTEST());
 		
 	}
 	
@@ -49,9 +49,9 @@ public class HomeController{
 		}
 	}
 	
-	class MatrixListenerTEST implements ActionListener{
-		public void actionPerformed(ActionEvent action) {
-			new MatrixView();
-		}
-	}
+//	class MatrixListenerTEST implements ActionListener{
+//		public void actionPerformed(ActionEvent action) {
+//			new MatrixView();
+//		}
+//	}
 }

@@ -24,8 +24,8 @@ public class HomeView extends JFrame{
 	JButton buttonMatrix = new JButton ("Matrix (Test)"); // ZUM TESTEN
 	
 	public HomeView() {
-		buttonDateiauswahl = new JButton("Dateiauswahl");
-		buttonDateiauswahl2 = new JButton("Dateiauswahl nach Muster");
+		buttonDateiauswahl = new JButton("Textvergleich");
+		buttonDateiauswahl2 = new JButton("Textvergleich nach Muster");
 		buttonKonfiguration = new JButton("Konfiguration");
 		buttonHilfe = new JButton("Hilfe");
 		
