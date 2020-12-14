@@ -135,6 +135,30 @@ public class IFileImporterImpl implements IFileImporter {
 	}
 
 	/**
+	 * Eine aktuelle Config kann an einem anderen Speicherort abgelegt werden
+	 * 
+	 * @param path
+	 *            Neuer Speicherort des Config-Files
+	 * @return true: bei erfolgreichem setzen des neuen Pfades & Speichern der
+	 *         Config
+	 * 
+	 *         false: bei Fehlschlag (Pfad bleibt dann unverändert)
+	 */
+	@Override
+	public boolean setConfigPath(String path) {
+		File oldConfig = new File(iConfig.getPath());
+
+		iConfig.setPath(path);
+		if (exportConfigdatei()) {
+			oldConfig.delete();
+			return true;
+		}
+
+		iConfig.setPath(oldConfig.getAbsolutePath());
+		return false;
+	}
+
+	/**
 	 * Aktuelle Config kann abgespeichert werden um die abgespeicherten Werte
 	 * spaeter wieder importieren zu koennen
 	 * 
