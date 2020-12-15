@@ -23,18 +23,15 @@ import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
 
 public class DateiauswahlView extends JFrame {
 	JPanel panel;
-	JFileChooser dateiSystem;
 	FileDialog fd;
 	private File[] auswahl;
 	
 	IFileImporter fileImport;
 	ITextvergleicher textVergleicher;
-	private IMatrixImpl matrix;
+	private IMatrix matrix;
 
 	public DateiauswahlView() {
-		
 		panel = new JPanel();
-		dateiSystem = new JFileChooser();
 		fileImport = new IFileImporterImpl();
 		textVergleicher = new ITextvergleicherImpl();
 		matrix = new IMatrixImpl();
@@ -55,28 +52,14 @@ public class DateiauswahlView extends JFrame {
 			nameDateien[i] = fd.getFiles()[i].getName();
 		}
 		
-		
-		while(fd.getFiles().length == 1){
-			new PopupView();
+		while(anzahlDateien == 1){
 			fd = new FileDialog(this, "Dateiauswahl", FileDialog.LOAD);
+			new PopupView("Es muss mehr als eine Datei ausgewaehlt werden!");
 			fd.setMultipleMode(true);
 			fd.setDirectory(".");
 			fd.setFile("*.txt");
 			fd.setVisible(true);
 		}
-		
-		
-//		dateiSystem.add(panel);
-//		Action details = dateiSystem.getActionMap().get("viewTypeDetails");
-//		details.actionPerformed(null);
-//		dateiSystem.setMultiSelectionEnabled(true);
-//		dateiSystem.setCurrentDirectory(new File("."));
-//		dateiSystem.setDialogTitle("Dateiauswahl");
-//		dateiSystem.setMultiSelectionEnabled(true);
-//		dateiSystem.showOpenDialog(panel);
-		
-		
-		
 		
 		//----------------------------------------------------------------
 		//Code der so in etwa in den Controller ausgelagert werden müsste
@@ -90,9 +73,6 @@ public class DateiauswahlView extends JFrame {
 		MatrixView matrixView = new MatrixView(matrix, anzahlDateien, nameDateien);
 		//----------------------------------------------------------------
 		
-		
-		
-
 		this.setLocationRelativeTo(null);
 	}
 	

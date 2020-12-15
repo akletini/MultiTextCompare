@@ -12,9 +12,9 @@ public class PopupView extends JFrame {
 	JPanel panel;
 	JLabel label;
 	
-	public PopupView(){
+	public PopupView(String error){
 		panel = new JPanel();
-		label = new JLabel("Error");
+		label = new JLabel(error);
 		panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		panel.setLayout(new GridLayout(0, 1));
 		

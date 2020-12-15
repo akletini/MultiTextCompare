@@ -18,6 +18,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 
+import de.thkoeln.syp.mtc.datenhaltung.api.IMatrix;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IAehnlichkeitImpl;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IMatrixImpl;
 
@@ -28,16 +29,16 @@ public class MatrixView extends JFrame {
 	private static DecimalFormat df = new DecimalFormat("0.00");
 	int index;
 	
-	public MatrixView(IMatrixImpl matrix, int anzahlDateien, String[] nameDateien){
+	public MatrixView(IMatrix matrix, int anzahlDateien, String[] nameDateien){
 		panel = new JPanel();
 		panel.setBorder(BorderFactory.createEmptyBorder(20, 60, 20, 60));
 		index = 0;
 		List<IAehnlichkeitImpl> list = matrix.getInhalt();
 		
 		String[][] data = new String[anzahlDateien][anzahlDateien];
-
+		
 		for(int i=0; i<anzahlDateien; i++){
-			data[i][i] = "1.0";
+			data[i][i] = "1.00";
 			for(int j=i+1; j<anzahlDateien; j++){
 				double wert = list.get(index).getWert();
 				String wertString = df.format(wert);

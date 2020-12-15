@@ -12,9 +12,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import de.thkoeln.syp.mtc.gui.control.HomeController;
-
-
 public class HomeView extends JFrame{	
 	private JButton buttonDateiauswahl;
 	JButton buttonDateiauswahl2;
@@ -53,24 +50,24 @@ public class HomeView extends JFrame{
 		this.setLocationRelativeTo(null);
 	}
 
-	public void addDateiauswahlListener(ActionListener action){
-		buttonDateiauswahl.addActionListener(action);
+	public void addDateiauswahlListener(ActionListener e){
+		buttonDateiauswahl.addActionListener(e);
 	}
 	
-	public void addDateiauswahl2Listener(ActionListener action){
-		buttonDateiauswahl2.addActionListener(action);
+	public void addDateiauswahl2Listener(ActionListener e){
+		buttonDateiauswahl2.addActionListener(e);
 	}
 	
-	public void addKonfigurationListener(ActionListener action){
-		buttonKonfiguration.addActionListener(action);
+	public void addKonfigurationListener(ActionListener e){
+		buttonKonfiguration.addActionListener(e);
 	}
 	
-	public void addHilfeListener(ActionListener action){
-		buttonHilfe.addActionListener(action);
+	public void addHilfeListener(ActionListener e){
+		buttonHilfe.addActionListener(e);
 	}
 	
 	// ZUM TESTEN
-	public void addMatrixListenerTEST(ActionListener action){
-		buttonMatrix.addActionListener(action);
+	public void addMatrixListenerTEST(ActionListener e){
+		buttonMatrix.addActionListener(e);
 	}
 }
