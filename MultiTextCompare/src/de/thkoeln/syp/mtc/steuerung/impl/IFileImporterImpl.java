@@ -40,6 +40,7 @@ public class IFileImporterImpl implements IFileImporter {
 		prop.setProperty(PROP_SATZZEICHEN, "false");
 		prop.setProperty(PROP_GROSSSCHREIBUNG, "false");
 		prop.setProperty(PROP_ROOT, System.getProperty("user.dir"));
+		prop.setProperty(PROP_LINEMATCH, "false");
 		importConfigdatei(DEFAULT_CONFIG);
 	}
 
@@ -129,6 +130,7 @@ public class IFileImporterImpl implements IFileImporter {
 				.getProperty(PROP_SATZZEICHEN)));
 		iConfig.setBeachteGrossschreibung(Boolean.parseBoolean(prop
 				.getProperty(PROP_GROSSSCHREIBUNG)));
+		iConfig.setLineMatch(Boolean.parseBoolean(prop.getProperty(PROP_LINEMATCH)));
 		iConfig.setRootDir(prop.getProperty(PROP_ROOT));
 
 		return true;
@@ -180,6 +182,7 @@ public class IFileImporterImpl implements IFileImporter {
 					Boolean.toString(iConfig.getBeachteSatzzeichen()));
 			prop.setProperty(PROP_GROSSSCHREIBUNG,
 					Boolean.toString(iConfig.getBeachteGrossschreibung()));
+			prop.setProperty(PROP_LINEMATCH, Boolean.toString(iConfig.getLineMatch()));
 			prop.setProperty(PROP_ROOT, iConfig.getRootDir());
 
 			prop.store(outputStream, null);

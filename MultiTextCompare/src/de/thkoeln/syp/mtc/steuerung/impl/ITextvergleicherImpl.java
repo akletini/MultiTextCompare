@@ -58,11 +58,18 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 					List<Chunk> deletedChunks = comp.getDeletesInReference();
 
 					List<Chunk> unchangedChunks = comp.getChangesInReference();
+					
+//					List<Chunk> insertedChunks = comp.getInsertsFromOriginal();
+//					
+//					for(Chunk c : insertedChunks){
+//						System.out.println("Inserts: " + c);
+//					}
 
 					int anzahlGleicherZeilen = 0, anzahlGeloeschterZeilen = 0, anzahlGeaenderterZeilen = 0;
 					for (int i = 0; i < deletedChunks.size(); i++) {
 						anzahlGeloeschterZeilen += deletedChunks.get(i)
 								.getLines().size();
+						
 					}
 
 					for (int i = 0; i < unchangedChunks.size(); i++) {
@@ -86,6 +93,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 								referenzZeilen);
 						changedChunkListToStringList(changedChunks,
 								vergleichsZeilen);
+						
 
 						double[] metrikProZeile = berechneMetrik(gewicht,
 								referenzZeilen, vergleichsZeilen);
@@ -104,7 +112,13 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		}
 		fillMatrix();
 	}
-
+	
+	private void printStringList(List<String> strList){
+		for(String s : strList){
+			System.out.println("Print: " + s);
+		}
+	}
+	
 	/**
 	 * Verkettet sowohl Referenz- als auch Vergleichsdatei zu je einem String
 	 * und vergleicht jeweils die Zeichenmengen miteinander. Anwendung: Wenn die
@@ -270,18 +284,20 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		double[] metrikProZeile = new double[max];
 		for (int i = 0; i < max; i++) {
 			String ref = refList.get(i);
-			String vlg = vglList.get(i);
+			System.out.println("Vgl von: " + ref);
+			String vgl = vglList.get(i);
+			System.out.println("Vgl zu: " + vgl);
 			String laengsterString;
 
-			if (ref.length() >= vlg.length()) {
+			if (ref.length() >= vgl.length()) {
 				laengsterString = ref;
 			} else {
-				laengsterString = vlg;
+				laengsterString = vgl;
 			}
 
 			double laengeDesLaengsten = (double) laengsterString.length();
 			double levenshteinDist = (double) berechneLevenshteinDistanz(
-					ref.toCharArray(), vlg.toCharArray());
+					ref.toCharArray(), vgl.toCharArray());
 			metrikProZeile[i] = gewicht
 					* (double) ((laengeDesLaengsten - levenshteinDist) / laengeDesLaengsten);
 
