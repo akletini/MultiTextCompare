@@ -8,8 +8,10 @@ public interface IConfig {
 	boolean setBeachteGrossschreibung(boolean beachteGrossschreibung);
 
 	boolean setRootDir(String rootDir);
-	
+
 	boolean setPath(String path);
+
+	boolean setLineMatch(boolean lineMatch);
 
 	boolean getBeachteLeerzeichen();
 
@@ -18,6 +20,9 @@ public interface IConfig {
 	boolean getBeachteGrossschreibung();
 
 	String getRootDir();
-	
+
 	String getPath();
+
+	boolean getLineMatch();
+
 }
