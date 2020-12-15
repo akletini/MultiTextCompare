@@ -19,18 +19,18 @@ import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
 import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
 
 public class Dateiauswahl2View extends JFrame{
-	JPanel panel;
-	JLabel labelWurzelverzeichnis;
-	JLabel labelWurzelpfad;
-	JLabel labelName;
-	JButton buttonWurzelverzeichnis;
-	JButton buttonVergleichen;
-	JTextField textFieldName;
-	FileDialog fd;
+	private JPanel panel;
+	private JLabel labelWurzelverzeichnis;
+	private JLabel labelWurzelpfad;
+	private JLabel labelName;
+	private JButton buttonWurzelverzeichnis;
+	private JButton buttonVergleichen;
+	private JTextField textFieldName;
+	private FileDialog fd;
 
-	IFileImporter fileImport;
-	ITextvergleicher textVergleicher;
-	Dateiauswahl2Controller dateiauswahl2Controller;
+	private IFileImporter fileImport;
+	private ITextvergleicher textVergleicher;
+	private Dateiauswahl2Controller dateiauswahl2Controller;
 
 	public Dateiauswahl2View(){
 		panel = new JPanel();

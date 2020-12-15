@@ -19,12 +19,12 @@ import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
 import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
 
 public class DateiauswahlView extends JFrame {
-	JPanel panel;
-	FileDialog fd;
+	private JPanel panel;
+	private FileDialog fd;
 	private File[] auswahl;
 
-	IFileImporter fileImport;
-	ITextvergleicher textVergleicher;
+	private IFileImporter fileImport;
+	private ITextvergleicher textVergleicher;
 	private IMatrix matrix;
 
 	public DateiauswahlView() {
@@ -80,8 +80,7 @@ public class DateiauswahlView extends JFrame {
 			textVergleicher.vergleicheZeilenweise();
 		}
 		matrix = textVergleicher.getMatrix();
-		new MatrixView((IMatrixImpl) matrix, anzahlDateien,
-				nameDateien);
+		new MatrixView((IMatrixImpl) matrix, anzahlDateien, nameDateien);
 		// ----------------------------------------------------------------
 
 		this.setLocationRelativeTo(null);

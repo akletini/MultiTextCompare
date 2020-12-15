@@ -9,9 +9,7 @@ import javax.swing.JFileChooser;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IMatrix;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IMatrixImpl;
-import de.thkoeln.syp.mtc.gui.control.HomeController.HilfeListener;
 import de.thkoeln.syp.mtc.gui.view.Dateiauswahl2View;
-import de.thkoeln.syp.mtc.gui.view.DateiauswahlView;
 import de.thkoeln.syp.mtc.gui.view.MatrixView;
 import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
 import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
@@ -24,17 +22,19 @@ public class Dateiauswahl2Controller {
 	private IMatrix matrix;
 	private FileDialog fd;
 	private JFileChooser fc;
-	
-	public Dateiauswahl2Controller(Dateiauswahl2View dateiauswahl2View){
+
+	public Dateiauswahl2Controller(Dateiauswahl2View dateiauswahl2View) {
 		this.dateiauswahl2View = dateiauswahl2View;
-		this.dateiauswahl2View.addVergleichenListener(new VergleichenListener());
-		this.dateiauswahl2View.addWurzelverzeichnisListener(new WurzelverzeichnisListener());
+		this.dateiauswahl2View
+				.addVergleichenListener(new VergleichenListener());
+		this.dateiauswahl2View
+				.addWurzelverzeichnisListener(new WurzelverzeichnisListener());
 		fileImport = this.dateiauswahl2View.getFileImport();
 		textVergleicher = this.dateiauswahl2View.getTextvergleicher();
-		matrix = new IMatrixImpl();	
+		matrix = new IMatrixImpl();
 	}
-	
-	class WurzelverzeichnisListener implements ActionListener{
+
+	class WurzelverzeichnisListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			fc = new JFileChooser();
 			fc.setCurrentDirectory(new File(fileImport.getConfig().getRootDir()));
@@ -46,12 +46,14 @@ public class Dateiauswahl2Controller {
 			dateiauswahl2View.pack();
 		}
 	}
-	
-	class VergleichenListener implements ActionListener{
-		public void actionPerformed(ActionEvent e){
-			dateiauswahl2View.getFileImport().importTextRoot(dateiauswahl2View.getTextFieldName().getText());
+
+	class VergleichenListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			dateiauswahl2View.getFileImport().importTextRoot(
+					dateiauswahl2View.getTextFieldName().getText());
 			fileImport.createTempFiles();
-			textVergleicher.getTempfilesFromHashMap(fileImport.getTempFilesMap());
+			textVergleicher.getTempfilesFromHashMap(fileImport
+					.getTempFilesMap());
 			textVergleicher.getVergleiche(textVergleicher.getTempFiles());
 			textVergleicher.vergleicheUeberGanzesDokument();
 			matrix = dateiauswahl2View.getTextvergleicher().getMatrix();
