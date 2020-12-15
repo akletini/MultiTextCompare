@@ -50,7 +50,7 @@ public class Dateiauswahl2Controller {
 			matrix = dateiauswahl2View.getTextvergleicher().getMatrix();
 			// zum testen
 			String[] test = {"A", "B", "C"};
-			new MatrixView(matrix, 3, test);
+			new MatrixView((IMatrixImpl)matrix, 3, test);
 			System.out.println("LOL00");
 
 		}

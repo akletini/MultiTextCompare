@@ -3,14 +3,11 @@ package de.thkoeln.syp.mtc.gui.view;
 import java.awt.FileDialog;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.Action;
 import javax.swing.BorderFactory;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -52,7 +49,7 @@ public class DateiauswahlView extends JFrame {
 		}
 
 		while (fd.getFiles().length == 1) {
-			new PopupView();
+			new PopupView("Es muss mehr als eine Datei ausgewaehlt werden!");
 			fd = new FileDialog(this, "Dateiauswahl", FileDialog.LOAD);
 			new PopupView("Es muss mehr als eine Datei ausgewaehlt werden!");
 			fd.setMultipleMode(true);
@@ -83,7 +80,7 @@ public class DateiauswahlView extends JFrame {
 			textVergleicher.vergleicheZeilenweise();
 		}
 		matrix = textVergleicher.getMatrix();
-		new MatrixView(matrix, anzahlDateien,
+		new MatrixView((IMatrixImpl) matrix, anzahlDateien,
 				nameDateien);
 		// ----------------------------------------------------------------
 

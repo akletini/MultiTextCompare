@@ -29,7 +29,7 @@ public class MatrixView extends JFrame {
 	private static DecimalFormat df = new DecimalFormat("0.000");
 	int index;
 
-	public MatrixView(IMatrixImpl matrix, int anzahlDateien,
+	public MatrixView(IMatrix matrix, int anzahlDateien,
 			String[] nameDateien) {
 		panel = new JPanel();
 		panel.setBorder(BorderFactory.createEmptyBorder(20, 60, 20, 60));
