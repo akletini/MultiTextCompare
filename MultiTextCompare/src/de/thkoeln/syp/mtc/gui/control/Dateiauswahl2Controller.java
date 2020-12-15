@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+import javax.swing.JFileChooser;
+
 import de.thkoeln.syp.mtc.datenhaltung.api.IMatrix;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IMatrixImpl;
 import de.thkoeln.syp.mtc.gui.control.HomeController.HilfeListener;
@@ -21,6 +23,7 @@ public class Dateiauswahl2Controller {
 	private ITextvergleicher textVergleicher;
 	private IMatrix matrix;
 	private FileDialog fd;
+	private JFileChooser fc;
 	
 	public Dateiauswahl2Controller(Dateiauswahl2View dateiauswahl2View){
 		this.dateiauswahl2View = dateiauswahl2View;
@@ -28,15 +31,19 @@ public class Dateiauswahl2Controller {
 		this.dateiauswahl2View.addWurzelverzeichnisListener(new WurzelverzeichnisListener());
 		fileImport = this.dateiauswahl2View.getFileImport();
 		textVergleicher = this.dateiauswahl2View.getTextvergleicher();
-		matrix = new IMatrixImpl();
-		
-		//this.dateiauswahl2View.addHilfeListener(new HilfeListener());
-		
+		matrix = new IMatrixImpl();	
 	}
 	
 	class WurzelverzeichnisListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-
+			fc = new JFileChooser();
+			fc.setCurrentDirectory(new File(fileImport.getConfig().getRootDir()));
+			fc.setDialogTitle("moin");
+			fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+			fc.showOpenDialog(dateiauswahl2View);
+			fileImport.setRootDir(fc.getSelectedFile());
+			dateiauswahl2View.updateWurzelpfad();
+			dateiauswahl2View.pack();
 		}
 	}
 	
@@ -48,11 +55,7 @@ public class Dateiauswahl2Controller {
 			textVergleicher.getVergleiche(textVergleicher.getTempFiles());
 			textVergleicher.vergleicheUeberGanzesDokument();
 			matrix = dateiauswahl2View.getTextvergleicher().getMatrix();
-			// zum testen
-			String[] test = {"A", "B", "C"};
-			new MatrixView((IMatrixImpl)matrix, 3, test);
-			System.out.println("LOL00");
-
+			new MatrixView(matrix, textVergleicher.getTempFiles().size());
 		}
 	}
 }

@@ -39,7 +39,7 @@ public class MatrixView extends JFrame {
 		String[][] data = new String[anzahlDateien][anzahlDateien];
 
 		for (int i = 0; i < anzahlDateien; i++) {
-			data[i][i] = "1.0";
+			data[i][i] = "1";
 			for (int j = i + 1; j < anzahlDateien; j++) {
 				double wert = list.get(index).getWert();
 				String wertString = df.format(wert);
@@ -64,27 +64,18 @@ public class MatrixView extends JFrame {
 		this.setVisible(true);
 		this.setLocationRelativeTo(null);
 		this.pack();
-		// int r = (int) ((255* (100 - (wert*100))) / 100);
-		// int g = (int) ((255*(wert*100) / 100));
-		// Color wertFarbe = new Color(r, g, 0);
-
-		// table.getColumnModel().getColumn(0).setCellRenderer(new
-		// RowHeaderRenderer());
-
-		// for(int i=0; i<16; i++){
-		// double wert = Math.random();
-		// String wertString = df.format(wert);
-		// testButton = new JButton(""+ wertString);
 		//
 		// int r = (int) ((255* (100 - (wert*100))) / 100);
 		// int g = (int) ((255*(wert*100) / 100));
 		// Color wertFarbe = new Color(r, g, 0);
 		//
-		// testButton.setOpaque(true);
-		// testButton.setBackground(wertFarbe);
-		// testButton.setForeground(Color.BLACK);
-		//
-		// panel.add(testButton);
-		// }
+	}
+	
+	public MatrixView(IMatrix matrix, int anzahlDateien){
+		String[] nameDateien = new String[anzahlDateien];
+		for(int i=0; i<anzahlDateien; i++){
+			nameDateien[i] = Character.toString((char) (('A' + i)));
+		}
+		new MatrixView(matrix, anzahlDateien, nameDateien);
 	}
 }

@@ -85,4 +85,8 @@ public class Dateiauswahl2View extends JFrame{
 	public JTextField getTextFieldName(){
 		return textFieldName;
 	}
+	
+	public void updateWurzelpfad(){
+		labelWurzelpfad.setText(fileImport.getConfig().getRootDir());
+	}
 }

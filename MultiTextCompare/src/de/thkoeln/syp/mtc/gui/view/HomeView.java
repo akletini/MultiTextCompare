@@ -39,8 +39,8 @@ public class HomeView extends JFrame{
 		panel.add(buttonHilfe);
 		
 		// ZUM TESTEN
-		panel.add(Box.createRigidArea(new Dimension(5, 0)));
-		panel.add(buttonMatrix); 
+//		panel.add(Box.createRigidArea(new Dimension(5, 0)));
+//		panel.add(buttonMatrix); 
 		
 		this.add(panel, BorderLayout.CENTER);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
