@@ -59,11 +59,6 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 
 					List<Chunk> unchangedChunks = comp.getChangesInReference();
 					
-//					List<Chunk> insertedChunks = comp.getInsertsFromOriginal();
-//					
-//					for(Chunk c : insertedChunks){
-//						System.out.println("Inserts: " + c);
-//					}
 
 					int anzahlGleicherZeilen = 0, anzahlGeloeschterZeilen = 0, anzahlGeaenderterZeilen = 0;
 					for (int i = 0; i < deletedChunks.size(); i++) {
@@ -111,12 +106,6 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 			}
 		}
 		fillMatrix();
-	}
-	
-	private void printStringList(List<String> strList){
-		for(String s : strList){
-			System.out.println("Print: " + s);
-		}
 	}
 	
 	/**
