@@ -130,7 +130,8 @@ public class IFileImporterImpl implements IFileImporter {
 				.getProperty(PROP_SATZZEICHEN)));
 		iConfig.setBeachteGrossschreibung(Boolean.parseBoolean(prop
 				.getProperty(PROP_GROSSSCHREIBUNG)));
-		iConfig.setLineMatch(Boolean.parseBoolean(prop.getProperty(PROP_LINEMATCH)));
+		iConfig.setLineMatch(Boolean.parseBoolean(prop
+				.getProperty(PROP_LINEMATCH)));
 		iConfig.setRootDir(prop.getProperty(PROP_ROOT));
 
 		return true;
@@ -141,23 +142,50 @@ public class IFileImporterImpl implements IFileImporter {
 	 * 
 	 * @param path
 	 *            Neuer Speicherort des Config-Files
-	 * @return true: bei erfolgreichem setzen des neuen Pfades & Speichern der
+	 * @return true: bei erfolgreichem Setzen des neuen Pfades & Speichern der
 	 *         Config
 	 * 
-	 *         false: bei Fehlschlag (Pfad bleibt dann unverändert)
+	 *         false: bei Fehlschlag (Pfad bleibt dann unveraendert)
 	 */
 	@Override
 	public boolean setConfigPath(String path) {
 		File oldConfig = new File(iConfig.getPath());
 
 		iConfig.setPath(path);
-		if (exportConfigdatei()) {
-			oldConfig.delete();
-			return true;
+		if (!exportConfigdatei()) {
+			iConfig.setPath(oldConfig.getAbsolutePath());
+			return false;
 		}
 
-		iConfig.setPath(oldConfig.getAbsolutePath());
-		return false;
+		oldConfig.delete();
+		return true;
+	}
+
+	/**
+	 * Das Root-Directory kann neu gesetzt werden
+	 * 
+	 * @param rootDir
+	 *            Das neue Root-Directory in welchem fortan gesucht werden soll
+	 * 
+	 * @return true: bei erfolgreichem Setzen des neuen Root-Directories &
+	 *         Speichern der Config
+	 * 
+	 *         false: bei Fehlschlag (Root-Directory bleibt dann unveraendert)
+	 */
+	@Override
+	public boolean setRootDir(File rootDir) {
+		String oldPath = iConfig.getRootDir();
+
+		if (!rootDir.isDirectory())
+			return false;
+
+		iConfig.setRootDir(rootDir.getAbsolutePath());
+		if (!exportConfigdatei()) {
+			iConfig.setRootDir(oldPath);
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -182,7 +210,8 @@ public class IFileImporterImpl implements IFileImporter {
 					Boolean.toString(iConfig.getBeachteSatzzeichen()));
 			prop.setProperty(PROP_GROSSSCHREIBUNG,
 					Boolean.toString(iConfig.getBeachteGrossschreibung()));
-			prop.setProperty(PROP_LINEMATCH, Boolean.toString(iConfig.getLineMatch()));
+			prop.setProperty(PROP_LINEMATCH,
+					Boolean.toString(iConfig.getLineMatch()));
 			prop.setProperty(PROP_ROOT, iConfig.getRootDir());
 
 			prop.store(outputStream, null);
@@ -293,9 +322,9 @@ public class IFileImporterImpl implements IFileImporter {
 				.mkdirs();
 
 		for (File f : this.textdateien) {
-			String path = System.getProperty("user.dir")
-					+ File.separator + "TempFiles" + File.separator
-					+ "temp_" + Integer.toString(index);
+			String path = System.getProperty("user.dir") + File.separator
+					+ "TempFiles" + File.separator + "temp_"
+					+ Integer.toString(index);
 			File temp = new File(path);
 
 			try {
