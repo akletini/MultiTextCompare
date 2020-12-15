@@ -40,7 +40,7 @@ public class IFileImporterImpl implements IFileImporter {
 		prop.setProperty(PROP_SATZZEICHEN, "false");
 		prop.setProperty(PROP_GROSSSCHREIBUNG, "false");
 		prop.setProperty(PROP_ROOT, System.getProperty("user.dir"));
-		prop.setProperty(PROP_LINEMATCH, "false");
+		prop.setProperty(PROP_LINEMATCH, "true");
 		importConfigdatei(DEFAULT_CONFIG);
 	}
 
