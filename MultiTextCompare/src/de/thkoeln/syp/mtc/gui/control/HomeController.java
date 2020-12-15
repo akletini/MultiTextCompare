@@ -26,25 +26,25 @@ public class HomeController{
 	}
 	
 	class DateiauswahlListener implements ActionListener{
-		public void actionPerformed(ActionEvent action) {
+		public void actionPerformed(ActionEvent e) {
 			new DateiauswahlView();
 		}
 	}
 	
 	class Dateiauswahl2Listener implements ActionListener{
-		public void actionPerformed(ActionEvent action) {
+		public void actionPerformed(ActionEvent e) {
 			new Dateiauswahl2View();
 		}
 	}
 	
 	class KonfigurationListener implements ActionListener{
-		public void actionPerformed(ActionEvent action) {
+		public void actionPerformed(ActionEvent e) {
 			new KonfigurationView();
 		}
 	}
 	
 	class HilfeListener implements ActionListener{
-		public void actionPerformed(ActionEvent action) {
+		public void actionPerformed(ActionEvent e) {
 			new HilfeView();
 		}
 	}

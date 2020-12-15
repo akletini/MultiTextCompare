@@ -23,18 +23,15 @@ import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
 
 public class DateiauswahlView extends JFrame {
 	JPanel panel;
-	JFileChooser dateiSystem;
 	FileDialog fd;
 	private File[] auswahl;
 
 	IFileImporter fileImport;
 	ITextvergleicher textVergleicher;
-	private IMatrixImpl matrix;
+	private IMatrix matrix;
 
 	public DateiauswahlView() {
-
 		panel = new JPanel();
-		dateiSystem = new JFileChooser();
 		fileImport = new IFileImporterImpl();
 		textVergleicher = new ITextvergleicherImpl();
 		matrix = new IMatrixImpl();
@@ -57,6 +54,7 @@ public class DateiauswahlView extends JFrame {
 		while (fd.getFiles().length == 1) {
 			new PopupView();
 			fd = new FileDialog(this, "Dateiauswahl", FileDialog.LOAD);
+			new PopupView("Es muss mehr als eine Datei ausgewaehlt werden!");
 			fd.setMultipleMode(true);
 			fd.setDirectory(".");
 			fd.setFile("*.txt");
@@ -73,7 +71,7 @@ public class DateiauswahlView extends JFrame {
 		// dateiSystem.showOpenDialog(panel);
 
 		// ----------------------------------------------------------------
-		// Code der so in etwa in den Controller ausgelagert werden müsste
+		// Code der so in etwa in den Controller ausgelagert werden mï¿½sste
 		auswahl = fd.getFiles();
 		fileImport.importTextdateien(fileArrayToList(getAuswahl()));
 		fileImport.createTempFiles();
