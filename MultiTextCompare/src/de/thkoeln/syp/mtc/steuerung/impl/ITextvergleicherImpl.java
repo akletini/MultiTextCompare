@@ -273,9 +273,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		double[] metrikProZeile = new double[max];
 		for (int i = 0; i < max; i++) {
 			String ref = refList.get(i);
-			System.out.println("Vgl von: " + ref);
 			String vgl = vglList.get(i);
-			System.out.println("Vgl zu: " + vgl);
 			String laengsterString;
 
 			if (ref.length() >= vgl.length()) {
