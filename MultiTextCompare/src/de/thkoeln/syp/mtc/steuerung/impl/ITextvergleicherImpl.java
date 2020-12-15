@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -159,6 +160,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		for(Map.Entry<File, File> entry : map.entrySet()){
 			tempFiles.add(entry.getValue());
 		}
+		Collections.reverse(tempFiles);
 	}
 	
 	/**
