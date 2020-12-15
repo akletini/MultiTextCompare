@@ -5,6 +5,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +38,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	public ITextvergleicherImpl() {
 
 	}
-	
+
 	@Override
 	public void vergleicheZeilenweise() {
 		for (IAehnlichkeit a : paarungen) {
@@ -63,6 +67,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 					for (int i = 0; i < deletedChunks.size(); i++) {
 						anzahlGeloeschterZeilen += deletedChunks.get(i)
 								.getLines().size();
+
 					}
 
 					for (int i = 0; i < unchangedChunks.size(); i++) {
@@ -149,19 +154,42 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		}
 		fillMatrix();
 	}
-	
+
 	@Override
-	public void getTempfilesFromHashMap(Map<File, File> map){
+	public void getTempfilesFromHashMap(Map<File, File> map) {
 		tempFiles = new ArrayList<File>();
-		for(Map.Entry<File, File> entry : map.entrySet()){
+		Map<File, File> sorted = sortHashMapByValue(map);
+		for (Map.Entry<File, File> entry : sorted.entrySet()) {
 			tempFiles.add(entry.getValue());
 		}
 	}
-	
+
+	private HashMap<File, File> sortHashMapByValue(Map<File, File> map) {
+		List<Map.Entry<File, File>> list = new ArrayList<Map.Entry<File, File>>(
+				map.entrySet());
+
+		// Sort the list
+		Collections.sort(list, new Comparator<Map.Entry<File, File>>() {
+			public int compare(Map.Entry<File, File> o1,
+					Map.Entry<File, File> o2) {
+				return (o1.getValue().getName()).compareTo(o2.getValue()
+						.getName());
+			}
+		});
+
+		// put data from sorted list to hashmap
+		HashMap<File, File> temp = new LinkedHashMap<File, File>();
+		for (Map.Entry<File, File> aa : list) {
+			temp.put(aa.getKey(), aa.getValue());
+		}
+		return temp;
+
+	}
+
 	/**
 	 * @param type
-	 *            entscheidet ob Unterschied in die Liste fuer INSERT,DELETE oder
-	 *            CHANGE geschrieben wird
+	 *            entscheidet ob Unterschied in die Liste fuer INSERT,DELETE
+	 *            oder CHANGE geschrieben wird
 	 * @return listOfChanges je nach Typ eine Liste mit neuen,geloeschten oder
 	 *         geaenderten Zeilen
 	 */
@@ -206,7 +234,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		in.close();
 		return lines;
 	}
-	
+
 	private List<Chunk> getUnchangedChunksByType(Delta.TYPE type)
 			throws IOException {
 		final List<Chunk> listOfChanges = new ArrayList<Chunk>();
@@ -218,8 +246,8 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		}
 		return listOfChanges;
 	}
-	
-	private void fillMatrix(){
+
+	private void fillMatrix() {
 		iMatrixImpl = new IMatrixImpl();
 		iMatrixImpl.setInhalt(paarungen);
 	}
@@ -270,18 +298,18 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		double[] metrikProZeile = new double[max];
 		for (int i = 0; i < max; i++) {
 			String ref = refList.get(i);
-			String vlg = vglList.get(i);
+			String vgl = vglList.get(i);
 			String laengsterString;
 
-			if (ref.length() >= vlg.length()) {
+			if (ref.length() >= vgl.length()) {
 				laengsterString = ref;
 			} else {
-				laengsterString = vlg;
+				laengsterString = vgl;
 			}
 
 			double laengeDesLaengsten = (double) laengsterString.length();
 			double levenshteinDist = (double) berechneLevenshteinDistanz(
-					ref.toCharArray(), vlg.toCharArray());
+					ref.toCharArray(), vgl.toCharArray());
 			metrikProZeile[i] = gewicht
 					* (double) ((laengeDesLaengsten - levenshteinDist) / laengeDesLaengsten);
 
@@ -417,14 +445,14 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	public List<IAehnlichkeitImpl> getPaarungen() {
 		return paarungen;
 	}
-	
+
 	@Override
-	public List<File> getTempFiles(){
+	public List<File> getTempFiles() {
 		return tempFiles;
 	}
-	
+
 	@Override
-	public IMatrixImpl getMatrix(){
+	public IMatrixImpl getMatrix() {
 		return iMatrixImpl;
 	}
 

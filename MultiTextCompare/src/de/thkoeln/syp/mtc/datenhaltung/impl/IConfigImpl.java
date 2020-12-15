@@ -5,10 +5,16 @@ import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
 public class IConfigImpl implements IConfig {
 
 	private boolean beachteLeerzeichen, beachteSatzzeichen,
-			beachteGrossschreibung;
+			beachteGrossschreibung, lineMatch;
 	private String rootDir;
 	private String path;
-
+	
+	@Override
+	public boolean setLineMatch(boolean lineMatch){
+		this.lineMatch = lineMatch;
+		return true;
+	}
+	
 	@Override
 	public boolean setBeachteLeerzeichen(boolean beachteLeerzeichen) {
 		this.beachteLeerzeichen = beachteLeerzeichen;
@@ -62,5 +68,10 @@ public class IConfigImpl implements IConfig {
 	@Override
 	public String getPath() {
 		return path;
+	}
+	
+	@Override
+	public boolean getLineMatch(){
+		return lineMatch;
 	}
 }
