@@ -287,14 +287,16 @@ public class IFileImporterImpl implements IFileImporter {
 	public boolean createTempFiles() {
 		BufferedReader reader;
 		BufferedWriter writer;
+		int index = 1;
 
 		new File(System.getProperty("user.dir") + File.separator + "TempFiles")
 				.mkdirs();
 
 		for (File f : this.textdateien) {
-			File temp = new File(System.getProperty("user.dir")
+			String path = System.getProperty("user.dir")
 					+ File.separator + "TempFiles" + File.separator
-					+ f.hashCode());
+					+ "temp_" + Integer.toString(index);
+			File temp = new File(path);
 
 			try {
 				if (temp.exists()) {
@@ -312,6 +314,7 @@ public class IFileImporterImpl implements IFileImporter {
 					writer.write(line.replaceAll("\\s", "\n") + "\n");
 
 				tempFiles.put(f, temp);
+				index++;
 
 				reader.close();
 				writer.close();
