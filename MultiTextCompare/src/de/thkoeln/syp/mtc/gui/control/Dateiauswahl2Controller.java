@@ -5,13 +5,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+import javax.swing.Action;
 import javax.swing.JFileChooser;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IMatrix;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IMatrixImpl;
-import de.thkoeln.syp.mtc.gui.control.HomeController.HilfeListener;
 import de.thkoeln.syp.mtc.gui.view.Dateiauswahl2View;
-import de.thkoeln.syp.mtc.gui.view.DateiauswahlView;
 import de.thkoeln.syp.mtc.gui.view.MatrixView;
 import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
 import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
@@ -37,6 +36,8 @@ public class Dateiauswahl2Controller {
 	class WurzelverzeichnisListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			fc = new JFileChooser();
+			Action details = fc.getActionMap().get("viewTypeDetails");
+			details.actionPerformed(null);
 			fc.setCurrentDirectory(new File(fileImport.getConfig().getRootDir()));
 			fc.setDialogTitle("moin");
 			fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
