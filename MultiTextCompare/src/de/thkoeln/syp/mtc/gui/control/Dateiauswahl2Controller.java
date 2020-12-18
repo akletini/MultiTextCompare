@@ -23,17 +23,19 @@ public class Dateiauswahl2Controller {
 	private IMatrix matrix;
 	private FileDialog fd;
 	private JFileChooser fc;
-	
-	public Dateiauswahl2Controller(Dateiauswahl2View dateiauswahl2View){
+
+	public Dateiauswahl2Controller(Dateiauswahl2View dateiauswahl2View) {
 		this.dateiauswahl2View = dateiauswahl2View;
-		this.dateiauswahl2View.addVergleichenListener(new VergleichenListener());
-		this.dateiauswahl2View.addWurzelverzeichnisListener(new WurzelverzeichnisListener());
+		this.dateiauswahl2View
+				.addVergleichenListener(new VergleichenListener());
+		this.dateiauswahl2View
+				.addWurzelverzeichnisListener(new WurzelverzeichnisListener());
 		fileImport = this.dateiauswahl2View.getFileImport();
 		textVergleicher = this.dateiauswahl2View.getTextvergleicher();
-		matrix = new IMatrixImpl();	
+		matrix = new IMatrixImpl();
 	}
-	
-	class WurzelverzeichnisListener implements ActionListener{
+
+	class WurzelverzeichnisListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			fc = new JFileChooser();
 			Action details = fc.getActionMap().get("viewTypeDetails");
@@ -47,12 +49,14 @@ public class Dateiauswahl2Controller {
 			dateiauswahl2View.pack();
 		}
 	}
-	
-	class VergleichenListener implements ActionListener{
-		public void actionPerformed(ActionEvent e){
-			dateiauswahl2View.getFileImport().importTextRoot(dateiauswahl2View.getTextFieldName().getText());
+
+	class VergleichenListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			dateiauswahl2View.getFileImport().importTextRoot(
+					dateiauswahl2View.getTextFieldName().getText());
 			fileImport.createTempFiles();
-			textVergleicher.getTempfilesFromHashMap(fileImport.getTempFilesMap());
+			textVergleicher.getTempfilesFromHashMap(fileImport
+					.getTempFilesMap());
 			textVergleicher.getVergleiche(textVergleicher.getTempFiles());
 			textVergleicher.vergleicheUeberGanzesDokument();
 			matrix = dateiauswahl2View.getTextvergleicher().getMatrix();

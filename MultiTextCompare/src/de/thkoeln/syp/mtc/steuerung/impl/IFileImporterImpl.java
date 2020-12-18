@@ -79,6 +79,9 @@ public class IFileImporterImpl implements IFileImporter {
 		OutputStream outputStream;
 		InputStream inputStream;
 
+		if (config == null)
+			return false;
+
 		if (!config.exists()) {
 			if (!DEFAULT_CONFIG.exists()) {
 				try {
@@ -152,6 +155,9 @@ public class IFileImporterImpl implements IFileImporter {
 	public boolean setConfigPath(String path) {
 		File oldConfig = new File(iConfig.getPath());
 
+		if (path == null)
+			return false;
+
 		iConfig.setPath(path);
 		if (!exportConfigdatei()) {
 			iConfig.setPath(oldConfig.getAbsolutePath());
@@ -176,6 +182,9 @@ public class IFileImporterImpl implements IFileImporter {
 	@Override
 	public boolean setRootDir(File rootDir) {
 		String oldPath = iConfig.getRootDir();
+
+		if (rootDir == null)
+			return false;
 
 		if (!rootDir.isDirectory())
 			return false;
@@ -239,6 +248,9 @@ public class IFileImporterImpl implements IFileImporter {
 	 */
 	@Override
 	public boolean importTextdateien(List<File> textdateien) {
+		if (textdateien == null)
+			return false;
+
 		if (textdateien.isEmpty())
 			return false;
 
@@ -264,6 +276,9 @@ public class IFileImporterImpl implements IFileImporter {
 	@Override
 	public boolean importTextRoot(String fileName) {
 		File rootDir = new File(iConfig.getRootDir());
+
+		if (fileName == null)
+			return false;
 
 		if (!rootDir.isDirectory())
 			return false;
