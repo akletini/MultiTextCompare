@@ -33,6 +33,7 @@ public class ITextvergleicherImplTest {
 				+ File.separator + "/src/test/testFiles/FileD.txt"));
 		textdateien.add(new File(System.getProperty("user.dir")
 				+ File.separator + "/src/test/testFiles/FileE.txt"));
+
 		iText = new ITextvergleicherImpl();
 	}
 
