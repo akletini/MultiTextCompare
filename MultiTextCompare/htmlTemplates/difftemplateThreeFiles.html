@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+  box-sizing: border-box;
+  height: 100%;
+  margin: 0;
+}
+
+body {
+	font-family: Arial;
+	color: black;
+}
+
+.column {
+  float: left;
+  width: 33.33%;
+  z-index: 1;
+  top: 0;
+  padding: 10px;
+  height: 100%; 
+}
+
+
+.row:after {
+  margin: 0;
+  display: table;
+  clear: both;
+}
+</style>
+</head>
+<body>
+
+<div class="row">
+  <div class="column" style="background-color:#0145ac;">
+    <p>${left}</p>
+  </div>
+  <div class="column" style="background-color:#272c36;">
+    <p>${middle}</p>
+  </div>
+  <div class="column" style="background-color:#82c7a5;">
+    <p>${right}</p>
+  </div>
+</div>
+
+</body>
+</html>
