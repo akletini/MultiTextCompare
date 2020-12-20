@@ -1,22 +1,25 @@
 package de.thkoeln.syp.mtc.gui.view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
+import java.io.File;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
+import javax.swing.text.Document;
+import javax.swing.text.html.HTMLEditorKit;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IMatrix;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IAehnlichkeitImpl;
+import de.thkoeln.syp.mtc.steuerung.impl.IDiffHelperImpl;
 
 public class MatrixView extends JFrame {
 	private JPanel panel;
@@ -45,21 +48,58 @@ public class MatrixView extends JFrame {
 			}
 		}
 
- 		table = new JTable(data, nameDateien){
-			@Override
-			public Component prepareRenderer(TableCellRenderer renderer,
-					int row, int col) {
-				Component comp = super.prepareRenderer(renderer, row, col);
-				Object value = getModel().getValueAt(row, col);
-				double wert = Double.valueOf(value.toString());
-				int r = (int) ((255 * (100 - (wert * 100))) / 100);
-				int g = (int) ((255 * (wert * 100) / 100));
-				Color wertFarbe = new Color(r, g, 0);
-
-				comp.setBackground(wertFarbe);
-				return comp;
-			}
-		};
+ 		table = new JTable(data, nameDateien);
+// 		{
+//			@Override
+//			public Component prepareRenderer(TableCellRenderer renderer,
+//					int row, int col) {
+//				Component comp = super.prepareRenderer(renderer, row, col);
+//				Object value = getModel().getValueAt(row, col);
+//				double wert = Double.valueOf(value.toString());
+//				int r = (int) ((255 * (100 - (wert * 100))) / 100);
+//				int g = (int) ((255 * (wert * 100) / 100));
+//				Color wertFarbe = new Color(r, g, 0);
+//
+//				comp.setBackground(wertFarbe);
+//				return comp;
+//			}
+//		};
+//		JTextArea text1 = new JTextArea();
+//		JTextArea text2 = new JTextArea();
+//		try {
+//			File file = matrix.getInhalt().get(0).getVon();
+//			BufferedReader in = new BufferedReader(new FileReader(file));
+//			String line = in.readLine();
+//			while(line != null){
+//			  text1.append(line + "\n");
+//			  line = in.readLine();
+//			}
+//			file = matrix.getInhalt().get(0).getZu();
+//			in = new BufferedReader(new FileReader(file));
+//			line = in.readLine();
+//			while(line != null){
+//			  text2.append(line + "\n");
+//			  line = in.readLine();
+//			}
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//		}
+ 		
+// 		JEditorPane edit = new JEditorPane();
+// 		edit.setEditable(false);
+// 		JScrollPane scroll = new JScrollPane(edit);
+// 		HTMLEditorKit kit = new HTMLEditorKit();
+// 		edit.setEditorKit(kit);
+// 		
+// 		Document doc = kit.createDefaultDocument();
+// 		edit.setDocument(doc);
+// 		try {
+//			edit.setText(new IDiffHelperImpl().fillDiffList(new File("F:\\FileA.txt"), new File("F:\\FileB.txt")));
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
 		JScrollPane scrollPane = new JScrollPane(table);
 		RowNumberTable rowTable = new RowNumberTable(table);
 		rowTable.setFilenames(nameDateien);
@@ -67,6 +107,8 @@ public class MatrixView extends JFrame {
 		scrollPane.setCorner(JScrollPane.UPPER_LEFT_CORNER,
 				rowTable.getTableHeader());
 		panel.add(scrollPane);
+//		panel.add(scroll);
+
 
 		this.add(panel, BorderLayout.CENTER);
 		this.setTitle("Matrix");

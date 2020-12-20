@@ -30,14 +30,16 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	private List<String> referenzZeilen;
 	private List<String> vergleichsZeilen;
 	private File ref, vgl;
+	List<Character> differentCharacters;
 
 	public ITextvergleicherImpl(File ref, File vgl) {
 		this.ref = ref;
 		this.vgl = vgl;
+
 	}
 
 	public ITextvergleicherImpl() {
-
+		differentCharacters = new ArrayList<Character>();
 	}
 
 	/**
@@ -278,12 +280,15 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		iMatrixImpl = new IMatrixImpl();
 		iMatrixImpl.setInhalt(paarungen);
 	}
-	
+
 	/**
-	 * Zwischenschritt fuer die Berechnung der Zeilengewichte. 
-	 * Vergleicht die groessen der beiden Zeilenlisten
-	 * @param refSize Liste mit einzelnen Zeilen der Referenzdatei
-	 * @param vglSize Liste mit einzelnen Zeilen der Vergleichsdatei
+	 * Zwischenschritt fuer die Berechnung der Zeilengewichte. Vergleicht die
+	 * groessen der beiden Zeilenlisten
+	 * 
+	 * @param refSize
+	 *            Liste mit einzelnen Zeilen der Referenzdatei
+	 * @param vglSize
+	 *            Liste mit einzelnen Zeilen der Vergleichsdatei
 	 * @return die groesste Zahl zwischen den beiden Parametern
 	 */
 	private double ermittleGewicht(int refSize, int vglSize) {

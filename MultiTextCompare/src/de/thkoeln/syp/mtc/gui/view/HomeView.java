@@ -16,6 +16,7 @@ public class HomeView extends JFrame {
 	private JButton buttonDateiauswahl2;
 	private JButton buttonKonfiguration;
 	private JButton buttonHilfe;
+
 	private JPanel panel;
 	private JButton buttonMatrix = new JButton("Matrix (Test)"); // ZUM TESTEN
 
@@ -24,6 +25,7 @@ public class HomeView extends JFrame {
 		buttonDateiauswahl2 = new JButton("Textvergleich nach Muster");
 		buttonKonfiguration = new JButton("Konfiguration");
 		buttonHilfe = new JButton("Hilfe");
+	
 
 		panel = new JPanel();
 		panel.setBorder(BorderFactory.createEmptyBorder(20, 60, 20, 60));
@@ -36,6 +38,7 @@ public class HomeView extends JFrame {
 		panel.add(buttonKonfiguration);
 		panel.add(Box.createRigidArea(new Dimension(5, 0)));
 		panel.add(buttonHilfe);
+
 
 		// ZUM TESTEN
 		// panel.add(Box.createRigidArea(new Dimension(5, 0)));
@@ -69,4 +72,5 @@ public class HomeView extends JFrame {
 	public void addMatrixListenerTEST(ActionListener e) {
 		buttonMatrix.addActionListener(e);
 	}
+	
 }
