@@ -8,7 +8,9 @@ import org.apache.commons.io.LineIterator;
 import org.apache.commons.text.diff.CommandVisitor;
 import org.apache.commons.text.diff.StringsComparator;
 
-public class IDiffHelperImpl {
+import de.thkoeln.syp.mtc.steuerung.services.IDiffHelper;
+
+public class IDiffHelperImpl implements IDiffHelper{
 
 	public static File[] files;
 
@@ -19,10 +21,11 @@ public class IDiffHelperImpl {
 
 		files = new File[] { file1, file2, file3 };
 
-		computeDisplayDiff(files);
+		new IDiffHelperImpl().computeDisplayDiff(files);
 	}
-
-	public static void computeDisplayDiff(File[] files) throws IOException {
+	
+	@Override
+	public void computeDisplayDiff(File[] files) throws IOException {
 		// Read both files with line iterator.
 		if (files.length == 2) {
 			LineIterator file1 = FileUtils.lineIterator(files[0]);
