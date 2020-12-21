@@ -4,5 +4,5 @@ import java.io.File;
 import java.io.IOException;
 
 public interface IDiffHelper {
-	public void computeDisplayDiff(File[] files) throws IOException;
+	void computeDisplayDiff(File[] files, String mode) throws IOException;
 }

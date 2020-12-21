@@ -1,5 +1,6 @@
 package de.thkoeln.syp.mtc.steuerung.impl;
 
+import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 
@@ -12,20 +13,9 @@ import de.thkoeln.syp.mtc.steuerung.services.IDiffHelper;
 
 public class IDiffHelperImpl implements IDiffHelper{
 
-	public static File[] files;
-
-	public static void main(String args[]) throws IOException {
-		File file1 = new File("F:\\a.txt");
-		File file2 = new File("F:\\b.txt");
-		File file3 = new File("F:\\c.txt");
-
-		files = new File[] { file1, file2, file3 };
-
-		new IDiffHelperImpl().computeDisplayDiff(files);
-	}
 	
 	@Override
-	public void computeDisplayDiff(File[] files) throws IOException {
+	public void computeDisplayDiff(File[] files, String mode) throws IOException {
 		// Read both files with line iterator.
 		if (files.length == 2) {
 			LineIterator file1 = FileUtils.lineIterator(files[0]);
@@ -78,7 +68,7 @@ public class IDiffHelperImpl implements IDiffHelper{
 				}
 			}
 
-			fileCommandsVisitor.generateHTML();
+			fileCommandsVisitor.generateHTML(files, mode);
 		} else {
 			final LineIterator file1 = FileUtils.lineIterator(files[0]);
 			final LineIterator file2 = FileUtils.lineIterator(files[1]);
@@ -160,7 +150,7 @@ public class IDiffHelperImpl implements IDiffHelper{
 			}
 			
 			
-			fileCommandsVisitor.generateHTML();
+			fileCommandsVisitor.generateHTML(files, mode);
 		}
 	}
 }
@@ -187,7 +177,7 @@ class FileCommandsVisitor implements CommandVisitor<Character> {
 	 * MID: Zeigt nur die Diffs zum mittleren Text an
 	 * RIGHT: Zeigt nur die Diffs zum rechten Text an
 	 */
-	public String showDiffTo = "RIGHT"; 
+	
 
 	@Override
 	public void visitKeepCommand(Character c) {
@@ -223,13 +213,13 @@ class FileCommandsVisitor implements CommandVisitor<Character> {
 		left = left + DELETION.replace("${text}", "" + toAppend);
 	}
 
-	public void generateHTML() throws IOException {
+	public void generateHTML(File[] files, String mode) throws IOException {
 
 		// Get template & replace placeholders with left & right variables with
 		// actual
 		// comparison
 		String template = null;
-		if (IDiffHelperImpl.files.length == 2) {
+		if (files.length == 2) {
 			template = FileUtils.readFileToString(
 					new File(System.getProperty("user.dir") + File.separator
 							+ "/htmlTemplates/difftemplateTwoFiles.html"),
@@ -260,14 +250,14 @@ class FileCommandsVisitor implements CommandVisitor<Character> {
 				}
 			}
 			
-			if(showDiffTo.equals("MID")){
+			if(mode.equals("MID")){
 				for(int i = 0; i < leftLines.length; i++){
 					if(i%2 == 0){
 						outputLeft += leftLines[i] + "<br/>";
 					}
 				}
 			}
-			else if(showDiffTo.equals("RIGHT")){
+			else if(mode.equals("RIGHT")){
 				for(int i = 0; i < leftLines.length; i++){
 					if(i%2 != 0){
 						outputLeft += leftLines[i] + "<br/>";

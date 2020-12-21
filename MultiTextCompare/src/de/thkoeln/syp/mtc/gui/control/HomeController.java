@@ -2,6 +2,7 @@ package de.thkoeln.syp.mtc.gui.control;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import de.thkoeln.syp.mtc.gui.view.Dateiauswahl2View;
 import de.thkoeln.syp.mtc.gui.view.DateiauswahlView;
@@ -45,6 +46,7 @@ public class HomeController {
 			new HilfeView();
 		}
 	}
+	
 
 	// class MatrixListenerTEST implements ActionListener{
 	// public void actionPerformed(ActionEvent action) {
