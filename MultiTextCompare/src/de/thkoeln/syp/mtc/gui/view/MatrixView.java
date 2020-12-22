@@ -4,7 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
+import java.util.Locale;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -28,6 +30,7 @@ public class MatrixView extends JFrame {
 
 	public MatrixView(IMatrix matrix, int anzahlDateien, String[] nameDateien) {
 		panel = new JPanel();
+		df.setDecimalFormatSymbols(DecimalFormatSymbols.getInstance(Locale.US));
 		panel.setBorder(BorderFactory.createEmptyBorder(20, 60, 20, 60));
 		index = 0;
 		List<IAehnlichkeitImpl> list = matrix.getInhalt();
@@ -44,6 +47,8 @@ public class MatrixView extends JFrame {
 				index++;
 			}
 		}
+		
+		
 
  		table = new JTable(data, nameDateien){
 			@Override
