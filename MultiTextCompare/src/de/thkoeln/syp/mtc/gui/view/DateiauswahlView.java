@@ -48,16 +48,6 @@ public class DateiauswahlView extends JFrame {
 			nameDateien[i] = fd.getFiles()[i].getName();
 		}
 
-		while (fd.getFiles().length == 1) {
-			new PopupView("Es muss mehr als eine Datei ausgewaehlt werden!");
-			fd = new FileDialog(this, "Dateiauswahl", FileDialog.LOAD);
-			new PopupView("Es muss mehr als eine Datei ausgewaehlt werden!");
-			fd.setMultipleMode(true);
-			fd.setDirectory(".");
-			fd.setFile("*.txt");
-			fd.setVisible(true);
-		}
-
 		// dateiSystem.add(panel);
 		// Action details = dateiSystem.getActionMap().get("viewTypeDetails");
 		// details.actionPerformed(null);
@@ -70,6 +60,7 @@ public class DateiauswahlView extends JFrame {
 		// ----------------------------------------------------------------
 		// Code der so in etwa in den Controller ausgelagert werden m�sste
 		auswahl = fd.getFiles();
+		if(auswahl.length>1){
 		fileImport.importTextdateien(fileArrayToList(getAuswahl()));
 		fileImport.createTempFiles();
 		textVergleicher.getTempfilesFromHashMap(fileImport.getTempFilesMap());
@@ -81,6 +72,7 @@ public class DateiauswahlView extends JFrame {
 		}
 		matrix = textVergleicher.getMatrix();
 		new MatrixView((IMatrixImpl) matrix, anzahlDateien, nameDateien);
+		}
 		// ----------------------------------------------------------------
 
 		this.setLocationRelativeTo(null);

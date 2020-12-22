@@ -92,4 +92,12 @@ public class KonfigurationView extends JFrame {
 	public void addSpeichernListener(ActionListener e) {
 		buttonSpeichern.addActionListener(e);
 	}
+	
+	public void updateWurzelpfad(){
+		labelWurzelpfad.setText(fileImporter.getConfig().getRootDir());
+	}
+	
+	public IFileImporter getFileImporter(){
+		return fileImporter;
+	}
 }

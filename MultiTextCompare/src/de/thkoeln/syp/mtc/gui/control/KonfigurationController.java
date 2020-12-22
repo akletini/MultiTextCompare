@@ -23,7 +23,7 @@ public class KonfigurationController {
 				.addWurzelverzeichnisListener(new WurzelverzeichnisListener());
 		this.konfigurationView.addDefaultListener(new DefaultListener());
 		this.konfigurationView.addSpeichernListener(new SpeichernListener());
-		fileImporter = new IFileImporterImpl();
+		fileImporter = this.konfigurationView.getFileImporter();
 	}
 
 	class WurzelverzeichnisListener implements ActionListener {
@@ -35,6 +35,8 @@ public class KonfigurationController {
 			fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 			fc.showOpenDialog(konfigurationView);
 			fileImporter.setRootDir(fc.getSelectedFile());
+			konfigurationView.updateWurzelpfad();
+			konfigurationView.pack();
 		}
 	}
 

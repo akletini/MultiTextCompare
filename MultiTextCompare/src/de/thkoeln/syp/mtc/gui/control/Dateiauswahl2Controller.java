@@ -53,12 +53,16 @@ public class Dateiauswahl2Controller {
 	class VergleichenListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			dateiauswahl2View.getFileImport().importTextRoot(
-					dateiauswahl2View.getTextFieldName().getText());
+					dateiauswahl2View.getTextFieldName().getText() + ".txt");
 			fileImport.createTempFiles();
 			textVergleicher.getTempfilesFromHashMap(fileImport
 					.getTempFilesMap());
 			textVergleicher.getVergleiche(textVergleicher.getTempFiles());
-			textVergleicher.vergleicheUeberGanzesDokument();
+			if (fileImport.getConfig().getLineMatch() == false) {
+				textVergleicher.vergleicheUeberGanzesDokument();
+			} else {
+				textVergleicher.vergleicheZeilenweise();
+			}
 			matrix = dateiauswahl2View.getTextvergleicher().getMatrix();
 			new MatrixView(matrix, textVergleicher.getTempFiles().size());
 		}

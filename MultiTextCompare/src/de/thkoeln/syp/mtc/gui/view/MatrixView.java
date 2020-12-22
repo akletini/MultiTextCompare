@@ -35,7 +35,7 @@ public class MatrixView extends JFrame {
 		String[][] data = new String[anzahlDateien][anzahlDateien];
 
 		for (int i = 0; i < anzahlDateien; i++) {
-			data[i][i] = "1";
+			data[i][i] = "1.000";
 			for (int j = i + 1; j < anzahlDateien; j++) {
 				double wert = list.get(index).getWert();
 				String wertString = df.format(wert);
