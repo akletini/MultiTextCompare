@@ -1,17 +1,17 @@
 package de.thkoeln.syp.mtc.datenhaltung.api;
 
 public interface IConfig {
-	boolean setBeachteLeerzeichen(boolean beachteLeerzeichen);
+	void setBeachteLeerzeichen(boolean beachteLeerzeichen);
 
-	boolean setBeachteSatzzeichen(boolean beachteSatzzeichen);
+	void setBeachteSatzzeichen(boolean beachteSatzzeichen);
 
-	boolean setBeachteGrossschreibung(boolean beachteGrossschreibung);
+	void setBeachteGrossschreibung(boolean beachteGrossschreibung);
 
-	boolean setRootDir(String rootDir);
+	void setRootDir(String rootDir);
 
-	boolean setPath(String path);
+	void setPath(String path);
 
-	boolean setLineMatch(boolean lineMatch);
+	void setLineMatch(boolean lineMatch);
 
 	boolean getBeachteLeerzeichen();
 
@@ -24,5 +24,4 @@ public interface IConfig {
 	String getPath();
 
 	boolean getLineMatch();
-
 }

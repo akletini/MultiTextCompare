@@ -10,39 +10,33 @@ public class IConfigImpl implements IConfig {
 	private String path;
 	
 	@Override
-	public boolean setLineMatch(boolean lineMatch){
+	public void setLineMatch(boolean lineMatch){
 		this.lineMatch = lineMatch;
-		return true;
 	}
 	
 	@Override
-	public boolean setBeachteLeerzeichen(boolean beachteLeerzeichen) {
+	public void setBeachteLeerzeichen(boolean beachteLeerzeichen) {
 		this.beachteLeerzeichen = beachteLeerzeichen;
-		return true;
 	}
 
 	@Override
-	public boolean setBeachteSatzzeichen(boolean beachteSatzzeichen) {
+	public void setBeachteSatzzeichen(boolean beachteSatzzeichen) {
 		this.beachteSatzzeichen = beachteSatzzeichen;
-		return true;
 	}
 
 	@Override
-	public boolean setBeachteGrossschreibung(boolean beachteGrossschreibung) {
+	public void setBeachteGrossschreibung(boolean beachteGrossschreibung) {
 		this.beachteGrossschreibung = beachteGrossschreibung;
-		return false;
 	}
 
 	@Override
-	public boolean setRootDir(String rootDir) {
+	public void setRootDir(String rootDir) {
 		this.rootDir = rootDir;
-		return false;
 	}
 
 	@Override
-	public boolean setPath(String path) {
+	public void setPath(String path) {
 		this.path = path;
-		return true;
 	}
 
 	@Override
