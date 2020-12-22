@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IAehnlichkeit;
+import de.thkoeln.syp.mtc.datenhaltung.api.IMatrix;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IAehnlichkeitImpl;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IMatrixImpl;
 import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
@@ -23,7 +24,7 @@ import difflib.Patch;
 
 public class ITextvergleicherImpl implements ITextvergleicher {
 
-	private IMatrixImpl iMatrixImpl;
+	private IMatrix iMatrixImpl;
 	private List<IAehnlichkeitImpl> paarungen;
 	private List<File> tempFiles;
 	private List<String> referenzZeilen;
@@ -39,6 +40,11 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 
 	}
 
+	/**
+	 * Sucht zunächst alle gleichen Zeilen. Falls es nur inserts und deletes
+	 * gibt, ergibt sich die Aehnlichkeit aus: Anzahl gleicher Zahlen * Gewicht
+	 * Ansonsten werden geänderte Zeilen einzeln ausgewertet und gewichtet.
+	 */
 	@Override
 	public void vergleicheZeilenweise() {
 		for (IAehnlichkeit a : paarungen) {
@@ -155,6 +161,10 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		fillMatrix();
 	}
 
+	/**
+	 * Extrahiert die temporaeren Dateien die im IFileImporterImpl erstellt
+	 * werden
+	 */
 	@Override
 	public void getTempfilesFromHashMap(Map<File, File> map) {
 		tempFiles = new ArrayList<File>();
@@ -164,6 +174,15 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		}
 	}
 
+	/**
+	 * Sortiert die Hashmap nach Nummerierung der temporaeren Dateien. Diese
+	 * sind mit temp_1...temp_n benannt
+	 * 
+	 * @param map
+	 *            enthält das Mapping der importierten Dateien auf die
+	 *            temporaeren Dateien
+	 * @return eine sortierte Hashmap
+	 */
 	private HashMap<File, File> sortHashMapByValue(Map<File, File> map) {
 		List<Map.Entry<File, File>> list = new ArrayList<Map.Entry<File, File>>(
 				map.entrySet());
@@ -235,6 +254,14 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		return lines;
 	}
 
+	/**
+	 * Gibt Chunks die aus der Referenzdatei geaendert wurden als Liste zurueck
+	 * 
+	 * @param type
+	 *            INSERT, DELETION, CHANGE
+	 * @return listOfChanges eine Liste der geänderten Chunks
+	 * @throws IOException
+	 */
 	private List<Chunk> getUnchangedChunksByType(Delta.TYPE type)
 			throws IOException {
 		final List<Chunk> listOfChanges = new ArrayList<Chunk>();
@@ -251,7 +278,14 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		iMatrixImpl = new IMatrixImpl();
 		iMatrixImpl.setInhalt(paarungen);
 	}
-
+	
+	/**
+	 * Zwischenschritt fuer die Berechnung der Zeilengewichte. 
+	 * Vergleicht die groessen der beiden Zeilenlisten
+	 * @param refSize Liste mit einzelnen Zeilen der Referenzdatei
+	 * @param vglSize Liste mit einzelnen Zeilen der Vergleichsdatei
+	 * @return die groesste Zahl zwischen den beiden Parametern
+	 */
 	private double ermittleGewicht(int refSize, int vglSize) {
 		double gewicht = 0;
 		if (refSize > vglSize) {
@@ -262,6 +296,14 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		return gewicht;
 	}
 
+	/**
+	 * Konvertiert Listen des Typs Chunk zu String Listen
+	 * 
+	 * @param chunkList
+	 *            Zu konvertierende Liste
+	 * @param stringList
+	 *            Liste der die Eintraege angehaengt werden sollen
+	 */
 	private void changedChunkListToStringList(List<Chunk> chunkList,
 			List<String> stringList) {
 		for (Chunk c : chunkList) {
@@ -453,7 +495,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 
 	@Override
 	public IMatrixImpl getMatrix() {
-		return iMatrixImpl;
+		return (IMatrixImpl) iMatrixImpl;
 	}
 
 }

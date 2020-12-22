@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -299,11 +300,17 @@ public class IFileImporterImpl implements IFileImporter {
 	 * @see {@link #importTextRoot(String)}
 	 */
 	private void searchInDir(File file, String fileName) {
-		for (File f : file.listFiles()) {
-			if (f.isDirectory())
-				searchInDir(f, fileName);
-			else if (f.getName().equals(fileName))
-				this.textdateien.add(f);
+		try {
+			for (File f : file.listFiles()) {
+				if (f.isDirectory()) {
+					searchInDir(f, fileName);
+
+				} else if (f.getName().equals(fileName)) {
+					this.textdateien.add(f);
+				}
+			}
+		} catch (Exception e) {
+
 		}
 	}
 

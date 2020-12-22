@@ -45,7 +45,7 @@ public class MatrixView extends JFrame {
 			}
 		}
 
-		table = new JTable(data, nameDateien) {
+ 		table = new JTable(data, nameDateien){
 			@Override
 			public Component prepareRenderer(TableCellRenderer renderer,
 					int row, int col) {
