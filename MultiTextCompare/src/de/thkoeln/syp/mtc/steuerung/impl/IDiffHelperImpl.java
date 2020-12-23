@@ -1,6 +1,5 @@
 package de.thkoeln.syp.mtc.steuerung.impl;
 
-import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 
@@ -224,7 +223,9 @@ class FileCommandsVisitor implements CommandVisitor<Character> {
 					new File(System.getProperty("user.dir") + File.separator
 							+ "/htmlTemplates/difftemplateTwoFiles.html"),
 					"utf-8");
-			String out1 = template.replace("${left}", left);
+			String file1 = template.replace("${fileName1}", files[0].getAbsolutePath());
+			String file2 = file1.replace("${fileName2}", files[1].getAbsolutePath());
+			String out1 = file2.replace("${left}", left);
 			String output = out1.replace("${right}", right);
 			// Write file to disk.
 			FileUtils.write(new File(System.getProperty("user.dir")
@@ -269,7 +270,10 @@ class FileCommandsVisitor implements CommandVisitor<Character> {
 			}
 			
 			
-			String out1 = template.replace("${left}", outputLeft);
+			String file1 = template.replace("${fileName1}", files[0].getAbsolutePath());
+			String file2 = file1.replace("${fileName2}", files[1].getAbsolutePath());
+			String file3 = file2.replace("${fileName3}", files[2].getAbsolutePath());
+			String out1 = file3.replace("${left}", outputLeft);
 			String out2 = out1.replace("${middle}", outputMiddle);
 			String output = out2.replace("${right}", outputRight);
 			// Write file to disk.

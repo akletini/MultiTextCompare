@@ -3,47 +3,69 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-* {
-  box-sizing: border-box;
-  height: 100%;
-  margin: 0;
+html{
+    min-height:100%;
+    position:relative;
 }
 
 body {
+	height: calc(100vh - 20px);
 	font-family: Arial;
 	color: black;
+	box-sizing: border-box;
+	margin: 0;
 }
 
-.column {
-  float: left;
-  width: 33.33%;
-  z-index: 1;
-  top: 0;
-  padding: 10px;
-  height: 100%; 
+h2 {
+	color: white;
+}
+ 
+.split {
+	height: 100%;
+	width: 33.33%;
+	overflow-x: hidden;
+	padding-top: 20px;
+}
+ 
+.left {
+	float: left;
+	background-color: #0145ac;
+	height: 100%;
+}
+ 
+.right {
+	float: right;
+	background-color: #272c36;
+	height: 100%;
 }
 
-
-.row:after {
-  margin: 0;
-  display: table;
-  clear: both;
+.mid {
+	display: inline-block;
+	background-color: #82c7a5;
+	height: 100%;
 }
 </style>
 </head>
 <body>
-
-<div class="row">
-  <div class="column" style="background-color:#0145ac;">
-    <p>${left}</p>
-  </div>
-  <div class="column" style="background-color:#272c36;">
-    <p>${middle}</p>
-  </div>
-  <div class="column" style="background-color:#82c7a5;">
-    <p>${right}</p>
-  </div>
-</div>
-
+	<div class="split left">
+		<div class="centered">
+			<h2>${fileName1}</h2>
+			<p>${left}</p>
+		</div>
+	</div>
+	
+	<div class="split mid">
+		<div class="centered">
+			<h2>${fileName2}</h2>
+			<p>${middle}</p>
+		</div>
+	</div>
+ 
+	<div class="split right">
+		<div class="centered">
+			<h2>${fileName3}</h2>
+			<p>${right}</p>
+		</div>
+	</div>
 </body>
 </html>
