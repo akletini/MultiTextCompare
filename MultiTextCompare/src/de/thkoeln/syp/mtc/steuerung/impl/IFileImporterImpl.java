@@ -326,10 +326,10 @@ public class IFileImporterImpl implements IFileImporter {
 
 	/**
 	 * Erstellt aus den bereits importierten Textdateien temporaere Dateien im
-	 * Ordner 'TempFiles', welche fuer den anschliessenden Textvergleich
-	 * formatiert werden. Die temporaeren Dateien werden in einer HashMap
-	 * gespeichert um von diesen auch wieder auf die originalen Dateien
-	 * schliessen zu koennen
+	 * Ordner 'TempFiles', welche fuer den anschliessenden Textvergleich unter
+	 * Beruecksichtigung der aktuellen Config-Parameter formatiert werden. Die
+	 * temporaeren Dateien werden in einer HashMap gespeichert um von diesen
+	 * auch wieder auf die originalen Dateien schliessen zu koennen
 	 * 
 	 * @return true: bei erfolgreichem Erstellen der temporaeren Dateien
 	 * 
@@ -363,8 +363,18 @@ public class IFileImporterImpl implements IFileImporter {
 						new FileOutputStream(temp)));
 
 				String line;
-				while ((line = reader.readLine()) != null)
-					writer.write(line.replaceAll("\\s", "\n") + "\n");
+				while ((line = reader.readLine()) != null) {
+					if (!iConfig.getBeachteGrossschreibung())
+						line = line.toLowerCase();
+					if (!iConfig.getBeachteSatzzeichen())
+						line = line.replaceAll("\\p{Punct}", "");
+					if (!iConfig.getBeachteLeerzeichen())
+						line = line.replaceAll("\\s", "\n");
+					else
+						line = line.replaceAll(" ", " \n");
+
+					writer.write(line + "\n");
+				}
 
 				tempFiles.put(f, temp);
 				index++;
