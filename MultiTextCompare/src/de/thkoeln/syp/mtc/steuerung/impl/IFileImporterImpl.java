@@ -42,6 +42,7 @@ public class IFileImporterImpl implements IFileImporter {
 		prop.setProperty(PROP_GROSSSCHREIBUNG, "false");
 		prop.setProperty(PROP_ROOT, System.getProperty("user.dir"));
 		prop.setProperty(PROP_LINEMATCH, "true");
+		prop.setProperty(PROP_DATEINAME, "dateiname");
 		importConfigdatei(DEFAULT_CONFIG);
 	}
 
@@ -137,6 +138,7 @@ public class IFileImporterImpl implements IFileImporter {
 		iConfig.setLineMatch(Boolean.parseBoolean(prop
 				.getProperty(PROP_LINEMATCH)));
 		iConfig.setRootDir(prop.getProperty(PROP_ROOT));
+		iConfig.setDateiname(prop.getProperty(PROP_DATEINAME));
 
 		return true;
 	}

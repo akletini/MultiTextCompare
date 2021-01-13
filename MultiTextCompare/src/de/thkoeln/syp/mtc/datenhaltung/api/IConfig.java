@@ -13,6 +13,8 @@ public interface IConfig {
 
 	void setLineMatch(boolean lineMatch);
 
+	void setDateiname(String dateiname);
+
 	boolean getBeachteLeerzeichen();
 
 	boolean getBeachteSatzzeichen();
@@ -24,4 +26,6 @@ public interface IConfig {
 	String getPath();
 
 	boolean getLineMatch();
+
+	String getDateiname();
 }
