@@ -14,7 +14,7 @@ public interface IFileImporter {
 	final String PROP_LINEMATCH = "lineMatch";
 	final String PROP_DATEINAME = "dateiname";
 	final File DEFAULT_CONFIG = new File(System.getProperty("user.dir")
-			+ "/config.properties");
+			+ File.separator + "config.properties");
 
 	IConfig getConfig();
 

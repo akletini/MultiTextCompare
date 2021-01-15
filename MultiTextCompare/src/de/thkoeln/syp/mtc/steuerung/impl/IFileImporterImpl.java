@@ -37,9 +37,9 @@ public class IFileImporterImpl implements IFileImporter {
 		tempFiles = new HashMap<>();
 		prop = new Properties();
 
-		prop.setProperty(PROP_LEERZEICHEN, "false");
-		prop.setProperty(PROP_SATZZEICHEN, "false");
-		prop.setProperty(PROP_GROSSSCHREIBUNG, "false");
+		prop.setProperty(PROP_LEERZEICHEN, "true");
+		prop.setProperty(PROP_SATZZEICHEN, "true");
+		prop.setProperty(PROP_GROSSSCHREIBUNG, "true");
 		prop.setProperty(PROP_ROOT, System.getProperty("user.dir"));
 		prop.setProperty(PROP_LINEMATCH, "true");
 		prop.setProperty(PROP_DATEINAME, "dateiname");
@@ -391,8 +391,7 @@ public class IFileImporterImpl implements IFileImporter {
 	}
 
 	/**
-	 * Loescht die zuvor erstellten temporaeren Dateien samt Ordner aus dem
-	 * Dateisystem
+	 * Loescht die zuvor erstellten temporaeren Dateien aus dem Dateisystem
 	 * 
 	 * @return true: bei erfolgreichem Loeschen der temporaeren Dateien
 	 * 
@@ -408,7 +407,6 @@ public class IFileImporterImpl implements IFileImporter {
 		if (tempFiles.exists() && tempFiles.isDirectory()) {
 			for (File f : tempFiles.listFiles())
 				f.delete();
-			tempFiles.delete();
 
 			return true;
 		}
