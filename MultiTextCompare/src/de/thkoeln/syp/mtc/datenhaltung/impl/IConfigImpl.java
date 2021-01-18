@@ -5,7 +5,7 @@ import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
 public class IConfigImpl implements IConfig {
 
 	private boolean beachteLeerzeichen, beachteSatzzeichen,
-			beachteGrossschreibung, lineMatch;
+			beachteGrossschreibung, lineMatch, beachteLeerzeilen;
 	private String rootDir, path, dateiname;
 
 	@Override
@@ -76,5 +76,15 @@ public class IConfigImpl implements IConfig {
 	@Override
 	public String getDateiname() {
 		return dateiname;
+	}
+
+	@Override
+	public void setBeachteLeerzeilen(boolean beachteLeerzeilen) {
+		this.beachteLeerzeilen = beachteLeerzeilen;
+	}
+
+	@Override
+	public boolean getBeachteLeerzeilen() {
+		return beachteLeerzeilen;
 	}
 }

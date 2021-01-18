@@ -42,6 +42,7 @@ public class IFileImporterImpl implements IFileImporter {
 		prop.setProperty(PROP_ROOT, System.getProperty("user.dir"));
 		prop.setProperty(PROP_LINEMATCH, "true");
 		prop.setProperty(PROP_DATEINAME, "dateiname");
+		prop.setProperty(PROP_LEERZEILEN, "true");
 		importConfigdatei(DEFAULT_CONFIG);
 	}
 
@@ -138,6 +139,8 @@ public class IFileImporterImpl implements IFileImporter {
 				.getProperty(PROP_LINEMATCH)));
 		iConfig.setRootDir(prop.getProperty(PROP_ROOT));
 		iConfig.setDateiname(prop.getProperty(PROP_DATEINAME));
+		iConfig.setBeachteLeerzeilen(Boolean.parseBoolean(prop
+				.getProperty(PROP_LEERZEILEN)));
 
 		return true;
 	}
@@ -225,6 +228,8 @@ public class IFileImporterImpl implements IFileImporter {
 					Boolean.toString(iConfig.getLineMatch()));
 			prop.setProperty(PROP_ROOT, iConfig.getRootDir());
 			prop.setProperty(PROP_DATEINAME, iConfig.getDateiname());
+			prop.setProperty(PROP_LEERZEILEN,
+					Boolean.toString(iConfig.getBeachteLeerzeilen()));
 
 			prop.store(outputStream, null);
 
@@ -364,6 +369,9 @@ public class IFileImporterImpl implements IFileImporter {
 
 				String line;
 				while ((line = reader.readLine()) != null) {
+					if (!iConfig.getBeachteLeerzeilen())
+						if (line.isEmpty())
+							continue;
 					if (!iConfig.getBeachteGrossschreibung())
 						line = line.toLowerCase();
 					if (!iConfig.getBeachteSatzzeichen())

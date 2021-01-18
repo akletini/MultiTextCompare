@@ -10,6 +10,7 @@ public interface IFileImporter {
 	final String PROP_LEERZEICHEN = "beachteLeerzeichen";
 	final String PROP_SATZZEICHEN = "beachteSatzzeichen";
 	final String PROP_GROSSSCHREIBUNG = "beachteGrossschreibung";
+	final String PROP_LEERZEILEN = "beachteLeerzeilen";
 	final String PROP_ROOT = "rootDirectory";
 	final String PROP_LINEMATCH = "lineMatch";
 	final String PROP_DATEINAME = "dateiname";

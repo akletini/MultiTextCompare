@@ -72,6 +72,7 @@ public class IFileImporterImplTest {
 		assertTrue(config.getBeachteLeerzeichen());
 		assertTrue(config.getBeachteSatzzeichen());
 		assertTrue(config.getBeachteGrossschreibung());
+		assertTrue(config.getBeachteLeerzeilen());
 		assertTrue(config.getLineMatch());
 		assertEquals("dateiname", config.getDateiname());
 		assertEquals(System.getProperty("user.dir"), config.getRootDir());
@@ -79,6 +80,7 @@ public class IFileImporterImplTest {
 		config.setBeachteLeerzeichen(false);
 		config.setBeachteSatzzeichen(false);
 		config.setBeachteGrossschreibung(false);
+		config.setBeachteLeerzeilen(false);
 		config.setLineMatch(false);
 		config.setDateiname("testName.txt");
 		config.setRootDir(System.getProperty("user.dir") + File.separator
@@ -92,6 +94,7 @@ public class IFileImporterImplTest {
 		assertFalse(config.getBeachteLeerzeichen());
 		assertFalse(config.getBeachteSatzzeichen());
 		assertFalse(config.getBeachteGrossschreibung());
+		assertFalse(config.getBeachteLeerzeilen());
 		assertFalse(config.getLineMatch());
 		assertEquals("testName.txt", config.getDateiname());
 		assertEquals(System.getProperty("user.dir") + File.separator + "src"
