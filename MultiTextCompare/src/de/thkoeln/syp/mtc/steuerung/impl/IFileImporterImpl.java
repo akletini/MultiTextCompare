@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -225,6 +224,7 @@ public class IFileImporterImpl implements IFileImporter {
 			prop.setProperty(PROP_LINEMATCH,
 					Boolean.toString(iConfig.getLineMatch()));
 			prop.setProperty(PROP_ROOT, iConfig.getRootDir());
+			prop.setProperty(PROP_DATEINAME, iConfig.getDateiname());
 
 			prop.store(outputStream, null);
 
@@ -408,6 +408,7 @@ public class IFileImporterImpl implements IFileImporter {
 			for (File f : tempFiles.listFiles())
 				f.delete();
 
+			this.tempFiles.clear();
 			return true;
 		}
 
