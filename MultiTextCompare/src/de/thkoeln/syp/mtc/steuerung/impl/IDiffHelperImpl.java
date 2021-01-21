@@ -2,19 +2,25 @@ package de.thkoeln.syp.mtc.steuerung.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.LineIterator;
 import org.apache.commons.text.diff.CommandVisitor;
 import org.apache.commons.text.diff.StringsComparator;
 
+import de.thkoeln.syp.mtc.datenhaltung.api.IDiffChar;
+import de.thkoeln.syp.mtc.datenhaltung.api.IDiffLine;
+import de.thkoeln.syp.mtc.datenhaltung.impl.IDiffCharImpl;
+import de.thkoeln.syp.mtc.datenhaltung.impl.IDiffLineImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IDiffHelper;
 
-public class IDiffHelperImpl implements IDiffHelper{
+public class IDiffHelperImpl implements IDiffHelper {
 
-	
 	@Override
-	public void computeDisplayDiff(File[] files, String mode) throws IOException {
+	public void computeDisplayDiff(File[] files, String mode)
+			throws IOException {
 		// Read both files with line iterator.
 		if (files.length == 2) {
 			LineIterator file1 = FileUtils.lineIterator(files[0]);
@@ -33,7 +39,7 @@ public class IDiffHelperImpl implements IDiffHelper{
 				 * line comparison moves to next line.
 				 */
 				lineNum++;
-				
+
 				String left = lineNum + "  "
 						+ (file1.hasNext() ? file1.nextLine() : "") + "\n";
 				String right = lineNum + "  "
@@ -67,7 +73,7 @@ public class IDiffHelperImpl implements IDiffHelper{
 				}
 			}
 
-			fileCommandsVisitor.generateHTML(files, mode);
+			// fileCommandsVisitor.generateHTML(files, mode);
 		} else {
 			final LineIterator file1 = FileUtils.lineIterator(files[0]);
 			final LineIterator file2 = FileUtils.lineIterator(files[1]);
@@ -86,10 +92,11 @@ public class IDiffHelperImpl implements IDiffHelper{
 				 * line comparison moves to next line.
 				 */
 				lineNum++;
-				
+
 				String left = lineNum + "  "
 						+ (file1.hasNext() ? file1.nextLine() : "") + "\n";
-				String middle = lineNum + "  " + (file2.hasNext() ? file2.nextLine() : "") + "\n";
+				String middle = lineNum + "  "
+						+ (file2.hasNext() ? file2.nextLine() : "") + "\n";
 				String right = lineNum + "  "
 						+ (file3.hasNext() ? file3.nextLine() : "") + "\n";
 
@@ -98,7 +105,6 @@ public class IDiffHelperImpl implements IDiffHelper{
 						middle);
 				StringsComparator comparator2 = new StringsComparator(left,
 						right);
-				
 
 				if (comparator1.getScript().getLCSLength() > (Math.max(
 						left.length(), middle.length()) * 0.4)) {
@@ -108,7 +114,7 @@ public class IDiffHelperImpl implements IDiffHelper{
 					 * each other in final diff HTML.
 					 */
 					comparator1.getScript().visit(fileCommandsVisitor);
-					
+
 				} else {
 					/*
 					 * If both lines do not have 40% commanlity then compare
@@ -123,7 +129,7 @@ public class IDiffHelperImpl implements IDiffHelper{
 							"", middle);
 					middleComparator.getScript().visit(fileCommandsVisitor);
 				}
-				
+
 				if (comparator2.getScript().getLCSLength() > (Math.max(
 						left.length(), right.length()) * 0.4)) {
 					/*
@@ -147,13 +153,11 @@ public class IDiffHelperImpl implements IDiffHelper{
 					rightComparator.getScript().visit(fileCommandsVisitor);
 				}
 			}
-			
-			
-			fileCommandsVisitor.generateHTML(files, mode);
+
+			fileCommandsVisitor.printLists();
 		}
 	}
 }
-
 
 /*
  * Custom visitor for file comparison which stores comparison & also generates
@@ -162,126 +166,186 @@ public class IDiffHelperImpl implements IDiffHelper{
 class FileCommandsVisitor implements CommandVisitor<Character> {
 
 	// Spans with red & green highlights to put highlighted characters in HTML
-	private static final String DELETION = "<span style=\"background-color: #FB504B\">${text}</span>";
-	private static final String INSERTION = "<span style=\"background-color: #45EA85\">${text}</span>";
-	private static final String UNCHANGED = "<span style=\"background-color: #FFFFFF\">${text}</span>";
+	private static final String DELETION = "RED";
+	private static final String INSERTION = "GREEN";
+	private static final String UNCHANGED = "WHITE";
 
-	private String left = "";
-	private String right = "";
-	private String middle = "";
-	
+	private List<IDiffChar> leftFile = new ArrayList<IDiffChar>();
+	private List<IDiffChar> rightFile = new ArrayList<IDiffChar>();
+	private List<IDiffChar> middleFile = new ArrayList<IDiffChar>();
+
+	private List<IDiffLine> leftLines = new ArrayList<IDiffLine>();
+	private List<IDiffLine> rightLines = new ArrayList<IDiffLine>();
+	private List<IDiffLine> middleLines = new ArrayList<IDiffLine>();
+
 	/**
-	 * Modes:
-	 * BOTH: Verdoppelt die Zeilen und zeigt abwechselnd die Diffs Links-Mitte, Links-Rechts an
-	 * MID: Zeigt nur die Diffs zum mittleren Text an
-	 * RIGHT: Zeigt nur die Diffs zum rechten Text an
+	 * Modes: BOTH: Verdoppelt die Zeilen und zeigt abwechselnd die Diffs
+	 * Links-Mitte, Links-Rechts an MID: Zeigt nur die Diffs zum mittleren Text
+	 * an RIGHT: Zeigt nur die Diffs zum rechten Text an
 	 */
-	
 
 	@Override
 	public void visitKeepCommand(Character c) {
+
 		// For new line use <br/> so that in HTML also it shows on next line.
-		String toAppend = "\n".equals("" + c) ? "<br/>" : "" + c;
+		IDiffChar toAppend = new IDiffCharImpl();
+		toAppend.setCharColor(UNCHANGED);
+		toAppend.setCurrentChar(c);
+
 		// KeepCommand means c present in both left & right. So add this to both
 		// without
 		// any
 		// highlight.
-		left = left + UNCHANGED.replace("${text}", "" + toAppend);
-		middle = middle + UNCHANGED.replace("${text}", "" + toAppend);
-		right = right + UNCHANGED.replace("${text}", "" + toAppend);
+
+		leftFile.add(toAppend);
+		middleFile.add(toAppend);
+		rightFile.add(toAppend);
+
 	}
 
 	@Override
 	public void visitInsertCommand(Character c) {
-		// For new line use <br/> so that in HTML also it shows on next line.
-		String toAppend = "\n".equals("" + c) ? "<br/>" : "" + c;
+		IDiffChar toAppend = new IDiffCharImpl();
+		toAppend.setCharColor(INSERTION);
+		toAppend.setCurrentChar(c);
+
 		// InsertCommand means character is present in right file but not in
 		// left. Show
 		// with green highlight on right.
-		middle = middle + INSERTION.replace("${text}", "" + toAppend);
-		right = right + INSERTION.replace("${text}", "" + toAppend);
+		middleFile.add(toAppend);
+		rightFile.add(toAppend);
+
 	}
 
 	@Override
 	public void visitDeleteCommand(Character c) {
-		// For new line use <br/> so that in HTML also it shows on next line.
-		String toAppend = "\n".equals("" + c) ? "<br/>" : "" + c;
+		IDiffChar toAppend = new IDiffCharImpl();
+		toAppend.setCharColor(DELETION);
+		toAppend.setCurrentChar(c);
 		// DeleteCommand means character is present in left file but not in
 		// right. Show
 		// with red highlight on left.
-		left = left + DELETION.replace("${text}", "" + toAppend);
+		leftFile.add(toAppend);
 	}
 
-	public void generateHTML(File[] files, String mode) throws IOException {
-
-		// Get template & replace placeholders with left & right variables with
-		// actual
-		// comparison
-		String template = null;
-		if (files.length == 2) {
-			template = FileUtils.readFileToString(
-					new File(System.getProperty("user.dir") + File.separator
-							+ "/htmlTemplates/difftemplateTwoFiles.html"),
-					"utf-8");
-			String file1 = template.replace("${fileName1}", files[0].getAbsolutePath());
-			String file2 = file1.replace("${fileName2}", files[1].getAbsolutePath());
-			String out1 = file2.replace("${left}", left);
-			String output = out1.replace("${right}", right);
-			// Write file to disk.
-			FileUtils.write(new File(System.getProperty("user.dir")
-					+ File.separator + "/out/displayDiff.html"), output, "utf-8");
-
-		} else {
-			template = FileUtils.readFileToString(
-					new File(System.getProperty("user.dir") + File.separator
-							+ "/htmlTemplates/difftemplateThreeFiles.html"),
-					"utf-8");
-			String[] leftLines = left.split("<br/>");
-			String[] midLines = middle.split("<br/>");
-			String[] rightLines = middle.split("<br/>");
-			String outputLeft = "", outputMiddle = "", outputRight = "";
-			for(int i = 0; i < midLines.length; i++){
-				if(i%2 == 0){
-					outputMiddle += midLines[i] + "<br/>";
-				}
-			}
-			for(int i = 0; i < rightLines.length; i++){
-				if(i%2 != 0){
-					outputRight += rightLines[i] + "<br/>";
-				}
-			}
-			
-			if(mode.equals("MID")){
-				for(int i = 0; i < leftLines.length; i++){
-					if(i%2 == 0){
-						outputLeft += leftLines[i] + "<br/>";
-					}
-				}
-			}
-			else if(mode.equals("RIGHT")){
-				for(int i = 0; i < leftLines.length; i++){
-					if(i%2 != 0){
-						outputLeft += leftLines[i] + "<br/>";
-					}
-				}
-			}
-			else {
-				outputLeft = left;
-			}
-			
-			
-			String file1 = template.replace("${fileName1}", files[0].getAbsolutePath());
-			String file2 = file1.replace("${fileName2}", files[1].getAbsolutePath());
-			String file3 = file2.replace("${fileName3}", files[2].getAbsolutePath());
-			String out1 = file3.replace("${left}", outputLeft);
-			String out2 = out1.replace("${middle}", outputMiddle);
-			String output = out2.replace("${right}", outputRight);
-			// Write file to disk.
-			FileUtils.write(new File(System.getProperty("user.dir")
-					+ File.separator + "/out/displayDiff.html"), output, "utf-8");
+	public void writeToDiffLines(List<IDiffChar> file, List<IDiffLine> lines) {
+		String diffedFile = "";
+		for (IDiffChar c : file) {
+			diffedFile += c.getCurrentChar().toString();
+		}
+		String[] linesAsStrings = diffedFile.split("\n");
+		int stringIndex = 0;
+		for (int i = 0; i < linesAsStrings.length; i++) {
+			IDiffLine diffLine = new IDiffLineImpl();
+			diffLine.setDiffedLine(file.subList(stringIndex, stringIndex + linesAsStrings[i].length()));
+			stringIndex = stringIndex + linesAsStrings[i].length() + 1;
+			lines.add(diffLine);
 		}
 		
-		System.out.println("HTML diff generated.");
+		
+		
+		
+		for(int i = 0; i < lines.size(); i++){	
+			System.out.println(lines.get(i).toString());
+		}
+		System.out.println();
 	}
+
+	public void printLists() {
+//		for (IDiffChar c : leftFile) {
+//			System.out.println("Character: " + c.getCurrentChar() + " Color: "
+//					+ c.getCharColor());
+//		}
+		writeToDiffLines(leftFile, leftLines);
+		writeToDiffLines(middleFile, middleLines);
+		writeToDiffLines(rightFile, rightLines);
+		
+	}
+	
+	public void printDiffLineList(){
+		for (IDiffLine c : leftLines){
+			
+		}
+	}
+
+	// public void generateHTML(File[] files, String mode) throws IOException {
+	//
+	// // Get template & replace placeholders with left & right variables with
+	// // actual
+	// // comparison
+	// String template = null;
+	// if (files.length == 2) {
+	// template = FileUtils.readFileToString(
+	// new File(System.getProperty("user.dir") + File.separator
+	// + "/htmlTemplates/difftemplateTwoFiles.html"),
+	// "utf-8");
+	// String file1 = template.replace("${fileName1}",
+	// files[0].getAbsolutePath());
+	// String file2 = file1.replace("${fileName2}",
+	// files[1].getAbsolutePath());
+	// String out1 = file2.replace("${left}", left);
+	// String output = out1.replace("${right}", right);
+	// // Write file to disk.
+	// FileUtils.write(new File(System.getProperty("user.dir")
+	// + File.separator + "/out/displayDiff.html"), output,
+	// "utf-8");
+	//
+	// } else {
+	// template = FileUtils.readFileToString(
+	// new File(System.getProperty("user.dir") + File.separator
+	// + "/htmlTemplates/difftemplateThreeFiles.html"),
+	// "utf-8");
+	// String[] leftLines = left.split("<br/>");
+	// String[] midLines = middle.split("<br/>");
+	// String[] rightLines = middle.split("<br/>");
+	// String outputLeft = "", outputMiddle = "", outputRight = "";
+	// for (int i = 0; i < midLines.length; i++) {
+	// if (i % 2 == 0) {
+	// outputMiddle += midLines[i] + "<br/>";
+	// }
+	// }
+	// for (int i = 0; i < rightLines.length; i++) {
+	// if (i % 2 != 0) {
+	// outputRight += rightLines[i] + "<br/>";
+	// }
+	// }
+	//
+	// if (mode.equals("MID")) {
+	// for (int i = 0; i < leftLines.length; i++) {
+	// if (i % 2 == 0) {
+	// outputLeft += leftLines[i] + "<br/>";
+	// }
+	// }
+	// } else if (mode.equals("RIGHT")) {
+	// for (int i = 0; i < leftLines.length; i++) {
+	// if (i % 2 != 0) {
+	// outputLeft += leftLines[i] + "<br/>";
+	// }
+	// }
+	// } else {
+	// outputLeft = left;
+	// }
+	//
+	// String file1 = template.replace("${fileName1}",
+	// files[0].getAbsolutePath());
+	// String file2 = file1.replace("${fileName2}",
+	// files[1].getAbsolutePath());
+	// String file3 = file2.replace("${fileName3}",
+	// files[2].getAbsolutePath());
+	// String out1 = file3.replace("${left}", outputLeft);
+	// String out2 = out1.replace("${middle}", outputMiddle);
+	// String output = out2.replace("${right}", outputRight);
+	// // Write file to disk.
+	// Document doc = Jsoup.parse(output, "utf-8");
+	// checkIfEqual(doc);
+	// String cleanHTML = doc.html();
+	// FileUtils.write(new File(System.getProperty("user.dir")
+	// + File.separator + "/out/displayDiff.html"), cleanHTML,
+	// "utf-8");
+	//
+	// }
+	//
+	// System.out.println("HTML diff generated.");
+	// }
 
 }

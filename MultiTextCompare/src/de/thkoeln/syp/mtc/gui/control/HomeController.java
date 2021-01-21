@@ -43,7 +43,12 @@ public class HomeController {
 
 	class HilfeListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			new HilfeView();
+			try {
+				new HilfeView();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 	}
 	

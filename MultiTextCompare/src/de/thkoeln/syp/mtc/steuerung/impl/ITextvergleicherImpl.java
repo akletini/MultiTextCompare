@@ -347,6 +347,8 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 			String ref = refList.get(i);
 			String vgl = vglList.get(i);
 			String laengsterString;
+			
+			System.out.println("Ref " + ref + "Vgl " + vgl);
 
 			if (ref.length() >= vgl.length()) {
 				laengsterString = ref;
