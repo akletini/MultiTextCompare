@@ -13,6 +13,9 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.input.sax.XMLReaderJDOMFactory;
 import org.jdom2.input.sax.XMLReaderXSDFactory;
 import org.jdom2.input.sax.XMLReaders;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
+
 import de.thkoeln.syp.mtc.datenhaltung.api.IXMLParseError;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IXMLParseErrorImpl;
 import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
@@ -33,15 +36,39 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 	private IXMLParseError parseError = null;
 	
 	
+	/**
+	 * Methode fuegt festgestellte Parse-Error zur
+	 * Liste der festgestellten Fehler hinzu
+	 * 
+	 * @param error
+	 *            Objekt der Klasse IXMLParseError
+	 */
 	public void addErrorToErrorList(IXMLParseError error){
 		this.errorListe.add(error);
 	}
 	
+	
+	/**
+	 * get Methode ermoeglicht zugriff auf die Errorliste
+	 * 
+	 * @return List<IXMLParseError>
+	 *           Liste mit moeglichen Elementen der Klasse IXMLParseError,
+	 *           die bei auftretenden Fehlern waehrend des Parsens festegestellt wurden
+	 */
 	public List<IXMLParseError> getErrorList(){
 		return this.errorListe;
 	}
 
-	
+	/**
+	 * Parst mittels JDOM gegebenes File auf Validitaet
+	 * und Wohlgeformtheit
+	 * 
+	 * @param mode
+	 *            Aus den Einstellungen zu importierender Wert
+	 *            0: None | 1: internal XSD | 2: external XSD | 3: DTD
+	 *            
+	 * @return Liste an moeglichen Fehlern die festgestellt wurden
+	 */
 	public List<IXMLParseError> parseFile(File file, int mode){
 		errorListe = new ArrayList();
 		
@@ -116,6 +143,406 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 		return errorListe;
 	
 	}
+	
+	
+	/**
+	 * Ersetzt aus gegebenem String, welcher ein vollst‰ndiges XMLDokument ist,
+	 * alle Attribute innerhalb der einzelnen XML-Tags mit Leerstellen
+	 * 
+	 * @param xmlFile
+	 *            XML-Dokument als String
+	 *            
+	 * @return String
+	 * 			  XML-Dokument als String ohne Attribute
+	 */
+	public String deleteAttributes(String xmlFile){
+			
+			String[] xmlFileArray = xmlFile.split("");
+		
+			String content = "";
+			
+			boolean openingTagIndicatorFound = false;
+			boolean closingTagIndicatorFound = false;
+			
+			int openingTagIndicatorAtIndex = -1;
+			int closingTagIndicatorAtIndex = -1;
+			
+			for(int index=0; index<xmlFileArray.length; index++){
+				
+				if(xmlFileArray[index].equals("<")){
+					
+					openingTagIndicatorAtIndex = index;
+					openingTagIndicatorFound = true;
+					closingTagIndicatorFound = false;
+					content="";
+					
+				}
+				
+				if(openingTagIndicatorFound = true && closingTagIndicatorFound == false){
+					
+					content = content + xmlFileArray[index];
+					
+				}
+							
+				if(xmlFileArray[index].equals(">")){
+					
+					closingTagIndicatorAtIndex = index;
+					closingTagIndicatorFound = true;
+									
+					if(this.isTag(content) && !this.isClosingTag(content)){
+							
+						if(content.contains("=")){
+							
+							boolean firstSpaceSeperator = false;
+												
+							if(this.isShortNotation(content)){
+								
+								for(int i = openingTagIndicatorAtIndex; i<closingTagIndicatorAtIndex-1;i++){
+									
+									if(xmlFileArray[i].equals(" ")){
+										firstSpaceSeperator = true;
+									}
+									
+									if(firstSpaceSeperator == true){
+										xmlFileArray[i] = "";
+									}								
+								}
+														
+							}else{
+									
+								for(int i = openingTagIndicatorAtIndex;i<xmlFileArray.length;i++ ){
+									
+									if(xmlFileArray[i].equals(" ")){
+										firstSpaceSeperator = true;
+									}
+									
+									if(xmlFileArray[i].equals(">")){
+										openingTagIndicatorFound = false;
+										closingTagIndicatorFound = false;
+										firstSpaceSeperator = false;
+										content = "";	
+										break;
+									}
+									
+									if(firstSpaceSeperator == true){
+										xmlFileArray[i] = "";
+									}
+									
+								}
+								
+							}
+											
+						}
+						
+					} 
+						
+					openingTagIndicatorFound = false;
+					closingTagIndicatorFound = false;
+					content = "";	
+								
+				}
+						
+			}
+			
+			String returnString = "";
+			for(String x : xmlFileArray){
+				returnString = returnString + x;
+			}
+			return returnString;
+			
+		}
+	
+	
+	/**
+	 * Ersetzt aus gegebenem File, welches ein XML-Dokument repraesentiert,
+	 *  alle Kommentare mit Leerstellen
+	 * 
+	 * @param xmlFile
+	 *            XML-Dokument als String
+	 *            
+	 * @return XML-Dokument als String ohne Kommentare
+	 */
+	public String deleteComments(String xmlFile){
+			
+		String[] xmlFileArray = xmlFile.split("");
+		String content = "";
+		boolean openingTagFound = false;
+		boolean closingTagFound = false;
+		int openingTagAtIndex = -1;
+		int closingTagAtIndex = -1;
+		
+		for(int index=0; index<xmlFileArray.length; index++){
+			
+			if(xmlFileArray[index].equals("<")){
+				openingTagAtIndex = index;
+				openingTagFound = true;
+			}
+			
+			if(openingTagFound == true && closingTagFound == false){
+				
+				content = content + xmlFileArray[index];
+				
+			}
+					
+			if(xmlFileArray[index].equals(">")){
+				closingTagAtIndex = index;
+				closingTagFound = true;
+				content = content + xmlFileArray[index];
+				
+				if(this.isComment(content)){
+					
+					for(int i = openingTagAtIndex; i<=closingTagAtIndex; i++){
+						
+						xmlFileArray[i] = "";
+						
+					}
+					
+					openingTagAtIndex = -1;
+					closingTagAtIndex = -1;
+					openingTagFound = false;
+					closingTagFound = false;
+					content = "";
+					
+				} else {
+					
+					openingTagAtIndex = -1;
+					closingTagAtIndex = -1;
+					openingTagFound = false;
+					closingTagFound = false;
+					content = "";
+				}
+				
+			}
+						
+		}
+		
+		String returnString = "";
+		for(String x : xmlFileArray){
+			returnString = returnString + x;
+		}
+		
+		return returnString;	
+	}
+	
+	/**
+	 * Ersetzt aus gegebenem String, welcher ein XML Dokument beinhaltet,
+	 * alle Kommentare, Attribute und Werte
+	 * 
+	 * @param xmlFile
+	 *            XML-Dokument als java.io.File
+	 *            
+	 * @return XML-Datei als String ohne Kommentare, Attribute und Werte
+	 */
+	public String tagsOnly(String xmlFile){
+		
+		String manipulated = this.deleteComments(xmlFile);
+		
+		manipulated = this.deleteAttributes(manipulated);
+		
+		String[] xmlFileArray = manipulated.split("");
+		
+		String priorContent = "";
+		String content = "";
+		
+		boolean openingTagIndicatorFound = false;
+		boolean closingTagIndicatorFound = false;
+		
+		int priorOpeningTagIndicatorAtIndex = -1;
+		int priorClosingTagIndicatorAtIndex = -1;
+		
+		int openingTagIndicatorAtIndex = -1;
+		int closingTagIndicatorAtIndex = -1;
+		
+		for(int index=0; index<xmlFileArray.length; index++){
+			
+			if(xmlFileArray[index].equals("<")){
+				content = "";
+				priorOpeningTagIndicatorAtIndex = openingTagIndicatorAtIndex;
+				openingTagIndicatorAtIndex = index;
+				openingTagIndicatorFound = true;
+				closingTagIndicatorFound = false;
+			}
+	
+			if(openingTagIndicatorFound = true && closingTagIndicatorFound == false){
+				
+				content = content + xmlFileArray[index];
+				
+			}
+			
+			if(xmlFileArray[index].equals(">")){
+				priorClosingTagIndicatorAtIndex = closingTagIndicatorAtIndex;
+				closingTagIndicatorAtIndex = index;
+				closingTagIndicatorFound = true;
+	
+	
+				if(this.isClosingTag(content) && this.isTag(priorContent) && this.isMatchingEndTag(priorContent, content) && priorClosingTagIndicatorAtIndex != -1){
+					for(int i = priorClosingTagIndicatorAtIndex+1; i<openingTagIndicatorAtIndex; i++){
+						xmlFileArray[i] = " ";
+					}
+					
+					
+					openingTagIndicatorFound = false;
+					closingTagIndicatorFound = false;
+					priorContent = content;
+					content = "";
+					
+				}else{
+					
+					
+					openingTagIndicatorFound = false;
+					closingTagIndicatorFound = false;
+					priorContent = content;
+					content = "";
+				}				
+				
+			}		
+			
+		}
+		
+		String returnString = "";
+		for(String x : xmlFileArray){
+			returnString = returnString + x;
+		}
+		
+		return returnString;
+	}
+
+
+	/**
+	 * Hilfsmethode um festzustellen, ob der uebergebene String formal
+	 * ein Element-Tag innerhalb des XML-Dokuments wiederspiegelt
+	 * Diese Methode setzt vorraus, dass das XML-Dokument bereits erfolgreich geparst wurde!
+	 * 
+	 * @param xmlTag
+	 * 		   zu pruefender String
+	 *            
+	 * @return boolean true/false
+	 */
+	public boolean isTag(String xmlTag){
+		if(xmlTag.startsWith("<") && xmlTag.endsWith(">") && !xmlTag.contains("<!") && !xmlTag.contains("<?") && !xmlTag.contains("<!--") ){
+			return true;
+		}else{
+			return false;
+		}
+		
+	}
+	
+	/**
+	 *  Hilfsmethode um festzustellen, ob der uebergebene String formal
+	 *  ein Kommentar innerhalb des XML-Dokuments wiederspiegelt
+	 *  Diese Methode setzt vorraus, dass das XML-Dokument bereits erfolgreich geparst wurde!
+	 * 
+	 * @param xmlComment
+	 * 		   zu pruefender String
+	 *            
+	 * @return boolean true/false
+	 */
+	public boolean isComment(String xmlComment){
+		if(xmlComment.contains("<!--") && xmlComment.contains("-->")){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	/**
+	 * Hilfsmethode um festzustellen, ob der uebergebene String formal
+	 * ein schliessendes Element-Tag innerhalb des XML-Dokuments wiederspiegelt.
+	 * Diese Methode setzt vorraus, dass das XML-Dokument bereits erfolgreich geparst wurde!
+	 * 
+	 * @param xmlTag
+	 * 		   zu pruefender String
+	 *            
+	 * @return boolean true/false
+	 */
+	public boolean isClosingTag(String xmlTag) {
+		if(xmlTag.startsWith("</") && xmlTag.endsWith(">") && !xmlTag.contains("<!") && !xmlTag.contains("<?") && !xmlTag.contains("<!--") ){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	 * Hilfsmethode um festzustellen, ob der uebergebene String formal
+	 * ein Element-Tag in der "Short Notation" innerhalb des XML-Dokuments wiederspiegelt.
+	 * Diese Methode setzt vorraus, dass das XML-Dokument bereits erfolgreich geparst wurde!
+	 * 
+	 * @param xmlTag
+	 * 		   zu pruefender String
+	 *            
+	 * @return boolean true/false
+	 */
+	public boolean isShortNotation(String xmlTag){
+		if(xmlTag.startsWith("<") && xmlTag.endsWith("/>")){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	 * Hilfsmethode um festzustellen, ob der uebergebene String formal
+	 * ein Element-Tag und das dazugehoerige schlieﬂende Tag wiederspiegelt.
+	 * Diese Methode setzt vorraus, dass das XML-Dokument bereits erfolgreich geparst wurde!
+	 * 
+	 * @param  startTag
+	 * 		   repraesentiert das oeffnende Tag
+	 *            
+	 *	@param endTag
+	 * 		   repraesentiert das schliessende Tag       
+	 *  
+	 * @return boolean true/false
+	 */
+	public boolean isMatchingEndTag(String startTag, String endTag){
+		String[] startTagArray = startTag.split("");
+		
+		for(int i=0;i<startTagArray.length;i++){
+			if(startTagArray[i].equals("<")){
+				startTagArray[i] = "</";
+			}
+		}
+		
+		String tempString = "";
+		for(String s : startTagArray){
+			tempString = tempString + s;
+		}
+		
+		
+		if(endTag.contains(tempString)){
+			return true;
+		}
+		
+		
+		return false;
+	}
+	
+	/**
+	 * Hilfsmethode 
+	 * Diese Methode setzt vorraus, dass das XML-Dokument bereits erfolgreich geparst wurde!
+	 * 
+	 * @param  file
+	 * 		   repraesentiert eine XML-Datei
+	 *  
+	 * @return xmlFileString
+	 * 		   repraesentiert uebergebene XML-Datei als String
+	 */
+	public String xmlFileToString(File file){
+		String xmlFile = "";
+		try{
+			builder = new SAXBuilder();
+			doc = builder.build(file);
+
+			XMLOutputter xout = new XMLOutputter(Format.getRawFormat());
+			xmlFile = xout.outputString(doc);
+		} catch(Exception e){
+			e.printStackTrace();
+			//ToDo: ErrorHandling
+		}
+		return xmlFile;
+	}
+
+	
 	
 }
 	

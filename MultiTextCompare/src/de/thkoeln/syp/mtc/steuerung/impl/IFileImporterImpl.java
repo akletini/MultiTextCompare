@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,11 +36,13 @@ public class IFileImporterImpl implements IFileImporter {
 		tempFiles = new HashMap<>();
 		prop = new Properties();
 
-		prop.setProperty(PROP_LEERZEICHEN, "false");
-		prop.setProperty(PROP_SATZZEICHEN, "false");
-		prop.setProperty(PROP_GROSSSCHREIBUNG, "false");
+		prop.setProperty(PROP_LEERZEICHEN, "true");
+		prop.setProperty(PROP_SATZZEICHEN, "true");
+		prop.setProperty(PROP_GROSSSCHREIBUNG, "true");
 		prop.setProperty(PROP_ROOT, System.getProperty("user.dir"));
 		prop.setProperty(PROP_LINEMATCH, "true");
+		prop.setProperty(PROP_DATEINAME, "dateiname");
+		prop.setProperty(PROP_LEERZEILEN, "true");
 		importConfigdatei(DEFAULT_CONFIG);
 	}
 
@@ -137,6 +138,9 @@ public class IFileImporterImpl implements IFileImporter {
 		iConfig.setLineMatch(Boolean.parseBoolean(prop
 				.getProperty(PROP_LINEMATCH)));
 		iConfig.setRootDir(prop.getProperty(PROP_ROOT));
+		iConfig.setDateiname(prop.getProperty(PROP_DATEINAME));
+		iConfig.setBeachteLeerzeilen(Boolean.parseBoolean(prop
+				.getProperty(PROP_LEERZEILEN)));
 
 		return true;
 	}
@@ -223,6 +227,9 @@ public class IFileImporterImpl implements IFileImporter {
 			prop.setProperty(PROP_LINEMATCH,
 					Boolean.toString(iConfig.getLineMatch()));
 			prop.setProperty(PROP_ROOT, iConfig.getRootDir());
+			prop.setProperty(PROP_DATEINAME, iConfig.getDateiname());
+			prop.setProperty(PROP_LEERZEILEN,
+					Boolean.toString(iConfig.getBeachteLeerzeilen()));
 
 			prop.store(outputStream, null);
 
@@ -324,10 +331,10 @@ public class IFileImporterImpl implements IFileImporter {
 
 	/**
 	 * Erstellt aus den bereits importierten Textdateien temporaere Dateien im
-	 * Ordner 'TempFiles', welche fuer den anschliessenden Textvergleich
-	 * formatiert werden. Die temporaeren Dateien werden in einer HashMap
-	 * gespeichert um von diesen auch wieder auf die originalen Dateien
-	 * schliessen zu koennen
+	 * Ordner 'TempFiles', welche fuer den anschliessenden Textvergleich unter
+	 * Beruecksichtigung der aktuellen Config-Parameter formatiert werden. Die
+	 * temporaeren Dateien werden in einer HashMap gespeichert um von diesen
+	 * auch wieder auf die originalen Dateien schliessen zu koennen
 	 * 
 	 * @return true: bei erfolgreichem Erstellen der temporaeren Dateien
 	 * 
@@ -361,8 +368,21 @@ public class IFileImporterImpl implements IFileImporter {
 						new FileOutputStream(temp)));
 
 				String line;
-				while ((line = reader.readLine()) != null)
-					writer.write(line.replaceAll("\\s", "\n") + "\n");
+				while ((line = reader.readLine()) != null) {
+					if (!iConfig.getBeachteLeerzeilen())
+						if (line.isEmpty())
+							continue;
+					if (!iConfig.getBeachteGrossschreibung())
+						line = line.toLowerCase();
+					if (!iConfig.getBeachteSatzzeichen())
+						line = line.replaceAll("\\p{Punct}", "");
+					if (!iConfig.getBeachteLeerzeichen())
+						line = line.replaceAll("\\s", "\n");
+					else
+						line = line.replaceAll(" ", " \n");
+
+					writer.write(line + "\n");
+				}
 
 				tempFiles.put(f, temp);
 				index++;
@@ -379,8 +399,7 @@ public class IFileImporterImpl implements IFileImporter {
 	}
 
 	/**
-	 * Loescht die zuvor erstellten temporaeren Dateien samt Ordner aus dem
-	 * Dateisystem
+	 * Loescht die zuvor erstellten temporaeren Dateien aus dem Dateisystem
 	 * 
 	 * @return true: bei erfolgreichem Loeschen der temporaeren Dateien
 	 * 
@@ -396,8 +415,8 @@ public class IFileImporterImpl implements IFileImporter {
 		if (tempFiles.exists() && tempFiles.isDirectory()) {
 			for (File f : tempFiles.listFiles())
 				f.delete();
-			tempFiles.delete();
 
+			this.tempFiles.clear();
 			return true;
 		}
 

@@ -5,15 +5,14 @@ import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
 public class IConfigImpl implements IConfig {
 
 	private boolean beachteLeerzeichen, beachteSatzzeichen,
-			beachteGrossschreibung, lineMatch;
-	private String rootDir;
-	private String path;
-	
+			beachteGrossschreibung, lineMatch, beachteLeerzeilen;
+	private String rootDir, path, dateiname;
+
 	@Override
-	public void setLineMatch(boolean lineMatch){
+	public void setLineMatch(boolean lineMatch) {
 		this.lineMatch = lineMatch;
 	}
-	
+
 	@Override
 	public void setBeachteLeerzeichen(boolean beachteLeerzeichen) {
 		this.beachteLeerzeichen = beachteLeerzeichen;
@@ -40,6 +39,11 @@ public class IConfigImpl implements IConfig {
 	}
 
 	@Override
+	public void setDateiname(String dateiname) {
+		this.dateiname = dateiname;
+	}
+
+	@Override
 	public boolean getBeachteLeerzeichen() {
 		return beachteLeerzeichen;
 	}
@@ -63,9 +67,24 @@ public class IConfigImpl implements IConfig {
 	public String getPath() {
 		return path;
 	}
-	
+
 	@Override
-	public boolean getLineMatch(){
+	public boolean getLineMatch() {
 		return lineMatch;
+	}
+
+	@Override
+	public String getDateiname() {
+		return dateiname;
+	}
+
+	@Override
+	public void setBeachteLeerzeilen(boolean beachteLeerzeilen) {
+		this.beachteLeerzeilen = beachteLeerzeilen;
+	}
+
+	@Override
+	public boolean getBeachteLeerzeilen() {
+		return beachteLeerzeilen;
 	}
 }
