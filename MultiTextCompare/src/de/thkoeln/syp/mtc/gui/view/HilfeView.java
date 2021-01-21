@@ -1,6 +1,5 @@
 package de.thkoeln.syp.mtc.gui.view;
 
-import java.awt.Desktop;
 import java.awt.FileDialog;
 import java.awt.GridLayout;
 import java.io.File;
