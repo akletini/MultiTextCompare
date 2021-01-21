@@ -30,5 +30,6 @@ public interface ITextvergleicher {
 	List<File> getTempFiles();
 
 	IMatrixImpl getMatrix();
+
 	
 }
