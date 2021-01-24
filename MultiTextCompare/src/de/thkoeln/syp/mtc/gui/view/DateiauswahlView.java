@@ -11,6 +11,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
 import de.thkoeln.syp.mtc.datenhaltung.api.IMatrix;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IMatrixImpl;
 import de.thkoeln.syp.mtc.steuerung.impl.IFileImporterImpl;
@@ -60,12 +61,12 @@ public class DateiauswahlView extends JFrame {
 		// ----------------------------------------------------------------
 		// Code der so in etwa in den Controller ausgelagert werden m�sste
 		auswahl = fd.getFiles();
-		if(auswahl.length>1){
+		if(auswahl.length>1){	
 		fileImport.importTextdateien(fileArrayToList(getAuswahl()));
 		fileImport.createTempFiles();
 		textVergleicher.getTempfilesFromHashMap(fileImport.getTempFilesMap());
 		textVergleicher.getVergleiche(textVergleicher.getTempFiles());
-		if (fileImport.getConfig().getLineMatch() == false) {
+		if (!fileImport.getConfig().getLineMatch()) {
 			textVergleicher.vergleicheUeberGanzesDokument();
 		} else {
 			textVergleicher.vergleicheZeilenweise();

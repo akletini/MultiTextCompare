@@ -3,6 +3,7 @@ package de.thkoeln.syp.mtc.gui.control;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
 import de.thkoeln.syp.mtc.gui.view.Dateiauswahl2View;
 import de.thkoeln.syp.mtc.gui.view.DateiauswahlView;
 import de.thkoeln.syp.mtc.gui.view.HilfeView;
@@ -18,6 +19,7 @@ public class HomeController {
 		this.homeView.addDateiauswahl2Listener(new Dateiauswahl2Listener());
 		this.homeView.addKonfigurationListener(new KonfigurationListener());
 		this.homeView.addHilfeListener(new HilfeListener());
+		
 		// this.homeView.addMatrixListenerTEST(new MatrixListenerTEST());
 
 	}
