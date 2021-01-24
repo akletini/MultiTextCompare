@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,12 +36,13 @@ public class IFileImporterImpl implements IFileImporter {
 		tempFiles = new HashMap<>();
 		prop = new Properties();
 
-		prop.setProperty(PROP_LEERZEICHEN, "false");
-		prop.setProperty(PROP_SATZZEICHEN, "false");
-		prop.setProperty(PROP_GROSSSCHREIBUNG, "false");
+		prop.setProperty(PROP_LEERZEICHEN, "true");
+		prop.setProperty(PROP_SATZZEICHEN, "true");
+		prop.setProperty(PROP_GROSSSCHREIBUNG, "true");
 		prop.setProperty(PROP_ROOT, System.getProperty("user.dir"));
 		prop.setProperty(PROP_LINEMATCH, "true");
 		prop.setProperty(PROP_DATEINAME, "dateiname");
+		prop.setProperty(PROP_LEERZEILEN, "true");
 		importConfigdatei(DEFAULT_CONFIG);
 	}
 
@@ -139,6 +139,8 @@ public class IFileImporterImpl implements IFileImporter {
 				.getProperty(PROP_LINEMATCH)));
 		iConfig.setRootDir(prop.getProperty(PROP_ROOT));
 		iConfig.setDateiname(prop.getProperty(PROP_DATEINAME));
+		iConfig.setBeachteLeerzeilen(Boolean.parseBoolean(prop
+				.getProperty(PROP_LEERZEILEN)));
 
 		return true;
 	}
@@ -225,6 +227,9 @@ public class IFileImporterImpl implements IFileImporter {
 			prop.setProperty(PROP_LINEMATCH,
 					Boolean.toString(iConfig.getLineMatch()));
 			prop.setProperty(PROP_ROOT, iConfig.getRootDir());
+			prop.setProperty(PROP_DATEINAME, iConfig.getDateiname());
+			prop.setProperty(PROP_LEERZEILEN,
+					Boolean.toString(iConfig.getBeachteLeerzeilen()));
 
 			prop.store(outputStream, null);
 
@@ -364,6 +369,9 @@ public class IFileImporterImpl implements IFileImporter {
 
 				String line;
 				while ((line = reader.readLine()) != null) {
+					if (!iConfig.getBeachteLeerzeilen())
+						if (line.isEmpty())
+							continue;
 					if (!iConfig.getBeachteGrossschreibung())
 						line = line.toLowerCase();
 					if (!iConfig.getBeachteSatzzeichen())
@@ -391,8 +399,7 @@ public class IFileImporterImpl implements IFileImporter {
 	}
 
 	/**
-	 * Loescht die zuvor erstellten temporaeren Dateien samt Ordner aus dem
-	 * Dateisystem
+	 * Loescht die zuvor erstellten temporaeren Dateien aus dem Dateisystem
 	 * 
 	 * @return true: bei erfolgreichem Loeschen der temporaeren Dateien
 	 * 
@@ -408,8 +415,8 @@ public class IFileImporterImpl implements IFileImporter {
 		if (tempFiles.exists() && tempFiles.isDirectory()) {
 			for (File f : tempFiles.listFiles())
 				f.delete();
-			tempFiles.delete();
 
+			this.tempFiles.clear();
 			return true;
 		}
 

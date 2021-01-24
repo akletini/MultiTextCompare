@@ -97,3 +97,6 @@ hs_err_pid*
 ### MTC ###
 MultiTextCompare/config.properties
 MultiTextCompare/TempFiles/*
+MultiTextCompare/out/*
+MultiTextCompare/src/test/testFiles/config.properties
+
