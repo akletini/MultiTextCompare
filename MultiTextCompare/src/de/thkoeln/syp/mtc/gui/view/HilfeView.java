@@ -1,86 +1,169 @@
 package de.thkoeln.syp.mtc.gui.view;
 
-import java.awt.FileDialog;
+import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextPane;
+import javax.swing.border.EmptyBorder;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
 
+import de.thkoeln.syp.mtc.datenhaltung.api.IDiffChar;
+import de.thkoeln.syp.mtc.datenhaltung.api.IDiffLine;
 import de.thkoeln.syp.mtc.steuerung.impl.IDiffHelperImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IDiffHelper;
 
 public class HilfeView extends JFrame {
 
 	private JPanel panel;
-	private FileDialog fd;
-	private File[] auswahl;
+	private File[] auswahl = new File[3];
+	private JTextPane tPane1;
+	private JTextPane tPane2;
+	private JTextPane tPane3;
 
-	public HilfeView() throws MalformedURLException, IOException {
+	public HilfeView() throws IOException {
 		panel = new JPanel();
-		panel.setBorder(BorderFactory.createEmptyBorder(20, 60, 20, 60));
-		panel.setLayout(new GridLayout(0, 1));
 
-		fd = new FileDialog(this, "Dateiauswahl", FileDialog.LOAD);
-		fd.setMultipleMode(true);
-		fd.setDirectory(".");
-		fd.setFile("*.txt");
-		fd.setVisible(true);
-
-		auswahl = fd.getFiles();
+		auswahl[0] = new File("F://a.txt");
+		auswahl[1] = new File("F://b.txt");
+		auswahl[2] = new File("F://c.txt");
 
 		IDiffHelper diff = new IDiffHelperImpl();
+		try {
 
-//		JEditorPane editorpane = new JEditorPane();
-//		JScrollPane editorScrollPane = new JScrollPane(editorpane);
-//		editorScrollPane
-//				.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-//		File file = new File(System.getProperty("user.dir") + File.separator
-//				+ "/out/displayDiff.html");
-//		editorpane.setPage(file.toURI().toURL());
-//		editorpane.setEditable(true);
-//		JFrame frame2 = new JFrame();
-//		frame2.getContentPane().add(editorScrollPane);
-//		frame2.setSize(400,400);
-//		frame2.setVisible(true);
-		
-		// XHTMLPanel htmlPanel = new XHTMLPanel();
-		// try {
-		// String anzeigeModus = "BOTH"; // Optionen: BOTH, MID, RIGHT
-		// // diff.computeDisplayDiff(auswahl, anzeigeModus);
-		// File out = new File(System.getProperty("user.dir")
-		// + File.separator + "/out/displayDiff.html");
-		//
-		// htmlPanel.setDocument(out);
-		// FSScrollPane scroll = new FSScrollPane(htmlPanel);
-		// JFrame frame = new JFrame("Flying Saucer Single Page Demo");
-		// frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// frame.getContentPane().add(scroll);
-		// frame.pack();
-		// frame.setSize(1024, 768);
-		// frame.setVisible(true);
-		//
-		// } catch (Exception e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
+			diff.computeDisplayDiff(auswahl);
 
-		 try {
-		 String anzeigeModus = "BOTH"; //Optionen: BOTH, MID, RIGHT
-		 diff.computeDisplayDiff(auswahl, anzeigeModus);
-//		 String url = System.getProperty("user.dir")
-//		 + File.separator + "/out/displayDiff.html";
-//		 File htmlFile = new File(url);
-//		 Desktop.getDesktop().browse(htmlFile.toURI());
-		 } catch (IOException e) {
-		 // TODO Auto-generated catch block
-		 e.printStackTrace();
-		 }
+			if (auswahl.length == 2) {
+				EmptyBorder eb = new EmptyBorder(new Insets(10, 10, 10, 10));
 
-		// this.setLocationRelativeTo(null);
+				tPane1 = new JTextPane();	
+				tPane3 = new JTextPane();
+				
+				tPane1.setBorder(eb);
+				tPane3.setBorder(eb);
+
+				tPane1.setMargin(new Insets(5, 5, 5, 5));
+				tPane1.setBackground(new Color(0, 0, 0));
+
+
+				tPane3.setMargin(new Insets(5, 5, 5, 5));
+				tPane3.setBackground(new Color(0, 0, 0));
+
+				panel.add(tPane1);
+				panel.add(tPane3);
+				
+				for (IDiffLine diffLine : diff.getLeftLines()) {
+					for (IDiffChar diffChar : diffLine.getDiffedLine()) {
+						appendToPane(tPane1, diffChar.getCurrentChar()
+								.toString(),
+								stringToColor(diffChar.getCharColor()));
+					}
+				}
+
+				for (IDiffLine diffLine : diff.getRightLines()) {
+					for (IDiffChar diffChar : diffLine.getDiffedLine()) {
+						appendToPane(tPane3, diffChar.getCurrentChar()
+								.toString(),
+								stringToColor(diffChar.getCharColor()));
+					}
+				}
+			}
+			if (auswahl.length == 3) {
+				EmptyBorder eb = new EmptyBorder(new Insets(10, 10, 10, 10));
+
+				tPane1 = new JTextPane();
+				tPane2 = new JTextPane();
+				tPane3 = new JTextPane();
+				tPane1.setBorder(eb);
+				tPane2.setBorder(eb);
+				tPane3.setBorder(eb);
+
+				tPane1.setMargin(new Insets(5, 5, 5, 5));
+				tPane1.setBackground(new Color(0, 0, 0));
+
+				tPane2.setMargin(new Insets(5, 5, 5, 5));
+				tPane2.setBackground(new Color(0, 0, 0));
+
+				tPane3.setMargin(new Insets(5, 5, 5, 5));
+				tPane3.setBackground(new Color(0, 0, 0));
+
+				panel.add(tPane1);
+				panel.add(tPane2);
+				panel.add(tPane3);
+
+				for (IDiffLine diffLine : diff.getLeftLines()) {
+					for (IDiffChar diffChar : diffLine.getDiffedLine()) {
+						appendToPane(tPane1, diffChar.getCurrentChar()
+								.toString(),
+								stringToColor(diffChar.getCharColor()));
+					}
+				}
+				for (IDiffLine diffLine : diff.getMiddleLines()) {
+					for (IDiffChar diffChar : diffLine.getDiffedLine()) {
+						appendToPane(tPane2, diffChar.getCurrentChar()
+								.toString(),
+								stringToColor(diffChar.getCharColor()));
+					}
+				}
+
+				for (IDiffLine diffLine : diff.getRightLines()) {
+					for (IDiffChar diffChar : diffLine.getDiffedLine()) {
+						appendToPane(tPane3, diffChar.getCurrentChar()
+								.toString(),
+								stringToColor(diffChar.getCharColor()));
+					}
+				}
+			
+			}
+
+			getContentPane().add(panel);
+
+			pack();
+			setVisible(true);
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	private void appendToPane(JTextPane tp, String msg, Color c) {
+		StyleContext sc = StyleContext.getDefaultStyleContext();
+		AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY,
+				StyleConstants.Foreground, c);
+
+		aset = sc.addAttribute(aset, StyleConstants.FontFamily,
+				"Lucida Console");
+		aset = sc.addAttribute(aset, StyleConstants.Alignment,
+				StyleConstants.ALIGN_JUSTIFIED);
+
+		int len = tp.getDocument().getLength();
+		tp.setCaretPosition(len);
+		tp.setCharacterAttributes(aset, false);
+		tp.replaceSelection(msg);
+	}
+
+	private Color stringToColor(String string) {
+		if (string.equals("WHITE")) {
+			return Color.WHITE;
+		} else if (string.equals("RED")) {
+			return Color.RED;
+		} else if (string.equals("GREEN")) {
+			return Color.GREEN;
+		} else if(string.equals("PINK")){
+			return Color.MAGENTA;
+		}
+		return null;
 	}
 
 }
