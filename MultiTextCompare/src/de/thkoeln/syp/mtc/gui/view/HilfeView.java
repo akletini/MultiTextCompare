@@ -32,8 +32,7 @@ public class HilfeView extends JFrame {
 
 	public HilfeView() throws IOException {
 		panel = new JPanel();
-		panel.setBorder(BorderFactory.createEmptyBorder(20, 60, 20, 60));
-		panel.setLayout(new GridLayout(0, 1));
+
 
 		auswahl[0] = new File("F://a.txt");
 		auswahl[1] = new File("F://b.txt");
