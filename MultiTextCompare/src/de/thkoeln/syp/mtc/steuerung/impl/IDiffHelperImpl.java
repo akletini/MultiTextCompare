@@ -3,6 +3,7 @@ package de.thkoeln.syp.mtc.steuerung.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -18,20 +19,26 @@ import de.thkoeln.syp.mtc.steuerung.services.IDiffHelper;
 
 public class IDiffHelperImpl implements IDiffHelper {
 
-	private List<IDiffLine> leftLines = new ArrayList<IDiffLine>();
-	private List<IDiffLine> rightLines = new ArrayList<IDiffLine>();
-	private List<IDiffLine> middleLines = new ArrayList<IDiffLine>();
+	private List<IDiffLine> leftLines;
+	private List<IDiffLine> rightLines;
+	private List<IDiffLine> middleLines;
 
+	/**
+	 * Die Methode ermittelt die Differenzen zwischen den übergebenen Dateien
+	 * und markiert diese durch die Klasse FileCommandsVisitor
+	 * 
+	 * @param files Die Dateien, deren Diff gebildet werden soll
+	 * 
+	 */
 	@Override
-	public void computeDisplayDiff(File[] files, String mode)
-			throws IOException {
+	public void computeDisplayDiff(File[] files) throws IOException {
 		// Read both files with line iterator.
 		if (files.length == 2) {
 			LineIterator file1 = FileUtils.lineIterator(files[0]);
 			LineIterator file2 = FileUtils.lineIterator(files[1]);
 
 			// Initialize visitor.
-			FileCommandsVisitor fileCommandsVisitor = new FileCommandsVisitor();
+			FileCommandVisitor fileCommandsVisitor = new FileCommandVisitor();
 			int lineNum = 0;
 
 			// Read file line by line so that comparison can be done line by
@@ -58,7 +65,7 @@ public class IDiffHelperImpl implements IDiffHelper {
 					/*
 					 * If both lines have atleast 40% commonality then only
 					 * compare with each other so that they are aligned with
-					 * each other in final diff HTML.
+					 * each other in final diff.
 					 */
 					comparator.getScript().visit(fileCommandsVisitor);
 				} else {
@@ -76,15 +83,16 @@ public class IDiffHelperImpl implements IDiffHelper {
 					rightComparator.getScript().visit(fileCommandsVisitor);
 				}
 			}
-
-			// fileCommandsVisitor.generateHTML(files, mode);
+			fileCommandsVisitor.generateDiff(2);
+			leftLines = fileCommandsVisitor.getLeftLines();
+			rightLines = fileCommandsVisitor.getRightLines();
 		} else {
 			final LineIterator file1 = FileUtils.lineIterator(files[0]);
 			final LineIterator file2 = FileUtils.lineIterator(files[1]);
 			final LineIterator file3 = FileUtils.lineIterator(files[2]);
 
 			// Initialize visitor.
-			FileCommandsVisitor fileCommandsVisitor = new FileCommandsVisitor();
+			FileCommandVisitor fileCommandsVisitor = new FileCommandVisitor();
 			int lineNum = 0;
 
 			// Read file line by line so that comparison can be done line by
@@ -117,7 +125,7 @@ public class IDiffHelperImpl implements IDiffHelper {
 					/*
 					 * If both lines have atleast 40% commonality then only
 					 * compare with each other so that they are aligned with
-					 * each other in final diff HTML.
+					 * each other in final diff.
 					 */
 					comparator1.getScript().visit(fileCommandsVisitor);
 
@@ -142,7 +150,7 @@ public class IDiffHelperImpl implements IDiffHelper {
 					/*
 					 * If both lines have atleast 40% commonality then only
 					 * compare with each other so that they are aligned with
-					 * each other in final diff HTML.
+					 * each other in final diff.
 					 */
 					comparator2.getScript().visit(fileCommandsVisitor);
 				} else {
@@ -160,47 +168,47 @@ public class IDiffHelperImpl implements IDiffHelper {
 					rightComparator.getScript().visit(fileCommandsVisitor);
 				}
 
-//				if (comparator3.getScript().getLCSLength() > (Math.max(
-//						middle.length(), right.length()) * 0.4)) {
-//					/*
-//					 * If both lines have atleast 40% commonality then only
-//					 * compare with each other so that they are aligned with
-//					 * each other in final diff HTML.
-//					 */
-//					comparator3.getScript().visit(fileCommandsVisitor);
-//				} else {
-//					/*
-//					 * If both lines do not have 40% commanlity then compare
-//					 * each with empty line so that they are not aligned to each
-//					 * other in final diff instead they show up on separate
-//					 * lines.
-//					 */
-//					StringsComparator middleComparator = new StringsComparator(
-//							middle, "");
-//					middleComparator.getScript().visit(fileCommandsVisitor);
-//					StringsComparator rightComparator = new StringsComparator(
-//							"", right);
-//					rightComparator.getScript().visit(fileCommandsVisitor);
-//				}
+				// if (comparator3.getScript().getLCSLength() > (Math.max(
+				// middle.length(), right.length()) * 0.4)) {
+				// /*
+				// * If both lines have atleast 40% commonality then only
+				// * compare with each other so that they are aligned with
+				// * each other in final diff HTML.
+				// */
+				// comparator3.getScript().visit(fileCommandsVisitor);
+				// } else {
+				// /*
+				// * If both lines do not have 40% commanlity then compare
+				// * each with empty line so that they are not aligned to each
+				// * other in final diff instead they show up on separate
+				// * lines.
+				// */
+				// StringsComparator middleComparator = new StringsComparator(
+				// middle, "");
+				// middleComparator.getScript().visit(fileCommandsVisitor);
+				// StringsComparator rightComparator = new StringsComparator(
+				// "", right);
+				// rightComparator.getScript().visit(fileCommandsVisitor);
+				// }
 			}
 
-			fileCommandsVisitor.printLists();
+			fileCommandsVisitor.generateDiff(3);
 			leftLines = fileCommandsVisitor.getLeftLines();
 			middleLines = fileCommandsVisitor.getMiddleLines();
 			rightLines = fileCommandsVisitor.getRightLines();
 		}
 	}
-	
+
 	@Override
 	public List<IDiffLine> getLeftLines() {
 		return leftLines;
 	}
-	
+
 	@Override
 	public List<IDiffLine> getRightLines() {
 		return rightLines;
 	}
-	
+
 	@Override
 	public List<IDiffLine> getMiddleLines() {
 		return middleLines;
@@ -208,10 +216,9 @@ public class IDiffHelperImpl implements IDiffHelper {
 }
 
 /*
- * Custom visitor for file comparison which stores comparison & also generates
- * HTML in the end.
+ * Custom visitor for file comparison which stores comparison.
  */
-class FileCommandsVisitor implements CommandVisitor<Character> {
+class FileCommandVisitor implements CommandVisitor<Character> {
 
 	// Spans with red & green highlights to put highlighted characters in HTML
 	private static final String DELETION = "RED";
@@ -227,98 +234,191 @@ class FileCommandsVisitor implements CommandVisitor<Character> {
 	private List<IDiffLine> middleLines = new ArrayList<IDiffLine>();
 
 	/**
-	 * Modes: BOTH: Verdoppelt die Zeilen und zeigt abwechselnd die Diffs
-	 * Links-Mitte, Links-Rechts an MID: Zeigt nur die Diffs zum mittleren Text
-	 * an RIGHT: Zeigt nur die Diffs zum rechten Text an
+	 * der betroffene Buchstabe Wird aufgerufen wenn der Buchstabe c in beiden
+	 * Dateien an der gleichen Stelle vorhanden ist
+	 * 
+	 * @param c
 	 */
-
 	@Override
 	public void visitKeepCommand(Character c) {
 
-		// For new line use <br/> so that in HTML also it shows on next line.
 		IDiffChar toAppend = new IDiffCharImpl();
 		toAppend.setCharColor(UNCHANGED);
 		toAppend.setCurrentChar(c);
-
-		// KeepCommand means c present in both left & right. So add this to both
-		// without
-		// any
-		// highlight.
-
 		leftFile.add(toAppend);
 		middleFile.add(toAppend);
 		rightFile.add(toAppend);
 
 	}
 
+	/**
+	 * der betroffene Buchstabe Wird aufgerufen wenn der Buchstabe c in einer
+	 * Vergleichsdatei präsent ist aber nicht in der Referenz
+	 * 
+	 * @param c
+	 */
 	@Override
 	public void visitInsertCommand(Character c) {
 		IDiffChar toAppend = new IDiffCharImpl();
 		toAppend.setCharColor(INSERTION);
 		toAppend.setCurrentChar(c);
-
-		// InsertCommand means character is present in right file but not in
-		// left. Show
-		// with green highlight on right.
 		middleFile.add(toAppend);
 		rightFile.add(toAppend);
 
 	}
 
+	/**
+	 * der betroffene Buchstabe Wird aufgerufen wenn der Buchstabe c in einer
+	 * Referenzdatei präsent ist aber nicht in der Vergleichsdatei
+	 * 
+	 * @param c
+	 * 
+	 */
 	@Override
 	public void visitDeleteCommand(Character c) {
 		IDiffChar toAppend = new IDiffCharImpl();
 		toAppend.setCharColor(DELETION);
 		toAppend.setCurrentChar(c);
-		// DeleteCommand means character is present in left file but not in
-		// right. Show
-		// with red highlight on left.
 		leftFile.add(toAppend);
 	}
 
-	public void writeToDiffLines(List<IDiffChar> file, List<IDiffLine> lines) {
+	/**
+	 * Erstellt aus dem ganzheitlichen Diff eines jeweiligen Files eine
+	 * zugehörige zeilenweise Speichermöglichkeit
+	 * 
+	 * @param file
+	 *            Die Datei dessen Diff verarbeitet werden soll
+	 * @param lines
+	 *            Die Liste deren Zeilen befüllt werden sollen
+	 */
+	private void writeToDiffLines(List<IDiffChar> file, List<IDiffLine> lines) {
 		String diffedFile = "";
 		for (IDiffChar c : file) {
 			diffedFile += c.getCurrentChar().toString();
 		}
-		String[] linesAsStrings1 = diffedFile.split("\n");
-		System.out.println(linesAsStrings1.length);
-		String[] linesAsStrings = new String[linesAsStrings1.length];
-		for(int i = 0; i < linesAsStrings.length; i++){
-			linesAsStrings[i] = linesAsStrings1[i] + "\n";
+		String[] getLinesFromDiffedFile = diffedFile.split("\n");
+		String[] linesAsStrings = new String[getLinesFromDiffedFile.length];
+		for (int i = 0; i < linesAsStrings.length; i++) {
+			linesAsStrings[i] = getLinesFromDiffedFile[i] + "\n";
+
 		}
-		
+
 		int stringIndex = 0;
 		for (int i = 0; i < linesAsStrings.length; i++) {
 			IDiffLine diffLine = new IDiffLineImpl();
-			diffLine.setDiffedLine(file.subList(stringIndex, stringIndex
-					+ linesAsStrings[i].length()));
+			List<IDiffChar> temp = file.subList(stringIndex, stringIndex
+					+ linesAsStrings[i].length());
+			diffLine.setDiffedLine(temp);
 			stringIndex = stringIndex + linesAsStrings[i].length();
 			lines.add(diffLine);
 		}
 
-		for (int i = 0; i < lines.size(); i++) {
-			System.out.println(lines.get(i).toString());
-		}
-		System.out.println();
 	}
 
-	public void printLists() {
-		// for (int i = 0; i < leftFile.size(); i++) {
-		// System.out.println("Character: " + leftFile.get(i).getCurrentChar() +
-		// " Color: "
-		// + leftFile.get(i).getCharColor());
-		// }
-		writeToDiffLines(leftFile, leftLines);
-		writeToDiffLines(middleFile, middleLines);
-		writeToDiffLines(rightFile, rightLines);
+	/**
+	 * Fertigt die Funktionsaufrufe des FileCommandVisitors in der richtigen
+	 * Reihenfolge ab
+	 * 
+	 * @param numberOfFiles
+	 *            die Anzahl der übergebenen Dateien für die Diff-Bildung
+	 */
+	public void generateDiff(int numberOfFiles) {
+
+		if (numberOfFiles == 2) {
+			writeToDiffLines(leftFile, leftLines);
+			writeToDiffLines(rightFile, rightLines);
+			removeLastLineBreak(leftLines);
+			removeLastLineBreak(rightLines);
+		} else if (numberOfFiles == 3) {
+			writeToDiffLines(leftFile, leftLines);
+			writeToDiffLines(middleFile, middleLines);
+			writeToDiffLines(rightFile, rightLines);
+			correctMiddleAndRight();
+			mergeDiffedLines();
+			removeLastLineBreak(leftLines);
+			removeLastLineBreak(middleLines);
+			removeLastLineBreak(rightLines);
+		}
 
 	}
 
-	public void printDiffLineList() {
-		for (IDiffLine c : leftLines) {
-
+	/**
+	 * Entfernt doppelte Zeilen aus der mittleren und rechten Datei
+	 */
+	private void correctMiddleAndRight() {
+		Iterator<IDiffLine> itr = middleLines.iterator();
+		int i = 0;
+		while (itr.hasNext()) {
+			itr.next();
+			if (i % 2 != 0) {
+				itr.remove();
+			}
+			i++;
 		}
+
+		itr = rightLines.iterator();
+		i = 0;
+		while (itr.hasNext()) {
+			itr.next();
+			if (i % 2 == 0) {
+				itr.remove();
+			}
+			i++;
+		}
+
+	}
+
+	/*
+	 * Analysiert die Zeilen der Referenzdatei. Da die Unterschiede zur
+	 * mittleren und zur rechten Datei unterschiedlich sein koennen, muessen sie
+	 * hier gemerged werden.
+	 */
+	private void mergeDiffedLines() {
+		List<IDiffChar> mergedLine;
+		List<IDiffLine> mergedFile = new ArrayList<IDiffLine>();
+
+		for (int i = 1; i < leftLines.size(); i += 2) {
+			List<IDiffChar> upper = leftLines.get(i - 1).getDiffedLine();
+			List<IDiffChar> lower = leftLines.get(i).getDiffedLine();
+			mergedLine = new ArrayList<IDiffChar>();
+
+			for (int j = 0; j < upper.size(); j++) {
+				if (upper.get(j).getCharColor()
+						.equals(lower.get(j).getCharColor())) {
+					mergedLine.add(new IDiffCharImpl(upper.get(j)
+							.getCurrentChar(), upper.get(j).getCharColor()));
+				}
+				if (upper.get(j).getCharColor().equals("RED")
+						&& lower.get(j).getCharColor().equals("WHITE")) {
+					mergedLine.add(new IDiffCharImpl(upper.get(j)
+							.getCurrentChar(), "PINK"));
+				}
+				if (upper.get(j).getCharColor().equals("WHITE")
+						&& lower.get(j).getCharColor().equals("RED")) {
+					mergedLine.add(new IDiffCharImpl(upper.get(j)
+							.getCurrentChar(), "PINK"));
+				}
+			}
+			IDiffLine line = new IDiffLineImpl();
+			line.setDiffedLine(mergedLine);
+			mergedFile.add(line);
+		}
+		leftLines = mergedFile;
+	}
+
+	/**
+	 * Der letzten Zeile jeder Datei wird in writeToDiffLines ein \n zuviel
+	 * hinzugefuegt. Dieses wird hier entfernt
+	 * 
+	 * @param lines
+	 */
+	private void removeLastLineBreak(List<IDiffLine> lines) {
+		IDiffLine line = new IDiffLineImpl();
+		List<IDiffChar> lineAsChars = new ArrayList<IDiffChar>();
+		lineAsChars = lines.get(lines.size() - 1).getDiffedLine();
+		line.setDiffedLine(lineAsChars.subList(0, lineAsChars.size() - 1));
+		lines.remove(lines.size() - 1);
+		lines.add(line);
 	}
 
 	public List<IDiffLine> getLeftLines() {
@@ -332,85 +432,5 @@ class FileCommandsVisitor implements CommandVisitor<Character> {
 	public List<IDiffLine> getMiddleLines() {
 		return middleLines;
 	}
-
-	// public void generateHTML(File[] files, String mode) throws IOException {
-	//
-	// // Get template & replace placeholders with left & right variables with
-	// // actual
-	// // comparison
-	// String template = null;
-	// if (files.length == 2) {
-	// template = FileUtils.readFileToString(
-	// new File(System.getProperty("user.dir") + File.separator
-	// + "/htmlTemplates/difftemplateTwoFiles.html"),
-	// "utf-8");
-	// String file1 = template.replace("${fileName1}",
-	// files[0].getAbsolutePath());
-	// String file2 = file1.replace("${fileName2}",
-	// files[1].getAbsolutePath());
-	// String out1 = file2.replace("${left}", left);
-	// String output = out1.replace("${right}", right);
-	// // Write file to disk.
-	// FileUtils.write(new File(System.getProperty("user.dir")
-	// + File.separator + "/out/displayDiff.html"), output,
-	// "utf-8");
-	//
-	// } else {
-	// template = FileUtils.readFileToString(
-	// new File(System.getProperty("user.dir") + File.separator
-	// + "/htmlTemplates/difftemplateThreeFiles.html"),
-	// "utf-8");
-	// String[] leftLines = left.split("<br/>");
-	// String[] midLines = middle.split("<br/>");
-	// String[] rightLines = middle.split("<br/>");
-	// String outputLeft = "", outputMiddle = "", outputRight = "";
-	// for (int i = 0; i < midLines.length; i++) {
-	// if (i % 2 == 0) {
-	// outputMiddle += midLines[i] + "<br/>";
-	// }
-	// }
-	// for (int i = 0; i < rightLines.length; i++) {
-	// if (i % 2 != 0) {
-	// outputRight += rightLines[i] + "<br/>";
-	// }
-	// }
-	//
-	// if (mode.equals("MID")) {
-	// for (int i = 0; i < leftLines.length; i++) {
-	// if (i % 2 == 0) {
-	// outputLeft += leftLines[i] + "<br/>";
-	// }
-	// }
-	// } else if (mode.equals("RIGHT")) {
-	// for (int i = 0; i < leftLines.length; i++) {
-	// if (i % 2 != 0) {
-	// outputLeft += leftLines[i] + "<br/>";
-	// }
-	// }
-	// } else {
-	// outputLeft = left;
-	// }
-	//
-	// String file1 = template.replace("${fileName1}",
-	// files[0].getAbsolutePath());
-	// String file2 = file1.replace("${fileName2}",
-	// files[1].getAbsolutePath());
-	// String file3 = file2.replace("${fileName3}",
-	// files[2].getAbsolutePath());
-	// String out1 = file3.replace("${left}", outputLeft);
-	// String out2 = out1.replace("${middle}", outputMiddle);
-	// String output = out2.replace("${right}", outputRight);
-	// // Write file to disk.
-	// Document doc = Jsoup.parse(output, "utf-8");
-	// checkIfEqual(doc);
-	// String cleanHTML = doc.html();
-	// FileUtils.write(new File(System.getProperty("user.dir")
-	// + File.separator + "/out/displayDiff.html"), cleanHTML,
-	// "utf-8");
-	//
-	// }
-	//
-	// System.out.println("HTML diff generated.");
-	// }
 
 }

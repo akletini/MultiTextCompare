@@ -38,6 +38,8 @@ public interface IFileImporter {
 	void loescheImports();
 
 	boolean createTempFiles();
+	
+	boolean normTempFiles();
 
 	boolean deleteTempFiles();
 }

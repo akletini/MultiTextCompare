@@ -331,15 +331,14 @@ public class IFileImporterImpl implements IFileImporter {
 
 	/**
 	 * Erstellt aus den bereits importierten Textdateien temporaere Dateien im
-	 * Ordner 'TempFiles', welche fuer den anschliessenden Textvergleich unter
-	 * Beruecksichtigung der aktuellen Config-Parameter formatiert werden. Die
-	 * temporaeren Dateien werden in einer HashMap gespeichert um von diesen
-	 * auch wieder auf die originalen Dateien schliessen zu koennen
+	 * Ordner 'TempFiles'. Die temporaeren Dateien werden in einer HashMap
+	 * gespeichert um von diesen auch wieder auf die originalen Dateien
+	 * schliessen zu koennen
 	 * 
 	 * @return true: bei erfolgreichem Erstellen der temporaeren Dateien
 	 * 
-	 *         false: falls beim Lesen/Erstellen der temporaeren Dateien ein
-	 *         Fehler auftritt
+	 *         false: falls beim Erstellen der temporaeren Dateien ein Fehler
+	 *         auftritt
 	 */
 	@Override
 	public boolean createTempFiles() {
@@ -369,6 +368,47 @@ public class IFileImporterImpl implements IFileImporter {
 
 				String line;
 				while ((line = reader.readLine()) != null) {
+					writer.write(line + "\n");
+				}
+
+				tempFiles.put(f, temp);
+				index++;
+
+				reader.close();
+				writer.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * TempFiles werden unter Beruecksichtigung der aktuellen Config-Parameter
+	 * normiert.
+	 * 
+	 * @return true: bei erfolgreichem Normieren der temporaeren Dateien
+	 * 
+	 *         false: falls beim Normieren der temporaeren Dateien ein Fehler
+	 *         auftritt
+	 */
+	@Override
+	public boolean normTempFiles() {
+		BufferedReader reader;
+		BufferedWriter writer;
+
+		for (File f : this.tempFiles.keySet()) {
+			File temp = tempFiles.get(f);
+			String text = "";
+
+			try {
+				reader = new BufferedReader(new InputStreamReader(
+						new FileInputStream(temp)));
+
+				String line;
+				while ((line = reader.readLine()) != null) {
 					if (!iConfig.getBeachteLeerzeilen())
 						if (line.isEmpty())
 							continue;
@@ -381,13 +421,14 @@ public class IFileImporterImpl implements IFileImporter {
 					else
 						line = line.replaceAll(" ", " \n");
 
-					writer.write(line + "\n");
+					text += line + "\n";
 				}
-
-				tempFiles.put(f, temp);
-				index++;
-
 				reader.close();
+
+				writer = new BufferedWriter(new OutputStreamWriter(
+						new FileOutputStream(temp)));
+
+				writer.write(text);
 				writer.close();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -409,17 +450,13 @@ public class IFileImporterImpl implements IFileImporter {
 	 */
 	@Override
 	public boolean deleteTempFiles() {
-		File tempFiles = new File(System.getProperty("user.dir")
-				+ File.separator + "TempFiles");
+		for (File f : this.tempFiles.keySet()) {
+			File temp = tempFiles.get(f);
 
-		if (tempFiles.exists() && tempFiles.isDirectory()) {
-			for (File f : tempFiles.listFiles())
-				f.delete();
-
-			this.tempFiles.clear();
-			return true;
+			temp.delete();
 		}
+		tempFiles.clear();
 
-		return false;
+		return true;
 	}
 }

@@ -33,56 +33,97 @@ public class HilfeView extends JFrame {
 	public HilfeView() throws IOException {
 		panel = new JPanel();
 
-
-		auswahl[0] = new File("D://a.txt");
-		auswahl[1] = new File("D://b.txt");
-		auswahl[2] = new File("D://c.txt");
+		auswahl[0] = new File("F://a.txt");
+		auswahl[1] = new File("F://b.txt");
+		auswahl[2] = new File("F://c.txt");
 
 		IDiffHelper diff = new IDiffHelperImpl();
-
 		try {
 
-			String anzeigeModus = "BOTH"; // Optionen: BOTH, MID, RIGHT
-			diff.computeDisplayDiff(auswahl, anzeigeModus);
-			EmptyBorder eb = new EmptyBorder(new Insets(10, 10, 10, 10));
+			diff.computeDisplayDiff(auswahl);
 
-			tPane1 = new JTextPane();
-			tPane2 = new JTextPane();
-			tPane3 = new JTextPane();
-			tPane1.setBorder(eb);
-			tPane2.setBorder(eb);
-			tPane3.setBorder(eb);
-			// tPane.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
-			tPane1.setMargin(new Insets(5, 5, 5, 5));
-			tPane1.setBackground(new Color(0,0,0));
-			
-			tPane2.setMargin(new Insets(5, 5, 5, 5));
-			tPane2.setBackground(new Color(0,0,0));
-			
-			tPane3.setMargin(new Insets(5, 5, 5, 5));
-			tPane3.setBackground(new Color(0,0,0));
-			
-			panel.add(tPane1);
-			panel.add(tPane2);
-			panel.add(tPane3);
+			if (auswahl.length == 2) {
+				EmptyBorder eb = new EmptyBorder(new Insets(10, 10, 10, 10));
 
-			for(IDiffLine diffLine : diff.getLeftLines()){
-				for(IDiffChar diffChar : diffLine.getDiffedLine()){
-					appendToPane(tPane1, diffChar.getCurrentChar().toString(), stringToColor(diffChar.getCharColor()));
+				tPane1 = new JTextPane();	
+				tPane3 = new JTextPane();
+				
+				tPane1.setBorder(eb);
+				tPane3.setBorder(eb);
+
+				tPane1.setMargin(new Insets(5, 5, 5, 5));
+				tPane1.setBackground(new Color(0, 0, 0));
+
+
+				tPane3.setMargin(new Insets(5, 5, 5, 5));
+				tPane3.setBackground(new Color(0, 0, 0));
+
+				panel.add(tPane1);
+				panel.add(tPane3);
+				
+				for (IDiffLine diffLine : diff.getLeftLines()) {
+					for (IDiffChar diffChar : diffLine.getDiffedLine()) {
+						appendToPane(tPane1, diffChar.getCurrentChar()
+								.toString(),
+								stringToColor(diffChar.getCharColor()));
+					}
+				}
+
+				for (IDiffLine diffLine : diff.getRightLines()) {
+					for (IDiffChar diffChar : diffLine.getDiffedLine()) {
+						appendToPane(tPane3, diffChar.getCurrentChar()
+								.toString(),
+								stringToColor(diffChar.getCharColor()));
+					}
 				}
 			}
-			for(IDiffLine diffLine : diff.getMiddleLines()){
-				for(IDiffChar diffChar : diffLine.getDiffedLine()){
-					appendToPane(tPane2, diffChar.getCurrentChar().toString(), stringToColor(diffChar.getCharColor()));
+			if (auswahl.length == 3) {
+				EmptyBorder eb = new EmptyBorder(new Insets(10, 10, 10, 10));
+
+				tPane1 = new JTextPane();
+				tPane2 = new JTextPane();
+				tPane3 = new JTextPane();
+				tPane1.setBorder(eb);
+				tPane2.setBorder(eb);
+				tPane3.setBorder(eb);
+
+				tPane1.setMargin(new Insets(5, 5, 5, 5));
+				tPane1.setBackground(new Color(0, 0, 0));
+
+				tPane2.setMargin(new Insets(5, 5, 5, 5));
+				tPane2.setBackground(new Color(0, 0, 0));
+
+				tPane3.setMargin(new Insets(5, 5, 5, 5));
+				tPane3.setBackground(new Color(0, 0, 0));
+
+				panel.add(tPane1);
+				panel.add(tPane2);
+				panel.add(tPane3);
+
+				for (IDiffLine diffLine : diff.getLeftLines()) {
+					for (IDiffChar diffChar : diffLine.getDiffedLine()) {
+						appendToPane(tPane1, diffChar.getCurrentChar()
+								.toString(),
+								stringToColor(diffChar.getCharColor()));
+					}
 				}
-			}
+				for (IDiffLine diffLine : diff.getMiddleLines()) {
+					for (IDiffChar diffChar : diffLine.getDiffedLine()) {
+						appendToPane(tPane2, diffChar.getCurrentChar()
+								.toString(),
+								stringToColor(diffChar.getCharColor()));
+					}
+				}
+
+				for (IDiffLine diffLine : diff.getRightLines()) {
+					for (IDiffChar diffChar : diffLine.getDiffedLine()) {
+						appendToPane(tPane3, diffChar.getCurrentChar()
+								.toString(),
+								stringToColor(diffChar.getCharColor()));
+					}
+				}
 			
-			for(IDiffLine diffLine : diff.getRightLines()){
-				for(IDiffChar diffChar : diffLine.getDiffedLine()){
-					appendToPane(tPane3, diffChar.getCurrentChar().toString(), stringToColor(diffChar.getCharColor()));
-				}
 			}
-			
 
 			getContentPane().add(panel);
 
@@ -95,29 +136,32 @@ public class HilfeView extends JFrame {
 		}
 
 	}
-	private void appendToPane(JTextPane tp, String msg, Color c)
-    {
-        StyleContext sc = StyleContext.getDefaultStyleContext();
-        AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, c);
 
-        aset = sc.addAttribute(aset, StyleConstants.FontFamily, "Lucida Console");
-        aset = sc.addAttribute(aset, StyleConstants.Alignment, StyleConstants.ALIGN_JUSTIFIED);
+	private void appendToPane(JTextPane tp, String msg, Color c) {
+		StyleContext sc = StyleContext.getDefaultStyleContext();
+		AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY,
+				StyleConstants.Foreground, c);
 
-        int len = tp.getDocument().getLength();
-        tp.setCaretPosition(len);
-        tp.setCharacterAttributes(aset, false);
-        tp.replaceSelection(msg);
-    }
-	
-	private Color stringToColor(String string){
-		if(string.equals("WHITE")){
+		aset = sc.addAttribute(aset, StyleConstants.FontFamily,
+				"Lucida Console");
+		aset = sc.addAttribute(aset, StyleConstants.Alignment,
+				StyleConstants.ALIGN_JUSTIFIED);
+
+		int len = tp.getDocument().getLength();
+		tp.setCaretPosition(len);
+		tp.setCharacterAttributes(aset, false);
+		tp.replaceSelection(msg);
+	}
+
+	private Color stringToColor(String string) {
+		if (string.equals("WHITE")) {
 			return Color.WHITE;
-		}
-		else if(string.equals("RED")){
+		} else if (string.equals("RED")) {
 			return Color.RED;
-		}
-		else if(string.equals("GREEN")){
+		} else if (string.equals("GREEN")) {
 			return Color.GREEN;
+		} else if(string.equals("PINK")){
+			return Color.MAGENTA;
 		}
 		return null;
 	}
