@@ -25,12 +25,11 @@ public class IDiffHelperImpl implements IDiffHelper {
 	private List<IDiffLine> middleLines = new ArrayList<IDiffLine>();
 
 	/**
-	 * @param files
-	 *            Die Dateien, deren Diff gebildet werden soll
+	 * Die Methode ermittelt die Differenzen zwischen den übergebenen Dateien
+	 * und markiert diese durch die Klasse FileCommandsVisitor
 	 * 
-	 *            Die Methode ermittelt die Differenzen zwischen den übergebenen
-	 *            Dateien und markiert diese durch die Klasse
-	 *            FileCommandsVisitor
+	 * @param files Die Dateien, deren Diff gebildet werden soll
+	 * 
 	 */
 	@Override
 	public void computeDisplayDiff(File[] files) throws IOException {
@@ -321,7 +320,8 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 	 * Fertigt die Funktionsaufrufe des FileCommandVisitors in der richtigen
 	 * Reihenfolge ab
 	 * 
-	 * @param numberOfFiles die Anzahl der übergebenen Dateien für die Diff-Bildung
+	 * @param numberOfFiles
+	 *            die Anzahl der übergebenen Dateien für die Diff-Bildung
 	 */
 	public void generateDiff(int numberOfFiles) {
 
