@@ -1,6 +1,5 @@
 package de.thkoeln.syp.mtc.steuerung.impl;
 
-import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,9 +19,9 @@ import de.thkoeln.syp.mtc.steuerung.services.IDiffHelper;
 
 public class IDiffHelperImpl implements IDiffHelper {
 
-	private List<IDiffLine> leftLines = new ArrayList<IDiffLine>();
-	private List<IDiffLine> rightLines = new ArrayList<IDiffLine>();
-	private List<IDiffLine> middleLines = new ArrayList<IDiffLine>();
+	private List<IDiffLine> leftLines;
+	private List<IDiffLine> rightLines;
+	private List<IDiffLine> middleLines;
 
 	/**
 	 * Die Methode ermittelt die Differenzen zwischen den übergebenen Dateien
