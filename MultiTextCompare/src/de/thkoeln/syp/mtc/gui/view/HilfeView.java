@@ -26,7 +26,9 @@ public class HilfeView extends JFrame {
 
 	private JPanel panel;
 	private File[] auswahl = new File[3];
-	private JTextPane tPane;
+	private JTextPane tPane1;
+	private JTextPane tPane2;
+	private JTextPane tPane3;
 
 	public HilfeView() throws IOException {
 		panel = new JPanel();
@@ -45,18 +47,43 @@ public class HilfeView extends JFrame {
 			diff.computeDisplayDiff(auswahl, anzeigeModus);
 			EmptyBorder eb = new EmptyBorder(new Insets(10, 10, 10, 10));
 
-			tPane = new JTextPane();
-			tPane.setBorder(eb);
+			tPane1 = new JTextPane();
+			tPane2 = new JTextPane();
+			tPane3 = new JTextPane();
+			tPane1.setBorder(eb);
+			tPane2.setBorder(eb);
+			tPane3.setBorder(eb);
 			// tPane.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
-			tPane.setMargin(new Insets(5, 5, 5, 5));
-			tPane.setBackground(new Color(192,192,192));
-			panel.add(tPane);
+			tPane1.setMargin(new Insets(5, 5, 5, 5));
+			tPane1.setBackground(new Color(192,192,192));
+			
+			tPane2.setMargin(new Insets(5, 5, 5, 5));
+			tPane2.setBackground(new Color(192,192,192));
+			
+			tPane3.setMargin(new Insets(5, 5, 5, 5));
+			tPane3.setBackground(new Color(192,192,192));
+			
+			panel.add(tPane1);
+			panel.add(tPane2);
+			panel.add(tPane3);
 
 			for(IDiffLine diffLine : diff.getLeftLines()){
 				for(IDiffChar diffChar : diffLine.getDiffedLine()){
-					appendToPane(tPane, diffChar.getCurrentChar().toString(), stringToColor(diffChar.getCharColor()));
+					appendToPane(tPane1, diffChar.getCurrentChar().toString(), stringToColor(diffChar.getCharColor()));
 				}
 			}
+			for(IDiffLine diffLine : diff.getMiddleLines()){
+				for(IDiffChar diffChar : diffLine.getDiffedLine()){
+					appendToPane(tPane2, diffChar.getCurrentChar().toString(), stringToColor(diffChar.getCharColor()));
+				}
+			}
+			
+			for(IDiffLine diffLine : diff.getRightLines()){
+				for(IDiffChar diffChar : diffLine.getDiffedLine()){
+					appendToPane(tPane3, diffChar.getCurrentChar().toString(), stringToColor(diffChar.getCharColor()));
+				}
+			}
+			
 
 			getContentPane().add(panel);
 
