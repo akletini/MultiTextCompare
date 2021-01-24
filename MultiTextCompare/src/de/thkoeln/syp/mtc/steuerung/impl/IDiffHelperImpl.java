@@ -1,5 +1,6 @@
 package de.thkoeln.syp.mtc.steuerung.impl;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -286,11 +287,11 @@ class FileCommandsVisitor implements CommandVisitor<Character> {
 		String[] getLinesFromDiffedFile = diffedFile.split("\n");
 		String[] linesAsStrings = new String[getLinesFromDiffedFile.length];
 		for (int i = 0; i < linesAsStrings.length; i++) {
-			if (i < linesAsStrings.length - 1)
-				linesAsStrings[i] = getLinesFromDiffedFile[i] + "\n";
-			else {
-				linesAsStrings[i] = getLinesFromDiffedFile[i];
-			}
+			// if (i < linesAsStrings.length - 1)
+			linesAsStrings[i] = getLinesFromDiffedFile[i] + "\n";
+			// else {
+			// linesAsStrings[i] = getLinesFromDiffedFile[i];
+			// }
 		}
 
 		int stringIndex = 0;
@@ -314,12 +315,12 @@ class FileCommandsVisitor implements CommandVisitor<Character> {
 			writeToDiffLines(middleFile, middleLines);
 			writeToDiffLines(rightFile, rightLines);
 			correctMiddleAndRight();
+			mergeDiffedLines();
 		}
 
 	}
 
 	public void correctMiddleAndRight() {
-		System.out.println(middleLines.size());
 		Iterator<IDiffLine> itr = middleLines.iterator();
 		int i = 0;
 		while (itr.hasNext()) {
@@ -339,12 +340,38 @@ class FileCommandsVisitor implements CommandVisitor<Character> {
 			}
 			i++;
 		}
+	}
 
-		// for (int i = 0; i < rightLines.size(); i++) {
-		// if (i % 2 == 0) {
-		// rightLines.remove(i);
-		// }
-		// }
+	public void mergeDiffedLines() {
+		Iterator<IDiffLine> itr = leftLines.iterator();
+		List<IDiffChar> mergedLine;
+		List<IDiffLine> mergedFile = new ArrayList<IDiffLine>();
+		
+		for (int i = 1; i < leftLines.size(); i += 2) {
+			List<IDiffChar> upper = leftLines.get(i - 1).getDiffedLine();
+			List<IDiffChar> lower = leftLines.get(i).getDiffedLine();
+			mergedLine = new ArrayList<IDiffChar>();
+
+			for (int j = 0; j < upper.size(); j++) {
+				if (upper.get(j).getCharColor()
+						.equals(lower.get(j).getCharColor())) {
+					mergedLine.add(new IDiffCharImpl(upper.get(j).getCurrentChar(),
+							upper.get(j).getCharColor()));
+				}
+				if(upper.get(j).getCharColor().equals("RED") && lower.get(j).getCharColor().equals("WHITE")){
+					mergedLine.add(new IDiffCharImpl(upper.get(j).getCurrentChar(),
+							"PINK"));
+				}
+				if(upper.get(j).getCharColor().equals("WHITE") && lower.get(j).getCharColor().equals("RED")){
+					mergedLine.add(new IDiffCharImpl(upper.get(j).getCurrentChar(),
+							"PINK"));
+				}
+			}
+			IDiffLine line = new IDiffLineImpl();
+			line.setDiffedLine(mergedLine);
+			mergedFile.add(line);
+		}
+		leftLines = mergedFile;
 	}
 
 	public void printDiffLineList() {

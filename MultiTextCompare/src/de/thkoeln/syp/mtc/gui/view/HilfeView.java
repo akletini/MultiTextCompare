@@ -160,6 +160,8 @@ public class HilfeView extends JFrame {
 			return Color.RED;
 		} else if (string.equals("GREEN")) {
 			return Color.GREEN;
+		} else if(string.equals("PINK")){
+			return Color.MAGENTA;
 		}
 		return null;
 	}
