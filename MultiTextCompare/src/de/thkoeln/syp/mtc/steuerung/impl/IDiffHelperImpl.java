@@ -18,6 +18,10 @@ import de.thkoeln.syp.mtc.steuerung.services.IDiffHelper;
 
 public class IDiffHelperImpl implements IDiffHelper {
 
+	private List<IDiffLine> leftLines = new ArrayList<IDiffLine>();
+	private List<IDiffLine> rightLines = new ArrayList<IDiffLine>();
+	private List<IDiffLine> middleLines = new ArrayList<IDiffLine>();
+
 	@Override
 	public void computeDisplayDiff(File[] files, String mode)
 			throws IOException {
@@ -105,6 +109,8 @@ public class IDiffHelperImpl implements IDiffHelper {
 						middle);
 				StringsComparator comparator2 = new StringsComparator(left,
 						right);
+				StringsComparator comparator3 = new StringsComparator(middle,
+						right);
 
 				if (comparator1.getScript().getLCSLength() > (Math.max(
 						left.length(), middle.length()) * 0.4)) {
@@ -128,6 +134,7 @@ public class IDiffHelperImpl implements IDiffHelper {
 					StringsComparator middleComparator = new StringsComparator(
 							"", middle);
 					middleComparator.getScript().visit(fileCommandsVisitor);
+
 				}
 
 				if (comparator2.getScript().getLCSLength() > (Math.max(
@@ -152,10 +159,51 @@ public class IDiffHelperImpl implements IDiffHelper {
 							"", right);
 					rightComparator.getScript().visit(fileCommandsVisitor);
 				}
+
+//				if (comparator3.getScript().getLCSLength() > (Math.max(
+//						middle.length(), right.length()) * 0.4)) {
+//					/*
+//					 * If both lines have atleast 40% commonality then only
+//					 * compare with each other so that they are aligned with
+//					 * each other in final diff HTML.
+//					 */
+//					comparator3.getScript().visit(fileCommandsVisitor);
+//				} else {
+//					/*
+//					 * If both lines do not have 40% commanlity then compare
+//					 * each with empty line so that they are not aligned to each
+//					 * other in final diff instead they show up on separate
+//					 * lines.
+//					 */
+//					StringsComparator middleComparator = new StringsComparator(
+//							middle, "");
+//					middleComparator.getScript().visit(fileCommandsVisitor);
+//					StringsComparator rightComparator = new StringsComparator(
+//							"", right);
+//					rightComparator.getScript().visit(fileCommandsVisitor);
+//				}
 			}
 
 			fileCommandsVisitor.printLists();
+			leftLines = fileCommandsVisitor.getLeftLines();
+			middleLines = fileCommandsVisitor.getMiddleLines();
+			rightLines = fileCommandsVisitor.getRightLines();
 		}
+	}
+	
+	@Override
+	public List<IDiffLine> getLeftLines() {
+		return leftLines;
+	}
+	
+	@Override
+	public List<IDiffLine> getRightLines() {
+		return rightLines;
+	}
+	
+	@Override
+	public List<IDiffLine> getMiddleLines() {
+		return middleLines;
 	}
 }
 
@@ -233,39 +281,56 @@ class FileCommandsVisitor implements CommandVisitor<Character> {
 		for (IDiffChar c : file) {
 			diffedFile += c.getCurrentChar().toString();
 		}
-		String[] linesAsStrings = diffedFile.split("\n");
+		String[] linesAsStrings1 = diffedFile.split("\n");
+		System.out.println(linesAsStrings1.length);
+		String[] linesAsStrings = new String[linesAsStrings1.length];
+		for(int i = 0; i < linesAsStrings.length; i++){
+			linesAsStrings[i] = linesAsStrings1[i] + "\n";
+		}
+		
 		int stringIndex = 0;
 		for (int i = 0; i < linesAsStrings.length; i++) {
 			IDiffLine diffLine = new IDiffLineImpl();
-			diffLine.setDiffedLine(file.subList(stringIndex, stringIndex + linesAsStrings[i].length()));
-			stringIndex = stringIndex + linesAsStrings[i].length() + 1;
+			diffLine.setDiffedLine(file.subList(stringIndex, stringIndex
+					+ linesAsStrings[i].length()));
+			stringIndex = stringIndex + linesAsStrings[i].length();
 			lines.add(diffLine);
 		}
-		
-		
-		
-		
-		for(int i = 0; i < lines.size(); i++){	
+
+		for (int i = 0; i < lines.size(); i++) {
 			System.out.println(lines.get(i).toString());
 		}
 		System.out.println();
 	}
 
 	public void printLists() {
-//		for (IDiffChar c : leftFile) {
-//			System.out.println("Character: " + c.getCurrentChar() + " Color: "
-//					+ c.getCharColor());
-//		}
+		// for (int i = 0; i < leftFile.size(); i++) {
+		// System.out.println("Character: " + leftFile.get(i).getCurrentChar() +
+		// " Color: "
+		// + leftFile.get(i).getCharColor());
+		// }
 		writeToDiffLines(leftFile, leftLines);
 		writeToDiffLines(middleFile, middleLines);
 		writeToDiffLines(rightFile, rightLines);
-		
+
 	}
-	
-	public void printDiffLineList(){
-		for (IDiffLine c : leftLines){
-			
+
+	public void printDiffLineList() {
+		for (IDiffLine c : leftLines) {
+
 		}
+	}
+
+	public List<IDiffLine> getLeftLines() {
+		return leftLines;
+	}
+
+	public List<IDiffLine> getRightLines() {
+		return rightLines;
+	}
+
+	public List<IDiffLine> getMiddleLines() {
+		return middleLines;
 	}
 
 	// public void generateHTML(File[] files, String mode) throws IOException {
