@@ -11,6 +11,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
+import de.thkoeln.syp.mtc.datenhaltung.impl.IConfigImpl;
 import de.thkoeln.syp.mtc.gui.control.KonfigurationController;
 import de.thkoeln.syp.mtc.steuerung.impl.IFileImporterImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
@@ -30,8 +32,10 @@ public class KonfigurationView extends JFrame {
 	private JButton buttonWurzelverzeichnis;
 	private JButton buttonDefault;
 	private JButton buttonSpeichern;
-	private KonfigurationController konfigurationController;
 	private IFileImporter fileImporter;
+	private KonfigurationController konfigurationController;
+	private IConfig config;
+	
 
 	public KonfigurationView() {
 		fileImporter = new IFileImporterImpl();
@@ -48,6 +52,7 @@ public class KonfigurationView extends JFrame {
 		buttonWurzelverzeichnis = new JButton("Auswählen");
 		buttonDefault = new JButton("Zurücksetzen");
 		buttonSpeichern = new JButton("Speichern");
+		config = fileImporter.getConfig();
 
 		panel = new JPanel();
 		panel.setBorder(BorderFactory.createEmptyBorder(20, 60, 20, 60));
@@ -60,15 +65,19 @@ public class KonfigurationView extends JFrame {
 
 		panel.add(labelLeerzeichen);
 		panel.add(checkBoxLeerzeichen);
+		if(config.getBeachteLeerzeichen()) checkBoxLeerzeichen.setSelected(true);
 
 		panel.add(labelSatzzeichen);
 		panel.add(checkBoxSatzzeichen);
+		if(config.getBeachteSatzzeichen()) checkBoxSatzzeichen.setSelected(true);
 
 		panel.add(labelGrossschreibung);
 		panel.add(checkBoxGrossschreibung);
+		if(config.getBeachteGrossschreibung()) checkBoxGrossschreibung.setSelected(true);
 
 		panel.add(labelLinematch);
 		panel.add(checkBoxLinematch);
+		if(config.getLineMatch()) checkBoxLinematch.setSelected(true);
 
 		panel.add(buttonDefault);
 		panel.add(buttonSpeichern);
@@ -99,5 +108,21 @@ public class KonfigurationView extends JFrame {
 	
 	public IFileImporter getFileImporter(){
 		return fileImporter;
+	}
+	
+	public JCheckBox getCheckboxLeerzeichen(){
+		return checkBoxLeerzeichen;
+	}
+	
+	public JCheckBox getCheckboxSatzzeichen(){
+		return checkBoxSatzzeichen;
+	}
+	
+	public JCheckBox getCheckboxGrossschreibung(){
+		return checkBoxGrossschreibung;
+	}
+	
+	public JCheckBox getCheckboxLinematch(){
+		return checkBoxLinematch;
 	}
 }
