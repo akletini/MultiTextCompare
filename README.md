@@ -1,0 +1,1 @@
+JavaDoc Export über MultiTextCompare -> Export ->  Java -> JavaDoc

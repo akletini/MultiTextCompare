@@ -26,13 +26,15 @@ public class HilfeView extends JFrame {
 
 	private JPanel panel;
 	private File[] auswahl;
+	private Color backgroundColor;
 	private JTextPane tPane1;
 	private JTextPane tPane2;
 	private JTextPane tPane3;
 
 	public HilfeView() throws IOException {
 		panel = new JPanel();
-
+		backgroundColor = new Color(20,20,20);
+		
 		File file1 = new File(System.getProperty("user.dir") + File.separator
 				+ "src" + File.separator + "test" + File.separator
 				+ "testFiles" + File.separator + "DiffHelperA.txt");
@@ -59,10 +61,10 @@ public class HilfeView extends JFrame {
 				tPane3.setBorder(eb);
 
 				tPane1.setMargin(new Insets(5, 5, 5, 5));
-				tPane1.setBackground(new Color(0, 0, 0));
+				tPane1.setBackground(backgroundColor);
 
 				tPane3.setMargin(new Insets(5, 5, 5, 5));
-				tPane3.setBackground(new Color(0, 0, 0));
+				tPane3.setBackground(backgroundColor);
 
 				panel.add(tPane1);
 				panel.add(tPane3);
@@ -95,13 +97,13 @@ public class HilfeView extends JFrame {
 				tPane3.setBorder(eb);
 
 				tPane1.setMargin(new Insets(5, 5, 5, 5));
-				tPane1.setBackground(new Color(0, 0, 0));
+				tPane1.setBackground(backgroundColor);
 
 				tPane2.setMargin(new Insets(5, 5, 5, 5));
-				tPane2.setBackground(new Color(0, 0, 0));
+				tPane2.setBackground(backgroundColor);
 
 				tPane3.setMargin(new Insets(5, 5, 5, 5));
-				tPane3.setBackground(new Color(0, 0, 0));
+				tPane3.setBackground(backgroundColor);
 
 				panel.add(tPane1);
 				panel.add(tPane2);

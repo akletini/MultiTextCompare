@@ -1,3 +1,3 @@
-<xsd:enumeration value="default unit3">
-xsd:enumeration value="entity_mappings">
+<xsd:enumeration values="default unit3">
+xsd:enumeration values="entity_mappings">
 xsd:enumeration value="value_typess">

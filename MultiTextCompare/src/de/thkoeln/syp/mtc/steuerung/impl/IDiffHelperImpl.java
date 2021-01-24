@@ -462,20 +462,25 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 			mergedLine = new ArrayList<IDiffChar>();
 
 			for (int j = 0; j < upper.size(); j++) {
-				if (upper.get(j).getCharColor()
-						.equals(lower.get(j).getCharColor())) {
+				if (upper.get(j).getCharColor().equals("WHITE")
+						&& lower.get(j).getCharColor().equals("WHITE")) {
 					mergedLine.add(new IDiffCharImpl(upper.get(j)
-							.getCurrentChar(), upper.get(j).getCharColor()));
+							.getCurrentChar(), "WHITE"));
 				}
 				if (upper.get(j).getCharColor().equals("RED")
 						&& lower.get(j).getCharColor().equals("WHITE")) {
 					mergedLine.add(new IDiffCharImpl(upper.get(j)
-							.getCurrentChar(), "PINK"));
+							.getCurrentChar(), "GREEN"));
 				}
 				if (upper.get(j).getCharColor().equals("WHITE")
 						&& lower.get(j).getCharColor().equals("RED")) {
 					mergedLine.add(new IDiffCharImpl(upper.get(j)
 							.getCurrentChar(), "PINK"));
+				}
+				if (upper.get(j).getCharColor().equals("RED")
+						&& lower.get(j).getCharColor().equals("RED")) {
+					mergedLine.add(new IDiffCharImpl(upper.get(j)
+							.getCurrentChar(), "RED"));
 				}
 			}
 			IDiffLine line = new IDiffLineImpl();
@@ -504,16 +509,19 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 					mergedLine.add(new IDiffCharImpl(left.get(j)
 							.getCurrentChar(), left.get(j).getCharColor()));
 				}
+				// Diff zu beiden
 				if (left.get(j).getCharColor().equals("GREEN")
 						&& right.get(j).getCharColor().equals("RED")) {
 					mergedLine.add(new IDiffCharImpl(left.get(j)
-							.getCurrentChar(), "ORANGE"));
+							.getCurrentChar(), "RED"));
 				}
+				// Diff zu links
 				if (left.get(j).getCharColor().equals("GREEN")
 						&& right.get(j).getCharColor().equals("WHITE")) {
 					mergedLine.add(new IDiffCharImpl(left.get(j)
-							.getCurrentChar(), "PINK"));
+							.getCurrentChar(), "ORANGE"));
 				}
+				// Diff zu rechts
 				if (left.get(j).getCharColor().equals("WHITE")
 						&& right.get(j).getCharColor().equals("RED")) {
 					mergedLine.add(new IDiffCharImpl(left.get(j)
@@ -538,20 +546,23 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 					mergedLine.add(new IDiffCharImpl(left.get(j)
 							.getCurrentChar(), "WHITE"));
 				}
+				// Diff zur mitte
 				if (left.get(j).getCharColor().equals("WHITE")
 						&& right.get(j).getCharColor().equals("GREEN")) {
 					mergedLine.add(new IDiffCharImpl(left.get(j)
-							.getCurrentChar(), "CYAN"));
+							.getCurrentChar(), "YELLOW"));
 				}
+				// Diff zu links
 				if (left.get(j).getCharColor().equals("GREEN")
 						&& right.get(j).getCharColor().equals("WHITE")) {
 					mergedLine.add(new IDiffCharImpl(left.get(j)
-							.getCurrentChar(), "YELLOW"));
+							.getCurrentChar(), "CYAN"));
 				}
+				// Diff zu beiden
 				if (left.get(j).getCharColor().equals("GREEN")
 						&& right.get(j).getCharColor().equals("GREEN")) {
 					mergedLine.add(new IDiffCharImpl(left.get(j)
-							.getCurrentChar(), "GREEN"));
+							.getCurrentChar(), "RED"));
 				}
 
 			}
