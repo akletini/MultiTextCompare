@@ -14,4 +14,5 @@ public interface IDiffHelper {
 	List<IDiffLine> getRightLines();
 
 	List<IDiffLine> getMiddleLines();
+
 }

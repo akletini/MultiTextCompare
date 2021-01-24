@@ -25,7 +25,7 @@ import de.thkoeln.syp.mtc.steuerung.services.IDiffHelper;
 public class HilfeView extends JFrame {
 
 	private JPanel panel;
-	private File[] auswahl = new File[3];
+	private File[] auswahl;
 	private JTextPane tPane1;
 	private JTextPane tPane2;
 	private JTextPane tPane3;
@@ -33,9 +33,16 @@ public class HilfeView extends JFrame {
 	public HilfeView() throws IOException {
 		panel = new JPanel();
 
-		auswahl[0] = new File("F://a.txt");
-		auswahl[1] = new File("F://b.txt");
-		auswahl[2] = new File("F://c.txt");
+		File file1 = new File(System.getProperty("user.dir") + File.separator
+				+ "src" + File.separator + "test" + File.separator
+				+ "testFiles" + File.separator + "DiffHelperA.txt");
+		File file2 = new File(System.getProperty("user.dir") + File.separator
+				+ "src" + File.separator + "test" + File.separator
+				+ "testFiles" + File.separator + "DiffHelperB.txt");
+		File file3 = new File(System.getProperty("user.dir") + File.separator
+				+ "src" + File.separator + "test" + File.separator
+				+ "testFiles" + File.separator + "DiffHelperC.txt");
+		auswahl = new File[]{file1, file2, file3};
 
 		IDiffHelper diff = new IDiffHelperImpl();
 		try {
@@ -45,22 +52,21 @@ public class HilfeView extends JFrame {
 			if (auswahl.length == 2) {
 				EmptyBorder eb = new EmptyBorder(new Insets(10, 10, 10, 10));
 
-				tPane1 = new JTextPane();	
+				tPane1 = new JTextPane();
 				tPane3 = new JTextPane();
-				
+
 				tPane1.setBorder(eb);
 				tPane3.setBorder(eb);
 
 				tPane1.setMargin(new Insets(5, 5, 5, 5));
 				tPane1.setBackground(new Color(0, 0, 0));
 
-
 				tPane3.setMargin(new Insets(5, 5, 5, 5));
 				tPane3.setBackground(new Color(0, 0, 0));
 
 				panel.add(tPane1);
 				panel.add(tPane3);
-				
+
 				for (IDiffLine diffLine : diff.getLeftLines()) {
 					for (IDiffChar diffChar : diffLine.getDiffedLine()) {
 						appendToPane(tPane1, diffChar.getCurrentChar()
@@ -83,6 +89,7 @@ public class HilfeView extends JFrame {
 				tPane1 = new JTextPane();
 				tPane2 = new JTextPane();
 				tPane3 = new JTextPane();
+
 				tPane1.setBorder(eb);
 				tPane2.setBorder(eb);
 				tPane3.setBorder(eb);
@@ -122,7 +129,7 @@ public class HilfeView extends JFrame {
 								stringToColor(diffChar.getCharColor()));
 					}
 				}
-			
+
 			}
 
 			getContentPane().add(panel);
@@ -160,9 +167,18 @@ public class HilfeView extends JFrame {
 			return Color.RED;
 		} else if (string.equals("GREEN")) {
 			return Color.GREEN;
-		} else if(string.equals("PINK")){
+		} else if (string.equals("PINK")) {
 			return Color.MAGENTA;
+		} else if (string.equals("ORANGE")) {
+			return Color.ORANGE;
+		} else if (string.equals("BLUE")) {
+			return Color.BLUE;
+		} else if (string.equals("CYAN")) {
+			return Color.CYAN;
+		} else if (string.equals("YELLOW")) {
+			return Color.YELLOW;
 		}
+
 		return null;
 	}
 
