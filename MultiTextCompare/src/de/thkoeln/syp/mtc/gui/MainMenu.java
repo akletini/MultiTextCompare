@@ -17,6 +17,7 @@ import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.List;
@@ -31,6 +32,7 @@ import javax.swing.SwingUtilities;
 import de.thkoeln.syp.mtc.datenhaltung.api.IMatrix;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IAehnlichkeitImpl;
 import de.thkoeln.syp.mtc.gui.view.DateiauswahlView;
+import de.thkoeln.syp.mtc.gui.view.HilfeView;
 import de.thkoeln.syp.mtc.gui.view.KonfigurationView;
 import de.thkoeln.syp.mtc.gui.view.RowNumberTable;
 
@@ -94,6 +96,18 @@ public class MainMenu extends JFrame {
 		toolBar.add(btnKonfig);
 		
 		btnHilfe = new JButton("Hilfe");
+		btnHilfe.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e){
+				try {
+					new HilfeView();
+				} catch (IOException e1) {
+
+					e1.printStackTrace();
+				}
+				
+			}
+		});
 		toolBar.add(btnHilfe);
 		
 		btnAbout = new JButton("About");
