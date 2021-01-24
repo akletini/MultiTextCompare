@@ -1,6 +1,7 @@
 package test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -10,7 +11,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
@@ -41,6 +45,16 @@ public class IFileImporterImplTest {
 		textdateien.add(new File(System.getProperty("user.dir")
 				+ File.separator + "src" + File.separator + "test"
 				+ File.separator + "testFiles" + File.separator + "FileE.txt"));
+	}
+	
+	@Before
+	public void before(){
+		fileImporter.importTextdateien(textdateien);
+	}
+	
+	@After
+	public void After(){
+		fileImporter.loescheImports();
 	}
 
 	@Test
@@ -104,13 +118,12 @@ public class IFileImporterImplTest {
 
 	@Test
 	public void test_importTextdateien() {
-		fileImporter.importTextdateien(textdateien);
-
 		assertEquals(textdateien, fileImporter.getTextdateien());
 	}
 
 	@Test
 	public void test_loescheTextdateien() {
+		fileImporter.importTextdateien(textdateien);
 		fileImporter.loescheImports();
 
 		assertEquals(Collections.EMPTY_LIST, fileImporter.getTextdateien());
@@ -118,19 +131,26 @@ public class IFileImporterImplTest {
 
 	@Test
 	public void test_createTempFiles() {
-		fileImporter.importTextdateien(textdateien);
 		fileImporter.createTempFiles();
 
-		assertNotNull(fileImporter.getTempFilesMap());
+		assertEquals(fileImporter.getTextdateien().size(), fileImporter
+				.getTempFilesMap().size());
+		for (File f : fileImporter.getTempFilesMap().keySet())
+			assertNotNull(fileImporter.getTempFilesMap().get(f));
+	}
+	
+	@Test
+	public void test_normTempFiles(){
+		fileImporter.createTempFiles();
+		fileImporter.normTempFiles();
 	}
 
 	@Test
 	public void test_loescheTempFiles() {
-		File tempFiles = new File(System.getProperty("user.dir")
-				+ File.separator + "TempFiles");
+		fileImporter.createTempFiles();
+		assertNotEquals(Collections.EMPTY_MAP, fileImporter.getTempFilesMap());
+		
 		fileImporter.deleteTempFiles();
-
-		assertEquals(0, tempFiles.listFiles().length);
 		assertEquals(Collections.EMPTY_MAP, fileImporter.getTempFilesMap());
 	}
 }
