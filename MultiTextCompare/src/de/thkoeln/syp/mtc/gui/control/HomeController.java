@@ -20,14 +20,14 @@ public class HomeController {
 		this.homeView.addDateiauswahl2Listener(new Dateiauswahl2Listener());
 		this.homeView.addKonfigurationListener(new KonfigurationListener());
 		this.homeView.addHilfeListener(new HilfeListener());
-		
+
 		// this.homeView.addMatrixListenerTEST(new MatrixListenerTEST());
 
 	}
 
 	class DateiauswahlListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			new DateiauswahlView();
+			//new DateiauswahlView();
 		}
 	}
 
@@ -47,17 +47,15 @@ public class HomeController {
 		public void actionPerformed(ActionEvent e) {
 			try {
 				new HilfeView();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			} catch (IOException io) {
 			}
 		}
 	}
-	
-
-	// class MatrixListenerTEST implements ActionListener{
-	// public void actionPerformed(ActionEvent action) {
-	// new MatrixView();
-	// }
-	// }
 }
+
+// class MatrixListenerTEST implements ActionListener{
+// public void actionPerformed(ActionEvent action) {
+// new MatrixView();
+// }
+// }
+

@@ -34,9 +34,9 @@ public class HilfeView extends JFrame {
 		panel = new JPanel();
 
 
-		auswahl[0] = new File("F://a.txt");
-		auswahl[1] = new File("F://b.txt");
-		auswahl[2] = new File("F://c.txt");
+		auswahl[0] = new File("D://a.txt");
+		auswahl[1] = new File("D://b.txt");
+		auswahl[2] = new File("D://c.txt");
 
 		IDiffHelper diff = new IDiffHelperImpl();
 
@@ -54,13 +54,13 @@ public class HilfeView extends JFrame {
 			tPane3.setBorder(eb);
 			// tPane.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
 			tPane1.setMargin(new Insets(5, 5, 5, 5));
-			tPane1.setBackground(new Color(192,192,192));
+			tPane1.setBackground(new Color(0,0,0));
 			
 			tPane2.setMargin(new Insets(5, 5, 5, 5));
-			tPane2.setBackground(new Color(192,192,192));
+			tPane2.setBackground(new Color(0,0,0));
 			
 			tPane3.setMargin(new Insets(5, 5, 5, 5));
-			tPane3.setBackground(new Color(192,192,192));
+			tPane3.setBackground(new Color(0,0,0));
 			
 			panel.add(tPane1);
 			panel.add(tPane2);

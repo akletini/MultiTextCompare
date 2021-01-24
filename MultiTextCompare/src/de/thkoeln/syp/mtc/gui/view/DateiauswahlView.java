@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
 import de.thkoeln.syp.mtc.datenhaltung.api.IMatrix;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IMatrixImpl;
+import de.thkoeln.syp.mtc.gui.MainMenu;
 import de.thkoeln.syp.mtc.steuerung.impl.IFileImporterImpl;
 import de.thkoeln.syp.mtc.steuerung.impl.ITextvergleicherImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
@@ -27,12 +28,15 @@ public class DateiauswahlView extends JFrame {
 	private IFileImporter fileImport;
 	private ITextvergleicher textVergleicher;
 	private IMatrix matrix;
+	
+	private MainMenu mainMenu;
 
-	public DateiauswahlView() {
+	public DateiauswahlView(MainMenu mainMenu) {
 		panel = new JPanel();
 		fileImport = new IFileImporterImpl();
 		textVergleicher = new ITextvergleicherImpl();
 		matrix = new IMatrixImpl();
+		this.mainMenu = mainMenu;
 
 		panel.setBorder(BorderFactory.createEmptyBorder(20, 60, 20, 60));
 		panel.setLayout(new GridLayout(0, 1));
@@ -72,7 +76,8 @@ public class DateiauswahlView extends JFrame {
 			textVergleicher.vergleicheZeilenweise();
 		}
 		matrix = textVergleicher.getMatrix();
-		new MatrixView((IMatrixImpl) matrix, anzahlDateien, nameDateien);
+		//new MatrixView((IMatrixImpl) matrix, anzahlDateien, nameDateien);
+		mainMenu.updateMatrix(matrix, anzahlDateien, nameDateien);
 		}
 		// ----------------------------------------------------------------
 
