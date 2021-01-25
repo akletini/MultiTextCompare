@@ -284,14 +284,17 @@ public class IFileImporterImpl implements IFileImporter {
 	public boolean importTextRoot(String fileName) {
 		File rootDir = new File(iConfig.getRootDir());
 
-		if (fileName == null)
+		if (fileName == null || fileName.equals(""))
 			return false;
 
 		if (!rootDir.isDirectory())
 			return false;
 
-		searchInDir(rootDir, fileName);
+		fileName = fileName.replaceAll("\\.", "\\\\.");
+		fileName = fileName.replaceAll("\\?", "(.)");
+		fileName = fileName.replaceAll("\\*", "(.*)");
 
+		searchInDir(rootDir, fileName);
 		return true;
 	}
 
@@ -309,15 +312,12 @@ public class IFileImporterImpl implements IFileImporter {
 	private void searchInDir(File file, String fileName) {
 		try {
 			for (File f : file.listFiles()) {
-				if (f.isDirectory()) {
+				if (f.isDirectory())
 					searchInDir(f, fileName);
-
-				} else if (f.getName().equals(fileName)) {
+				else if (f.getName().matches(fileName))
 					this.textdateien.add(f);
-				}
 			}
 		} catch (Exception e) {
-
 		}
 	}
 

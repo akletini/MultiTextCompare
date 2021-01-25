@@ -1,8 +1,8 @@
 package test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -14,7 +14,6 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
@@ -46,14 +45,14 @@ public class IFileImporterImplTest {
 				+ File.separator + "src" + File.separator + "test"
 				+ File.separator + "testFiles" + File.separator + "FileE.txt"));
 	}
-	
+
 	@Before
-	public void before(){
+	public void before() {
 		fileImporter.importTextdateien(textdateien);
 	}
-	
+
 	@After
-	public void After(){
+	public void After() {
 		fileImporter.loescheImports();
 	}
 
@@ -138,9 +137,9 @@ public class IFileImporterImplTest {
 		for (File f : fileImporter.getTempFilesMap().keySet())
 			assertNotNull(fileImporter.getTempFilesMap().get(f));
 	}
-	
+
 	@Test
-	public void test_normTempFiles(){
+	public void test_normTempFiles() {
 		fileImporter.createTempFiles();
 		fileImporter.normTempFiles();
 	}
@@ -149,8 +148,16 @@ public class IFileImporterImplTest {
 	public void test_loescheTempFiles() {
 		fileImporter.createTempFiles();
 		assertNotEquals(Collections.EMPTY_MAP, fileImporter.getTempFilesMap());
-		
+
 		fileImporter.deleteTempFiles();
 		assertEquals(Collections.EMPTY_MAP, fileImporter.getTempFilesMap());
+	}
+
+	@Test
+	public void test_importRoot() {
+		fileImporter.loescheImports();
+		fileImporter.importTextRoot("File?.txt");
+
+		assertTrue(fileImporter.getTextdateien().containsAll(textdateien));
 	}
 }
