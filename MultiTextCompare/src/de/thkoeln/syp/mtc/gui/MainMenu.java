@@ -45,13 +45,10 @@ public class MainMenu extends JFrame {
 	private JButton btnKonfig;
 	private JButton btnHilfe;
 	private JButton btnAbout;
-	private JPanel panelMatrix;
 	private JScrollPane scrollPaneMatrix;
 	private RowNumberTable rowTable;
 	private JScrollPane scrollPaneLog;
-	private JTable table_1;
 
-	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -64,20 +61,23 @@ public class MainMenu extends JFrame {
 			}
 		});
 	}
+
 	public MainMenu() {
 		final MainMenu mainMenu = this;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 960, 540);
-		setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[grow]", "[50px:n:100px,grow,top][grow,center][80px:n:160px,grow,bottom]"));
-		
+		contentPane
+				.setLayout(new MigLayout("", "[grow]",
+						"[50px:n:100px,grow,top][grow,center][80px:n:160px,grow,bottom]"));
+
 		toolBar = new JToolBar();
 		toolBar.setFloatable(false);
 		contentPane.add(toolBar, "flowx,cell 0 0");
-		
+
 		btnDateiauswahl = new JButton("Dateiauswahl");
 		btnDateiauswahl.setVerticalAlignment(SwingConstants.TOP);
 		btnDateiauswahl.addActionListener(new ActionListener() {
@@ -86,7 +86,7 @@ public class MainMenu extends JFrame {
 			}
 		});
 		toolBar.add(btnDateiauswahl);
-		
+
 		btnKonfig = new JButton("Konfiguration");
 		btnKonfig.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -94,35 +94,33 @@ public class MainMenu extends JFrame {
 			}
 		});
 		toolBar.add(btnKonfig);
-		
+
 		btnHilfe = new JButton("Hilfe");
 		btnHilfe.addActionListener(new ActionListener() {
 
-			public void actionPerformed(ActionEvent e){
+			public void actionPerformed(ActionEvent e) {
 				try {
 					new HilfeView();
 				} catch (IOException e1) {
 
 					e1.printStackTrace();
 				}
-				
+
 			}
 		});
 		toolBar.add(btnHilfe);
-		
+
 		btnAbout = new JButton("About");
 		toolBar.add(btnAbout);
-		
-		
-		
-		//scrollPaneMatrix = new JScrollPane();
-		
-		
+
+		// scrollPaneMatrix = new JScrollPane();
+
 		scrollPaneLog = new JScrollPane();
 		contentPane.add(scrollPaneLog, "cell 0 2,grow");
 	}
-	
-	public void updateMatrix(IMatrix matrix, int anzahlDateien, String[] nameDateien){
+
+	public void updateMatrix(IMatrix matrix, int anzahlDateien,
+			String[] nameDateien) {
 		System.out.println("bljat");
 		DecimalFormat df = new DecimalFormat("0.000");
 		df.setDecimalFormatSymbols(DecimalFormatSymbols.getInstance(Locale.US));
@@ -150,15 +148,13 @@ public class MainMenu extends JFrame {
 				Component comp = super.prepareRenderer(renderer, row, col);
 				Object value = getModel().getValueAt(row, col);
 				double wert = Double.valueOf(value.toString());
-				int r = (int) ((255 * (100 - (wert * 100))) / 100);
-				int g = (int) ((255 * (wert * 100) / 100));
-				Color wertFarbe = new Color(r, g, 0);
+				Color wertFarbe = getColor(wert);
 
 				comp.setBackground(wertFarbe);
 				return comp;
 			}
 		};
-		
+
 		scrollPaneMatrix = new JScrollPane(table);
 		contentPane.add(scrollPaneMatrix, "cell 0 1,grow");
 		rowTable = new RowNumberTable(table);
@@ -166,7 +162,15 @@ public class MainMenu extends JFrame {
 		scrollPaneMatrix.setRowHeaderView(rowTable);
 		scrollPaneMatrix.setCorner(JScrollPane.UPPER_LEFT_CORNER,
 				rowTable.getTableHeader());
-		
+
 		SwingUtilities.updateComponentTreeUI(this);
+	}
+
+	public Color getColor(double value) {
+		double h = value * 0.3; // Hue
+		double s = 0.9; // Saturation
+		double b = 0.9; // Brightness
+
+		return Color.getHSBColor((float) h, (float) s, (float) b);
 	}
 }
