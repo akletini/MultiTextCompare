@@ -386,18 +386,23 @@ public class IFileImporterImpl implements IFileImporter {
 	}
 
 	/**
-	 * TempFiles werden unter Beruecksichtigung der aktuellen Config-Parameter
-	 * normiert.
+	 * Zuvor erstellte TempFiles werden unter Beruecksichtigung der aktuellen
+	 * Config-Parameter normiert
 	 * 
 	 * @return true: bei erfolgreichem Normieren der temporaeren Dateien
 	 * 
 	 *         false: falls beim Normieren der temporaeren Dateien ein Fehler
 	 *         auftritt
+	 * 
+	 * @see {@link #createTempFiles()}
 	 */
 	@Override
 	public boolean normTempFiles() {
 		BufferedReader reader;
 		BufferedWriter writer;
+
+		if (this.tempFiles.isEmpty())
+			return false;
 
 		for (File f : this.tempFiles.keySet()) {
 			File temp = tempFiles.get(f);
