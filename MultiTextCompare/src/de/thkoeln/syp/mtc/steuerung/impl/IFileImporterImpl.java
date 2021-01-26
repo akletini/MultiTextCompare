@@ -347,6 +347,10 @@ public class IFileImporterImpl implements IFileImporter {
 				} catch (Exception e) {
 				}
 			}
+<<<<<<< HEAD
+=======
+		}catch (Exception e) {
+>>>>>>> e8c0d4da59a96ca1c32bc4be47bcc4035ce4635a
 		}
 
 		this.rootImporter = new Thread(new RootImporter(file, fileName,

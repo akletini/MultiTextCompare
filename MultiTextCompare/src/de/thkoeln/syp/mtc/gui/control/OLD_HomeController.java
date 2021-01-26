@@ -4,17 +4,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
-import de.thkoeln.syp.mtc.gui.view.Dateiauswahl2View;
-import de.thkoeln.syp.mtc.gui.view.DateiauswahlView;
 import de.thkoeln.syp.mtc.gui.view.HilfeView;
-import de.thkoeln.syp.mtc.gui.view.HomeView;
 import de.thkoeln.syp.mtc.gui.view.KonfigurationView;
+import de.thkoeln.syp.mtc.gui.view.OLD_Dateiauswahl2View;
+import de.thkoeln.syp.mtc.gui.view.OLD_HomeView;
 
-public class HomeController {
-	private HomeView homeView;
+public class OLD_HomeController {
+	private OLD_HomeView homeView;
 
-	public HomeController(HomeView homeView) {
+	public OLD_HomeController(OLD_HomeView homeView) {
 		this.homeView = homeView;
 		this.homeView.addDateiauswahlListener(new DateiauswahlListener());
 		this.homeView.addDateiauswahl2Listener(new Dateiauswahl2Listener());
@@ -33,7 +31,7 @@ public class HomeController {
 
 	class Dateiauswahl2Listener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			new Dateiauswahl2View();
+			new OLD_Dateiauswahl2View();
 		}
 	}
 

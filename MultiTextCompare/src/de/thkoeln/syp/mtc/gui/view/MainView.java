@@ -1,4 +1,4 @@
-package de.thkoeln.syp.mtc.gui;
+package de.thkoeln.syp.mtc.gui.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -31,13 +31,10 @@ import javax.swing.SwingUtilities;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IMatrix;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IAehnlichkeitImpl;
-import de.thkoeln.syp.mtc.gui.view.DateiauswahlView;
-import de.thkoeln.syp.mtc.gui.view.HilfeView;
-import de.thkoeln.syp.mtc.gui.view.KonfigurationView;
-import de.thkoeln.syp.mtc.gui.view.RowNumberTable;
+import de.thkoeln.syp.mtc.gui.control.MainController;
 
-public class MainMenu extends JFrame {
-
+public class MainView extends JFrame {
+	private MainController mainController;
 	private JPanel contentPane;
 	private JTable table;
 	private JToolBar toolBar;
@@ -49,21 +46,8 @@ public class MainMenu extends JFrame {
 	private RowNumberTable rowTable;
 	private JScrollPane scrollPaneLog;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MainMenu frame = new MainMenu();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	public MainMenu() {
-		final MainMenu mainMenu = this;
+	public MainView() {
+		final MainView mainMenu = this;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 960, 540);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -80,19 +64,9 @@ public class MainMenu extends JFrame {
 
 		btnDateiauswahl = new JButton("Dateiauswahl");
 		btnDateiauswahl.setVerticalAlignment(SwingConstants.TOP);
-		btnDateiauswahl.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new DateiauswahlView(mainMenu);
-			}
-		});
 		toolBar.add(btnDateiauswahl);
 
 		btnKonfig = new JButton("Konfiguration");
-		btnKonfig.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new KonfigurationView();
-			}
-		});
 		toolBar.add(btnKonfig);
 
 		btnHilfe = new JButton("Hilfe");
@@ -117,11 +91,23 @@ public class MainMenu extends JFrame {
 
 		scrollPaneLog = new JScrollPane();
 		contentPane.add(scrollPaneLog, "cell 0 2,grow");
+		mainController = new MainController(mainMenu);
+	}
+
+	public void addDateiauswahlListener(ActionListener e) {
+		btnDateiauswahl.addActionListener(e);
+	}
+
+	public void addKonfigurationListener(ActionListener e) {
+		btnKonfig.addActionListener(e);
+	}
+
+	public void addHilfeListener(ActionListener e) {
+		btnHilfe.addActionListener(e);
 	}
 
 	public void updateMatrix(IMatrix matrix, int anzahlDateien,
 			String[] nameDateien) {
-		System.out.println("bljat");
 		DecimalFormat df = new DecimalFormat("0.000");
 		df.setDecimalFormatSymbols(DecimalFormatSymbols.getInstance(Locale.US));
 		int index = 0;

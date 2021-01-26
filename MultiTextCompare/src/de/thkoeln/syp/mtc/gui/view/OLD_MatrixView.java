@@ -20,7 +20,7 @@ import javax.swing.table.TableColumn;
 import de.thkoeln.syp.mtc.datenhaltung.api.IMatrix;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IAehnlichkeitImpl;
 
-public class MatrixView extends JFrame {
+public class OLD_MatrixView extends JFrame {
 	private JPanel panel;
 	private JTable table;
 	private JButton testButton;
@@ -28,7 +28,7 @@ public class MatrixView extends JFrame {
 	private int index;
 	private TableColumn tColumn;
 
-	public MatrixView(IMatrix matrix, int anzahlDateien, String[] nameDateien) {
+	public OLD_MatrixView(IMatrix matrix, int anzahlDateien, String[] nameDateien) {
 		panel = new JPanel();
 		df.setDecimalFormatSymbols(DecimalFormatSymbols.getInstance(Locale.US));
 		panel.setBorder(BorderFactory.createEmptyBorder(20, 60, 20, 60));
@@ -86,12 +86,12 @@ public class MatrixView extends JFrame {
 		//
 	}
 
-	public MatrixView(IMatrix matrix, int anzahlDateien) {
+	public OLD_MatrixView(IMatrix matrix, int anzahlDateien) {
 		String[] nameDateien = new String[anzahlDateien];
 		for (int i = 0; i < anzahlDateien; i++) {
 			nameDateien[i] = Character.toString((char) (('A' + i)));
 		}
-		new MatrixView(matrix, anzahlDateien, nameDateien);
+		new OLD_MatrixView(matrix, anzahlDateien, nameDateien);
 	}
 
 }
