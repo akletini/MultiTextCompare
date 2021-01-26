@@ -154,10 +154,14 @@ public class IFileImporterImplTest {
 	}
 
 	@Test
-	public void test_importRoot() {
+	public void test_importRoot() throws InterruptedException {
 		fileImporter.loescheImports();
 		fileImporter.importTextRoot("File?.txt");
+		fileImporter.getRootImporter().start();
+		fileImporter.getRootImporter().join();
 
+		for (File f : fileImporter.getTextdateien())
+			System.out.println(f.getAbsolutePath());
 		assertTrue(fileImporter.getTextdateien().containsAll(textdateien));
 	}
 }

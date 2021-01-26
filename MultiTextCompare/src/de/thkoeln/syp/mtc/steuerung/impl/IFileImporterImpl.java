@@ -26,6 +26,7 @@ public class IFileImporterImpl implements IFileImporter {
 	private List<File> textdateien;
 	private Map<File, File> tempFiles;
 	private Properties prop;
+	private Thread rootImporter;
 
 	/**
 	 * Klassen Konstruktor initialisiert die Klassen-Attribute und lädt die
@@ -59,6 +60,11 @@ public class IFileImporterImpl implements IFileImporter {
 	@Override
 	public Map<File, File> getTempFilesMap() {
 		return tempFiles;
+	}
+
+	@Override
+	public Thread getRootImporter() {
+		return rootImporter;
 	}
 
 	/**
@@ -310,15 +316,41 @@ public class IFileImporterImpl implements IFileImporter {
 	 * @see {@link #importTextRoot(String)}
 	 */
 	private void searchInDir(File file, String fileName) {
-		try {
-			for (File f : file.listFiles()) {
-				if (f.isDirectory())
-					searchInDir(f, fileName);
-				else if (f.getName().matches(fileName))
-					this.textdateien.add(f);
+		class RootImporter implements Runnable {
+			File file;
+			String fileName;
+			List<File> textdateien;
+
+			public RootImporter(File file, String fileName,
+					List<File> textdateien) {
+				this.file = file;
+				this.fileName = fileName;
+				this.textdateien = textdateien;
 			}
-		} catch (Exception e) {
+
+			@Override
+			public void run() {
+				System.out.println("starts");
+				searchInDir(file, fileName);
+				System.out.println("finished");
+			}
+
+			private void searchInDir(File file, String fileName) {
+				try {
+					for (File f : file.listFiles()) {
+						if (f.isDirectory()) {
+							searchInDir(f, fileName);
+						} else if (f.getName().matches(fileName)) {
+							this.textdateien.add(f);
+						}
+					}
+				} catch (Exception e) {
+				}
+			}
 		}
+
+		this.rootImporter = new Thread(new RootImporter(file, fileName,
+				textdateien));
 	}
 
 	/**

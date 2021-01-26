@@ -22,6 +22,8 @@ public interface IFileImporter {
 	List<File> getTextdateien();
 
 	Map<File, File> getTempFilesMap();
+	
+	Thread getRootImporter();
 
 	boolean importConfigdatei(File config);
 
