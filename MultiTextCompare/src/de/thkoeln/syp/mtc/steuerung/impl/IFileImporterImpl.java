@@ -29,7 +29,7 @@ public class IFileImporterImpl implements IFileImporter {
 	private Thread rootImporter;
 
 	/**
-	 * Klassen Konstruktor initialisiert die Klassen-Attribute und lädt die
+	 * Klassen Konstruktor initialisiert die Klassen-Attribute und lï¿½dt die
 	 * Default-Config fuer den Textvergleich
 	 */
 	public IFileImporterImpl() {
@@ -347,10 +347,6 @@ public class IFileImporterImpl implements IFileImporter {
 				} catch (Exception e) {
 				}
 			}
-<<<<<<< HEAD
-=======
-		}catch (Exception e) {
->>>>>>> e8c0d4da59a96ca1c32bc4be47bcc4035ce4635a
 		}
 
 		this.rootImporter = new Thread(new RootImporter(file, fileName,
