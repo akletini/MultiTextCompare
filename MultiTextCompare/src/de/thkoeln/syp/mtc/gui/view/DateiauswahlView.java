@@ -1,107 +1,126 @@
 package de.thkoeln.syp.mtc.gui.view;
 
-import java.awt.FileDialog;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
-import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
-import de.thkoeln.syp.mtc.datenhaltung.api.IMatrix;
-import de.thkoeln.syp.mtc.datenhaltung.impl.IMatrixImpl;
-import de.thkoeln.syp.mtc.gui.MainMenu;
-import de.thkoeln.syp.mtc.steuerung.impl.IFileImporterImpl;
-import de.thkoeln.syp.mtc.steuerung.impl.ITextvergleicherImpl;
-import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
-import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
+import net.miginfocom.swing.MigLayout;
+import de.thkoeln.syp.mtc.gui.control.DateiauswahlController;
 
 public class DateiauswahlView extends JFrame {
-	private JPanel panel;
-	private FileDialog fd;
-	private File[] auswahl;
+	private DateiauswahlController dateiauswahlController;
+	private JPanel contentPane;
+	private JTextField textFieldDateiname;
+	private JLabel lblRoot;
+	private JLabel lblRootPath;
+	private JButton btnSetRoot;
+	private JLabel lblDateiname;
+	private JButton btnSuchen;
+	private JRadioButton rdbtnTxt;
+	private JRadioButton rdbtnXml;
+	private JRadioButton rdbtnJson;
+	private JButton btnEinfacheSuche;
+	private DefaultListModel<String> model;
+	private JList<String> listFilePath;
+	private JButton btnReset;
+	private JButton btnVergleichen;
 
-	private IFileImporter fileImport;
-	private ITextvergleicher textVergleicher;
-	private IMatrix matrix;
-	
-	private MainMenu mainMenu;
+	public DateiauswahlView(MainView mainView) {
+		setTitle("Dateiauswahl");
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 750, 500);
+		setLocationRelativeTo(null);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(new MigLayout("",
+				"[][100px,grow,center][center]",
+				"[][][][10px][5][grow][][][][][10][]"));
 
-	public DateiauswahlView(MainMenu mainMenu) {
-		panel = new JPanel();
-		fileImport = new IFileImporterImpl();
-		textVergleicher = new ITextvergleicherImpl();
-		matrix = new IMatrixImpl();
-		this.mainMenu = mainMenu;
+		lblRoot = new JLabel("Wurzelverzeichnis:");
+		contentPane.add(lblRoot, "cell 0 0");
 
-		panel.setBorder(BorderFactory.createEmptyBorder(20, 60, 20, 60));
-		panel.setLayout(new GridLayout(0, 1));
+		lblRootPath = new JLabel("CurrentPath");
+		contentPane.add(lblRootPath, "cell 1 0,growx");
 
-		fd = new FileDialog(this, "Dateiauswahl", FileDialog.LOAD);
-		fd.setMultipleMode(true);
-		fd.setDirectory(".");
-		fd.setFile("*.txt");
-		fd.setVisible(true);
+		btnSetRoot = new JButton("Neu waehlen..");
+		contentPane.add(btnSetRoot, "cell 2 0,growx");
 
-		int anzahlDateien = fd.getFiles().length;
-		String[] nameDateien = new String[anzahlDateien];
-		for (int i = 0; i < anzahlDateien; i++) {
-			nameDateien[i] = fd.getFiles()[i].getName();
-		}
+		lblDateiname = new JLabel("Dateiname:");
+		contentPane.add(lblDateiname, "cell 0 1");
 
-		// dateiSystem.add(panel);
-		// Action details = dateiSystem.getActionMap().get("viewTypeDetails");
-		// details.actionPerformed(null);
-		// dateiSystem.setMultiSelectionEnabled(true);
-		// dateiSystem.setCurrentDirectory(new File("."));
-		// dateiSystem.setDialogTitle("Dateiauswahl");
-		// dateiSystem.setMultiSelectionEnabled(true);
-		// dateiSystem.showOpenDialog(panel);
+		textFieldDateiname = new JTextField();
+		contentPane.add(textFieldDateiname, "cell 1 1,growx");
+		textFieldDateiname.setColumns(10);
 
-		// ----------------------------------------------------------------
-		// Code der so in etwa in den Controller ausgelagert werden m�sste
-		auswahl = fd.getFiles();
-		if(auswahl.length>1){	
-		fileImport.importTextdateien(fileArrayToList(getAuswahl()));
-		fileImport.createTempFiles();
-		textVergleicher.getTempfilesFromHashMap(fileImport.getTempFilesMap());
-		textVergleicher.getVergleiche(textVergleicher.getTempFiles());
-		if (!fileImport.getConfig().getLineMatch()) {
-			textVergleicher.vergleicheUeberGanzesDokument();
-		} else {
-			textVergleicher.vergleicheZeilenweise();
-		}
-		matrix = textVergleicher.getMatrix();
-		//new MatrixView((IMatrixImpl) matrix, anzahlDateien, nameDateien);
-		mainMenu.updateMatrix(matrix, anzahlDateien, nameDateien);
-		}
-		// ----------------------------------------------------------------
+		btnSuchen = new JButton("Suchen");
+		contentPane.add(btnSuchen, "cell 2 1,growx");
 
-		this.setLocationRelativeTo(null);
+		rdbtnTxt = new JRadioButton("TXT");
+		rdbtnTxt.setSelected(true);
+		contentPane.add(rdbtnTxt, "flowx,cell 1 2");
+
+		rdbtnXml = new JRadioButton("XML");
+		contentPane.add(rdbtnXml, "cell 1 2");
+
+		rdbtnJson = new JRadioButton("JSON");
+		contentPane.add(rdbtnJson, "cell 1 2");
+
+		btnEinfacheSuche = new JButton("Einfache Suche");
+		contentPane.add(btnEinfacheSuche, "cell 2 3,growx");
+
+		model = new DefaultListModel<>();
+		listFilePath = new JList<String>(model);
+		contentPane.add(listFilePath, "cell 0 5 3 5,grow");
+
+		btnReset = new JButton("Zuruecksetzen");
+		contentPane.add(btnReset, "flowx,cell 1 11,growx");
+
+		btnVergleichen = new JButton("Vergleichen");
+		contentPane.add(btnVergleichen, "cell 1 11,growx");
+
+		dateiauswahlController = new DateiauswahlController(mainView, this);
+		dateiauswahlController.updateLblRootPath(this);
 	}
 
-	public void actionPerformed(ActionEvent e) {
-
+	public JLabel getLblRootPath() {
+		return lblRootPath;
 	}
 
-	public File[] getAuswahl() {
-		return auswahl;
+	public JTextField getTextFieldDateiname() {
+		return textFieldDateiname;
 	}
 
-	private List<File> fileArrayToList(File[] array) {
-		List<File> fileListe = new ArrayList<>();
-		for (int i = 0; i < array.length; i++) {
-			fileListe.add(array[i]);
-		}
-		return fileListe;
+	public JList<String> getListFilePath() {
+		return listFilePath;
 	}
 
-	public IMatrix getMatrix() {
-		return matrix;
+	public DefaultListModel<String> getModel() {
+		return model;
+	}
+
+	public void addSetRootListener(ActionListener e) {
+		btnSetRoot.addActionListener(e);
+	}
+
+	public void addSuchenListener(ActionListener e) {
+		btnSuchen.addActionListener(e);
+	}
+
+	public void addEinfacheSucheListener(ActionListener e) {
+		btnEinfacheSuche.addActionListener(e);
+	}
+
+	public void addVergleichenListener(ActionListener e) {
+		btnVergleichen.addActionListener(e);
 	}
 
 }

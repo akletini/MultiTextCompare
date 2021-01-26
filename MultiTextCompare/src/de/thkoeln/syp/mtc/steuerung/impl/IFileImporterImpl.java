@@ -317,7 +317,7 @@ public class IFileImporterImpl implements IFileImporter {
 				else if (f.getName().matches(fileName))
 					this.textdateien.add(f);
 			}
-		} catch (Exception e) {
+		}catch (Exception e) {
 		}
 	}
 

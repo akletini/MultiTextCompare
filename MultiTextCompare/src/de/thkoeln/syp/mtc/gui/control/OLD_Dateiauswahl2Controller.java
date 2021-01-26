@@ -10,13 +10,13 @@ import javax.swing.JFileChooser;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IMatrix;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IMatrixImpl;
-import de.thkoeln.syp.mtc.gui.view.Dateiauswahl2View;
-import de.thkoeln.syp.mtc.gui.view.MatrixView;
+import de.thkoeln.syp.mtc.gui.view.OLD_Dateiauswahl2View;
+import de.thkoeln.syp.mtc.gui.view.OLD_MatrixView;
 import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
 import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
 
-public class Dateiauswahl2Controller {
-	private Dateiauswahl2View dateiauswahl2View;
+public class OLD_Dateiauswahl2Controller {
+	private OLD_Dateiauswahl2View dateiauswahl2View;
 	private File[] auswahl;
 	private IFileImporter fileImport;
 	private ITextvergleicher textVergleicher;
@@ -24,18 +24,18 @@ public class Dateiauswahl2Controller {
 	private FileDialog fd;
 	private JFileChooser fc;
 
-	public Dateiauswahl2Controller(Dateiauswahl2View dateiauswahl2View) {
+	public OLD_Dateiauswahl2Controller(OLD_Dateiauswahl2View dateiauswahl2View) {
 		this.dateiauswahl2View = dateiauswahl2View;
 		this.dateiauswahl2View
 				.addVergleichenListener(new VergleichenListener());
 		this.dateiauswahl2View
-				.addWurzelverzeichnisListener(new WurzelverzeichnisListener());
+				.addWurzelverzeichnisListener(new SetRootDirListener());
 		fileImport = this.dateiauswahl2View.getFileImport();
 		textVergleicher = this.dateiauswahl2View.getTextvergleicher();
 		matrix = new IMatrixImpl();
 	}
 
-	class WurzelverzeichnisListener implements ActionListener {
+	class SetRootDirListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			fc = new JFileChooser();
 			Action details = fc.getActionMap().get("viewTypeDetails");
@@ -64,7 +64,7 @@ public class Dateiauswahl2Controller {
 				textVergleicher.vergleicheZeilenweise();
 			}
 			matrix = dateiauswahl2View.getTextvergleicher().getMatrix();
-			new MatrixView(matrix, textVergleicher.getTempFiles().size());
+			new OLD_MatrixView(matrix, textVergleicher.getTempFiles().size());
 		}
 	}
 }

@@ -11,7 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class HomeView extends JFrame {
+public class OLD_HomeView extends JFrame {
 	private JButton buttonDateiauswahl;
 	private JButton buttonDateiauswahl2;
 	private JButton buttonKonfiguration;
@@ -20,7 +20,7 @@ public class HomeView extends JFrame {
 	private JPanel panel;
 	private JButton buttonMatrix = new JButton("Matrix (Test)"); // ZUM TESTEN
 
-	public HomeView() {
+	public OLD_HomeView() {
 		buttonDateiauswahl = new JButton("Textvergleich");
 		buttonDateiauswahl2 = new JButton("Textvergleich nach Muster");
 		buttonKonfiguration = new JButton("Konfiguration");

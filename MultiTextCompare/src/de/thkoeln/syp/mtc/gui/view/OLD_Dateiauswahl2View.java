@@ -12,13 +12,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import de.thkoeln.syp.mtc.gui.control.Dateiauswahl2Controller;
+import de.thkoeln.syp.mtc.gui.control.OLD_Dateiauswahl2Controller;
 import de.thkoeln.syp.mtc.steuerung.impl.IFileImporterImpl;
 import de.thkoeln.syp.mtc.steuerung.impl.ITextvergleicherImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
 import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
 
-public class Dateiauswahl2View extends JFrame{
+public class OLD_Dateiauswahl2View extends JFrame{
 	private JPanel panel;
 	private JLabel labelWurzelverzeichnis;
 	private JLabel labelWurzelpfad;
@@ -30,9 +30,9 @@ public class Dateiauswahl2View extends JFrame{
 
 	private IFileImporter fileImport;
 	private ITextvergleicher textVergleicher;
-	private Dateiauswahl2Controller dateiauswahl2Controller;
+	private OLD_Dateiauswahl2Controller dateiauswahl2Controller;
 
-	public Dateiauswahl2View(){
+	public OLD_Dateiauswahl2View(){
 		panel = new JPanel();
 		textVergleicher = new ITextvergleicherImpl();
 		fileImport = new IFileImporterImpl();
@@ -63,7 +63,7 @@ public class Dateiauswahl2View extends JFrame{
 		this.setVisible(true);
 		this.setLocationRelativeTo(null);
 		fd = new FileDialog(this, "Verzeichniswahl", FileDialog.LOAD);
-		dateiauswahl2Controller =  new Dateiauswahl2Controller(this);
+		dateiauswahl2Controller =  new OLD_Dateiauswahl2Controller(this);
 	}
 	
 	public void addWurzelverzeichnisListener(ActionListener e){
