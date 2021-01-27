@@ -4,9 +4,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
+import org.jdom2.Attribute;
 import org.jdom2.Document;
+import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.JDOMParseException;
 import org.jdom2.input.SAXBuilder;
@@ -16,6 +19,10 @@ import org.jdom2.input.sax.XMLReaders;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
+import DeleteFromXMLString.AttributeComperator;
+import DeleteFromXMLString.ElementComperator;
+import de.thkoeln.syp.mtc.datenhaltung.api.IXMLAttributeComparator;
+import de.thkoeln.syp.mtc.datenhaltung.api.IXMLElementComparator;
 import de.thkoeln.syp.mtc.datenhaltung.api.IXMLParseError;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IXMLParseErrorImpl;
 import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
@@ -43,7 +50,7 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 	 * @param error
 	 *            Objekt der Klasse IXMLParseError
 	 */
-	public void addErrorToErrorList(IXMLParseError error){
+	private void addErrorToErrorList(IXMLParseError error){
 		this.errorListe.add(error);
 	}
 	
@@ -55,7 +62,7 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 	 *           Liste mit moeglichen Elementen der Klasse IXMLParseError,
 	 *           die bei auftretenden Fehlern waehrend des Parsens festegestellt wurden
 	 */
-	public List<IXMLParseError> getErrorList(){
+	private List<IXMLParseError> getErrorList(){
 		return this.errorListe;
 	}
 
@@ -69,7 +76,7 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 	 *            
 	 * @return Liste an moeglichen Fehlern die festgestellt wurden
 	 */
-	public List<IXMLParseError> parseFile(File file, int mode){
+	private List<IXMLParseError> parseFile(File file, int mode){
 		errorListe = new ArrayList();
 		
 		//int mode = 3; // 0: None | 1: internal XSD | 2: external XSD | 3: DTD
@@ -155,7 +162,7 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 	 * @return String
 	 * 			  XML-Dokument als String ohne Attribute
 	 */
-	public String deleteAttributes(String xmlFile){
+	private String deleteAttributes(String xmlFile){
 			
 			String[] xmlFileArray = xmlFile.split("");
 		
@@ -262,7 +269,7 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 	 *            
 	 * @return XML-Dokument als String ohne Kommentare
 	 */
-	public String deleteComments(String xmlFile){
+	private String deleteComments(String xmlFile){
 			
 		String[] xmlFileArray = xmlFile.split("");
 		String content = "";
@@ -333,7 +340,7 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 	 *            
 	 * @return XML-Datei als String ohne Kommentare, Attribute und Werte
 	 */
-	public String tagsOnly(String xmlFile){
+	private String tagsOnly(String xmlFile){
 		
 		String manipulated = this.deleteComments(xmlFile);
 		
@@ -418,7 +425,7 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 	 *            
 	 * @return boolean true/false
 	 */
-	public boolean isTag(String xmlTag){
+	private boolean isTag(String xmlTag){
 		if(xmlTag.startsWith("<") && xmlTag.endsWith(">") && !xmlTag.contains("<!") && !xmlTag.contains("<?") && !xmlTag.contains("<!--") ){
 			return true;
 		}else{
@@ -437,7 +444,7 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 	 *            
 	 * @return boolean true/false
 	 */
-	public boolean isComment(String xmlComment){
+	private boolean isComment(String xmlComment){
 		if(xmlComment.contains("<!--") && xmlComment.contains("-->")){
 			return true;
 		}else{
@@ -455,7 +462,7 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 	 *            
 	 * @return boolean true/false
 	 */
-	public boolean isClosingTag(String xmlTag) {
+	private boolean isClosingTag(String xmlTag) {
 		if(xmlTag.startsWith("</") && xmlTag.endsWith(">") && !xmlTag.contains("<!") && !xmlTag.contains("<?") && !xmlTag.contains("<!--") ){
 			return true;
 		}else{
@@ -473,7 +480,7 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 	 *            
 	 * @return boolean true/false
 	 */
-	public boolean isShortNotation(String xmlTag){
+	private boolean isShortNotation(String xmlTag){
 		if(xmlTag.startsWith("<") && xmlTag.endsWith("/>")){
 			return true;
 		}else{
@@ -494,7 +501,7 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 	 *  
 	 * @return boolean true/false
 	 */
-	public boolean isMatchingEndTag(String startTag, String endTag){
+	private boolean isMatchingEndTag(String startTag, String endTag){
 		String[] startTagArray = startTag.split("");
 		
 		for(int i=0;i<startTagArray.length;i++){
@@ -522,12 +529,12 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 	 * Diese Methode setzt vorraus, dass das XML-Dokument bereits erfolgreich geparst wurde!
 	 * 
 	 * @param  file
-	 * 		   repraesentiert eine XML-Datei
+	 * 		   repraesentiert eine XML-Datei die in einen String umgeformt werden soll.
 	 *  
 	 * @return xmlFileString
-	 * 		   repraesentiert uebergebene XML-Datei als String
+	 * 		   repraesentiert uebergebene XML-Datei als String.
 	 */
-	public String xmlFileToString(File file){
+	private String xmlFileToString(File file){
 		String xmlFile = "";
 		try{
 			builder = new SAXBuilder();
@@ -542,6 +549,109 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 		return xmlFile;
 	}
 
+	/**
+	 * Diese Methode setzt vorraus, dass das XML-Dokument bereits erfolgreich geparst wurde!
+	 * 
+	 * @param doc
+	 * 		  repraesentiert ein JDOM Dokument dessen Attribute alphabetisch sortiert werden sollen.
+	 * 
+	 * @return representiert das urspruengliche Dokument mit alphabeitsch geordneten Attributen.
+	 * 		
+	 * */
+	private Document sortAttributes(Document doc){
+		
+		Element root = doc.getRootElement();
+		
+		this.iterateAndSortAttributes(root);
+		
+		return doc;
+		
+	}
+	
+	/**
+	 * Hilfsmethode
+	 * Diese Methode setzt vorraus, dass das XML-Dokument bereits erfolgreich geparst wurde.
+	 * Iteratiever Aufruf um durch den DOM-Baum zu navigieren und Attribute alphabetisch ordnet.
+	 * 
+	 * @param current
+	 * 		  repraesentiert ein JDOM Element, dessen 
+	 * 
+	 * */
+	private void iterateAndSortAttributes(Element current) {    
+		
+		Comparator<Attribute> attributeComperator = new IXMLAttributeComparator();
+		
+	    List children = current.getChildren();
+	      
+	    for(int i=0; i<children.size(); i++){
+	    	
+	    	Element e = (Element)children.get(i);
+	    	
+	    	if(e.hasAttributes() && e.getAttributes().size() > 1){
+	    		
+	    		e.sortAttributes(attributeComperator);
+	    		
+	    	}
+	    	
+	    	iterateAndSortAttributes(e);
+	    }
+	          
+	}
+	
+	
+	/**
+	 * Diese Methode setzt vorraus, dass das XML-Dokument bereits erfolgreich geparst wurde!
+	 * 
+	 * @param doc
+	 * 		  repraesentiert ein JDOM Dokument dessen Attribute alphabetisch sortiert werden sollen.
+	 * 
+	 * @return representiert das urspruengliche Dokument mit alphabeitsch geordneten Attributen.
+	 * 		
+	 * */
+	private Document sortElements(Document doc){
+		Comparator<Element> elementsComperator = new IXMLElementComparator();
+		
+		Element root = doc.getRootElement();
+		
+		root.sortChildren(elementsComperator);
+	
+		iterateAndSortElements(root);
+		
+		return doc;		
+		
+	}
+	
+	
+	/**
+	 * Hilfsmethode
+	 * Diese Methode setzt vorraus, dass das XML-Dokument bereits erfolgreich geparst wurde.
+	 * Iteratiever Aufruf um durch den DOM-Baum zu navigieren und Kindknoten alphabetisch ordnet.
+	 * 
+	 * @param current
+	 * 		  repraesentiert ein JDOM Element, dessen Kindelemente alphabetisch geordnet werden sollen.
+	 * 
+	 * */
+	private void iterateAndSortElements(Element current) {    
+		
+		Comparator<Element> elementsComperator = new IXMLElementComparator();
+		
+	    List children = current.getChildren();
+	      
+	    for(int i=0; i<children.size(); i++){
+	    	
+	    	Element e = (Element)children.get(i);
+	    	
+	    	e.sortChildren(elementsComperator);
+	    	
+	    	iterateAndSortElements(e);
+	    }
+	          
+	}
+	
+	
+	
+	
+	
 	
 	
 }
