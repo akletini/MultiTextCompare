@@ -19,8 +19,6 @@ import org.jdom2.input.sax.XMLReaders;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
-import DeleteFromXMLString.AttributeComperator;
-import DeleteFromXMLString.ElementComperator;
 import de.thkoeln.syp.mtc.datenhaltung.api.IXMLAttributeComparator;
 import de.thkoeln.syp.mtc.datenhaltung.api.IXMLElementComparator;
 import de.thkoeln.syp.mtc.datenhaltung.api.IXMLParseError;
@@ -50,8 +48,8 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 	 * @param error
 	 *            Objekt der Klasse IXMLParseError
 	 */
-	private void addErrorToErrorList(IXMLParseError error){
-		this.errorListe.add(error);
+	public void addErrorToErrorList(IXMLParseError error){
+		errorListe.add(error);
 	}
 	
 	
@@ -62,8 +60,8 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 	 *           Liste mit moeglichen Elementen der Klasse IXMLParseError,
 	 *           die bei auftretenden Fehlern waehrend des Parsens festegestellt wurden
 	 */
-	private List<IXMLParseError> getErrorList(){
-		return this.errorListe;
+	public List<IXMLParseError> getErrorList(){
+		return errorListe;
 	}
 
 	/**
@@ -76,7 +74,7 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 	 *            
 	 * @return Liste an moeglichen Fehlern die festgestellt wurden
 	 */
-	private List<IXMLParseError> parseFile(File file, int mode){
+	public List<IXMLParseError> parseFile(File file, int mode){
 		errorListe = new ArrayList();
 		
 		//int mode = 3; // 0: None | 1: internal XSD | 2: external XSD | 3: DTD
