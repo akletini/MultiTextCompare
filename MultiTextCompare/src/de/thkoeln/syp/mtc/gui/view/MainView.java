@@ -1,34 +1,27 @@
 package de.thkoeln.syp.mtc.gui.view;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.table.TableCellRenderer;
-
-import net.miginfocom.swing.MigLayout;
-
-import javax.swing.JToolBar;
-import javax.swing.JButton;
-
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.List;
 import java.util.Locale;
 
-import javax.swing.BorderFactory;
-import javax.swing.JTable;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.TableCellRenderer;
 
+import net.miginfocom.swing.MigLayout;
 import de.thkoeln.syp.mtc.datenhaltung.api.IMatrix;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IAehnlichkeitImpl;
 import de.thkoeln.syp.mtc.gui.control.MainController;
@@ -48,6 +41,7 @@ public class MainView extends JFrame {
 
 	public MainView() {
 		final MainView mainMenu = this;
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 960, 540);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -71,7 +65,6 @@ public class MainView extends JFrame {
 
 		btnHilfe = new JButton("Hilfe");
 		btnHilfe.addActionListener(new ActionListener() {
-
 			public void actionPerformed(ActionEvent e) {
 				try {
 					new HilfeView();
@@ -79,7 +72,6 @@ public class MainView extends JFrame {
 
 					e1.printStackTrace();
 				}
-
 			}
 		});
 		toolBar.add(btnHilfe);
@@ -88,7 +80,6 @@ public class MainView extends JFrame {
 		toolBar.add(btnAbout);
 
 		// scrollPaneMatrix = new JScrollPane();
-
 		scrollPaneLog = new JScrollPane();
 		contentPane.add(scrollPaneLog, "cell 0 2,grow");
 		mainController = new MainController(mainMenu);
@@ -125,7 +116,6 @@ public class MainView extends JFrame {
 				index++;
 			}
 		}
-		System.out.println(data.length);
 
 		table = new JTable(data, nameDateien) {
 			@Override
@@ -135,14 +125,16 @@ public class MainView extends JFrame {
 				Object value = getModel().getValueAt(row, col);
 				double wert = Double.valueOf(value.toString());
 				Color wertFarbe = getColor(wert);
-
 				comp.setBackground(wertFarbe);
 				return comp;
 			}
 		};
+		table.setDefaultEditor(Object.class, null);
 
+		if(scrollPaneMatrix != null)contentPane.remove(scrollPaneMatrix);
 		scrollPaneMatrix = new JScrollPane(table);
 		contentPane.add(scrollPaneMatrix, "cell 0 1,grow");
+		
 		rowTable = new RowNumberTable(table);
 		rowTable.setFilenames(nameDateien);
 		scrollPaneMatrix.setRowHeaderView(rowTable);

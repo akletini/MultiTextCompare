@@ -1,13 +1,10 @@
 package de.thkoeln.syp.mtc.gui.view;
 
 import java.awt.Color;
-import java.awt.GridLayout;
 import java.awt.Insets;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
-import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;

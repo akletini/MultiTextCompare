@@ -2,7 +2,6 @@ package de.thkoeln.syp.mtc.gui;
 
 import java.awt.EventQueue;
 
-import de.thkoeln.syp.mtc.gui.control.MainController;
 import de.thkoeln.syp.mtc.gui.view.MainView;
 
 public class Main {

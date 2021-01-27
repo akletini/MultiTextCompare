@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-import de.thkoeln.syp.mtc.gui.view.OLD_Dateiauswahl2View;
 import de.thkoeln.syp.mtc.gui.view.DateiauswahlView;
 import de.thkoeln.syp.mtc.gui.view.HilfeView;
 import de.thkoeln.syp.mtc.gui.view.KonfigurationView;

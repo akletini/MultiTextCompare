@@ -268,7 +268,7 @@ public class IFileImporterImpl implements IFileImporter {
 			return false;
 
 		for (File file : textdateien) {
-			if (file.exists())
+			if (file.exists() && !this.textdateien.contains(file))
 				this.textdateien.add(file);
 		}
 
@@ -296,6 +296,7 @@ public class IFileImporterImpl implements IFileImporter {
 		if (!rootDir.isDirectory())
 			return false;
 
+		fileName = fileName.toLowerCase();
 		fileName = fileName.replaceAll("\\.", "\\\\.");
 		fileName = fileName.replaceAll("\\?", "(.)");
 		fileName = fileName.replaceAll("\\*", "(.*)");
@@ -340,7 +341,8 @@ public class IFileImporterImpl implements IFileImporter {
 					for (File f : file.listFiles()) {
 						if (f.isDirectory()) {
 							searchInDir(f, fileName);
-						} else if (f.getName().matches(fileName)) {
+						} else if (f.getName().toLowerCase().matches(fileName)
+								&& !textdateien.contains(f)) {
 							this.textdateien.add(f);
 						}
 					}

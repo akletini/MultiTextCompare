@@ -13,14 +13,12 @@ import javax.swing.BorderFactory;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
-import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
 import de.thkoeln.syp.mtc.datenhaltung.api.IMatrix;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IMatrixImpl;
 import de.thkoeln.syp.mtc.gui.view.DateiauswahlView;
 import de.thkoeln.syp.mtc.gui.view.MainView;
-import de.thkoeln.syp.mtc.gui.view.OLD_MatrixView;
+import de.thkoeln.syp.mtc.gui.view.PopupView;
 import de.thkoeln.syp.mtc.steuerung.impl.IFileImporterImpl;
 import de.thkoeln.syp.mtc.steuerung.impl.ITextvergleicherImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
@@ -29,32 +27,30 @@ import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
 public class DateiauswahlController extends JFrame {
 	private JPanel panel;
 	private FileDialog fd;
+	private JFileChooser fc;
 	private File[] auswahl;
 	private List<File> auswahlGesamt;
-
 	private IFileImporter fileImporter;
 	private ITextvergleicher textVergleicher;
 	private IMatrix matrix;
-
-	private JFileChooser fc;
-
 	private MainView mainView;
 	private DateiauswahlView dateiauswahlView;
 
 	public DateiauswahlController(MainView mainView,
 			DateiauswahlView dateiauswahlView) {
 		panel = new JPanel();
-		auswahlGesamt = new ArrayList<File>();
 		fileImporter = new IFileImporterImpl();
 		textVergleicher = new ITextvergleicherImpl();
 		matrix = new IMatrixImpl();
 		this.mainView = mainView;
 		this.dateiauswahlView = dateiauswahlView;
+		dateiauswahlView.getTextFieldDateiname().setText(
+				fileImporter.getConfig().getDateiname());
 		dateiauswahlView.addSetRootListener(new SetRootListener());
 		dateiauswahlView.addSuchenListener(new SuchenListener());
 		dateiauswahlView.addEinfacheSucheListener(new EinfacheSucheListener());
+		dateiauswahlView.addResetListener(new ResetListener());
 		dateiauswahlView.addVergleichenListener(new VergleichenListener());
-
 	}
 
 	class SetRootListener implements ActionListener {
@@ -75,22 +71,26 @@ public class DateiauswahlController extends JFrame {
 
 	class SuchenListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
+			List<File> ref = new ArrayList<File>(fileImporter.getTextdateien());
 			fileImporter.importTextRoot(dateiauswahlView
-					.getTextFieldDateiname().getText());
-			for (File f : fileImporter.getTextdateien()) {
-				updateListFilePath(f);
+					.getTextFieldDateiname().getText() + getFileExt());
+			fileImporter.getRootImporter().start();
+			try {
+				fileImporter.getRootImporter().join();
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
-			// fileImporter.createTempFiles();
-			// textVergleicher.getTempfilesFromHashMap(fileImporter
-			// .getTempFilesMap());
-			// textVergleicher.getVergleiche(textVergleicher.getTempFiles());
-			// if (fileImporter.getConfig().getLineMatch() == false) {
-			// textVergleicher.vergleicheUeberGanzesDokument();
-			// } else {
-			// textVergleicher.vergleicheZeilenweise();
-			// }
-			// matrix = dateiauswahlView.getTextvergleicher().getMatrix();
-			// new MatrixView(matrix, textVergleicher.getTempFiles().size());
+
+			if (fileImporter.getTextdateien().equals(ref))
+				new PopupView(
+						"Bei dieser Suche wurden keine weiteren Dateien gefunden");
+
+			setRdbtn(fileImporter.getTextdateien().isEmpty());
+			updateListFilePath();
+			fileImporter.getConfig().setDateiname(
+					dateiauswahlView.getTextFieldDateiname().getText());
+			fileImporter.exportConfigdatei();
 		}
 	}
 
@@ -102,21 +102,33 @@ public class DateiauswahlController extends JFrame {
 					FileDialog.LOAD);
 			fd.setMultipleMode(true);
 			fd.setDirectory(".");
-			fd.setFile("*.txt");
+			fd.setFile("*" + getFileExt());
 			fd.setVisible(true);
 			auswahl = fd.getFiles();
+			auswahlGesamt = new ArrayList<File>();
 			for (File f : auswahl) {
-				updateListFilePath(f);
+				auswahlGesamt.add(f);
 			}
 			fileImporter.importTextdateien(auswahlGesamt);
 			dateiauswahlView.setLocationRelativeTo(null);
+			setRdbtn(fileImporter.getTextdateien().isEmpty());
+			updateListFilePath();
+		}
+	}
+
+	class ResetListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			fileImporter.loescheImports();
+			fileImporter.deleteTempFiles();
+			dateiauswahlView.getModel().clear();
+			setRdbtn(true);
 		}
 	}
 
 	class VergleichenListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-
 			fileImporter.createTempFiles();
+			fileImporter.normTempFiles();
 			textVergleicher.getTempfilesFromHashMap(fileImporter
 					.getTempFilesMap());
 			textVergleicher.getVergleiche(textVergleicher.getTempFiles());
@@ -126,32 +138,35 @@ public class DateiauswahlController extends JFrame {
 				textVergleicher.vergleicheZeilenweise();
 			}
 			matrix = textVergleicher.getMatrix();
-			String[] nameDateien = new String[auswahlGesamt.size()];
-			for (int i = 0; i < auswahlGesamt.size(); i++) {
-				nameDateien[i] = Character.toString((char) (('A' + i)));
-			}
-			System.out.println(auswahlGesamt.size());
-			mainView.updateMatrix(matrix, auswahlGesamt.size(), nameDateien);
-
-			// if (auswahl.length > 1) {
-			// fileImport.importTextdateien(fileArrayToList(getAuswahl()));
-			// fileImport.createTempFiles();
-			// textVergleicher.getTempfilesFromHashMap(fileImport
-			// .getTempFilesMap());
-			// textVergleicher.getVergleiche(textVergleicher.getTempFiles());
-			// if (!fileImport.getConfig().getLineMatch()) {
-			// } else {
-			// textVergleicher.vergleicheZeilenweise();
-			// }
-			// matrix = textVergleicher.getMatrix();
-			// // new MatrixView((IMatrixImpl) matrix, anzahlDateien,
-			// // nameDateien);
-			// mainView.updateMatrix(matrix, anzahlDateien, nameDateien);
+			mainView.updateMatrix(matrix, fileImporter.getTextdateien().size(),
+					getNameDateien(fileImporter.getTextdateien().size()));
 		}
 	}
 
 	public File[] getAuswahl() {
 		return auswahl;
+	}
+
+	public IMatrix getMatrix() {
+		return matrix;
+	}
+
+	public String getFileExt() {
+		if (dateiauswahlView.getRadioButton() == 1)
+			return ".txt";
+		if (dateiauswahlView.getRadioButton() == 2)
+			return ".xml";
+		if (dateiauswahlView.getRadioButton() == 3)
+			return ".json";
+		else
+			return "";
+	}
+
+	public void setRdbtn(boolean b) {
+		dateiauswahlView.getRdbtnTxt().setEnabled(b);
+		dateiauswahlView.getRdbtnXml().setEnabled(b);
+		dateiauswahlView.getRdbtnJson().setEnabled(b);
+		dateiauswahlView.getRdbtnAll().setEnabled(b);
 	}
 
 	private List<File> fileArrayToList(File[] array) {
@@ -162,18 +177,27 @@ public class DateiauswahlController extends JFrame {
 		return fileListe;
 	}
 
-	public IMatrix getMatrix() {
-		return matrix;
-	}
-
-	public void updateListFilePath(File f) {
-		if (!auswahlGesamt.contains(f)) {
-			auswahlGesamt.add(f);
-			dateiauswahlView.getModel().addElement(f.getAbsolutePath());
+	public void updateListFilePath() {
+		int importSize = fileImporter.getTextdateien().size();
+		String[] nameDateien = getNameDateien(importSize);
+		for (int i = 0; i < importSize; i++) {
+			if (!dateiauswahlView.getModel().contains(
+					fileImporter.getTextdateien().get(i).getAbsolutePath()))
+				dateiauswahlView.getModel().addElement(nameDateien[i] + ":  " +
+						fileImporter.getTextdateien().get(i).getAbsolutePath());
 		}
 	}
 
 	public void updateLblRootPath(DateiauswahlView d) {
 		d.getLblRootPath().setText(fileImporter.getConfig().getRootDir());
 	}
+
+	public String[] getNameDateien(int anzahl) {
+		String[] nameDateien = new String[anzahl];
+		for (int i = 0; i < anzahl; i++) {
+			nameDateien[i] = Character.toString((char) (('A' + i)));
+		}
+		return nameDateien;
+	}
+
 }

@@ -8,10 +8,8 @@ import java.io.File;
 import javax.swing.JFileChooser;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
-import de.thkoeln.syp.mtc.datenhaltung.impl.IConfigImpl;
 import de.thkoeln.syp.mtc.gui.view.KonfigurationView;
 import de.thkoeln.syp.mtc.gui.view.PopupView;
-import de.thkoeln.syp.mtc.steuerung.impl.IFileImporterImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
 
 public class KonfigurationController {

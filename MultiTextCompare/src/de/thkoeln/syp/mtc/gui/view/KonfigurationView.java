@@ -12,7 +12,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
-import de.thkoeln.syp.mtc.datenhaltung.impl.IConfigImpl;
 import de.thkoeln.syp.mtc.gui.control.KonfigurationController;
 import de.thkoeln.syp.mtc.steuerung.impl.IFileImporterImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
@@ -21,11 +20,13 @@ public class KonfigurationView extends JFrame {
 	private JPanel panel;
 	private JLabel labelWurzelpfad;
 	private JLabel labelLeerzeichen;
+	private JLabel labelLeerzeilen;
 	private JLabel labelSatzzeichen;
 	private JLabel labelGrossschreibung;
 	private JLabel labelWurzelverzeichnis;
 	private JLabel labelLinematch;
 	private JCheckBox checkBoxLeerzeichen;
+	private JCheckBox checkBoxLeerzeilen;
 	private JCheckBox checkBoxGrossschreibung;
 	private JCheckBox checkBoxSatzzeichen;
 	private JCheckBox checkBoxLinematch;
@@ -41,11 +42,13 @@ public class KonfigurationView extends JFrame {
 		fileImporter = new IFileImporterImpl();
 		labelWurzelpfad = new JLabel(fileImporter.getConfig().getRootDir());
 		labelLeerzeichen = new JLabel("Beachte Leerzeichen ");
+		labelLeerzeilen = new JLabel("Beachte Leerzeilen ");
 		labelSatzzeichen = new JLabel("Beachte Satzzeichen ");
 		labelGrossschreibung = new JLabel("Beachte Groﬂschreibung ");
 		labelWurzelverzeichnis = new JLabel("Wurzelverzeichnis ");
 		labelLinematch = new JLabel("Zeilenweiser Vergleich");
 		checkBoxLeerzeichen = new JCheckBox();
+		checkBoxLeerzeilen = new JCheckBox();
 		checkBoxSatzzeichen = new JCheckBox();
 		checkBoxGrossschreibung = new JCheckBox();
 		checkBoxLinematch = new JCheckBox();
@@ -64,20 +67,19 @@ public class KonfigurationView extends JFrame {
 		panel.add(buttonWurzelverzeichnis);
 
 		panel.add(labelLeerzeichen);
-		panel.add(checkBoxLeerzeichen);
-		if(config.getBeachteLeerzeichen()) checkBoxLeerzeichen.setSelected(true);
-
+		setupCheckbox(checkBoxLeerzeichen);
+		
+		panel.add(labelLeerzeilen);
+		setupCheckbox(checkBoxLeerzeilen);
+		
 		panel.add(labelSatzzeichen);
-		panel.add(checkBoxSatzzeichen);
-		if(config.getBeachteSatzzeichen()) checkBoxSatzzeichen.setSelected(true);
+		setupCheckbox(checkBoxSatzzeichen);
 
 		panel.add(labelGrossschreibung);
-		panel.add(checkBoxGrossschreibung);
-		if(config.getBeachteGrossschreibung()) checkBoxGrossschreibung.setSelected(true);
+		setupCheckbox(checkBoxGrossschreibung);
 
 		panel.add(labelLinematch);
-		panel.add(checkBoxLinematch);
-		if(config.getLineMatch()) checkBoxLinematch.setSelected(true);
+		setupCheckbox(checkBoxLinematch);
 
 		panel.add(buttonDefault);
 		panel.add(buttonSpeichern);
@@ -104,6 +106,11 @@ public class KonfigurationView extends JFrame {
 	
 	public void updateWurzelpfad(){
 		labelWurzelpfad.setText(fileImporter.getConfig().getRootDir());
+	}
+	
+	public void setupCheckbox(JCheckBox c){
+		panel.add(c);
+		if(config.getBeachteLeerzeichen()) c.setSelected(true);
 	}
 	
 	public IFileImporter getFileImporter(){
