@@ -64,16 +64,6 @@ public class MainView extends JFrame {
 		toolBar.add(btnKonfig);
 
 		btnHilfe = new JButton("Hilfe");
-		btnHilfe.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					new HilfeView();
-				} catch (IOException e1) {
-
-					e1.printStackTrace();
-				}
-			}
-		});
 		toolBar.add(btnHilfe);
 
 		btnAbout = new JButton("About");

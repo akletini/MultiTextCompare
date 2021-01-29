@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
@@ -27,7 +28,7 @@ public class HilfeView extends JFrame {
 	private JTextPane tPane1;
 	private JTextPane tPane2;
 	private JTextPane tPane3;
-
+	
 	public HilfeView() throws IOException {
 		panel = new JPanel();
 		backgroundColor = new Color(20,20,20);
@@ -42,6 +43,7 @@ public class HilfeView extends JFrame {
 				+ "src" + File.separator + "test" + File.separator
 				+ "testFiles" + File.separator + "DiffHelperC.txt");
 		auswahl = new File[]{file1, file2, file3};
+		
 
 		IDiffHelper diff = new IDiffHelperImpl();
 		try {
