@@ -183,7 +183,7 @@ public class IDiffHelperImpl implements IDiffHelper {
 		}
 	}
 	
-	public void generateOuterDiff(File[] files,
+	private void generateOuterDiff(File[] files,
 			FileCommandVisitor fileCommandsVisitor) throws IOException {
 		LineIterator file1 = FileUtils.lineIterator(files[1]);
 		LineIterator file2 = FileUtils.lineIterator(files[2]);
