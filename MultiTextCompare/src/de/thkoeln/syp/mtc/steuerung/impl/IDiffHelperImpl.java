@@ -182,7 +182,7 @@ public class IDiffHelperImpl implements IDiffHelper {
 
 		}
 	}
-	
+
 	private void generateOuterDiff(File[] files,
 			FileCommandVisitor fileCommandsVisitor) throws IOException {
 		LineIterator file1 = FileUtils.lineIterator(files[1]);
@@ -259,6 +259,11 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 	private static final String DELETION = "RED";
 	private static final String INSERTION = "GREEN";
 	private static final String UNCHANGED = "WHITE";
+	
+	private static final String DIFFTOLEFT = "CYAN";
+	private static final String DIFFTOMIDDLE = "ORANGE";
+	private static final String DIFFTORIGHT = "GREEN";
+	private static final String DIFFTOALL = "RED";
 
 	private List<IDiffChar> leftFile;
 	private List<IDiffChar> rightFile;
@@ -275,32 +280,32 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 	private List<IDiffLine> middleLines2;
 
 	private int durchgang;
-	
-	public FileCommandVisitor(){
+
+	public FileCommandVisitor() {
 		leftFile = new ArrayList<IDiffChar>();
 		rightFile = new ArrayList<IDiffChar>();
 		middleFile = new ArrayList<IDiffChar>();
-		
+
 		leftLines = new ArrayList<IDiffLine>();
 		rightLines = new ArrayList<IDiffLine>();
 		middleLines = new ArrayList<IDiffLine>();
-		
+
 		// fuer den Vergleich vom mittleren und rechten File
 		middleFile2 = new ArrayList<IDiffChar>();
 		rightFile2 = new ArrayList<IDiffChar>();
-		
+
 		rightLines2 = new ArrayList<IDiffLine>();
 		middleLines2 = new ArrayList<IDiffLine>();
-		
+
 		durchgang = 1;
 	}
-
 
 	/**
 	 * der betroffene Buchstabe Wird aufgerufen wenn der Buchstabe c in beiden
 	 * Dateien an der gleichen Stelle vorhanden ist
 	 * 
-	 * @param c der "gediffte" Buchstabe
+	 * @param c
+	 *            der "gediffte" Buchstabe
 	 */
 	@Override
 	public void visitKeepCommand(Character c) {
@@ -323,7 +328,8 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 	 * der betroffene Buchstabe Wird aufgerufen wenn der Buchstabe c in einer
 	 * Vergleichsdatei präsent ist aber nicht in der Referenz
 	 * 
-	 * @param c der "gediffte" Buchstabe
+	 * @param c
+	 *            der "gediffte" Buchstabe
 	 */
 	@Override
 	public void visitInsertCommand(Character c) {
@@ -344,7 +350,8 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 	 * der betroffene Buchstabe Wird aufgerufen wenn der Buchstabe c in einer
 	 * Referenzdatei präsent ist aber nicht in der Vergleichsdatei
 	 * 
-	 * @param c der "gediffte" Buchstabe
+	 * @param c
+	 *            der "gediffte" Buchstabe
 	 * 
 	 */
 	@Override
@@ -473,25 +480,29 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 			mergedLine = new ArrayList<IDiffChar>();
 
 			for (int j = 0; j < upper.size(); j++) {
+				// unverändert
 				if (upper.get(j).getCharColor().equals("WHITE")
 						&& lower.get(j).getCharColor().equals("WHITE")) {
 					mergedLine.add(new IDiffCharImpl(upper.get(j)
-							.getCurrentChar(), "WHITE"));
+							.getCurrentChar(), UNCHANGED));
 				}
+				//diff zur Mitte
 				if (upper.get(j).getCharColor().equals("RED")
 						&& lower.get(j).getCharColor().equals("WHITE")) {
 					mergedLine.add(new IDiffCharImpl(upper.get(j)
-							.getCurrentChar(), "GREEN"));
+							.getCurrentChar(), DIFFTOMIDDLE));
 				}
+				// diff zu rechts
 				if (upper.get(j).getCharColor().equals("WHITE")
 						&& lower.get(j).getCharColor().equals("RED")) {
 					mergedLine.add(new IDiffCharImpl(upper.get(j)
-							.getCurrentChar(), "PINK"));
+							.getCurrentChar(), DIFFTORIGHT));
 				}
+				// diff zu beiden
 				if (upper.get(j).getCharColor().equals("RED")
 						&& lower.get(j).getCharColor().equals("RED")) {
 					mergedLine.add(new IDiffCharImpl(upper.get(j)
-							.getCurrentChar(), "RED"));
+							.getCurrentChar(), DIFFTOALL));
 				}
 			}
 			IDiffLine line = new IDiffLineImpl();
@@ -518,25 +529,25 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 				if (left.get(j).getCharColor()
 						.equals(right.get(j).getCharColor())) {
 					mergedLine.add(new IDiffCharImpl(left.get(j)
-							.getCurrentChar(), left.get(j).getCharColor()));
+							.getCurrentChar(), UNCHANGED));
 				}
 				// Diff zu beiden
 				if (left.get(j).getCharColor().equals("GREEN")
 						&& right.get(j).getCharColor().equals("RED")) {
 					mergedLine.add(new IDiffCharImpl(left.get(j)
-							.getCurrentChar(), "RED"));
+							.getCurrentChar(), DIFFTOALL));
 				}
 				// Diff zu links
 				if (left.get(j).getCharColor().equals("GREEN")
 						&& right.get(j).getCharColor().equals("WHITE")) {
 					mergedLine.add(new IDiffCharImpl(left.get(j)
-							.getCurrentChar(), "ORANGE"));
+							.getCurrentChar(), DIFFTOLEFT));
 				}
 				// Diff zu rechts
 				if (left.get(j).getCharColor().equals("WHITE")
 						&& right.get(j).getCharColor().equals("RED")) {
 					mergedLine.add(new IDiffCharImpl(left.get(j)
-							.getCurrentChar(), "BLUE"));
+							.getCurrentChar(), DIFFTORIGHT));
 				}
 
 			}
@@ -555,25 +566,25 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 				if (left.get(j).getCharColor().equals("WHITE")
 						&& right.get(j).getCharColor().equals("WHITE")) {
 					mergedLine.add(new IDiffCharImpl(left.get(j)
-							.getCurrentChar(), "WHITE"));
+							.getCurrentChar(), UNCHANGED));
 				}
 				// Diff zur mitte
 				if (left.get(j).getCharColor().equals("WHITE")
 						&& right.get(j).getCharColor().equals("GREEN")) {
 					mergedLine.add(new IDiffCharImpl(left.get(j)
-							.getCurrentChar(), "YELLOW"));
+							.getCurrentChar(), DIFFTOMIDDLE));
 				}
 				// Diff zu links
 				if (left.get(j).getCharColor().equals("GREEN")
 						&& right.get(j).getCharColor().equals("WHITE")) {
 					mergedLine.add(new IDiffCharImpl(left.get(j)
-							.getCurrentChar(), "CYAN"));
+							.getCurrentChar(), DIFFTOLEFT));
 				}
 				// Diff zu beiden
 				if (left.get(j).getCharColor().equals("GREEN")
 						&& right.get(j).getCharColor().equals("GREEN")) {
 					mergedLine.add(new IDiffCharImpl(left.get(j)
-							.getCurrentChar(), "RED"));
+							.getCurrentChar(), DIFFTOALL));
 				}
 
 			}
@@ -581,6 +592,7 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 			line.setDiffedLine(mergedLine);
 			mergedFileRight.add(line);
 		}
+
 		rightLines = mergedFileRight;
 	}
 
@@ -610,6 +622,7 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 	public List<IDiffLine> getMiddleLines() {
 		return middleLines;
 	}
+
 	public void setDurchgang(int durchgang) {
 		this.durchgang = durchgang;
 	}
@@ -617,6 +630,5 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 	public int getDurchgang() {
 		return durchgang;
 	}
-
 
 }
