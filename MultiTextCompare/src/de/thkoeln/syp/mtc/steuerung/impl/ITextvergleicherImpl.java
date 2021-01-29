@@ -347,8 +347,6 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 			String ref = refList.get(i);
 			String vgl = vglList.get(i);
 			String laengsterString;
-			
-			System.out.println("Ref " + ref + "Vgl " + vgl);
 
 			if (ref.length() >= vgl.length()) {
 				laengsterString = ref;
@@ -460,21 +458,10 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		return getChunksByType(Delta.TYPE.CHANGE);
 	}
 
-	private List<Chunk> getInsertsFromOriginal() throws IOException {
-		return getChunksByType(Delta.TYPE.INSERT);
-	}
-
-	private List<Chunk> getDeletesFromOriginal() throws IOException {
-		return getChunksByType(Delta.TYPE.DELETE);
-	}
-
 	private List<Chunk> getChangesInReference() throws IOException {
 		return getUnchangedChunksByType(Delta.TYPE.CHANGE);
 	}
 
-	private List<Chunk> getInsertsInReference() throws IOException {
-		return getUnchangedChunksByType(Delta.TYPE.INSERT);
-	}
 
 	private List<Chunk> getDeletesInReference() throws IOException {
 		return getUnchangedChunksByType(Delta.TYPE.DELETE);

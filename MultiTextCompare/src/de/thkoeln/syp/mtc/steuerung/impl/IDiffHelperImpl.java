@@ -182,7 +182,7 @@ public class IDiffHelperImpl implements IDiffHelper {
 
 		}
 	}
-
+	
 	public void generateOuterDiff(File[] files,
 			FileCommandVisitor fileCommandsVisitor) throws IOException {
 		LineIterator file1 = FileUtils.lineIterator(files[1]);
@@ -256,40 +256,51 @@ public class IDiffHelperImpl implements IDiffHelper {
  */
 class FileCommandVisitor implements CommandVisitor<Character> {
 
-	// Spans with red & green highlights to put highlighted characters in HTML
 	private static final String DELETION = "RED";
 	private static final String INSERTION = "GREEN";
 	private static final String UNCHANGED = "WHITE";
 
-	private List<IDiffChar> leftFile = new ArrayList<IDiffChar>();
-	private List<IDiffChar> rightFile = new ArrayList<IDiffChar>();
-	private List<IDiffChar> middleFile = new ArrayList<IDiffChar>();
+	private List<IDiffChar> leftFile;
+	private List<IDiffChar> rightFile;
+	private List<IDiffChar> middleFile;
 
-	private List<IDiffChar> middleFile2 = new ArrayList<IDiffChar>();
-	private List<IDiffChar> rightFile2 = new ArrayList<IDiffChar>();
+	private List<IDiffChar> middleFile2;
+	private List<IDiffChar> rightFile2;
 
-	private List<IDiffLine> leftLines = new ArrayList<IDiffLine>();
-	private List<IDiffLine> rightLines = new ArrayList<IDiffLine>();
-	private List<IDiffLine> middleLines = new ArrayList<IDiffLine>();
+	private List<IDiffLine> leftLines;
+	private List<IDiffLine> rightLines;
+	private List<IDiffLine> middleLines;
 
-	private List<IDiffLine> rightLines2 = new ArrayList<IDiffLine>();
-	private List<IDiffLine> middleLines2 = new ArrayList<IDiffLine>();
+	private List<IDiffLine> rightLines2;
+	private List<IDiffLine> middleLines2;
 
-	private int durchgang = 1;
-
-	public void setDurchgang(int durchgang) {
-		this.durchgang = durchgang;
+	private int durchgang;
+	
+	public FileCommandVisitor(){
+		leftFile = new ArrayList<IDiffChar>();
+		rightFile = new ArrayList<IDiffChar>();
+		middleFile = new ArrayList<IDiffChar>();
+		
+		leftLines = new ArrayList<IDiffLine>();
+		rightLines = new ArrayList<IDiffLine>();
+		middleLines = new ArrayList<IDiffLine>();
+		
+		// fuer den Vergleich vom mittleren und rechten File
+		middleFile2 = new ArrayList<IDiffChar>();
+		rightFile2 = new ArrayList<IDiffChar>();
+		
+		rightLines2 = new ArrayList<IDiffLine>();
+		middleLines2 = new ArrayList<IDiffLine>();
+		
+		durchgang = 1;
 	}
 
-	public int getDurchgang() {
-		return durchgang;
-	}
 
 	/**
 	 * der betroffene Buchstabe Wird aufgerufen wenn der Buchstabe c in beiden
 	 * Dateien an der gleichen Stelle vorhanden ist
 	 * 
-	 * @param c
+	 * @param c der "gediffte" Buchstabe
 	 */
 	@Override
 	public void visitKeepCommand(Character c) {
@@ -312,7 +323,7 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 	 * der betroffene Buchstabe Wird aufgerufen wenn der Buchstabe c in einer
 	 * Vergleichsdatei präsent ist aber nicht in der Referenz
 	 * 
-	 * @param c
+	 * @param c der "gediffte" Buchstabe
 	 */
 	@Override
 	public void visitInsertCommand(Character c) {
@@ -333,7 +344,7 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 	 * der betroffene Buchstabe Wird aufgerufen wenn der Buchstabe c in einer
 	 * Referenzdatei präsent ist aber nicht in der Vergleichsdatei
 	 * 
-	 * @param c
+	 * @param c der "gediffte" Buchstabe
 	 * 
 	 */
 	@Override
@@ -598,6 +609,13 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 
 	public List<IDiffLine> getMiddleLines() {
 		return middleLines;
+	}
+	public void setDurchgang(int durchgang) {
+		this.durchgang = durchgang;
+	}
+
+	public int getDurchgang() {
+		return durchgang;
 	}
 
 
