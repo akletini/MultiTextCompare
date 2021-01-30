@@ -15,17 +15,17 @@ public interface ITextvergleicher {
 
 	List<IAehnlichkeitImpl> getVergleiche(List<File> files);
 
+	void vergleicheUeberGanzesDokument();
+	
 	void vergleicheZeilenweise();
+
+	void getTempfilesFromHashMap(Map<File, File> map);
 
 	void setRef(File von);
 
 	void setVgl(File vgl);
 
 	List<IAehnlichkeitImpl> getPaarungen();
-
-	void vergleicheUeberGanzesDokument();
-
-	void getTempfilesFromHashMap(Map<File, File> map);
 
 	List<File> getTempFiles();
 

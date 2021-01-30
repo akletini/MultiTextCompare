@@ -35,13 +35,16 @@ public class HilfeView extends JFrame {
 		
 		File file1 = new File(System.getProperty("user.dir") + File.separator
 				+ "src" + File.separator + "test" + File.separator
-				+ "testFiles" + File.separator + "DiffHelperA.txt");
+				+ "testFiles" + File.separator + "IDiffHelperTestFiles"
+				+ File.separator + "DiffHelperA.txt");
 		File file2 = new File(System.getProperty("user.dir") + File.separator
 				+ "src" + File.separator + "test" + File.separator
-				+ "testFiles" + File.separator + "DiffHelperB.txt");
+				+ "testFiles" + File.separator + "IDiffHelperTestFiles"
+				+ File.separator + "DiffHelperB.txt");
 		File file3 = new File(System.getProperty("user.dir") + File.separator
 				+ "src" + File.separator + "test" + File.separator
-				+ "testFiles" + File.separator + "DiffHelperC.txt");
+				+ "testFiles" + File.separator + "IDiffHelperTestFiles"
+				+ File.separator + "DiffHelperC.txt");
 		auswahl = new File[]{file1, file2, file3};
 		
 
