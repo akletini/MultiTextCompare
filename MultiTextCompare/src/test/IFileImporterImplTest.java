@@ -121,11 +121,24 @@ public class IFileImporterImplTest {
 	}
 
 	@Test
-	public void test_loescheTextdateien() {
+	public void test_deleteImports() {
 		fileImporter.importTextdateien(textdateien);
 		fileImporter.deleteImports();
 
 		assertEquals(Collections.EMPTY_LIST, fileImporter.getTextdateien());
+	}
+
+	@Test
+	public void test_deleteImport() {
+		File fileA = new File(System.getProperty("user.dir") + File.separator
+				+ "src" + File.separator + "test" + File.separator
+				+ "testFiles" + File.separator + "FileA.txt");
+
+		fileImporter.importTextdateien(textdateien);
+		assertTrue(fileImporter.getTextdateien().contains(fileA));
+
+		fileImporter.deleteImport(fileA);
+		assertFalse(fileImporter.getTextdateien().contains(fileA));
 	}
 
 	@Test
@@ -145,7 +158,7 @@ public class IFileImporterImplTest {
 	}
 
 	@Test
-	public void test_loescheTempFiles() {
+	public void test_deleteTempFiles() {
 		fileImporter.createTempFiles();
 		assertNotEquals(Collections.EMPTY_MAP, fileImporter.getTempFilesMap());
 
@@ -159,9 +172,7 @@ public class IFileImporterImplTest {
 		fileImporter.importTextRoot("File?.txt");
 		fileImporter.getRootImporter().start();
 		fileImporter.getRootImporter().join();
-
-		for (File f : fileImporter.getTextdateien())
-			System.out.println(f.getAbsolutePath());
+		
 		assertTrue(fileImporter.getTextdateien().containsAll(textdateien));
 	}
 }

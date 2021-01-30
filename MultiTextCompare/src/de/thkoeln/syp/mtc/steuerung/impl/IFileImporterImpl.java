@@ -331,9 +331,7 @@ public class IFileImporterImpl implements IFileImporter {
 
 			@Override
 			public void run() {
-				System.out.println("starts");
 				searchInDir(file, fileName);
-				System.out.println("finished");
 			}
 
 			private void searchInDir(File file, String fileName) {
