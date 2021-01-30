@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="MultiTextCompare">
+    <property environment="env"/>
+    <property name="junit.output.dir" value="junit"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.7"/>
+    <property name="source" value="1.7"/>
+    <path id="JUnit 4.libraryclasspath">
+        <pathelement location="../../../../Eclipse/plugins/org.junit_4.11.0.v201303080030/junit.jar"/>
+        <pathelement location="../../../../Eclipse/plugins/org.hamcrest.core_1.3.0.v201303031735.jar"/>
+    </path>
+    <path id="MultiTextCompare.classpath">
+        <pathelement location="bin"/>
+        <path refid="JUnit 4.libraryclasspath"/>
+        <pathelement location="lib/diffutils-1.2.1-sources.jar"/>
+        <pathelement location="lib/diffutils-1.2.1.jar"/>
+        <pathelement location="lib/jdom-2.0.6.jar"/>
+        <pathelement location="lib/jdom-2.0.6-javadoc.jar"/>
+        <pathelement location="lib/jdom-2.0.6-sources.jar"/>
+        <pathelement location="lib/commons-io-2.6-javadoc.jar"/>
+        <pathelement location="lib/commons-io-2.6-sources.jar"/>
+        <pathelement location="lib/commons-io-2.6.jar"/>
+        <pathelement location="lib/commons-text-1.3-javadoc.jar"/>
+        <pathelement location="lib/commons-text-1.3-sources.jar"/>
+        <pathelement location="lib/commons-text-1.3.jar"/>
+        <pathelement location="lib/miglayout-swing.jar"/>
+        <pathelement location="lib/miglayout-core.jar"/>
+    </path>
+    <target name="init">
+        <mkdir dir="bin"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="bin"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src"/>
+            <classpath refid="MultiTextCompare.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
+        <copy todir="${ant.library.dir}">
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </copy>
+        <unzip dest="${ant.library.dir}">
+            <patternset includes="jdtCompilerAdapter.jar"/>
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </unzip>
+    </target>
+    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
+        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+        <antcall target="build"/>
+    </target>
+    <target name="FileComparerTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="testPackage.FileComparerTest" todir="${junit.output.dir}"/>
+            <classpath refid="MultiTextCompare.classpath"/>
+        </junit>
+    </target>
+    <target name="IDiffHelperImpl">
+        <java classname="de.thkoeln.syp.mtc.steuerung.impl.IDiffHelperImpl" failonerror="true" fork="yes">
+            <classpath refid="MultiTextCompare.classpath"/>
+        </java>
+    </target>
+    <target name="IDiffHelperImplTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="test.IDiffHelperImplTest" todir="${junit.output.dir}"/>
+            <classpath refid="MultiTextCompare.classpath"/>
+        </junit>
+    </target>
+    <target name="IFileImporterImpl">
+        <java classname="de.thkoeln.syp.mtc.steuerung.impl.IFileImporterImpl" failonerror="true" fork="yes">
+            <classpath refid="MultiTextCompare.classpath"/>
+        </java>
+    </target>
+    <target name="IFileImporterImplTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="test.IFileImporterImplTest" todir="${junit.output.dir}"/>
+            <classpath refid="MultiTextCompare.classpath"/>
+        </junit>
+    </target>
+    <target name="ITextvergleicherImplTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="test.ITextvergleicherImplTest" todir="${junit.output.dir}"/>
+            <classpath refid="MultiTextCompare.classpath"/>
+        </junit>
+    </target>
+    <target name="ITextvergleicherImplTest.test_vergleich">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="test.ITextvergleicherImplTest" todir="${junit.output.dir}"/>
+            <classpath refid="MultiTextCompare.classpath"/>
+        </junit>
+    </target>
+    <target name="IXMLVergleicherImplTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="test.IXMLVergleicherImplTest" todir="${junit.output.dir}"/>
+            <classpath refid="MultiTextCompare.classpath"/>
+        </junit>
+    </target>
+    <target name="Main (1)">
+        <java classname="de.thkoeln.syp.mtc.gui.Main" failonerror="true" fork="yes">
+            <classpath refid="MultiTextCompare.classpath"/>
+        </java>
+    </target>
+    <target name="Main">
+        <java classname="testPackage.Main" failonerror="true" fork="yes">
+            <classpath refid="MultiTextCompare.classpath"/>
+        </java>
+    </target>
+    <target name="MainMenu">
+        <java classname="de.thkoeln.syp.mtc.gui.MainMenu" failonerror="true" fork="yes">
+            <classpath refid="MultiTextCompare.classpath"/>
+        </java>
+    </target>
+    <target name="test">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="test.IDiffHelperImplTest" todir="${junit.output.dir}"/>
+            <test name="test.IFileImporterImplTest" todir="${junit.output.dir}"/>
+            <test name="test.ITextvergleicherImplTest" todir="${junit.output.dir}"/>
+            <test name="test.IXMLVergleicherImplTest" todir="${junit.output.dir}"/>
+            <classpath refid="MultiTextCompare.classpath"/>
+        </junit>
+    </target>
+    <target name="junitreport">
+        <junitreport todir="${junit.output.dir}">
+            <fileset dir="${junit.output.dir}">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${junit.output.dir}"/>
+        </junitreport>
+    </target>
+</project>
