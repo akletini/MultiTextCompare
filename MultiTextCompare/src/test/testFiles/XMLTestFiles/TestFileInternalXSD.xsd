@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<xs:schema targetNamespace="http://www.w3schools.com/MTC"
+    elementFormDefault="qualified"
+    xmlns="http://www.w3schools.com/MTC TestFileInternalXSD.xsd"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="KUNDE">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="KNR" type="xs:unsignedByte" />
+        <xs:element name="KNAME">
+          <xs:complexType>
+            <xs:simpleContent>
+              <xs:extension base="xs:string">
+                <xs:attribute name="attr4" type="xs:string" use="required" />
+                <xs:attribute name="cattre" type="xs:string" use="required" />
+                <xs:attribute name="battr" type="xs:string" use="required" />
+              </xs:extension>
+            </xs:simpleContent>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="BESTELLUNG">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="BSTNR" type="xs:unsignedByte" />
+              <xs:element name="STATUS">
+                <xs:complexType>
+                  <xs:attribute name="attr2" type="xs:string" use="required" />
+                  <xs:attribute name="attr1" type="xs:string" use="required" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="RSUM">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:decimal">
+                      <xs:attribute name="zttr" type="xs:string" use="required" />
+                      <xs:attribute name="xttr" type="xs:string" use="required" />
+                      <xs:attribute name="httr23" type="xs:string" use="required" />
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="BPOS">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="MENGE" type="xs:unsignedByte" />
+                    <xs:element name="POSNR">
+                      <xs:complexType>
+                        <xs:attribute name="attr" type="xs:unsignedByte" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="WERT">
+                      <xs:complexType>
+                        <xs:simpleContent>
+                          <xs:extension base="xs:decimal">
+                            <xs:attribute name="bttr" type="xs:string" use="required" />
+                            <xs:attribute name="cttr" type="xs:string" use="required" />
+                            <xs:attribute name="attr" type="xs:string" use="required" />
+                          </xs:extension>
+                        </xs:simpleContent>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="ARTIKEL">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="MGE" type="xs:string" />
+                          <xs:element name="PREIS" type="xs:decimal" />
+                          <xs:element name="KUEHL" type="xs:string" />
+                          <xs:element name="ARTNR" type="xs:unsignedByte" />
+                          <xs:element name="ARTBEZ" type="xs:string" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="attr2" type="xs:string" use="required" />
+            <xs:attribute name="attr1" type="xs:string" use="required" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="PLZ" type="xs:unsignedShort" />
+        <xs:element name="WORT" type="xs:string" />
+        <xs:element name="STRASSE" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

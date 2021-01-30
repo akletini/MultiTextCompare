@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<KUNDE>
+	<KNR></KNR>
+	
+	<KNAME></KNAME>
+	<BESTELLUNG>
+		
+		<BSTNR></BSTNR>
+		<STATUS />
+		<RSUM></RSUM>
+		<BPOS>
+			<MENGE></MENGE>
+			<POSNR />
+			<WERT></WERT>
+			
+			<ARTIKEL>
+				<MGE></MGE>
+				<PREIS></PREIS>
+				<KUEHL></KUEHL>
+				
+				<ARTNR></ARTNR>
+				<ARTBEZ></ARTBEZ>
+			</ARTIKEL>
+		</BPOS>
+		
+	</BESTELLUNG>
+	<PLZ></PLZ>
+	<WORT></WORT>
+	<STRASSE></STRASSE>
+</KUNDE>

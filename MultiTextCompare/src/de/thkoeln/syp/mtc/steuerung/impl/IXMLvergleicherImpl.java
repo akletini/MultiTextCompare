@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Scanner;
 
+import org.apache.commons.io.FileUtils;
 import org.jdom2.Attribute;
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -27,6 +29,7 @@ import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
 import de.thkoeln.syp.mtc.steuerung.services.IXMLvergleicher;
 
 public class IXMLvergleicherImpl implements IXMLvergleicher {
+	
 	private File xsdFile;
 	private File ref, vgl;
 	
@@ -35,8 +38,6 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 	private SAXBuilder builder = null;
 	
 	private List<IXMLParseError> errorListe;
-	
-	private ITextvergleicher itv = new ITextvergleicherImpl();
 	
 	private IXMLParseError parseError = null;
 	
@@ -52,9 +53,19 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 		errorListe.add(error);
 	}
 	
+	/**
+	 * set Methode zum setzen des XSD Files
+	 * 
+	 * @param xsdFile
+	 *           Java.io File welches die XSD zur XML beinhaltet
+	 */
+	public void setXSDFile(File xsdFile){
+		this.xsdFile = xsdFile;
+	}
+	
 	
 	/**
-	 * get Methode ermoeglicht zugriff auf die Errorliste
+	 * get Methode ermoeglicht Zugriff auf die Errorliste
 	 * 
 	 * @return List<IXMLParseError>
 	 *           Liste mit moeglichen Elementen der Klasse IXMLParseError,
@@ -77,71 +88,72 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 	public List<IXMLParseError> parseFile(File file, int mode){
 		errorListe = new ArrayList();
 		
-		//int mode = 3; // 0: None | 1: internal XSD | 2: external XSD | 3: DTD
+		//int mode = 3; // 0: None | 1: internal XSD | 2: DTD
 		switch(mode){
 		case 0:
 			 builder = new SAXBuilder();
 			 try{
+				 
 				 doc = builder.build(file);
+				 
+			 } catch (FileNotFoundException e) {
+				 System.out.println("File < " + file.getName() + " > not found.");
 			 } catch (JDOMParseException jde){			
 
 				 parseError = new IXMLParseErrorImpl(file, jde.getMessage(), jde.getColumnNumber(), jde.getLineNumber());
 				 errorListe.add(parseError);
 				 
-			 } catch (FileNotFoundException e) {
-				 System.out.println("File < " + file.getName() + " > not found.");	 
-			 } catch(IOException e) {
-				 e.printStackTrace();
-			 }catch(JDOMException e) {
-				 e.printStackTrace();
-			 } finally {
-				 parseError = null;
+				 builder = new SAXBuilder();	 
+			 } catch(IOException ioe) {
+				 ioe.printStackTrace();
+			 }catch(JDOMException jde) {	 
+				 jde.printStackTrace(); 
 			 }
 			 break;
+			 
 		case 1:
+			
 			// internal XSD reference
 			 try{
+				 
 				builder = new SAXBuilder(XMLReaders.XSDVALIDATING);
 				doc = builder.build(file);
+				
 			 } catch (FileNotFoundException e) {
 				 System.out.println("File < " + file.getName() + " > not found.");	 
-			 } catch(IOException e) {
-				 e.printStackTrace();
-			 }catch(JDOMException e) {
-				 e.printStackTrace();
-			 } finally {
-				 parseError = null;
+			 } catch (JDOMParseException jde){			
+
+				 parseError = new IXMLParseErrorImpl(file, jde.getMessage(), jde.getColumnNumber(), jde.getLineNumber());
+				 errorListe.add(parseError);
+				 
+				 builder = new SAXBuilder();
+				 
+			 }
+			 catch(IOException ioe) {
+				 ioe.printStackTrace();
+			 }catch(JDOMException jde) {	 
+				 jde.printStackTrace(); 
 			 }
 			 break;
+			 
 		case 2:
-			// external XSD reference
-			 try{
-				XMLReaderJDOMFactory factory = new XMLReaderXSDFactory(xsdFile);
-				builder = new SAXBuilder(factory);
-				doc = builder.build(file);
-			 } catch (FileNotFoundException e) {
-				 System.out.println("File < " + file.getName() + " > not found.");	 
-			 } catch(IOException e) {
-				 e.printStackTrace();
-			 }catch(JDOMException e) {
-				 e.printStackTrace();
-			 } finally {
-				 parseError = null;
-			 }
-			 break;
-		case 3:
 			// DTD
 			 try{
 				 builder = new SAXBuilder(XMLReaders.DTDVALIDATING);
 				 doc = builder.build(file);
 			 } catch (FileNotFoundException e) {
 				 System.out.println("File < " + file.getName() + " > not found.");	 
-			 } catch(IOException e) {
-				 e.printStackTrace();
-			 }catch(JDOMException e) {
-				 e.printStackTrace();
-			 } finally {
-				 parseError = null;
+			 } catch (JDOMParseException jde){			
+
+				 parseError = new IXMLParseErrorImpl(file, jde.getMessage(), jde.getColumnNumber(), jde.getLineNumber());
+				 errorListe.add(parseError);
+				 
+				 builder = new SAXBuilder();
+				 
+			 } catch(IOException ioe) {
+				 ioe.printStackTrace();
+			 }catch(JDOMException jde) {	 
+				 jde.printStackTrace(); 
 			 }
 			 break;
 		}
@@ -150,9 +162,112 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 	}
 	
 	
+	
+	
+	
 	/**
-	 * Ersetzt aus gegebenem String, welcher ein vollständiges XMLDokument ist,
-	 * alle Attribute innerhalb der einzelnen XML-Tags mit Leerstellen
+	 * Diese Methode setzt vorraus, dass das XML-Dokument bereits erfolgreich geparst wurde!
+	 * 
+	 * @param doc
+	 * 		  repraesentiert ein JDOM Dokument dessen Attribute alphabetisch sortiert werden sollen.
+	 * 
+	 * @return representiert das urspruengliche Dokument mit alphabeitsch geordneten Attributen.
+	 * 		
+	 * */
+	public Document sortAttributes(Document doc){
+		
+		Element root = doc.getRootElement();
+		
+		this.iterateAndSortAttributes(root);
+		
+		return doc;
+		
+	}
+	
+	/**
+	 * Hilfsmethode
+	 * Diese Methode setzt vorraus, dass das XML-Dokument bereits erfolgreich geparst wurde.
+	 * Iteratiever Aufruf um durch den DOM-Baum zu navigieren und Attribute alphabetisch zu ordnen.
+	 * 
+	 * @param current
+	 * 		  repraesentiert ein JDOM Element, dessen 
+	 * 
+	 * */
+	private void iterateAndSortAttributes(Element current) {    
+		
+		Comparator<Attribute> attributeComperator = new IXMLAttributeComparator();
+		
+	    List children = current.getChildren();
+	      
+	    for(int i=0; i<children.size(); i++){
+	    	
+	    	Element e = (Element)children.get(i);
+	    	
+	    	if(e.hasAttributes() && e.getAttributes().size() > 1){
+	    		
+	    		e.sortAttributes(attributeComperator);
+	    		
+	    	}
+	    	
+	    	iterateAndSortAttributes(e);
+	    }
+	          
+	}
+	
+	
+	/**
+	 * Diese Methode setzt vorraus, dass das XML-Dokument bereits erfolgreich geparst wurde!
+	 * 
+	 * @param doc
+	 * 		  repraesentiert ein JDOM Dokument dessen Attribute alphabetisch sortiert werden sollen.
+	 * 
+	 * @return representiert das urspruengliche Dokument mit alphabeitsch geordneten Attributen.
+	 * 		
+	 * */
+	public Document sortElements(Document doc){
+		Comparator<Element> elementsComperator = new IXMLElementComparator();
+		
+		Element root = doc.getRootElement();
+		
+		root.sortChildren(elementsComperator);
+	
+		iterateAndSortElements(root);
+		
+		return doc;		
+		
+	}
+	
+	
+	/**
+	 * Hilfsmethode
+	 * Diese Methode setzt vorraus, dass das XML-Dokument bereits erfolgreich geparst wurde.
+	 * Iteratiever Aufruf um durch den DOM-Baum zu navigieren und Kindknoten alphabetisch ordnet.
+	 * 
+	 * @param current
+	 * 		  repraesentiert ein JDOM Element, dessen Kindelemente alphabetisch geordnet werden sollen.
+	 * 
+	 * */
+	private void iterateAndSortElements(Element current) {    
+		
+		Comparator<Element> elementsComperator = new IXMLElementComparator();
+		
+	    List children = current.getChildren();
+	      
+	    for(int i=0; i<children.size(); i++){
+	    	
+	    	Element e = (Element)children.get(i);
+	    	
+	    	e.sortChildren(elementsComperator);
+	    	
+	    	iterateAndSortElements(e);
+	    }
+	          
+	}
+
+	
+	/**
+	 * Ersetzt aus gegebenem String, welcher ein vollständiges XMLDokument darstellt,
+	 * alle Attribute innerhalb der einzelnen XML-Tags
 	 * 
 	 * @param xmlFile
 	 *            XML-Dokument als String
@@ -160,7 +275,7 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 	 * @return String
 	 * 			  XML-Dokument als String ohne Attribute
 	 */
-	private String deleteAttributes(String xmlFile){
+	public String deleteAttributes(String xmlFile){
 			
 			String[] xmlFileArray = xmlFile.split("");
 		
@@ -202,7 +317,7 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 												
 							if(this.isShortNotation(content)){
 								
-								for(int i = openingTagIndicatorAtIndex; i<closingTagIndicatorAtIndex-1;i++){
+								for(int i = openingTagIndicatorAtIndex; i<closingTagIndicatorAtIndex-2;i++){
 									
 									if(xmlFileArray[i].equals(" ")){
 										firstSpaceSeperator = true;
@@ -259,15 +374,15 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 	
 	
 	/**
-	 * Ersetzt aus gegebenem File, welches ein XML-Dokument repraesentiert,
-	 *  alle Kommentare mit Leerstellen
+	 * Ersetzt aus gegebenem String, welcher ein vollständiges XMLDokument darstellt,
+	 * alle Kommentare
 	 * 
 	 * @param xmlFile
 	 *            XML-Dokument als String
 	 *            
 	 * @return XML-Dokument als String ohne Kommentare
 	 */
-	private String deleteComments(String xmlFile){
+	public String deleteComments(String xmlFile){
 			
 		String[] xmlFileArray = xmlFile.split("");
 		String content = "";
@@ -338,7 +453,7 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 	 *            
 	 * @return XML-Datei als String ohne Kommentare, Attribute und Werte
 	 */
-	private String tagsOnly(String xmlFile){
+	public String tagsOnly(String xmlFile){
 		
 		String manipulated = this.deleteComments(xmlFile);
 		
@@ -381,8 +496,11 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 	
 	
 				if(this.isClosingTag(content) && this.isTag(priorContent) && this.isMatchingEndTag(priorContent, content) && priorClosingTagIndicatorAtIndex != -1){
+					
 					for(int i = priorClosingTagIndicatorAtIndex+1; i<openingTagIndicatorAtIndex; i++){
-						xmlFileArray[i] = " ";
+						
+						xmlFileArray[i] = "";
+						
 					}
 					
 					
@@ -423,7 +541,7 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 	 *            
 	 * @return boolean true/false
 	 */
-	private boolean isTag(String xmlTag){
+	public boolean isTag(String xmlTag){
 		if(xmlTag.startsWith("<") && xmlTag.endsWith(">") && !xmlTag.contains("<!") && !xmlTag.contains("<?") && !xmlTag.contains("<!--") ){
 			return true;
 		}else{
@@ -442,7 +560,7 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 	 *            
 	 * @return boolean true/false
 	 */
-	private boolean isComment(String xmlComment){
+	public boolean isComment(String xmlComment){
 		if(xmlComment.contains("<!--") && xmlComment.contains("-->")){
 			return true;
 		}else{
@@ -460,7 +578,7 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 	 *            
 	 * @return boolean true/false
 	 */
-	private boolean isClosingTag(String xmlTag) {
+	public boolean isClosingTag(String xmlTag) {
 		if(xmlTag.startsWith("</") && xmlTag.endsWith(">") && !xmlTag.contains("<!") && !xmlTag.contains("<?") && !xmlTag.contains("<!--") ){
 			return true;
 		}else{
@@ -478,8 +596,8 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 	 *            
 	 * @return boolean true/false
 	 */
-	private boolean isShortNotation(String xmlTag){
-		if(xmlTag.startsWith("<") && xmlTag.endsWith("/>")){
+	public boolean isShortNotation(String xmlTag){
+		if(xmlTag.startsWith("<") && xmlTag.endsWith("/>") && xmlTag.contains(" ")){
 			return true;
 		}else{
 			return false;
@@ -499,7 +617,7 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 	 *  
 	 * @return boolean true/false
 	 */
-	private boolean isMatchingEndTag(String startTag, String endTag){
+	public boolean isMatchingEndTag(String startTag, String endTag){
 		String[] startTagArray = startTag.split("");
 		
 		for(int i=0;i<startTagArray.length;i++){
@@ -529,129 +647,21 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 	 * @param  file
 	 * 		   repraesentiert eine XML-Datei die in einen String umgeformt werden soll.
 	 *  
-	 * @return xmlFileString
+	 * @return content
 	 * 		   repraesentiert uebergebene XML-Datei als String.
 	 */
-	private String xmlFileToString(File file){
-		String xmlFile = "";
+	public String xmlFileToString(File file){
+		String content = "";
 		try{
-			builder = new SAXBuilder();
-			doc = builder.build(file);
-
-			XMLOutputter xout = new XMLOutputter(Format.getRawFormat());
-			xmlFile = xout.outputString(doc);
-		} catch(Exception e){
+			content = new String(FileUtils.readFileToByteArray(file));
+		}catch(Exception e){
 			e.printStackTrace();
-			//ToDo: ErrorHandling
 		}
-		return xmlFile;
+		
+		return content;
 	}
 
-	/**
-	 * Diese Methode setzt vorraus, dass das XML-Dokument bereits erfolgreich geparst wurde!
-	 * 
-	 * @param doc
-	 * 		  repraesentiert ein JDOM Dokument dessen Attribute alphabetisch sortiert werden sollen.
-	 * 
-	 * @return representiert das urspruengliche Dokument mit alphabeitsch geordneten Attributen.
-	 * 		
-	 * */
-	private Document sortAttributes(Document doc){
-		
-		Element root = doc.getRootElement();
-		
-		this.iterateAndSortAttributes(root);
-		
-		return doc;
-		
-	}
-	
-	/**
-	 * Hilfsmethode
-	 * Diese Methode setzt vorraus, dass das XML-Dokument bereits erfolgreich geparst wurde.
-	 * Iteratiever Aufruf um durch den DOM-Baum zu navigieren und Attribute alphabetisch ordnet.
-	 * 
-	 * @param current
-	 * 		  repraesentiert ein JDOM Element, dessen 
-	 * 
-	 * */
-	private void iterateAndSortAttributes(Element current) {    
-		
-		Comparator<Attribute> attributeComperator = new IXMLAttributeComparator();
-		
-	    List children = current.getChildren();
-	      
-	    for(int i=0; i<children.size(); i++){
-	    	
-	    	Element e = (Element)children.get(i);
-	    	
-	    	if(e.hasAttributes() && e.getAttributes().size() > 1){
-	    		
-	    		e.sortAttributes(attributeComperator);
-	    		
-	    	}
-	    	
-	    	iterateAndSortAttributes(e);
-	    }
-	          
-	}
-	
-	
-	/**
-	 * Diese Methode setzt vorraus, dass das XML-Dokument bereits erfolgreich geparst wurde!
-	 * 
-	 * @param doc
-	 * 		  repraesentiert ein JDOM Dokument dessen Attribute alphabetisch sortiert werden sollen.
-	 * 
-	 * @return representiert das urspruengliche Dokument mit alphabeitsch geordneten Attributen.
-	 * 		
-	 * */
-	private Document sortElements(Document doc){
-		Comparator<Element> elementsComperator = new IXMLElementComparator();
-		
-		Element root = doc.getRootElement();
-		
-		root.sortChildren(elementsComperator);
-	
-		iterateAndSortElements(root);
-		
-		return doc;		
-		
-	}
-	
-	
-	/**
-	 * Hilfsmethode
-	 * Diese Methode setzt vorraus, dass das XML-Dokument bereits erfolgreich geparst wurde.
-	 * Iteratiever Aufruf um durch den DOM-Baum zu navigieren und Kindknoten alphabetisch ordnet.
-	 * 
-	 * @param current
-	 * 		  repraesentiert ein JDOM Element, dessen Kindelemente alphabetisch geordnet werden sollen.
-	 * 
-	 * */
-	private void iterateAndSortElements(Element current) {    
-		
-		Comparator<Element> elementsComperator = new IXMLElementComparator();
-		
-	    List children = current.getChildren();
-	      
-	    for(int i=0; i<children.size(); i++){
-	    	
-	    	Element e = (Element)children.get(i);
-	    	
-	    	e.sortChildren(elementsComperator);
-	    	
-	    	iterateAndSortElements(e);
-	    }
-	          
-	}
-	
-	
-	
-	
-	
-	
-	
+
 }
 	
 
