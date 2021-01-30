@@ -29,7 +29,7 @@ public class IFileImporterImpl implements IFileImporter {
 	private Thread rootImporter;
 
 	/**
-	 * Klassen Konstruktor initialisiert die Klassen-Attribute und l�dt die
+	 * Klassen Konstruktor initialisiert die Klassen-Attribute und laedt die
 	 * Default-Config fuer den Textvergleich
 	 */
 	public IFileImporterImpl() {
@@ -356,11 +356,31 @@ public class IFileImporterImpl implements IFileImporter {
 	}
 
 	/**
-	 * Alles importierten Textdateien werden aus der lokalen Variablen geloescht
+	 * Alle importierten Textdateien werden aus dem MTC geloescht
 	 */
 	@Override
-	public void loescheImports() {
+	public void deleteImports() {
 		textdateien.clear();
+		tempFiles.clear();
+	}
+
+	/**
+	 * Eine einzelne Textdatei wird aus dem MTC geloescht
+	 * 
+	 * @return true: bei erfolgreichem Loeschen
+	 * 
+	 *         false: falls die zu loeschende Datei nicht existiert
+	 */
+	@Override
+	public boolean deleteImport(File f) {
+		if (f == null || !textdateien.contains(f))
+			return false;
+
+		if (tempFiles.containsKey(f))
+			tempFiles.remove(f);
+		textdateien.remove(f);
+
+		return true;
 	}
 
 	/**

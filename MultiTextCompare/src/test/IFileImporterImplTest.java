@@ -53,7 +53,7 @@ public class IFileImporterImplTest {
 
 	@After
 	public void After() {
-		fileImporter.loescheImports();
+		fileImporter.deleteImports();
 	}
 
 	@Test
@@ -123,7 +123,7 @@ public class IFileImporterImplTest {
 	@Test
 	public void test_loescheTextdateien() {
 		fileImporter.importTextdateien(textdateien);
-		fileImporter.loescheImports();
+		fileImporter.deleteImports();
 
 		assertEquals(Collections.EMPTY_LIST, fileImporter.getTextdateien());
 	}
@@ -155,7 +155,7 @@ public class IFileImporterImplTest {
 
 	@Test
 	public void test_importRoot() throws InterruptedException {
-		fileImporter.loescheImports();
+		fileImporter.deleteImports();
 		fileImporter.importTextRoot("File?.txt");
 		fileImporter.getRootImporter().start();
 		fileImporter.getRootImporter().join();

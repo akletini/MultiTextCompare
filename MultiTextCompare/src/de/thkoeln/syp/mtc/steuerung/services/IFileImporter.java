@@ -22,7 +22,7 @@ public interface IFileImporter {
 	List<File> getTextdateien();
 
 	Map<File, File> getTempFilesMap();
-	
+
 	Thread getRootImporter();
 
 	boolean importConfigdatei(File config);
@@ -37,10 +37,12 @@ public interface IFileImporter {
 
 	boolean importTextRoot(String fileName);
 
-	void loescheImports();
+	void deleteImports();
+
+	boolean deleteImport(File f);
 
 	boolean createTempFiles();
-	
+
 	boolean normTempFiles();
 
 	boolean deleteTempFiles();
