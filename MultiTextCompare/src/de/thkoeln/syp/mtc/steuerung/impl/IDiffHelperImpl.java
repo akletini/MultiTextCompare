@@ -118,8 +118,6 @@ public class IDiffHelperImpl implements IDiffHelper {
 						middle);
 				StringsComparator comparator2 = new StringsComparator(left,
 						right);
-				StringsComparator comparator3 = new StringsComparator(middle,
-						right);
 
 				if (comparator1.getScript().getLCSLength() > (Math.max(
 						left.length(), middle.length()) * 0.4)) {
@@ -408,7 +406,7 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 	 * @param numberOfFiles
 	 *            die Anzahl der übergebenen Dateien für die Diff-Bildung
 	 */
-	public void generatePrimaryDiff(int numberOfFiles) {
+	protected void generatePrimaryDiff(int numberOfFiles) {
 
 		if (numberOfFiles == 2) {
 			writeToDiffLines(leftFile, leftLines);
@@ -433,7 +431,7 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 	 * Führt Operationen aus damit der Vergleich der mittleren und rechten Datei
 	 * dargestellt werden können
 	 */
-	public void generateFinalDiff() {
+	protected void generateFinalDiff() {
 		writeToDiffLines(middleFile2, middleLines2);
 		writeToDiffLines(rightFile2, rightLines2);
 		mergeOuterDiff();
