@@ -14,8 +14,8 @@ public class PopupController {
 	
 	class OkListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			popupView.setVisible(false); //you can't see me!
-			popupView.dispose(); //Destroy the JFrame object
+			popupView.setVisible(false);
+			popupView.dispose(); 
 		}
 	}
 }

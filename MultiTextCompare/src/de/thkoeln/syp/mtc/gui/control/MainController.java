@@ -12,25 +12,28 @@ import de.thkoeln.syp.mtc.gui.view.KonfigurationView;
 import de.thkoeln.syp.mtc.gui.view.MainView;
 
 public class MainController {
-	private MainView mainView;
+	private Management management;
 
 	public MainController(MainView mainView) {
-		this.mainView = mainView;
-		this.mainView.addDateiauswahlListener(new DateiauswahlListener());
-		this.mainView.addKonfigurationListener(new KonfigurationListener());
-		this.mainView.addHilfeListener(new HilfeListener());
+		management = Management.getInstance();
+		mainView.addDateiauswahlListener(
+				new DateiauswahlListener());
+		mainView.addKonfigurationListener(
+				new KonfigurationListener());
+		mainView.addHilfeListener(new HilfeListener());
 	}
 
 	class DateiauswahlListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			DateiauswahlView dateiauswahlView = new DateiauswahlView(mainView);
-			dateiauswahlView.setVisible(true);
+			management.setDateiauswahlView(new DateiauswahlView());
+			management.getDateiauswahlView().setVisible(true);
 		}
 	}
 
 	class KonfigurationListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			new KonfigurationView();
+			management.setKonfigurationView(new KonfigurationView());
+			management.getKonfigurationView().setVisible(true);
 		}
 	}
 

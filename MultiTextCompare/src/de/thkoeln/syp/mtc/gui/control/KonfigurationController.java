@@ -13,30 +13,30 @@ import de.thkoeln.syp.mtc.gui.view.PopupView;
 import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
 
 public class KonfigurationController {
-	private KonfigurationView konfigurationView;
+	private Management management;
 	private JFileChooser fc;
-	private IFileImporter fileImporter;
 
 	public KonfigurationController(KonfigurationView konfigurationView) {
-		this.konfigurationView = konfigurationView;
-		this.konfigurationView
-				.addWurzelverzeichnisListener(new WurzelverzeichnisListener());
-		this.konfigurationView.addDefaultListener(new DefaultListener());
-		this.konfigurationView.addSpeichernListener(new SpeichernListener());
-		fileImporter = this.konfigurationView.getFileImporter();
-		}
+		management = Management.getInstance();
+		konfigurationView.addWurzelverzeichnisListener(
+				new WurzelverzeichnisListener());
+		konfigurationView.addDefaultListener(
+				new DefaultListener());
+		konfigurationView.addSpeichernListener(
+				new SpeichernListener());
+	}
 
 	class WurzelverzeichnisListener implements ActionListener {
 		public void actionPerformed(ActionEvent action) {
 			fc = new JFileChooser();
-			fc.setCurrentDirectory(new File(fileImporter.getConfig()
-					.getRootDir()));
+			fc.setCurrentDirectory(new File(management.getFileImporter()
+					.getConfig().getRootDir()));
 			fc.setDialogTitle("moin");
 			fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-			fc.showOpenDialog(konfigurationView);
-			fileImporter.setRootDir(fc.getSelectedFile());
-			konfigurationView.updateWurzelpfad();
-			konfigurationView.pack();
+			fc.showOpenDialog(management.getKonfigurationView());
+			management.getFileImporter().setRootDir(fc.getSelectedFile());
+			management.getKonfigurationView().updateWurzelpfad();
+			management.getKonfigurationView().pack();
 		}
 	}
 
@@ -48,25 +48,38 @@ public class KonfigurationController {
 
 	class SpeichernListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			IConfig config = fileImporter.getConfig();
-			
-			if(konfigurationView.getCheckboxLeerzeichen().isSelected()) config.setBeachteLeerzeichen(true);
-			else config.setBeachteLeerzeichen(false);
-			
-			if(konfigurationView.getCheckboxGrossschreibung().isSelected()) config.setBeachteGrossschreibung(true);
-			else config.setBeachteGrossschreibung(false);
-			
-			if(konfigurationView.getCheckboxSatzzeichen().isSelected()) config.setBeachteSatzzeichen(true);
-			else config.setBeachteSatzzeichen(false);
-			
-			if(konfigurationView.getCheckboxLinematch().isSelected()) config.setLineMatch(true);
-			else config.setLineMatch(false);
-			
-			fileImporter.exportConfigdatei();
-			
+			IConfig config = management.getFileImporter().getConfig();
+
+			if (management.getKonfigurationView().getCheckboxLeerzeichen()
+					.isSelected())
+				config.setBeachteLeerzeichen(true);
+			else
+				config.setBeachteLeerzeichen(false);
+
+			if (management.getKonfigurationView().getCheckboxGrossschreibung()
+					.isSelected())
+				config.setBeachteGrossschreibung(true);
+			else
+				config.setBeachteGrossschreibung(false);
+
+			if (management.getKonfigurationView().getCheckboxSatzzeichen()
+					.isSelected())
+				config.setBeachteSatzzeichen(true);
+			else
+				config.setBeachteSatzzeichen(false);
+
+			if (management.getKonfigurationView().getCheckboxLinematch()
+					.isSelected())
+				config.setLineMatch(true);
+			else
+				config.setLineMatch(false);
+
+			management.getFileImporter().exportConfigdatei();
+
 			new PopupView("Erfolg!", "Die Einstellungen wurden gespeichert.");
-			konfigurationView.dispatchEvent(new WindowEvent(konfigurationView,
-					WindowEvent.WINDOW_CLOSING));
+			management.getKonfigurationView().dispatchEvent(
+					new WindowEvent(management.getKonfigurationView(),
+							WindowEvent.WINDOW_CLOSING));
 		}
 	}
 }

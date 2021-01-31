@@ -1,6 +1,7 @@
 package de.thkoeln.syp.mtc.gui.view;
 
 import java.awt.event.ActionListener;
+
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -15,8 +16,10 @@ import javax.swing.border.EmptyBorder;
 
 import net.miginfocom.swing.MigLayout;
 import de.thkoeln.syp.mtc.gui.control.DateiauswahlController;
+import de.thkoeln.syp.mtc.gui.control.Management;
 
 public class DateiauswahlView extends JFrame {
+	private Management management;
 	private DateiauswahlController dateiauswahlController;
 	private JPanel contentPane;
 	private JScrollPane scrollPane;
@@ -37,7 +40,8 @@ public class DateiauswahlView extends JFrame {
 	private DefaultListModel<String> model;
 	private JList<String> listFilePath;
 
-	public DateiauswahlView(MainView mainView) {
+	public DateiauswahlView() {
+		management = Management.getInstance();
 		setTitle("Dateiauswahl");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 750, 500);
@@ -102,9 +106,9 @@ public class DateiauswahlView extends JFrame {
 		contentPane.add(btnVergleichen, "cell 1 11,growx");
 
 		this.getRootPane().setDefaultButton(btnSuchen);
-
-		dateiauswahlController = new DateiauswahlController(mainView, this);
-		dateiauswahlController.updateLblRootPath(this);
+		
+		dateiauswahlController = new DateiauswahlController(this);
+		Management.getInstance().setDateiauswahlController(dateiauswahlController);
 	}
 
 	public JLabel getLblRootPath() {

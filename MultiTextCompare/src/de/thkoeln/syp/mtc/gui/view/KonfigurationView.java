@@ -13,10 +13,13 @@ import javax.swing.JPanel;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
 import de.thkoeln.syp.mtc.gui.control.KonfigurationController;
+import de.thkoeln.syp.mtc.gui.control.Management;
 import de.thkoeln.syp.mtc.steuerung.impl.IFileImporterImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
 
 public class KonfigurationView extends JFrame {
+	private Management management;
+	private KonfigurationController konfigurationController;
 	private JPanel panel;
 	private JLabel labelWurzelpfad;
 	private JLabel labelLeerzeichen;
@@ -33,13 +36,11 @@ public class KonfigurationView extends JFrame {
 	private JButton buttonWurzelverzeichnis;
 	private JButton buttonDefault;
 	private JButton buttonSpeichern;
-	private IFileImporter fileImporter;
 	private IConfig config;
-	private KonfigurationController konfigurationController;
 
 	public KonfigurationView() {
-		fileImporter = new IFileImporterImpl();
-		labelWurzelpfad = new JLabel(fileImporter.getConfig().getRootDir());
+		management = Management.getInstance();
+		labelWurzelpfad = new JLabel(management.getFileImporter().getConfig().getRootDir());
 		labelLeerzeichen = new JLabel("Beachte Leerzeichen ");
 		labelLeerzeilen = new JLabel("Beachte Leerzeilen ");
 		labelSatzzeichen = new JLabel("Beachte Satzzeichen ");
@@ -54,7 +55,7 @@ public class KonfigurationView extends JFrame {
 		buttonWurzelverzeichnis = new JButton("Auswählen");
 		buttonDefault = new JButton("Zurücksetzen");
 		buttonSpeichern = new JButton("Speichern");
-		config = fileImporter.getConfig();
+		config = management.getFileImporter().getConfig();
 
 		panel = new JPanel();
 		panel.setBorder(BorderFactory.createEmptyBorder(20, 60, 20, 60));
@@ -88,6 +89,7 @@ public class KonfigurationView extends JFrame {
 		this.pack();
 		this.setVisible(true);
 		this.setLocationRelativeTo(null);
+		
 		konfigurationController = new KonfigurationController(this);
 	}
 
@@ -104,17 +106,13 @@ public class KonfigurationView extends JFrame {
 	}
 
 	public void updateWurzelpfad() {
-		labelWurzelpfad.setText(fileImporter.getConfig().getRootDir());
+		labelWurzelpfad.setText(management.getFileImporter().getConfig().getRootDir());
 	}
 
 	public void setupCheckbox(JCheckBox c) {
 		panel.add(c);
 		if (config.getBeachteLeerzeichen())
 			c.setSelected(true);
-	}
-
-	public IFileImporter getFileImporter() {
-		return fileImporter;
 	}
 
 	public JCheckBox getCheckboxLeerzeichen() {
