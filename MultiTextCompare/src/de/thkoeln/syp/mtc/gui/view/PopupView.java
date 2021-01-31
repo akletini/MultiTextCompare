@@ -3,7 +3,6 @@ package de.thkoeln.syp.mtc.gui.view;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -17,22 +16,25 @@ public class PopupView extends JFrame {
 	private PopupController popupController;
 	private JPanel panel;
 	private JLabel label;
+	private JLabel labelSpace;
 	private JButton btnOk;
 	
-	public PopupView(String error) {
+	public PopupView(String name, String error) {
 		panel = new JPanel();
 		label = new JLabel(error);
+		labelSpace = new JLabel();
 		btnOk = new JButton("OK");
-		this.getRootPane().setDefaultButton(btnOk);
 		panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		panel.setLayout(new GridLayout(0, 1));
 		panel.add(label);
+		panel.add(labelSpace);
 		panel.add(btnOk);
 		this.add(panel, BorderLayout.CENTER);
-		this.setTitle("Konfiguration");
+		this.setTitle(name);
 		this.pack();
 		this.setVisible(true);
 		this.setLocationRelativeTo(null);
+		this.getRootPane().setDefaultButton(btnOk);
 		popupController = new PopupController(this);
 	}
 	

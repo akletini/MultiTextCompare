@@ -64,7 +64,7 @@ public class KonfigurationController {
 			
 			fileImporter.exportConfigdatei();
 			
-			new PopupView("Die Einstellungen wurden gespeichert.");
+			new PopupView("Erfolg!", "Die Einstellungen wurden gespeichert.");
 			konfigurationView.dispatchEvent(new WindowEvent(konfigurationView,
 					WindowEvent.WINDOW_CLOSING));
 		}

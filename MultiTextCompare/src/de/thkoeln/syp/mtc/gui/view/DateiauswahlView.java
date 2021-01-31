@@ -1,7 +1,6 @@
 package de.thkoeln.syp.mtc.gui.view;
 
 import java.awt.event.ActionListener;
-
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -16,8 +15,6 @@ import javax.swing.border.EmptyBorder;
 
 import net.miginfocom.swing.MigLayout;
 import de.thkoeln.syp.mtc.gui.control.DateiauswahlController;
-
-import java.awt.event.ActionEvent;
 
 public class DateiauswahlView extends JFrame {
 	private DateiauswahlController dateiauswahlController;

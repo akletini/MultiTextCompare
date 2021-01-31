@@ -34,9 +34,8 @@ public class KonfigurationView extends JFrame {
 	private JButton buttonDefault;
 	private JButton buttonSpeichern;
 	private IFileImporter fileImporter;
-	private KonfigurationController konfigurationController;
 	private IConfig config;
-	
+	private KonfigurationController konfigurationController;
 
 	public KonfigurationView() {
 		fileImporter = new IFileImporterImpl();
@@ -68,10 +67,10 @@ public class KonfigurationView extends JFrame {
 
 		panel.add(labelLeerzeichen);
 		setupCheckbox(checkBoxLeerzeichen);
-		
+
 		panel.add(labelLeerzeilen);
 		setupCheckbox(checkBoxLeerzeilen);
-		
+
 		panel.add(labelSatzzeichen);
 		setupCheckbox(checkBoxSatzzeichen);
 
@@ -103,33 +102,34 @@ public class KonfigurationView extends JFrame {
 	public void addSpeichernListener(ActionListener e) {
 		buttonSpeichern.addActionListener(e);
 	}
-	
-	public void updateWurzelpfad(){
+
+	public void updateWurzelpfad() {
 		labelWurzelpfad.setText(fileImporter.getConfig().getRootDir());
 	}
-	
-	public void setupCheckbox(JCheckBox c){
+
+	public void setupCheckbox(JCheckBox c) {
 		panel.add(c);
-		if(config.getBeachteLeerzeichen()) c.setSelected(true);
+		if (config.getBeachteLeerzeichen())
+			c.setSelected(true);
 	}
-	
-	public IFileImporter getFileImporter(){
+
+	public IFileImporter getFileImporter() {
 		return fileImporter;
 	}
-	
-	public JCheckBox getCheckboxLeerzeichen(){
+
+	public JCheckBox getCheckboxLeerzeichen() {
 		return checkBoxLeerzeichen;
 	}
-	
-	public JCheckBox getCheckboxSatzzeichen(){
+
+	public JCheckBox getCheckboxSatzzeichen() {
 		return checkBoxSatzzeichen;
 	}
-	
-	public JCheckBox getCheckboxGrossschreibung(){
+
+	public JCheckBox getCheckboxGrossschreibung() {
 		return checkBoxGrossschreibung;
 	}
-	
-	public JCheckBox getCheckboxLinematch(){
+
+	public JCheckBox getCheckboxLinematch() {
 		return checkBoxLinematch;
 	}
 }

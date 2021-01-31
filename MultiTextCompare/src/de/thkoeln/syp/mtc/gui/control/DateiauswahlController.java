@@ -83,7 +83,7 @@ public class DateiauswahlController extends JFrame {
 			}
 
 			if (fileImporter.getTextdateien().equals(ref))
-				new PopupView(
+				new PopupView("Hinweis",
 						"Bei dieser Suche wurden keine weiteren Dateien gefunden");
 
 			setRdbtn(fileImporter.getTextdateien().isEmpty());
@@ -127,19 +127,28 @@ public class DateiauswahlController extends JFrame {
 
 	class VergleichenListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			fileImporter.createTempFiles();
-			fileImporter.normTempFiles();
-			textVergleicher.getTempfilesFromHashMap(fileImporter
-					.getTempFilesMap());
-			textVergleicher.getVergleiche(textVergleicher.getTempFiles());
-			if (fileImporter.getConfig().getLineMatch() == false) {
-				textVergleicher.vergleicheUeberGanzesDokument();
-			} else {
-				textVergleicher.vergleicheZeilenweise();
-			}
-			matrix = textVergleicher.getMatrix();
-			mainView.updateMatrix(matrix, fileImporter.getTextdateien().size(),
-					getNameDateien(fileImporter.getTextdateien().size()));
+			int anzDateien = fileImporter.getTextdateien().size();
+			if (anzDateien > 1) {
+				fileImporter.createTempFiles();
+				fileImporter.normTempFiles();
+				textVergleicher.getTempfilesFromHashMap(fileImporter
+						.getTempFilesMap());
+				textVergleicher.getVergleiche(textVergleicher.getTempFiles());
+				if (fileImporter.getConfig().getLineMatch() == false) {
+					textVergleicher.vergleicheUeberGanzesDokument();
+				} else {
+					textVergleicher.vergleicheZeilenweise();
+				}
+				matrix = textVergleicher.getMatrix();
+				mainView.updateMatrix(matrix, anzDateien,
+						getNameDateien(anzDateien));
+				mainView.getTextArea().setText(
+						mainView.getTextArea().getText()
+								+ "\n Eine Matrix mit " + anzDateien
+								+ " Dateien wurde erfolgreich erstellt!");
+			} else
+				new PopupView("Error",
+						"Bitte wählen Sie mindestens 2 Dateien aus");
 		}
 	}
 
@@ -169,13 +178,13 @@ public class DateiauswahlController extends JFrame {
 		dateiauswahlView.getRdbtnAll().setEnabled(b);
 	}
 
-	private List<File> fileArrayToList(File[] array) {
-		List<File> fileListe = new ArrayList<>();
-		for (int i = 0; i < array.length; i++) {
-			fileListe.add(array[i]);
-		}
-		return fileListe;
-	}
+	// private List<File> fileArrayToList(File[] array) {
+	// List<File> fileListe = new ArrayList<>();
+	// for (int i = 0; i < array.length; i++) {
+	// fileListe.add(array[i]);
+	// }
+	// return fileListe;
+	// }
 
 	public void updateListFilePath() {
 		int importSize = fileImporter.getTextdateien().size();
@@ -183,8 +192,11 @@ public class DateiauswahlController extends JFrame {
 		for (int i = 0; i < importSize; i++) {
 			if (!dateiauswahlView.getModel().contains(
 					fileImporter.getTextdateien().get(i).getAbsolutePath()))
-				dateiauswahlView.getModel().addElement(nameDateien[i] + ":  " +
-						fileImporter.getTextdateien().get(i).getAbsolutePath());
+				dateiauswahlView.getModel().addElement(
+						nameDateien[i]
+								+ ":  "
+								+ fileImporter.getTextdateien().get(i)
+										.getAbsolutePath());
 		}
 	}
 

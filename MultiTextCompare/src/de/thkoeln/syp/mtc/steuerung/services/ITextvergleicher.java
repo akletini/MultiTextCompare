@@ -1,15 +1,11 @@
 package de.thkoeln.syp.mtc.steuerung.services;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 import de.thkoeln.syp.mtc.datenhaltung.impl.IAehnlichkeitImpl;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IMatrixImpl;
-import difflib.Chunk;
-import difflib.Delta;
-import difflib.Delta.TYPE;
 
 public interface ITextvergleicher {
 

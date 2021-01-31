@@ -19,6 +19,7 @@ import javax.swing.table.TableColumn;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IMatrix;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IAehnlichkeitImpl;
+import de.thkoeln.syp.mtc.gui.RowNumberTable;
 
 public class OLD_MatrixView extends JFrame {
 	private JPanel panel;

@@ -3,7 +3,6 @@ package de.thkoeln.syp.mtc.gui.control;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import de.thkoeln.syp.mtc.gui.control.MainController.HilfeListener;
 import de.thkoeln.syp.mtc.gui.view.PopupView;
 
 public class PopupController {
