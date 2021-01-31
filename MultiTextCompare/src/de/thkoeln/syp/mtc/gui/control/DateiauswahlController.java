@@ -118,7 +118,7 @@ public class DateiauswahlController extends JFrame {
 
 	class ResetListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			fileImporter.loescheImports();
+			fileImporter.deleteImports();
 			fileImporter.deleteTempFiles();
 			dateiauswahlView.getModel().clear();
 			setRdbtn(true);

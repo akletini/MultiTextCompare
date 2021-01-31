@@ -30,17 +30,18 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	private List<String> referenzZeilen;
 	private List<String> vergleichsZeilen;
 	private File ref, vgl;
-	List<Character> differentCharacters;
 
 	public ITextvergleicherImpl(File ref, File vgl) {
 		this.ref = ref;
 		this.vgl = vgl;
 
 	}
-
-	public ITextvergleicherImpl() {
-		differentCharacters = new ArrayList<Character>();
+	
+	public ITextvergleicherImpl(){
+		
 	}
+
+	
 
 	/**
 	 * Sucht zunächst alle gleichen Zeilen. Falls es nur inserts und deletes

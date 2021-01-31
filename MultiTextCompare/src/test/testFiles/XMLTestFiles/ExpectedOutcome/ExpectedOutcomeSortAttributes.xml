@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<KUNDE>
+	<KNR>1</KNR>
+	<!-- comment1 -->
+	<KNAME attr4="test" battr="test" cattre="test">Mueller</KNAME>
+	<BESTELLUNG attr1="test" attr2="test">
+		<!-- comment2 -->
+		<BSTNR>2</BSTNR>
+		<STATUS attr1="test" attr2="test" />
+		<RSUM httr23="teststring" xttr="teststring" zttr="teststring">40.05</RSUM>
+		<BPOS>
+			<MENGE>2</MENGE>
+			<POSNR attr="2" />
+			<WERT attr="testtesttesttesttest" bttr="testtest" cttr="testtesttest">5.78</WERT>
+			<!-- comment3 -->
+			<ARTIKEL>
+				<MGE>Stueck</MGE>
+				<PREIS>1.49</PREIS>
+				<KUEHL>NK</KUEHL>
+				<!-- comment4 -->
+				<ARTNR>1</ARTNR>
+				<ARTBEZ>Orangen</ARTBEZ>
+			</ARTIKEL>
+		</BPOS>
+		<!-- comment5 -->
+	</BESTELLUNG>
+	<PLZ>50126</PLZ>
+	<WORT>Bergheim</WORT>
+	<STRASSE>Schoene Strasse 5</STRASSE>
+</KUNDE>

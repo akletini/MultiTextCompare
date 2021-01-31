@@ -37,7 +37,7 @@ public class ITextvergleicherImplTest {
 	}
 
 	@Test
-	public void testVergleichsalorithmus() {
+	public void test_getVergleichspaarungen() {
 		paarungen = iText.getVergleiche(textdateien);
 		assertEquals(10, paarungen.size());
 	}

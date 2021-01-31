@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<KUNDE>
+	<BESTELLUNG>
+		<BPOS>
+			<ARTIKEL>
+				<ARTBEZ>Orangen</ARTBEZ>
+				<ARTNR>1</ARTNR>
+				<KUEHL>NK</KUEHL>
+				<MGE>Stueck</MGE>
+				<PREIS>1.49</PREIS>
+			</ARTIKEL>
+			<MENGE>2</MENGE>
+			<POSNR />		
+			<WERT>5.78</WERT>
+		</BPOS>
+		<BPOS>
+			<ARTIKEL>
+				<ARTBEZ>Snickers</ARTBEZ>
+				<ARTNR>3</ARTNR>
+				<KUEHL>NK</KUEHL>
+				<MGE>Stueck</MGE>
+				<PREIS>0.99</PREIS>
+			</ARTIKEL>
+			<MENGE>2</MENGE>
+			<POSNR>7</POSNR>
+			<WERT>8.0</WERT>
+		</BPOS>
+		<BPOS>
+			<ARTIKEL>
+				<ARTBEZ>Fleisch</ARTBEZ>
+				<ARTNR>4</ARTNR>
+				<KUEHL>TK</KUEHL>
+				<MGE>Packung</MGE>
+				<PREIS>3.49</PREIS>
+			</ARTIKEL>
+			<MENGE>4</MENGE>
+			<POSNR>11</POSNR>
+			<WERT>8.36</WERT>
+		</BPOS>
+		<BPOS>
+			<ARTIKEL>
+				<ARTBEZ>Hundefutter</ARTBEZ>
+				<ARTNR>5</ARTNR>
+				<KUEHL>NK</KUEHL>
+				<MGE>Dose</MGE>
+				<PREIS>1.49</PREIS>
+			</ARTIKEL>
+			<MENGE>9</MENGE>
+			<POSNR>15</POSNR>
+			<WERT>17.91</WERT>
+		</BPOS>
+		<BSTNR>2</BSTNR>
+		<RSUM>40.05</RSUM>
+		<STATUS />
+	</BESTELLUNG>
+	<KNAME>Mueller</KNAME>
+	<KNR>1</KNR>
+	<PLZ>50126</PLZ>
+	<STRASSE>Schoene Strasse 5</STRASSE>
+	<WORT>Bergheim</WORT>
+</KUNDE>

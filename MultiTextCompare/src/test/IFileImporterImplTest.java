@@ -6,7 +6,11 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -53,7 +57,7 @@ public class IFileImporterImplTest {
 
 	@After
 	public void After() {
-		fileImporter.loescheImports();
+		fileImporter.deleteImports();
 	}
 
 	@Test
@@ -64,18 +68,22 @@ public class IFileImporterImplTest {
 	@Test
 	public void test_configPath() {
 		IConfig config = fileImporter.getConfig();
-
+		File fileConfig = new File(config.getPath());
 		assertEquals(IFileImporter.DEFAULT_CONFIG.getAbsolutePath(),
 				config.getPath());
+		assertTrue(fileConfig.exists());
 
-		fileImporter.setConfigPath(System.getProperty("user.dir")
+		assertTrue(fileImporter.setConfigPath(System.getProperty("user.dir")
 				+ File.separator + "src" + File.separator + "test"
 				+ File.separator + "testFiles" + File.separator
-				+ "config.properties");
+				+ "config.properties"));
 
 		assertEquals(System.getProperty("user.dir") + File.separator + "src"
 				+ File.separator + "test" + File.separator + "testFiles"
 				+ File.separator + "config.properties", config.getPath());
+
+		assertFalse(fileConfig.exists());
+		assertTrue(new File(config.getPath()).exists());
 	}
 
 	@Test
@@ -100,8 +108,8 @@ public class IFileImporterImplTest {
 				+ "src" + File.separator + "test" + File.separator
 				+ "testFiles");
 
-		fileImporter.exportConfigdatei();
-		fileImporter.importConfigdatei(new File(config.getPath()));
+		assertTrue(fileImporter.exportConfigdatei());
+		assertTrue(fileImporter.importConfigdatei(new File(config.getPath())));
 		config = fileImporter.getConfig();
 
 		assertFalse(config.getBeachteLeerzeichen());
@@ -121,16 +129,29 @@ public class IFileImporterImplTest {
 	}
 
 	@Test
-	public void test_loescheTextdateien() {
-		fileImporter.importTextdateien(textdateien);
-		fileImporter.loescheImports();
+	public void test_deleteImports() {
+		assertTrue(fileImporter.importTextdateien(textdateien));
+		fileImporter.deleteImports();
 
 		assertEquals(Collections.EMPTY_LIST, fileImporter.getTextdateien());
 	}
 
 	@Test
+	public void test_deleteImport() {
+		File fileA = new File(System.getProperty("user.dir") + File.separator
+				+ "src" + File.separator + "test" + File.separator
+				+ "testFiles" + File.separator + "FileA.txt");
+
+		assertTrue(fileImporter.importTextdateien(textdateien));
+		assertTrue(fileImporter.getTextdateien().contains(fileA));
+
+		assertTrue(fileImporter.deleteImport(fileA));
+		assertFalse(fileImporter.getTextdateien().contains(fileA));
+	}
+
+	@Test
 	public void test_createTempFiles() {
-		fileImporter.createTempFiles();
+		assertTrue(fileImporter.createTempFiles());
 
 		assertEquals(fileImporter.getTextdateien().size(), fileImporter
 				.getTempFilesMap().size());
@@ -139,29 +160,58 @@ public class IFileImporterImplTest {
 	}
 
 	@Test
-	public void test_normTempFiles() {
-		fileImporter.createTempFiles();
-		fileImporter.normTempFiles();
+	public void test_normTempFiles() throws IOException {
+		assertTrue(fileImporter.createTempFiles());
+		assertTrue(fileImporter.normTempFiles());
+
+		for (File f : fileImporter.getTempFilesMap().keySet()) {
+			File temp = fileImporter.getTempFilesMap().get(f);
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					new FileInputStream(temp)));
+
+			String line;
+			while ((line = reader.readLine()) != null) {
+				if (!fileImporter.getConfig().getBeachteLeerzeilen())
+					assertFalse(line.isEmpty());
+				if (!fileImporter.getConfig().getBeachteGrossschreibung())
+					for (char c : line.toCharArray())
+						assertFalse(Character.isUpperCase(c));
+				if (!fileImporter.getConfig().getBeachteSatzzeichen())
+					assertFalse(line.contains("\\p{Punct}"));
+				if (!fileImporter.getConfig().getBeachteLeerzeichen())
+					assertFalse(line.contains(" "));
+			}
+
+			reader.close();
+		}
 	}
 
 	@Test
-	public void test_loescheTempFiles() {
-		fileImporter.createTempFiles();
+	public void test_deleteTempFiles() {
+		assertTrue(fileImporter.createTempFiles());
 		assertNotEquals(Collections.EMPTY_MAP, fileImporter.getTempFilesMap());
 
-		fileImporter.deleteTempFiles();
+		List<File> tempFiles = new ArrayList<>();
+		for (File f : fileImporter.getTempFilesMap().keySet())
+			tempFiles.add(fileImporter.getTempFilesMap().get(f));
+
+		for (File f : tempFiles)
+			assertTrue(f.exists());
+
+		assertTrue(fileImporter.deleteTempFiles());
 		assertEquals(Collections.EMPTY_MAP, fileImporter.getTempFilesMap());
+
+		for (File f : tempFiles)
+			assertFalse(f.exists());
 	}
 
 	@Test
 	public void test_importRoot() throws InterruptedException {
-		fileImporter.loescheImports();
-		fileImporter.importTextRoot("File?.txt");
+		fileImporter.deleteImports();
+		assertTrue(fileImporter.importTextRoot("File?.txt"));
 		fileImporter.getRootImporter().start();
 		fileImporter.getRootImporter().join();
 
-		for (File f : fileImporter.getTextdateien())
-			System.out.println(f.getAbsolutePath());
 		assertTrue(fileImporter.getTextdateien().containsAll(textdateien));
 	}
 }
