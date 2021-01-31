@@ -9,7 +9,6 @@ import static org.junit.Assert.assertTrue;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -69,18 +68,22 @@ public class IFileImporterImplTest {
 	@Test
 	public void test_configPath() {
 		IConfig config = fileImporter.getConfig();
-
+		File fileConfig = new File(config.getPath());
 		assertEquals(IFileImporter.DEFAULT_CONFIG.getAbsolutePath(),
 				config.getPath());
+		assertTrue(fileConfig.exists());
 
-		fileImporter.setConfigPath(System.getProperty("user.dir")
+		assertTrue(fileImporter.setConfigPath(System.getProperty("user.dir")
 				+ File.separator + "src" + File.separator + "test"
 				+ File.separator + "testFiles" + File.separator
-				+ "config.properties");
+				+ "config.properties"));
 
 		assertEquals(System.getProperty("user.dir") + File.separator + "src"
 				+ File.separator + "test" + File.separator + "testFiles"
 				+ File.separator + "config.properties", config.getPath());
+
+		assertFalse(fileConfig.exists());
+		assertTrue(new File(config.getPath()).exists());
 	}
 
 	@Test
@@ -105,8 +108,8 @@ public class IFileImporterImplTest {
 				+ "src" + File.separator + "test" + File.separator
 				+ "testFiles");
 
-		fileImporter.exportConfigdatei();
-		fileImporter.importConfigdatei(new File(config.getPath()));
+		assertTrue(fileImporter.exportConfigdatei());
+		assertTrue(fileImporter.importConfigdatei(new File(config.getPath())));
 		config = fileImporter.getConfig();
 
 		assertFalse(config.getBeachteLeerzeichen());
@@ -127,7 +130,7 @@ public class IFileImporterImplTest {
 
 	@Test
 	public void test_deleteImports() {
-		fileImporter.importTextdateien(textdateien);
+		assertTrue(fileImporter.importTextdateien(textdateien));
 		fileImporter.deleteImports();
 
 		assertEquals(Collections.EMPTY_LIST, fileImporter.getTextdateien());
@@ -139,16 +142,16 @@ public class IFileImporterImplTest {
 				+ "src" + File.separator + "test" + File.separator
 				+ "testFiles" + File.separator + "FileA.txt");
 
-		fileImporter.importTextdateien(textdateien);
+		assertTrue(fileImporter.importTextdateien(textdateien));
 		assertTrue(fileImporter.getTextdateien().contains(fileA));
 
-		fileImporter.deleteImport(fileA);
+		assertTrue(fileImporter.deleteImport(fileA));
 		assertFalse(fileImporter.getTextdateien().contains(fileA));
 	}
 
 	@Test
 	public void test_createTempFiles() {
-		fileImporter.createTempFiles();
+		assertTrue(fileImporter.createTempFiles());
 
 		assertEquals(fileImporter.getTextdateien().size(), fileImporter
 				.getTempFilesMap().size());
@@ -158,9 +161,9 @@ public class IFileImporterImplTest {
 
 	@Test
 	public void test_normTempFiles() throws IOException {
-		fileImporter.createTempFiles();
-		fileImporter.normTempFiles();
-		
+		assertTrue(fileImporter.createTempFiles());
+		assertTrue(fileImporter.normTempFiles());
+
 		for (File f : fileImporter.getTempFilesMap().keySet()) {
 			File temp = fileImporter.getTempFilesMap().get(f);
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
@@ -185,17 +188,27 @@ public class IFileImporterImplTest {
 
 	@Test
 	public void test_deleteTempFiles() {
-		fileImporter.createTempFiles();
+		assertTrue(fileImporter.createTempFiles());
 		assertNotEquals(Collections.EMPTY_MAP, fileImporter.getTempFilesMap());
 
-		fileImporter.deleteTempFiles();
+		List<File> tempFiles = new ArrayList<>();
+		for (File f : fileImporter.getTempFilesMap().keySet())
+			tempFiles.add(fileImporter.getTempFilesMap().get(f));
+
+		for (File f : tempFiles)
+			assertTrue(f.exists());
+
+		assertTrue(fileImporter.deleteTempFiles());
 		assertEquals(Collections.EMPTY_MAP, fileImporter.getTempFilesMap());
+
+		for (File f : tempFiles)
+			assertFalse(f.exists());
 	}
 
 	@Test
 	public void test_importRoot() throws InterruptedException {
 		fileImporter.deleteImports();
-		fileImporter.importTextRoot("File?.txt");
+		assertTrue(fileImporter.importTextRoot("File?.txt"));
 		fileImporter.getRootImporter().start();
 		fileImporter.getRootImporter().join();
 
