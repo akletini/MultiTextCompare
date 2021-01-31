@@ -6,7 +6,12 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -152,9 +157,30 @@ public class IFileImporterImplTest {
 	}
 
 	@Test
-	public void test_normTempFiles() {
+	public void test_normTempFiles() throws IOException {
 		fileImporter.createTempFiles();
 		fileImporter.normTempFiles();
+		
+		for (File f : fileImporter.getTempFilesMap().keySet()) {
+			File temp = fileImporter.getTempFilesMap().get(f);
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					new FileInputStream(temp)));
+
+			String line;
+			while ((line = reader.readLine()) != null) {
+				if (!fileImporter.getConfig().getBeachteLeerzeilen())
+					assertFalse(line.isEmpty());
+				if (!fileImporter.getConfig().getBeachteGrossschreibung())
+					for (char c : line.toCharArray())
+						assertFalse(Character.isUpperCase(c));
+				if (!fileImporter.getConfig().getBeachteSatzzeichen())
+					assertFalse(line.contains("\\p{Punct}"));
+				if (!fileImporter.getConfig().getBeachteLeerzeichen())
+					assertFalse(line.contains(" "));
+			}
+
+			reader.close();
+		}
 	}
 
 	@Test
@@ -172,7 +198,7 @@ public class IFileImporterImplTest {
 		fileImporter.importTextRoot("File?.txt");
 		fileImporter.getRootImporter().start();
 		fileImporter.getRootImporter().join();
-		
+
 		assertTrue(fileImporter.getTextdateien().containsAll(textdateien));
 	}
 }
