@@ -1,12 +1,15 @@
 package de.thkoeln.syp.mtc.steuerung.impl;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Scanner;
+import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.jdom2.Attribute;
@@ -15,23 +18,19 @@ import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.JDOMParseException;
 import org.jdom2.input.SAXBuilder;
-import org.jdom2.input.sax.XMLReaderJDOMFactory;
-import org.jdom2.input.sax.XMLReaderXSDFactory;
 import org.jdom2.input.sax.XMLReaders;
-import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
+import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
 import de.thkoeln.syp.mtc.datenhaltung.api.IXMLAttributeComparator;
 import de.thkoeln.syp.mtc.datenhaltung.api.IXMLElementComparator;
 import de.thkoeln.syp.mtc.datenhaltung.api.IXMLParseError;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IXMLParseErrorImpl;
+import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
 import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
 import de.thkoeln.syp.mtc.steuerung.services.IXMLvergleicher;
 
 public class IXMLvergleicherImpl implements IXMLvergleicher {
-	
-	private File xsdFile;
-	private File ref, vgl;
 	
 	private Document doc;
 	
@@ -41,40 +40,97 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 	
 	private IXMLParseError parseError = null;
 	
+	private IFileImporter iFileImporter = new IFileImporterImpl();
 	
-	/**
-	 * Methode fuegt festgestellte Parse-Error zur
-	 * Liste der festgestellten Fehler hinzu
-	 * 
-	 * @param error
-	 *            Objekt der Klasse IXMLParseError
-	 */
-	public void addErrorToErrorList(IXMLParseError error){
-		errorListe.add(error);
-	}
-	
-	/**
-	 * set Methode zum setzen des XSD Files
-	 * 
-	 * @param xsdFile
-	 *           Java.io File welches die XSD zur XML beinhaltet
-	 */
-	public void setXSDFile(File xsdFile){
-		this.xsdFile = xsdFile;
-	}
-	
-	
-	/**
-	 * get Methode ermoeglicht Zugriff auf die Errorliste
-	 * 
-	 * @return List<IXMLParseError>
-	 *           Liste mit moeglichen Elementen der Klasse IXMLParseError,
-	 *           die bei auftretenden Fehlern waehrend des Parsens festegestellt wurden
-	 */
-	public List<IXMLParseError> getErrorList(){
-		return errorListe;
-	}
+	private IConfig iConfig = iFileImporter.getConfig();
 
+	
+	/**
+	 * Parst mittels JDOM gegebenes File auf Validitaet
+	 * und Wohlgeformtheit
+	 * 
+	 * @param Map<File, File>
+	 *            Map mit zu manipulierender XML-Dateiein
+	 *            
+	 * @return Map<File, File>
+	 * 			  Map welche nach den in der Config getroffenen 
+	 * 			  Einstellungen manipuliert wurde
+	 */
+	public Map<File, File> xmlPrepare(Map<File, File> tempFiles) {
+		this.clearErrorList();
+		XMLOutputter xout = new XMLOutputter();
+		boolean sortAttributes = true; //iConfig.getValue
+		boolean sortElements = true; //iConfig.getValue
+		boolean deleteAttributes = false; //iConfig.getValue
+		boolean deleteComments = false; //iConfig.getValue
+		boolean tagsOnly = false; //iConfig.getValue
+		int mode = 0; //iConfig.getValue
+			
+		for(Map.Entry<File, File> entry : tempFiles.entrySet()) {
+			
+			if(!this.parseFile(entry.getKey(), mode)){
+				//korrekt
+				
+				Document xml = null;
+				
+				try{
+					 xml = builder.build(entry.getValue());
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+
+				if(sortAttributes){
+					xml = this.sortAttributes(xml);
+				}
+				
+				if(sortElements){
+					xml = this.sortElements(xml);
+				}
+				
+				String xmlString = xout.outputString(xml);
+				
+				if(tagsOnly){
+					
+					xmlString = this.tagsOnly(xmlString);
+					
+				}else{
+				
+					if(deleteComments){
+						
+						xmlString = this.deleteComments(xmlString);
+						
+					}
+					
+					if(deleteAttributes){
+						
+						xmlString = this.deleteAttributes(xmlString);
+						
+					}
+					
+				}
+				
+			BufferedWriter writer;
+			try{
+				
+				writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(entry.getValue())));
+				writer.write(xmlString + "\n");
+				writer.close();
+			}catch(Exception e){
+				
+				e.printStackTrace();
+				
+			}
+			
+					
+			}else{
+				//inkorrekt
+			}
+			
+		}
+		
+		return tempFiles;
+	}
+	
 	/**
 	 * Parst mittels JDOM gegebenes File auf Validitaet
 	 * und Wohlgeformtheit
@@ -83,10 +139,11 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 	 *            Aus den Einstellungen zu importierender Wert
 	 *            0: None | 1: internal XSD | 2: external XSD | 3: DTD
 	 *            
-	 * @return Liste an moeglichen Fehlern die festgestellt wurden
+	 * @return boolean
+	 * 			  Wenn ein Parse-Error aufgetreten ist true, sonst false.
 	 */
-	public List<IXMLParseError> parseFile(File file, int mode){
-		errorListe = new ArrayList();
+	public boolean parseFile(File file, int mode){
+		boolean parseErrorOccurred = false;
 		
 		//int mode = 3; // 0: None | 1: internal XSD | 2: DTD
 		switch(mode){
@@ -102,8 +159,9 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 
 				 parseError = new IXMLParseErrorImpl(file, jde.getMessage(), jde.getColumnNumber(), jde.getLineNumber());
 				 errorListe.add(parseError);
+				 parseErrorOccurred = true;
+				 builder = new SAXBuilder();
 				 
-				 builder = new SAXBuilder();	 
 			 } catch(IOException ioe) {
 				 ioe.printStackTrace();
 			 }catch(JDOMException jde) {	 
@@ -125,7 +183,7 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 
 				 parseError = new IXMLParseErrorImpl(file, jde.getMessage(), jde.getColumnNumber(), jde.getLineNumber());
 				 errorListe.add(parseError);
-				 
+				 parseErrorOccurred = true;
 				 builder = new SAXBuilder();
 				 
 			 }
@@ -147,7 +205,7 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 
 				 parseError = new IXMLParseErrorImpl(file, jde.getMessage(), jde.getColumnNumber(), jde.getLineNumber());
 				 errorListe.add(parseError);
-				 
+				 parseErrorOccurred = true;
 				 builder = new SAXBuilder();
 				 
 			 } catch(IOException ioe) {
@@ -157,7 +215,7 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 			 }
 			 break;
 		}
-		return errorListe;
+		return parseErrorOccurred;
 	
 	}
 	
@@ -661,6 +719,40 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 		return content;
 	}
 
+	/**
+	 * Hilfsmethode
+	 * Methode zum neu Initialisieren der Error Liste
+	 * 
+	 */
+	public void clearErrorList(){
+		
+		errorListe = new ArrayList<>();
+		
+	}
+	
+
+	/**
+	 * Methode fuegt festgestellte Parse-Error zur
+	 * Liste der festgestellten Fehler hinzu
+	 * 
+	 * @param error
+	 *            Objekt der Klasse IXMLParseError
+	 */
+	public void addErrorToErrorList(IXMLParseError error){
+		errorListe.add(error);
+	}
+	
+	
+	/**
+	 * get Methode ermoeglicht Zugriff auf die Errorliste
+	 * 
+	 * @return List<IXMLParseError>
+	 *           Liste mit moeglichen Elementen der Klasse IXMLParseError,
+	 *           die bei auftretenden Fehlern waehrend des Parsens festegestellt wurden
+	 */
+	public List<IXMLParseError> getErrorList(){
+		return errorListe;
+	}
 
 }
 	

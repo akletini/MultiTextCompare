@@ -2,6 +2,7 @@ package de.thkoeln.syp.mtc.steuerung.services;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 import org.jdom2.Document;
 
@@ -13,7 +14,7 @@ public interface IXMLvergleicher {
   
   Document sortElements(Document doc);
   
-  List<IXMLParseError> parseFile(File file, int mode);
+  boolean parseFile(File file, int mode);
   
   String deleteAttributes(String xmlFile);
   
@@ -23,5 +24,9 @@ public interface IXMLvergleicher {
   
   String xmlFileToString(File file);
   
-  void setXSDFile(File xsdFile);
+  List<IXMLParseError> getErrorList();
+  
+  void clearErrorList();
+  
+  Map<File, File> xmlPrepare(Map<File, File> tempFiles);
 }
