@@ -6,7 +6,12 @@ public class IConfigImpl implements IConfig {
 
 	private boolean beachteLeerzeichen, beachteSatzzeichen,
 			beachteGrossschreibung, lineMatch, beachteLeerzeilen;
+	
 	private String rootDir, path, dateiname;
+	
+	//XML Spezifische Parameter
+	private boolean sortiereElemente, sortiereAttribute, loescheAttribute, loescheKommentare, nurTags;
+	private int validation;
 
 	@Override
 	public void setLineMatch(boolean lineMatch) {
@@ -87,4 +92,66 @@ public class IConfigImpl implements IConfig {
 	public boolean getBeachteLeerzeilen() {
 		return beachteLeerzeilen;
 	}
+	
+	@Override
+	public void setSortiereElemente(boolean sortiereElemente){
+		this.sortiereElemente = sortiereElemente;
+	}
+	
+	@Override
+	public boolean getSortiereElemente(){
+		return this.sortiereElemente;
+	}
+	
+	@Override
+	public void setSortiereAttribute(boolean sortiereAttribute){
+		this.sortiereAttribute = sortiereAttribute;
+	}
+	
+	@Override
+	public boolean getSortiereAttribute(){
+		return this.sortiereAttribute;
+	}
+	
+	@Override
+	public void setLoescheAttribute(boolean loescheAttribute){
+		this.loescheAttribute = loescheAttribute;
+	}
+	
+	@Override
+	public boolean getLoescheAttribute(){
+		return this.loescheAttribute;
+	}
+	
+	@Override
+	public void setLoescheKommentare(boolean loescheKommentare){
+		this.loescheKommentare = loescheKommentare;
+	}
+	
+	@Override
+	public boolean getLoescheKommentare(){
+		return this.loescheKommentare;
+	}
+	
+	@Override
+	public void setNurTags(boolean nurTags){
+		this.nurTags = nurTags;
+	}
+	
+	@Override
+	public boolean getNurTags(){
+		return this.nurTags;
+	}
+	
+	@Override
+	public void setValidation(int validation){
+		this.validation = validation;
+	}
+	
+	@Override
+	public int getValidation(){
+		return this.validation;
+	}
+	
+	
 }

@@ -32,4 +32,32 @@ public interface IConfig {
 	String getDateiname();
 
 	boolean getBeachteLeerzeilen();
+	
+	
+	//XML spezifische Parameter
+	void setSortiereElemente(boolean sortiereElemente);
+	
+	void setSortiereAttribute(boolean sortiereAttribute);
+	
+	void setLoescheAttribute(boolean loescheAttribute);
+	
+	void setLoescheKommentare(boolean loescheKommentare);
+	
+	void setNurTags(boolean nurTags);
+	
+	void setValidation(int validation);
+	
+	boolean getSortiereElemente();
+	
+	boolean getSortiereAttribute();
+	
+	boolean getLoescheAttribute();
+	
+	boolean getLoescheKommentare();
+	
+	boolean getNurTags();
+	
+	int getValidation();
+	
+	
 }
