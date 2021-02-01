@@ -40,10 +40,18 @@ public class IFileImporterImpl implements IFileImporter {
 		prop.setProperty(PROP_LEERZEICHEN, "true");
 		prop.setProperty(PROP_SATZZEICHEN, "true");
 		prop.setProperty(PROP_GROSSSCHREIBUNG, "true");
+		prop.setProperty(PROP_LEERZEILEN, "true");
 		prop.setProperty(PROP_ROOT, System.getProperty("user.dir"));
 		prop.setProperty(PROP_LINEMATCH, "true");
-		prop.setProperty(PROP_DATEINAME, "dateiname");
-		prop.setProperty(PROP_LEERZEILEN, "true");
+		prop.setProperty(PROP_DATEINAME, "");
+
+		prop.setProperty(PROP_SORTIEREELEMENTE, "true");
+		prop.setProperty(PROP_SORTIEREATTRIBUTE, "true");
+		prop.setProperty(PROP_LOESCHEATTRIBUTE, "false");
+		prop.setProperty(PROP_LOESCHEKOMMENTARE, "false");
+		prop.setProperty(PROP_NURTAGS, "false");
+		prop.setProperty(PROP_VALIDATION, "0");
+
 		importConfigdatei(DEFAULT_CONFIG);
 	}
 
@@ -141,12 +149,24 @@ public class IFileImporterImpl implements IFileImporter {
 				.getProperty(PROP_SATZZEICHEN)));
 		iConfig.setBeachteGrossschreibung(Boolean.parseBoolean(prop
 				.getProperty(PROP_GROSSSCHREIBUNG)));
-		iConfig.setLineMatch(Boolean.parseBoolean(prop
-				.getProperty(PROP_LINEMATCH)));
-		iConfig.setRootDir(prop.getProperty(PROP_ROOT));
-		iConfig.setDateiname(prop.getProperty(PROP_DATEINAME));
 		iConfig.setBeachteLeerzeilen(Boolean.parseBoolean(prop
 				.getProperty(PROP_LEERZEILEN)));
+		iConfig.setRootDir(prop.getProperty(PROP_ROOT));
+		iConfig.setLineMatch(Boolean.parseBoolean(prop
+				.getProperty(PROP_LINEMATCH)));
+		iConfig.setDateiname(prop.getProperty(PROP_DATEINAME));
+
+		iConfig.setSortiereElemente(Boolean.parseBoolean(prop
+				.getProperty(PROP_SORTIEREELEMENTE)));
+		iConfig.setSortiereAttribute(Boolean.parseBoolean(prop
+				.getProperty(PROP_SORTIEREATTRIBUTE)));
+		iConfig.setLoescheAttribute(Boolean.parseBoolean(prop
+				.getProperty(PROP_LOESCHEATTRIBUTE)));
+		iConfig.setLoescheKommentare(Boolean.parseBoolean(prop
+				.getProperty(PROP_LOESCHEKOMMENTARE)));
+		iConfig.setNurTags(Boolean.parseBoolean(prop.getProperty(PROP_NURTAGS)));
+		iConfig.setValidation(Integer.parseInt(prop
+				.getProperty(PROP_VALIDATION)));
 
 		return true;
 	}
@@ -230,12 +250,25 @@ public class IFileImporterImpl implements IFileImporter {
 					Boolean.toString(iConfig.getBeachteSatzzeichen()));
 			prop.setProperty(PROP_GROSSSCHREIBUNG,
 					Boolean.toString(iConfig.getBeachteGrossschreibung()));
-			prop.setProperty(PROP_LINEMATCH,
-					Boolean.toString(iConfig.getLineMatch()));
-			prop.setProperty(PROP_ROOT, iConfig.getRootDir());
-			prop.setProperty(PROP_DATEINAME, iConfig.getDateiname());
 			prop.setProperty(PROP_LEERZEILEN,
 					Boolean.toString(iConfig.getBeachteLeerzeilen()));
+			prop.setProperty(PROP_ROOT, iConfig.getRootDir());
+			prop.setProperty(PROP_LINEMATCH,
+					Boolean.toString(iConfig.getLineMatch()));
+			prop.setProperty(PROP_DATEINAME, iConfig.getDateiname());
+
+			prop.setProperty(PROP_SORTIEREELEMENTE,
+					Boolean.toString(iConfig.getSortiereElemente()));
+			prop.setProperty(PROP_SORTIEREATTRIBUTE,
+					Boolean.toString(iConfig.getSortiereAttribute()));
+			prop.setProperty(PROP_LOESCHEATTRIBUTE,
+					Boolean.toString(iConfig.getLoescheAttribute()));
+			prop.setProperty(PROP_LOESCHEKOMMENTARE,
+					Boolean.toString(iConfig.getLoescheKommentare()));
+			prop.setProperty(PROP_NURTAGS,
+					Boolean.toString(iConfig.getNurTags()));
+			prop.setProperty(PROP_VALIDATION,
+					Integer.toString(iConfig.getValidation()));
 
 			prop.store(outputStream, null);
 

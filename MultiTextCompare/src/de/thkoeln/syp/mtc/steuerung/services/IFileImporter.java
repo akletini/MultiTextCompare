@@ -14,6 +14,14 @@ public interface IFileImporter {
 	final String PROP_ROOT = "rootDirectory";
 	final String PROP_LINEMATCH = "lineMatch";
 	final String PROP_DATEINAME = "dateiname";
+
+	final String PROP_SORTIEREELEMENTE = "sortiereElemente";
+	final String PROP_SORTIEREATTRIBUTE = "sortiereAttribute";
+	final String PROP_LOESCHEATTRIBUTE = "loescheAttribute";
+	final String PROP_LOESCHEKOMMENTARE = "loescheKommentare";
+	final String PROP_NURTAGS = "nurTags";
+	final String PROP_VALIDATION = "validation";
+
 	final File DEFAULT_CONFIG = new File(System.getProperty("user.dir")
 			+ File.separator + "config.properties");
 
