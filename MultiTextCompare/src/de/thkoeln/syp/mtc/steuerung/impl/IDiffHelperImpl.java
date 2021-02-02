@@ -51,11 +51,10 @@ public class IDiffHelperImpl implements IDiffHelper {
 				 * line comparison moves to next line.
 				 */
 				lineNum++;
-
-				String left = lineNum + "  "
-						+ (file1.hasNext() ? file1.nextLine() : "") + "\n";
-				String right = lineNum + "  "
-						+ (file2.hasNext() ? file2.nextLine() : "") + "\n";
+				
+				String left = (file1.hasNext() ? file1.nextLine() : "") + "\n";
+				String right = (file2.hasNext() ? file2.nextLine() : "") + "\n";
+				
 
 				// Prepare diff comparator with lines from both files.
 				StringsComparator comparator = new StringsComparator(left,
@@ -68,6 +67,9 @@ public class IDiffHelperImpl implements IDiffHelper {
 					 * compare with each other so that they are aligned with
 					 * each other in final diff.
 					 */
+					left = lineNum + "  " + left;
+					right = lineNum + "  " + right;
+					comparator = new StringsComparator(left, right);
 					comparator.getScript().visit(fileCommandsVisitor);
 				} else {
 					/*
@@ -76,6 +78,8 @@ public class IDiffHelperImpl implements IDiffHelper {
 					 * other in final diff instead they show up on separate
 					 * lines.
 					 */
+					left = lineNum + "  " + left;
+					right = lineNum + "  " + right;
 					StringsComparator leftComparator = new StringsComparator(
 							left, "");
 					leftComparator.getScript().visit(fileCommandsVisitor);
@@ -106,12 +110,10 @@ public class IDiffHelperImpl implements IDiffHelper {
 				 */
 				lineNum++;
 
-				String left = lineNum + "  "
-						+ (file1.hasNext() ? file1.nextLine() : "") + "\n";
-				String middle = lineNum + "  "
-						+ (file2.hasNext() ? file2.nextLine() : "") + "\n";
-				String right = lineNum + "  "
-						+ (file3.hasNext() ? file3.nextLine() : "") + "\n";
+				
+				String left = (file1.hasNext() ? file1.nextLine() : "") + "\n";
+				String middle = (file2.hasNext() ? file2.nextLine() : "") + "\n";
+				String right = (file3.hasNext() ? file3.nextLine() : "") + "\n";
 
 				// Prepare diff comparator with lines from both files.
 				StringsComparator comparator1 = new StringsComparator(left,
@@ -126,6 +128,10 @@ public class IDiffHelperImpl implements IDiffHelper {
 					 * compare with each other so that they are aligned with
 					 * each other in final diff.
 					 */
+					left = lineNum + "  " + left;
+					middle = lineNum + "  " + middle;
+					
+					comparator1 = new StringsComparator(left, middle);
 					comparator1.getScript().visit(fileCommandsVisitor);
 
 				} else {
@@ -135,6 +141,9 @@ public class IDiffHelperImpl implements IDiffHelper {
 					 * other in final diff instead they show up on separate
 					 * lines.
 					 */
+					left = lineNum + "  " + left;
+					middle = lineNum + "  " + middle;
+					
 					StringsComparator leftComparator = new StringsComparator(
 							left, "");
 					leftComparator.getScript().visit(fileCommandsVisitor);
@@ -151,6 +160,9 @@ public class IDiffHelperImpl implements IDiffHelper {
 					 * compare with each other so that they are aligned with
 					 * each other in final diff.
 					 */
+					right = lineNum + "  " + right;
+					
+					comparator2 = new StringsComparator(left, right);
 					comparator2.getScript().visit(fileCommandsVisitor);
 				} else {
 					/*
@@ -159,6 +171,8 @@ public class IDiffHelperImpl implements IDiffHelper {
 					 * other in final diff instead they show up on separate
 					 * lines.
 					 */
+					right = lineNum + "  " + right;
+					
 					StringsComparator leftComparator = new StringsComparator(
 							left, "");
 					leftComparator.getScript().visit(fileCommandsVisitor);
@@ -199,10 +213,8 @@ public class IDiffHelperImpl implements IDiffHelper {
 			 */
 			lineNum++;
 
-			String middle = lineNum + "  "
-					+ (file1.hasNext() ? file1.nextLine() : "") + "\n";
-			String right = lineNum + "  "
-					+ (file2.hasNext() ? file2.nextLine() : "") + "\n";
+			String middle = (file1.hasNext() ? file1.nextLine() : "") + "\n";
+			String right = (file2.hasNext() ? file2.nextLine() : "") + "\n";
 
 			// Prepare diff comparator with lines from both files.
 			StringsComparator comparator = new StringsComparator(middle, right);
@@ -214,6 +226,9 @@ public class IDiffHelperImpl implements IDiffHelper {
 				 * with each other so that they are aligned with each other in
 				 * final diff.
 				 */
+				right = lineNum + "  " + right;
+				middle = lineNum + "  " + middle;
+				comparator = new StringsComparator(middle, right);
 				comparator.getScript().visit(fileCommandsVisitor);
 			} else {
 				/*
@@ -221,6 +236,8 @@ public class IDiffHelperImpl implements IDiffHelper {
 				 * with empty line so that they are not aligned to each other in
 				 * final diff instead they show up on separate lines.
 				 */
+				right = lineNum + "  " + right;
+				middle = lineNum + "  " + middle;
 				StringsComparator leftComparator = new StringsComparator(
 						middle, "");
 				leftComparator.getScript().visit(fileCommandsVisitor);
@@ -522,6 +539,7 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 			mergedLine = new ArrayList<IDiffChar>();
 			List<IDiffChar> left = middleLines.get(i).getDiffedLine();
 			List<IDiffChar> right = middleLines2.get(i).getDiffedLine();
+			
 
 			for (int j = 0; j < left.size(); j++) {
 				if (left.get(j).getCharColor()

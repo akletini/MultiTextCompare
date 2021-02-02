@@ -217,7 +217,7 @@ public class MainView extends JFrame {
 
 	}
 
-	// Generierung der Farbe passend zum Ähnlichkeitswert
+	// Generierung der Farbe passend zum ï¿½hnlichkeitswert
 	private Color getColor(double value) {
 		double h = value * 0.3; // Hue
 		double s = 0.9; // Saturation
