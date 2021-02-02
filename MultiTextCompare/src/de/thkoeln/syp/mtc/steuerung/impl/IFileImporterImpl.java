@@ -24,7 +24,7 @@ public class IFileImporterImpl implements IFileImporter {
 
 	private IConfig iConfig;
 	private List<File> textdateien;
-	private Map<File, File> tempFiles;
+	private Map<File, File> tempFiles, xmlTempFiles;
 	private Properties prop;
 	private Thread rootImporter;
 
@@ -35,6 +35,7 @@ public class IFileImporterImpl implements IFileImporter {
 	public IFileImporterImpl() {
 		textdateien = new ArrayList<>();
 		tempFiles = new HashMap<>();
+		xmlTempFiles = new HashMap<>();
 		prop = new Properties();
 
 		prop.setProperty(PROP_LEERZEICHEN, "true");
@@ -68,6 +69,11 @@ public class IFileImporterImpl implements IFileImporter {
 	@Override
 	public Map<File, File> getTempFilesMap() {
 		return tempFiles;
+	}
+
+	@Override
+	public Map<File, File> getXmlTempFilesMap() {
+		return xmlTempFiles;
 	}
 
 	@Override
@@ -519,6 +525,66 @@ public class IFileImporterImpl implements IFileImporter {
 						new FileOutputStream(temp)));
 
 				writer.write(text);
+				writer.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Erstellt aus den manipulierten XML-Dateien temporaere Dateien im Ordner
+	 * 'TempFiles'. Die temporaeren Dateien werden in einer HashMap gespeichert
+	 * um von diesen auch wieder auf die originalen Dateien schliessen zu
+	 * koennen
+	 * 
+	 * @param xmlFileMap
+	 *            manipulierte tempFileMap
+	 * 
+	 * @return true: bei erfolgreichem Erstellen der temporaeren Dateien
+	 * 
+	 *         false: falls beim Erstellen der temporaeren Dateien ein Fehler
+	 *         auftritt
+	 */
+	@Override
+	public boolean createXmlTempFiles(Map<File, File> xmlFileMap) {
+		BufferedReader reader;
+		BufferedWriter writer;
+		int index = 1;
+
+		new File(System.getProperty("user.dir") + File.separator + "TempFiles")
+				.mkdirs();
+
+		for (File f : xmlFileMap.keySet()) {
+			File temp = xmlFileMap.get(f);
+			String path = System.getProperty("user.dir") + File.separator
+					+ "TempFiles" + File.separator + "temp_"
+					+ Integer.toString(index) + "xml";
+			File tempXml = new File(path);
+
+			try {
+				if (tempXml.exists()) {
+					tempXml.delete();
+				}
+				tempXml.createNewFile();
+
+				reader = new BufferedReader(new InputStreamReader(
+						new FileInputStream(temp)));
+				writer = new BufferedWriter(new OutputStreamWriter(
+						new FileOutputStream(tempXml)));
+
+				String line;
+				while ((line = reader.readLine()) != null) {
+					writer.write(line + "\n");
+				}
+
+				xmlTempFiles.put(f, tempXml);
+				index++;
+
+				reader.close();
 				writer.close();
 			} catch (IOException e) {
 				e.printStackTrace();
