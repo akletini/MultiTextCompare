@@ -1,32 +1,33 @@
 package de.thkoeln.syp.mtc.gui.control;
 
-import de.thkoeln.syp.mtc.datenhaltung.api.IMatrix;
 import de.thkoeln.syp.mtc.gui.view.ComparisonView;
-import de.thkoeln.syp.mtc.gui.view.DateiauswahlView;
-import de.thkoeln.syp.mtc.gui.view.HilfeView;
-import de.thkoeln.syp.mtc.gui.view.KonfigurationView;
+import de.thkoeln.syp.mtc.gui.view.FileSelectionView;
+import de.thkoeln.syp.mtc.gui.view.HelpView;
+import de.thkoeln.syp.mtc.gui.view.ConfigView;
 import de.thkoeln.syp.mtc.gui.view.MainView;
-import de.thkoeln.syp.mtc.gui.view.PopupView;
 import de.thkoeln.syp.mtc.steuerung.impl.IFileImporterImpl;
 import de.thkoeln.syp.mtc.steuerung.impl.ITextvergleicherImpl;
+import de.thkoeln.syp.mtc.steuerung.impl.IXMLvergleicherImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
 import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
+import de.thkoeln.syp.mtc.steuerung.services.IXMLvergleicher;
 
 public class Management {
 	private static Management instance;
 
 	private ComparisonView comparisonView;
-	private DateiauswahlView dateiauswahlView;
-	private HilfeView hilfeView;
-	private KonfigurationView konfigurationView;
+	private FileSelectionView fileSelectionView;
+	private HelpView hilfeView;
+	private ConfigView konfigurationView;
 	private MainView mainView;
 
-	private DateiauswahlController dateiauswahlController;
-	private KonfigurationController konfigurationController;
+	private FileSelectionController fileSelectionController;
+	private ConfigController configController;
 	private MainController mainController;
 
 	private IFileImporter fileImporter;
 	private ITextvergleicher textvergleicher;
+	private IXMLvergleicher xmlvergleicher;
 
 	public ComparisonView getComparisonView() {
 		return comparisonView;
@@ -36,27 +37,27 @@ public class Management {
 		this.comparisonView = comparisonView;
 	}
 
-	public DateiauswahlView getDateiauswahlView() {
-		return dateiauswahlView;
+	public FileSelectionView getFileSelectionView() {
+		return fileSelectionView;
 	}
 
-	public void setDateiauswahlView(DateiauswahlView dateiauswahlView) {
-		this.dateiauswahlView = dateiauswahlView;
+	public void setFileSelectionView(FileSelectionView fileSelectionView) {
+		this.fileSelectionView = fileSelectionView;
 	}
 
-	public HilfeView getHilfeView() {
+	public HelpView getHilfeView() {
 		return hilfeView;
 	}
 
-	public void setHilfeView(HilfeView hilfeView) {
+	public void setHilfeView(HelpView hilfeView) {
 		this.hilfeView = hilfeView;
 	}
 
-	public KonfigurationView getKonfigurationView() {
+	public ConfigView getKonfigurationView() {
 		return konfigurationView;
 	}
 
-	public void setKonfigurationView(KonfigurationView konfigurationView) {
+	public void setKonfigurationView(ConfigView konfigurationView) {
 		this.konfigurationView = konfigurationView;
 	}
 
@@ -68,22 +69,22 @@ public class Management {
 		this.mainView = mainView;
 	}
 
-	public DateiauswahlController getDateiauswahlController() {
-		return dateiauswahlController;
+	public FileSelectionController getFileSelectionController() {
+		return fileSelectionController;
 	}
 
-	public void setDateiauswahlController(
-			DateiauswahlController dateiauswahlController) {
-		this.dateiauswahlController = dateiauswahlController;
+	public void setFileSelectionController(
+			FileSelectionController fileSelectionController) {
+		this.fileSelectionController = fileSelectionController;
 	}
 
-	public KonfigurationController getKonfigurationController() {
-		return konfigurationController;
+	public ConfigController getConfigController() {
+		return configController;
 	}
 
-	public void setKonfigurationController(
-			KonfigurationController konfigurationController) {
-		this.konfigurationController = konfigurationController;
+	public void setConfigController(
+			ConfigController configController) {
+		this.configController = configController;
 	}
 
 	public MainController getMainController() {
@@ -110,9 +111,18 @@ public class Management {
 		this.textvergleicher = textVergleicher;
 	}
 
+	public IXMLvergleicher getXmlvergleicher() {
+		return xmlvergleicher;
+	}
+
+	public void setXmlvergleicher(IXMLvergleicher xmlvergleicher) {
+		this.xmlvergleicher = xmlvergleicher;
+	}
+
 	private Management() {
 		fileImporter = new IFileImporterImpl();
 		textvergleicher = new ITextvergleicherImpl();
+		xmlvergleicher = new IXMLvergleicherImpl();
 	}
 
 	public static Management getInstance() {

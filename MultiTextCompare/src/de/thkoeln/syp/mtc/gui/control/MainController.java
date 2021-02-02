@@ -6,9 +6,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 
-import de.thkoeln.syp.mtc.gui.view.DateiauswahlView;
-import de.thkoeln.syp.mtc.gui.view.HilfeView;
-import de.thkoeln.syp.mtc.gui.view.KonfigurationView;
+import de.thkoeln.syp.mtc.gui.view.FileSelectionView;
+import de.thkoeln.syp.mtc.gui.view.HelpView;
+import de.thkoeln.syp.mtc.gui.view.ConfigView;
 import de.thkoeln.syp.mtc.gui.view.MainView;
 
 public class MainController {
@@ -16,31 +16,35 @@ public class MainController {
 
 	public MainController(MainView mainView) {
 		management = Management.getInstance();
-		mainView.addDateiauswahlListener(
-				new DateiauswahlListener());
-		mainView.addKonfigurationListener(
-				new KonfigurationListener());
+		management.setMainController(this);
+		mainView.addDateiauswahlListener(new DateiauswahlListener());
+		mainView.addKonfigurationListener(new KonfigurationListener());
 		mainView.addHilfeListener(new HilfeListener());
 	}
 
 	class DateiauswahlListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			management.setDateiauswahlView(new DateiauswahlView());
-			management.getDateiauswahlView().setVisible(true);
+
+			if (Management.getInstance().getFileSelectionView() == null)
+				management.setFileSelectionView((new FileSelectionView()));
+			management.getFileSelectionView().setVisible(true);
+			management.getFileSelectionView().toFront();
 		}
 	}
 
 	class KonfigurationListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			management.setKonfigurationView(new KonfigurationView());
+			if (Management.getInstance().getKonfigurationView() == null)
+				management.setKonfigurationView(new ConfigView());
 			management.getKonfigurationView().setVisible(true);
+			management.getKonfigurationView().toFront();
 		}
 	}
 
 	class HilfeListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			try {
-				new HilfeView();
+				new HelpView();
 			} catch (IOException io) {
 			}
 		}

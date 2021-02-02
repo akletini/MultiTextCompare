@@ -18,8 +18,9 @@ import de.thkoeln.syp.mtc.datenhaltung.api.IDiffChar;
 import de.thkoeln.syp.mtc.datenhaltung.api.IDiffLine;
 import de.thkoeln.syp.mtc.steuerung.impl.IDiffHelperImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IDiffHelper;
+import javax.swing.JScrollPane;
 
-public class HilfeView extends JFrame {
+public class HelpView extends JFrame {
 
 	private JPanel panel;
 	private File[] auswahl;
@@ -28,7 +29,7 @@ public class HilfeView extends JFrame {
 	private JTextPane tPane2;
 	private JTextPane tPane3;
 	
-	public HilfeView() throws IOException {
+	public HelpView() throws IOException {
 		panel = new JPanel();
 		backgroundColor = new Color(20,20,20);
 		
@@ -134,8 +135,13 @@ public class HilfeView extends JFrame {
 				}
 
 			}
-
+			
+//			JScrollPane scrollPane = new JScrollPane();
+//			panel.add(scrollPane);
+			
 			getContentPane().add(panel);
+			
+			
 
 			pack();
 			setVisible(true);

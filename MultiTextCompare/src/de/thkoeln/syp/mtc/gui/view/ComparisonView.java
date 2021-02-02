@@ -28,39 +28,51 @@ import de.thkoeln.syp.mtc.steuerung.services.IDiffHelper;
 public class ComparisonView extends JFrame {
 	private Management management;
 	private JPanel panel;
-	private List<File> auswahl;
+	private List<File> selection;
+	private List<File> temp;
 	private Color backgroundColor;
-	private JTextPane tPane1;
-	private JTextPane tPane2;
-	private JTextPane tPane3;
+	private JTextPane tPane1, tPane2, tPane3;
 
-	public ComparisonView(List<File> selectedList) {
+	// mode 0 = .txt, mode 1 = .xml
+	public ComparisonView(List<File> selectedList, int mode) {
 		management = Management.getInstance();
-		auswahl = new ArrayList<File>();
+		selection = new ArrayList<File>();
+		temp = new ArrayList<File>();
 		if (management.getComparisonView() != null)
 			management.getComparisonView().dispose();
 		setLocationRelativeTo(management.getMainView().getRootPane());
 		panel = new JPanel();
-		
 		backgroundColor = new Color(20, 20, 20);
-		management.getFileImporter().getTempFilesMap();
+
 		for (Entry<File, File> entry : management.getFileImporter()
 				.getTempFilesMap().entrySet()) {
 			if (selectedList.contains(entry.getValue())) {
-				auswahl.add(entry.getKey());
+				selection.add(entry.getKey());
 			}
 		}
-		if(auswahl.size() == 1) auswahl.add(auswahl.get(0));
-		for(File f : auswahl){
+
+		if (mode == 1) {
+			for (File f : selection) {
+				temp.add(management.getFileImporter().getXmlTempFilesMap()
+						.get(f));
+			}
+			selection.clear();
+			selection.addAll(temp);
+			System.out.println("hallo ich bin die else if :-)");
+		}
+
+		if (selection.size() == 1)
+			selection.add(selection.get(0));
+		for (File f : selection) {
 			System.out.println(f.getAbsolutePath());
 		}
 		System.out.println("--------");
 		IDiffHelper diff = new IDiffHelperImpl();
 		try {
 
-			diff.computeDisplayDiff(auswahl.toArray(new File[auswahl.size()]));
+			diff.computeDisplayDiff(selection.toArray(new File[selection.size()]));
 
-			if (auswahl.size() == 2) {
+			if (selection.size() == 2) {
 				EmptyBorder eb = new EmptyBorder(new Insets(10, 10, 10, 10));
 
 				tPane1 = new JTextPane();
@@ -94,7 +106,7 @@ public class ComparisonView extends JFrame {
 					}
 				}
 			}
-			if (auswahl.size() == 3) {
+			if (selection.size() == 3) {
 				EmptyBorder eb = new EmptyBorder(new Insets(10, 10, 10, 10));
 
 				tPane1 = new JTextPane();
@@ -142,11 +154,13 @@ public class ComparisonView extends JFrame {
 				}
 
 			}
-
-			getContentPane().add(panel);
-
-			pack();
-			setVisible(true);
+			// Frame
+			this.getContentPane().add(panel);
+			this.setTitle("Dateivergleich");
+			this.pack();
+			this.setVisible(true);
+			this.setLocationRelativeTo(null);
+			this.setResizable(false);
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
