@@ -27,29 +27,28 @@ import de.thkoeln.syp.mtc.datenhaltung.api.IXMLElementComparator;
 import de.thkoeln.syp.mtc.datenhaltung.api.IXMLParseError;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IXMLParseErrorImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
-import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
 import de.thkoeln.syp.mtc.steuerung.services.IXMLvergleicher;
 
 public class IXMLvergleicherImpl implements IXMLvergleicher {
 	
 	private Document doc;
 	
-	private SAXBuilder builder = null;
+	private SAXBuilder builder;
 	
 	private List<IXMLParseError> errorListe;
 	
-	private IXMLParseError parseError = null;
+	private IXMLParseError parseError;
 	
-	private IFileImporter iFileImporter = new IFileImporterImpl();
+	private IFileImporter iFileImporter;
 	
-	private IConfig iConfig = iFileImporter.getConfig();
+	private IConfig iConfig;
 
 	public IXMLvergleicherImpl(IFileImporter fileImporter){
-		
+		this.builder = null;
+		this.errorListe = new ArrayList<>();
+		this.parseError = null;
 		this.iFileImporter = fileImporter;
 		this.iConfig = fileImporter.getConfig();
-		this.errorListe = new ArrayList<>();
-		
 	}
 	
 	
