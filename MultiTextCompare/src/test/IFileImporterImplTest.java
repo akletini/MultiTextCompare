@@ -209,6 +209,18 @@ public class IFileImporterImplTest {
 	}
 
 	@Test
+	public void test_createXmlTempFiles() {
+		assertTrue(fileImporter.createTempFiles());
+		assertTrue(fileImporter.createXmlTempFiles(fileImporter
+				.getTempFilesMap()));
+
+		assertEquals(fileImporter.getTempFilesMap().size(), fileImporter
+				.getXmlTempFilesMap().size());
+		for (File f : fileImporter.getXmlTempFilesMap().keySet())
+			assertNotNull(fileImporter.getXmlTempFilesMap().get(f));
+	}
+
+	@Test
 	public void test_deleteTempFiles() {
 		assertTrue(fileImporter.createTempFiles());
 		assertNotEquals(Collections.EMPTY_MAP, fileImporter.getTempFilesMap());

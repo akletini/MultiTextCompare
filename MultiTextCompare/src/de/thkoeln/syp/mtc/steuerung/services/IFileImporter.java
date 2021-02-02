@@ -30,6 +30,8 @@ public interface IFileImporter {
 	List<File> getTextdateien();
 
 	Map<File, File> getTempFilesMap();
+	
+	Map<File, File> getXmlTempFilesMap();
 
 	Thread getRootImporter();
 
@@ -52,6 +54,8 @@ public interface IFileImporter {
 	boolean createTempFiles();
 
 	boolean normTempFiles();
+	
+	boolean createXmlTempFiles(Map<File, File> xmlFileMap);
 
 	boolean deleteTempFiles();
 }
