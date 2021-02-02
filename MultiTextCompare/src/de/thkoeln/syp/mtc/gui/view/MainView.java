@@ -193,7 +193,7 @@ public class MainView extends JFrame {
 				}
 			}
 
-			if (selected.size() == 2) {
+			if (selected.size() == 3) {
 				management.setComparisonView(new ComparisonView(selected));
 				selected.clear();
 			}

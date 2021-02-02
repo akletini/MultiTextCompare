@@ -44,7 +44,13 @@ public class HilfeView extends JFrame {
 				+ "src" + File.separator + "test" + File.separator
 				+ "testFiles" + File.separator + "IDiffHelperTestFiles"
 				+ File.separator + "DiffHelperC.txt");
-		auswahl = new File[]{file1, file2, file3};
+		
+		File file11 = new File(System.getProperty("user.dir")
+				+ File.separator + "/src/test/testFiles/XMLTestFiles/TestFileSortElements.xml");
+		
+		File file12 = new File(System.getProperty("user.dir")
+				+ File.separator + "/src/test/testFiles/XMLTestFiles/ExpectedOutcome/ExpectedOutcomeSortElements.xml");
+		auswahl = new File[]{file11, file12};
 		
 
 		IDiffHelper diff = new IDiffHelperImpl();

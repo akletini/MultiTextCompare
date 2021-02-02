@@ -32,8 +32,9 @@
 			<STATUS>2</STATUS>
 			<RSUM>40.05</RSUM>
 			<BPOS>
-				<POSNR>2</POSNR>
-				<MENGE>2</MENGE>
+			
+				<MENGE>4</MENGE>
+				<POSNR>3</POSNR>
 				<WERT>5.78</WERT>
 				<ARTIKEL>
 					<ARTNR>1</ARTNR>
