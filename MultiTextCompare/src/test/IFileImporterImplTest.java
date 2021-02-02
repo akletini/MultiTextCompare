@@ -30,6 +30,9 @@ public class IFileImporterImplTest {
 
 	@BeforeClass
 	public static void beforeAllTests() {
+		new File(System.getProperty("user.dir") + File.separator
+				+ "config.properties").delete();
+		
 		fileImporter = new IFileImporterImpl();
 		textdateien = new ArrayList<File>();
 
@@ -97,6 +100,7 @@ public class IFileImporterImplTest {
 		assertEquals(System.getProperty("user.dir"), config.getRootDir());
 		assertTrue(config.getLineMatch());
 		assertEquals("", config.getDateiname());
+		assertEquals(".txt", config.getDateityp());
 
 		assertTrue(config.getSortiereElemente());
 		assertTrue(config.getSortiereAttribute());
@@ -114,6 +118,7 @@ public class IFileImporterImplTest {
 				+ "testFiles");
 		config.setLineMatch(false);
 		config.setDateiname("testName.txt");
+		config.setDateityp(".xml");
 
 		config.setSortiereElemente(false);
 		config.setSortiereAttribute(false);
@@ -136,6 +141,7 @@ public class IFileImporterImplTest {
 				config.getRootDir());
 		assertFalse(config.getLineMatch());
 		assertEquals("testName.txt", config.getDateiname());
+		assertEquals(".xml", config.getDateityp());
 
 		assertFalse(config.getSortiereElemente());
 		assertFalse(config.getSortiereAttribute());

@@ -7,7 +7,7 @@ public class IConfigImpl implements IConfig {
 	private boolean beachteLeerzeichen, beachteSatzzeichen,
 			beachteGrossschreibung, lineMatch, beachteLeerzeilen;
 	
-	private String rootDir, path, dateiname;
+	private String rootDir, path, dateiname, dateityp;
 	
 	//XML Spezifische Parameter
 	private boolean sortiereElemente, sortiereAttribute, loescheAttribute, loescheKommentare, nurTags;
@@ -47,6 +47,11 @@ public class IConfigImpl implements IConfig {
 	public void setDateiname(String dateiname) {
 		this.dateiname = dateiname;
 	}
+	
+	@Override
+	public void setDateityp(String dateityp) {
+		this.dateityp = dateityp;
+	}
 
 	@Override
 	public boolean getBeachteLeerzeichen() {
@@ -81,6 +86,11 @@ public class IConfigImpl implements IConfig {
 	@Override
 	public String getDateiname() {
 		return dateiname;
+	}
+	
+	@Override
+	public String getDateityp() {
+		return dateityp;
 	}
 
 	@Override

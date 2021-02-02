@@ -14,6 +14,7 @@ public interface IFileImporter {
 	final String PROP_ROOT = "rootDirectory";
 	final String PROP_LINEMATCH = "lineMatch";
 	final String PROP_DATEINAME = "dateiname";
+	final String PROP_DATEITYP = "dateityp";
 
 	final String PROP_SORTIEREELEMENTE = "sortiereElemente";
 	final String PROP_SORTIEREATTRIBUTE = "sortiereAttribute";
@@ -30,7 +31,7 @@ public interface IFileImporter {
 	List<File> getTextdateien();
 
 	Map<File, File> getTempFilesMap();
-	
+
 	Map<File, File> getXmlTempFilesMap();
 
 	Thread getRootImporter();
@@ -54,7 +55,7 @@ public interface IFileImporter {
 	boolean createTempFiles();
 
 	boolean normTempFiles();
-	
+
 	boolean createXmlTempFiles(Map<File, File> xmlFileMap);
 
 	boolean deleteTempFiles();

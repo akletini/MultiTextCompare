@@ -45,6 +45,7 @@ public class IFileImporterImpl implements IFileImporter {
 		prop.setProperty(PROP_ROOT, System.getProperty("user.dir"));
 		prop.setProperty(PROP_LINEMATCH, "true");
 		prop.setProperty(PROP_DATEINAME, "");
+		prop.setProperty(PROP_DATEITYP, ".txt");
 
 		prop.setProperty(PROP_SORTIEREELEMENTE, "true");
 		prop.setProperty(PROP_SORTIEREATTRIBUTE, "true");
@@ -161,6 +162,7 @@ public class IFileImporterImpl implements IFileImporter {
 		iConfig.setLineMatch(Boolean.parseBoolean(prop
 				.getProperty(PROP_LINEMATCH)));
 		iConfig.setDateiname(prop.getProperty(PROP_DATEINAME));
+		iConfig.setDateityp(prop.getProperty(PROP_DATEITYP));
 
 		iConfig.setSortiereElemente(Boolean.parseBoolean(prop
 				.getProperty(PROP_SORTIEREELEMENTE)));
@@ -262,6 +264,7 @@ public class IFileImporterImpl implements IFileImporter {
 			prop.setProperty(PROP_LINEMATCH,
 					Boolean.toString(iConfig.getLineMatch()));
 			prop.setProperty(PROP_DATEINAME, iConfig.getDateiname());
+			prop.setProperty(PROP_DATEITYP, iConfig.getDateityp());
 
 			prop.setProperty(PROP_SORTIEREELEMENTE,
 					Boolean.toString(iConfig.getSortiereElemente()));

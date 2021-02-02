@@ -14,6 +14,8 @@ public interface IConfig {
 	void setLineMatch(boolean lineMatch);
 
 	void setDateiname(String dateiname);
+	
+	void setDateityp(String dateityp);
 
 	void setBeachteLeerzeilen(boolean beachteLeerzeilen);
 
@@ -30,6 +32,8 @@ public interface IConfig {
 	boolean getLineMatch();
 
 	String getDateiname();
+	
+	String getDateityp();
 
 	boolean getBeachteLeerzeilen();
 	
