@@ -23,8 +23,11 @@ import org.jdom2.output.XMLOutputter;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
 import de.thkoeln.syp.mtc.datenhaltung.api.IXMLParseError;
+import de.thkoeln.syp.mtc.steuerung.impl.IFileImporterImpl;
 import de.thkoeln.syp.mtc.steuerung.impl.IXMLvergleicherImpl;
+import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
 import de.thkoeln.syp.mtc.steuerung.services.IXMLvergleicher;
 
 
@@ -41,6 +44,8 @@ public class IXMLVergleicherImplTest {
 	static Document erwartetesErgebnissDoc;
 	
 	static IXMLvergleicher iXML;
+	static IConfig config;
+	static IFileImporter fileImporter;
 	
 	static SAXBuilder builder;
 	static Document doc;
@@ -61,7 +66,13 @@ public class IXMLVergleicherImplTest {
 		xout = new XMLOutputter(Format.getRawFormat());
 		
 		
-		
+		 IFileImporter fileImporter = new IFileImporterImpl();
+		 fileImporter.getConfig().setLoescheAttribute(false);
+		 fileImporter.getConfig().setLoescheKommentare(false);
+		 fileImporter.getConfig().setNurTags(false);
+		 fileImporter.getConfig().setSortiereElemente(true);
+		 fileImporter.getConfig().setSortiereAttribute(true);
+		 fileImporter.getConfig().setValidation(0);
 
 	}
 	
