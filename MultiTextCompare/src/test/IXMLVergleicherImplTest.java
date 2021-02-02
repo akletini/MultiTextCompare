@@ -62,18 +62,17 @@ public class IXMLVergleicherImplTest {
 		testdateiDoc = new Document();
 		erwartetesErgebnissDoc = new Document();
 		
-		iXML = new IXMLvergleicherImpl();
+		IFileImporter fileImporter = new IFileImporterImpl();
+		fileImporter.getConfig().setLoescheAttribute(false);
+		fileImporter.getConfig().setLoescheKommentare(false);
+		fileImporter.getConfig().setNurTags(false);
+		fileImporter.getConfig().setSortiereElemente(true);
+		fileImporter.getConfig().setSortiereAttribute(true);
+		fileImporter.getConfig().setValidation(0);
+		
+		iXML = new IXMLvergleicherImpl(fileImporter);
 		xout = new XMLOutputter(Format.getRawFormat());
 		
-		
-		 IFileImporter fileImporter = new IFileImporterImpl();
-		 fileImporter.getConfig().setLoescheAttribute(false);
-		 fileImporter.getConfig().setLoescheKommentare(false);
-		 fileImporter.getConfig().setNurTags(false);
-		 fileImporter.getConfig().setSortiereElemente(true);
-		 fileImporter.getConfig().setSortiereAttribute(true);
-		 fileImporter.getConfig().setValidation(0);
-
 	}
 	
 	
@@ -215,9 +214,7 @@ public class IXMLVergleicherImplTest {
 		
 		
 		String ist = iXML.tagsOnly(xout.outputString(testdateiDoc));
-		System.out.println(ist);
 		String soll = iXML.xmlFileToString(erwartetesErgebniss);
-		System.out.println(soll);
 		assertEquals(soll, ist);
 	
 	}

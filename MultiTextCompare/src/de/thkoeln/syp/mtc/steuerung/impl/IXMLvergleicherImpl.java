@@ -44,6 +44,14 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 	
 	private IConfig iConfig = iFileImporter.getConfig();
 
+	public IXMLvergleicherImpl(IFileImporter fileImporter){
+		
+		this.iFileImporter = fileImporter;
+		this.iConfig = fileImporter.getConfig();
+		this.errorListe = new ArrayList<>();
+		
+	}
+	
 	
 	/**
 	 * Parst mittels JDOM gegebenes File auf Validitaet
