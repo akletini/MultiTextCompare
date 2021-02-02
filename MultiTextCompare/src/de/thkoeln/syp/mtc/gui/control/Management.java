@@ -122,7 +122,7 @@ public class Management {
 	private Management() {
 		fileImporter = new IFileImporterImpl();
 		textvergleicher = new ITextvergleicherImpl();
-		xmlvergleicher = new IXMLvergleicherImpl();
+		xmlvergleicher = new IXMLvergleicherImpl(fileImporter);
 	}
 
 	public static Management getInstance() {
