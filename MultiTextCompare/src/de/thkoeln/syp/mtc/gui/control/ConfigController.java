@@ -106,7 +106,7 @@ public class ConfigController {
 
 			management.getFileImporter().exportConfigdatei();
 
-			new PopupView("Success!", "The settings have been saved.");
+			new PopupView("", "The settings have been saved.");
 			configView.dispatchEvent(new WindowEvent(configView,
 					WindowEvent.WINDOW_CLOSING));
 		}
