@@ -1,11 +1,6 @@
 package de.thkoeln.syp.mtc.gui.view;
 
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
@@ -28,20 +23,23 @@ public class FileSelectionView extends JFrame {
 	private JPanel panel;
 	private JScrollPane scrollPane;
 	private JTextField textFieldFileName;
-	private JLabel lblRoot, lblRootPath, lblDateiname, lblSelectedFiles, lblFileCount;
+	private JLabel lblRoot, lblRootPath, lblDateiname, lblSelectedFiles,
+			lblFileCount;
 	private JButton btnSetRoot, btnSearch, btnAddFiles, btnDelete, btnReset,
 			btnCompare;
 	private JRadioButton rdbtnTxt, rdbtnXml, rdbtnJson, rdbtnAll;
 	private ButtonGroup bg;
 	private DefaultListModel<String> model;
 	private JList<String> listFilePath;
+
 	public FileSelectionView() {
 		management = Management.getInstance();
 
 		// Panel
 		panel = new JPanel();
 		panel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		panel.setLayout(new MigLayout("", "[][100px,grow,center][center]", "[][][][10px][5][grow][][][][][][][10][]"));
+		panel.setLayout(new MigLayout("", "[][100px,grow,center][center]",
+				"[][][][10px][5][grow][][][][][][][10][]"));
 
 		// Label, Eingabefeld Buttons, Radiobuttons
 		lblRoot = new JLabel("Root path:");
@@ -50,12 +48,12 @@ public class FileSelectionView extends JFrame {
 		lblRootPath = new JLabel("CurrentPath");
 		panel.add(lblRootPath, "cell 1 0,growx");
 
-		btnSetRoot = new JButton("New Directory..");
+		btnSetRoot = new JButton("Set directory..");
 		panel.add(btnSetRoot, "cell 2 0,growx");
 
 		lblDateiname = new JLabel("File name:");
 		panel.add(lblDateiname, "cell 0 1");
-		
+
 		lblSelectedFiles = new JLabel("Selected Files:");
 		panel.add(lblSelectedFiles, "flowx,cell 0 11");
 
@@ -68,7 +66,7 @@ public class FileSelectionView extends JFrame {
 
 		btnSearch = new JButton("Search");
 		panel.add(btnSearch, "cell 2 1,growx");
-		
+
 		btnAddFiles = new JButton("Add..");
 		panel.add(btnAddFiles, "flowx,cell 0 13");
 
@@ -82,7 +80,6 @@ public class FileSelectionView extends JFrame {
 		panel.add(btnCompare, "cell 2 13,alignx center");
 
 		rdbtnTxt = new JRadioButton(".txt");
-		rdbtnTxt.setSelected(true);
 		panel.add(rdbtnTxt, "flowx,cell 1 2");
 
 		rdbtnXml = new JRadioButton(".xml");
@@ -93,6 +90,8 @@ public class FileSelectionView extends JFrame {
 
 		rdbtnAll = new JRadioButton("All Files");
 		panel.add(rdbtnAll, "cell 1 3");
+
+		fileExtToButton();
 
 		bg = new ButtonGroup();
 		bg.add(rdbtnTxt);
@@ -106,6 +105,10 @@ public class FileSelectionView extends JFrame {
 		scrollPane = new JScrollPane(listFilePath);
 		panel.add(scrollPane, "cell 0 5 3 6,grow");
 
+		// Config Parameter
+		textFieldFileName.setText(management.getFileImporter().getConfig()
+				.getDateiname());
+
 		// Controller
 		management
 				.setFileSelectionController(new FileSelectionController(this));
@@ -117,8 +120,6 @@ public class FileSelectionView extends JFrame {
 		this.setBounds(100, 100, 750, 500);
 		this.setLocationRelativeTo(null);
 		this.getRootPane().setDefaultButton(btnSearch);
-		
-		
 		this.pack();
 	}
 
@@ -133,7 +134,7 @@ public class FileSelectionView extends JFrame {
 	public JList<String> getListFilePath() {
 		return listFilePath;
 	}
-	
+
 	public JLabel getLblFileCount() {
 		return lblFileCount;
 	}
@@ -170,14 +171,31 @@ public class FileSelectionView extends JFrame {
 		else
 			return -1;
 	}
-	
-	public List<File> getListSelection(){
-		List<File> selectedFiles = new ArrayList<File>();
-		for(String s : listFilePath.getSelectedValuesList()){
-			Path path = Paths.get(s);
-			selectedFiles.add(path.toFile());
+
+	public void fileExtToButton() {
+		switch (management.getFileImporter().getConfig().getDateityp()) {
+		case (".txt"):
+			rdbtnTxt.setSelected(true);
+			break;
+
+		case (".xml"):
+			rdbtnXml.setSelected(true);
+			break;
+
+		case (".json"):
+			rdbtnJson.setSelected(true);
+			break;
+
+		case (""):
+			rdbtnAll.setSelected(true);
+			break;
+
+		default:
+			rdbtnTxt.setSelected(true);
+			break;
+
 		}
-		return selectedFiles;
+
 	}
 
 	public void addSetRootListener(ActionListener e) {
@@ -191,8 +209,8 @@ public class FileSelectionView extends JFrame {
 	public void addAddFilesListener(ActionListener e) {
 		btnAddFiles.addActionListener(e);
 	}
-	
-	public void addDeleteListener(ActionListener e){
+
+	public void addDeleteListener(ActionListener e) {
 		btnDelete.addActionListener(e);
 	}
 

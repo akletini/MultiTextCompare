@@ -5,12 +5,12 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.Action;
 import javax.swing.BorderFactory;
@@ -34,6 +34,7 @@ public class FileSelectionController extends JFrame {
 	private JFileChooser fc;
 	private File[] selection;
 	private List<File> selectionList;
+	private List<File> lastComparison;
 	private IMatrix matrix;
 	private IFileImporter fileImporter;
 	private ITextvergleicher textvergleicher;
@@ -48,8 +49,7 @@ public class FileSelectionController extends JFrame {
 		xmlvergleicher = management.getXmlvergleicher();
 		panel = new JPanel();
 		matrix = new IMatrixImpl();
-		fileSelectionView.getTextFieldFileName().setText(
-				fileImporter.getConfig().getDateiname());
+		lastComparison = new ArrayList<File>();
 		fileSelectionView.addSetRootListener(new SetRootListener());
 		fileSelectionView.addSearchListener(new SearchListener());
 		fileSelectionView.addAddFilesListener(new AddFilesListener());
@@ -112,6 +112,7 @@ public class FileSelectionController extends JFrame {
 			fileImporter.getConfig().setDateiname(
 					management.getFileSelectionView().getTextFieldFileName()
 							.getText());
+			fileImporter.getConfig().setDateityp(getFileExt());
 			fileImporter.exportConfigdatei();
 			mode = management.getFileSelectionView().getRadioButton();
 		}
@@ -136,6 +137,7 @@ public class FileSelectionController extends JFrame {
 			fileImporter.importTextdateien(selectionList);
 			management.getFileSelectionView().setLocationRelativeTo(null);
 			setRdbtn(fileImporter.getTextdateien().isEmpty());
+			fileImporter.getConfig().setDateityp(getFileExt());
 			updateListFilePath();
 			mode = management.getFileSelectionView().getRadioButton();
 		}
@@ -143,7 +145,7 @@ public class FileSelectionController extends JFrame {
 
 	class DeleteListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			for (File f : management.getFileSelectionView().getListSelection()) {
+			for (File f : getListSelection()) {
 				fileImporter.deleteImport(f);
 			}
 			updateListFilePath();
@@ -155,6 +157,7 @@ public class FileSelectionController extends JFrame {
 			fileImporter.deleteImports();
 			fileImporter.deleteTempFiles();
 			management.getFileSelectionView().getModel().clear();
+			management.getFileSelectionView().getLblFileCount().setText("0");
 			setRdbtn(true);
 		}
 	}
@@ -162,7 +165,12 @@ public class FileSelectionController extends JFrame {
 	class CompareListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			int anzDateien = fileImporter.getTextdateien().size();
-			if (anzDateien > 1) {
+			if (anzDateien < 2) {
+				new PopupView("Error",
+						"Please select at least two files for comparison");
+				return;
+			}
+			if (!lastComparison.equals(fileImporter.getTextdateien())) {
 				fileImporter.deleteTempFiles();
 				fileImporter.createTempFiles();
 				xmlvergleicher.clearErrorList();
@@ -189,20 +197,22 @@ public class FileSelectionController extends JFrame {
 						textvergleicher.getMatrix(), anzDateien,
 						getFileNames(anzDateien));
 
+				lastComparison.clear();
+				lastComparison.addAll(fileImporter.getTextdateien());
+
 				if (!xmlvergleicher.getErrorList().isEmpty()) {
 					appendToTextArea("A matrix with "
 							+ anzDateien
-							+ " files has been created, but the file selection contained. "
+							+ " files has been created, but the file selection contained "
 							+ xmlvergleicher.getErrorList().size()
 							+ " XML errors.");
 				}
 
-				else
+				else {
 					appendToTextArea("A matrix with " + anzDateien
 							+ " files has been created successfully!");
-			} else
-				new PopupView("Error",
-						"Please select at least two files for comparison");
+				}
+			}
 		}
 	}
 
@@ -234,25 +244,21 @@ public class FileSelectionController extends JFrame {
 
 	public void updateListFilePath() {
 		int importSize = fileImporter.getTextdateien().size();
-		// String[] nameDateien = getNameDateien(importSize);
-
+		String[] fileNames = getFileNames(importSize);
 		management.getFileSelectionView().getModel().clear();
 		for (int i = 0; i < importSize; i++) {
-			if (!management
+			management
 					.getFileSelectionView()
 					.getModel()
-					.contains(
-							fileImporter.getTextdateien().get(i)
-									.getAbsolutePath()))
-				management
-						.getFileSelectionView()
-						.getModel()
-						.addElement(
-								fileImporter.getTextdateien().get(i)
-										.getAbsolutePath());
+					.addElement(
+							fileNames[i]
+									+ ":  "
+									+ fileImporter.getTextdateien().get(i)
+											.getAbsolutePath());
 
 			management.getFileSelectionView().getLblFileCount()
 					.setText(String.valueOf(importSize));
+
 		}
 	}
 
@@ -285,6 +291,34 @@ public class FileSelectionController extends JFrame {
 		return fileNames;
 	}
 
+	public List<String> convertToPaths(List<String> list) {
+		List<String> pathList = new ArrayList<String>();
+		int temp = 4;
+		int index = 0;
+		if (list.size() <= 26)
+			for (int i = 0; i < management.getFileSelectionView()
+					.getListFilePath().getSelectedValuesList().size(); i++) {
+				pathList.add(list.get(i).substring(temp));
+				index++;
+				if (index == 26) {
+					temp = 5;
+				}
+			}
+		return pathList;
+	}
+
+	public List<File> getListSelection() {
+		List<String> selectedPaths = convertToPaths(management
+				.getFileSelectionView().getListFilePath()
+				.getSelectedValuesList());
+		List<File> selectedFiles = new ArrayList<File>();
+		for (String s : selectedPaths) {
+			Path path = Paths.get(s);
+			selectedFiles.add(path.toFile());
+		}
+		return selectedFiles;
+	}
+
 	public int getMode() {
 		return mode;
 	}
@@ -297,6 +331,6 @@ public class FileSelectionController extends JFrame {
 				.getTextArea()
 				.setText(
 						management.getMainView().getTextArea().getText()
-								+ sdf.format(cal.getTime()) + "  " + s + "\n");
+								+ sdf.format(cal.getTime()) + " | " + s + "\n");
 	}
 }

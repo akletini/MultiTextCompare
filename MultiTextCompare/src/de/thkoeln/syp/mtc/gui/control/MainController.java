@@ -2,13 +2,11 @@ package de.thkoeln.syp.mtc.gui.control;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.IOException;
 
+import de.thkoeln.syp.mtc.gui.view.ConfigView;
 import de.thkoeln.syp.mtc.gui.view.FileSelectionView;
 import de.thkoeln.syp.mtc.gui.view.HelpView;
-import de.thkoeln.syp.mtc.gui.view.ConfigView;
 import de.thkoeln.syp.mtc.gui.view.MainView;
 
 public class MainController {

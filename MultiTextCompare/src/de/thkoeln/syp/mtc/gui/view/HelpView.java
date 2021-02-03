@@ -18,7 +18,6 @@ import de.thkoeln.syp.mtc.datenhaltung.api.IDiffChar;
 import de.thkoeln.syp.mtc.datenhaltung.api.IDiffLine;
 import de.thkoeln.syp.mtc.steuerung.impl.IDiffHelperImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IDiffHelper;
-import javax.swing.JScrollPane;
 
 public class HelpView extends JFrame {
 
@@ -51,7 +50,7 @@ public class HelpView extends JFrame {
 		
 		File file12 = new File(System.getProperty("user.dir")
 				+ File.separator + "/src/test/testFiles/XMLTestFiles/ExpectedOutcome/ExpectedOutcomeSortElements.xml");
-		auswahl = new File[]{file11, file12};
+		auswahl = new File[]{file1, file2, file3};
 		
 
 		IDiffHelper diff = new IDiffHelperImpl();

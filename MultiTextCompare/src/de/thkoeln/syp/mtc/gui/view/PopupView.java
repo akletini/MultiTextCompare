@@ -18,7 +18,7 @@ public class PopupView extends JFrame {
 	private JLabel label;
 	private JLabel labelSpace;
 	private JButton btnOk;
-	
+
 	public PopupView(String name, String error) {
 		panel = new JPanel();
 		label = new JLabel(error);
@@ -37,7 +37,7 @@ public class PopupView extends JFrame {
 		this.getRootPane().setDefaultButton(btnOk);
 		popupController = new PopupController(this);
 	}
-	
+
 	public void addOkListener(ActionListener e) {
 		btnOk.addActionListener(e);
 	}

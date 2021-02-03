@@ -10,7 +10,6 @@ import javax.swing.JFileChooser;
 import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
 import de.thkoeln.syp.mtc.gui.view.ConfigView;
 import de.thkoeln.syp.mtc.gui.view.PopupView;
-import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
 
 public class ConfigController {
 	private Management management;
@@ -107,7 +106,7 @@ public class ConfigController {
 
 			management.getFileImporter().exportConfigdatei();
 
-			new PopupView("Erfolg!", "Die Einstellungen wurden gespeichert.");
+			new PopupView("Success!", "The settings have been saved.");
 			configView.dispatchEvent(new WindowEvent(configView,
 					WindowEvent.WINDOW_CLOSING));
 		}

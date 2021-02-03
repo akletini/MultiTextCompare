@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.Objects;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -20,7 +19,6 @@ import javax.swing.text.StyleContext;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IDiffChar;
 import de.thkoeln.syp.mtc.datenhaltung.api.IDiffLine;
-import de.thkoeln.syp.mtc.datenhaltung.impl.IAehnlichkeitImpl;
 import de.thkoeln.syp.mtc.gui.control.Management;
 import de.thkoeln.syp.mtc.steuerung.impl.IDiffHelperImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IDiffHelper;
@@ -34,23 +32,25 @@ public class ComparisonView extends JFrame {
 	private JTextPane tPane1, tPane2, tPane3;
 
 	// mode 0 = .txt, mode 1 = .xml
-	public ComparisonView(List<File> selectedList, int mode) {
+	public ComparisonView(List<File> selectedList, List<Integer> fileIndices,
+			int mode) {
 		management = Management.getInstance();
 		selection = new ArrayList<File>();
 		temp = new ArrayList<File>();
 		if (management.getComparisonView() != null)
 			management.getComparisonView().dispose();
-		setLocationRelativeTo(management.getMainView().getRootPane());
 		panel = new JPanel();
 		backgroundColor = new Color(20, 20, 20);
 
-		for (Entry<File, File> entry : management.getFileImporter()
-				.getTempFilesMap().entrySet()) {
-			if (selectedList.contains(entry.getValue())) {
-				selection.add(entry.getKey());
+		for (File f : selectedList) {
+			for (Entry<File, File> entry : management.getFileImporter()
+					.getTempFilesMap().entrySet()) {
+				if (entry.getValue().equals(f))
+					selection.add(entry.getKey());
 			}
 		}
 
+		// XML
 		if (mode == 1) {
 			for (File f : selection) {
 				temp.add(management.getFileImporter().getXmlTempFilesMap()
@@ -58,15 +58,11 @@ public class ComparisonView extends JFrame {
 			}
 			selection.clear();
 			selection.addAll(temp);
-			System.out.println("hallo ich bin die else if :-)");
 		}
 
 		if (selection.size() == 1)
 			selection.add(selection.get(0));
-		for (File f : selection) {
-			System.out.println(f.getAbsolutePath());
-		}
-		System.out.println("--------");
+
 		IDiffHelper diff = new IDiffHelperImpl();
 		try {
 
@@ -154,13 +150,24 @@ public class ComparisonView extends JFrame {
 				}
 
 			}
-			// Frame
+
 			this.getContentPane().add(panel);
-			this.setTitle("Dateivergleich");
+			String file1Name = management.getFileSelectionView().getModel()
+					.get(fileIndices.get(0)).split(":")[0];
+			String file2Name = management.getFileSelectionView().getModel()
+					.get(fileIndices.get(1)).split(":")[0];
+			String file3Name = "";
+			if (fileIndices.size() == 3) {
+				file3Name = " <-> "
+						+ management.getFileSelectionView().getModel()
+								.get(fileIndices.get(2)).split(":")[0];
+			}
+
+			this.setTitle("Selected:     " + file1Name + " <-> " + file2Name
+					+ file3Name);
 			this.pack();
 			this.setVisible(true);
 			this.setLocationRelativeTo(null);
-			this.setResizable(false);
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

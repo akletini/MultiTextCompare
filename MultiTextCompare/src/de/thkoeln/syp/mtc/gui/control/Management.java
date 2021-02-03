@@ -1,9 +1,9 @@
 package de.thkoeln.syp.mtc.gui.control;
 
 import de.thkoeln.syp.mtc.gui.view.ComparisonView;
+import de.thkoeln.syp.mtc.gui.view.ConfigView;
 import de.thkoeln.syp.mtc.gui.view.FileSelectionView;
 import de.thkoeln.syp.mtc.gui.view.HelpView;
-import de.thkoeln.syp.mtc.gui.view.ConfigView;
 import de.thkoeln.syp.mtc.gui.view.MainView;
 import de.thkoeln.syp.mtc.steuerung.impl.IFileImporterImpl;
 import de.thkoeln.syp.mtc.steuerung.impl.ITextvergleicherImpl;
@@ -82,8 +82,7 @@ public class Management {
 		return configController;
 	}
 
-	public void setConfigController(
-			ConfigController configController) {
+	public void setConfigController(ConfigController configController) {
 		this.configController = configController;
 	}
 

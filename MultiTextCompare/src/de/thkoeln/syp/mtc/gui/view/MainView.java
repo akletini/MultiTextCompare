@@ -2,18 +2,14 @@ package de.thkoeln.syp.mtc.gui.view;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Point;
+import java.awt.Font;
 import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -41,8 +37,6 @@ import de.thkoeln.syp.mtc.gui.RowNumberTable;
 import de.thkoeln.syp.mtc.gui.control.MainController;
 import de.thkoeln.syp.mtc.gui.control.Management;
 
-import java.awt.Font;
-
 public class MainView extends JFrame {
 	private Management management;
 	private JPanel panel;
@@ -69,7 +63,7 @@ public class MainView extends JFrame {
 		toolBar = new JToolBar();
 		toolBar.setFloatable(false);
 		panel.add(toolBar, "flowx,cell 0 0,alignx center");
-		btnDateiauswahl = new JButton("File Selection");
+		btnDateiauswahl = new JButton("File selection");
 		toolBar.add(btnDateiauswahl);
 		btnKonfig = new JButton("Configuration");
 		toolBar.add(btnKonfig);
@@ -80,7 +74,7 @@ public class MainView extends JFrame {
 
 		// TextArea (Ausgabe)
 		textArea = new JTextArea();
-		textArea.setFont(new Font("Monospaced", Font.PLAIN, 15));
+		textArea.setFont(new Font("Monospaced", Font.PLAIN, 14));
 		textArea.setEditable(false);
 		scrollPaneFiles = new JScrollPane(textArea);
 		panel.add(scrollPaneFiles, "flowx,cell 0 2,grow");
@@ -115,7 +109,6 @@ public class MainView extends JFrame {
 				data[j][i] = wertString;
 				index++;
 			}
-			// tempFiles.put(cantorPairing(i, i), listMatrix.get(index));
 		}
 
 		tableMatrix = new JTable(data, nameDateien) {
@@ -133,7 +126,6 @@ public class MainView extends JFrame {
 			protected JTableHeader createDefaultTableHeader() {
 				return new JTableHeader(columnModel) {
 					public String getToolTipText(MouseEvent e) {
-						String tip = null;
 						int index = columnModel
 								.getColumnIndexAtX(e.getPoint().x);
 						int realIndex = columnModel.getColumn(index)
@@ -169,55 +161,102 @@ public class MainView extends JFrame {
 	}
 
 	private class MouseAdapterMatrix extends MouseAdapter {
-		private List<File> selected;
+		private List<File> selectedFiles;
+		private List<Integer> fileIndices;
 
 		public MouseAdapterMatrix() {
-			selected = new ArrayList<File>();
+			selectedFiles = new ArrayList<File>();
+			fileIndices = new ArrayList<Integer>();
 		}
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			System.out.println("blibla");
 			Set<Entry<File, File>> tempFiles;
-			
-//			if (management.getFileSelectionController().getMode() == 1) {
-//				tempFiles = management.getFileImporter().getXmlTempFilesMap().entrySet();
-//			} else
-				tempFiles = management.getFileImporter().getTempFilesMap()
-						.entrySet();
+			tempFiles = management.getFileImporter().getTempFilesMap()
+					.entrySet();
+			boolean kreuzKlick = false;
 
-			if (tableMatrix.equals(e.getSource()) && selected.size() < 2) {
+			// Klick in der Matrix (Kreuzung)
+			if (tableMatrix.equals(e.getSource()) && selectedFiles.size() < 2) {
 				JTable table = (JTable) e.getSource();
-				int row = table.rowAtPoint(e.getPoint());
-				int column = table.columnAtPoint(e.getPoint());
+				int rowIndex = table.rowAtPoint(e.getPoint());
+				int columnIndex = table.columnAtPoint(e.getPoint());
+				kreuzKlick = true;
 
 				for (Map.Entry<File, File> entry : tempFiles) {
-					if (entry.getValue().getName().equals("temp_" + (row + 1))
+					if (entry.getValue().getName()
+							.equals("temp_" + (rowIndex + 1))
 							|| entry.getValue().getName()
-									.equals("temp_" + (column + 1))) {
-						selected.add(entry.getValue());
-						if (row == column)
-							selected.add(entry.getValue());
+									.equals("temp_" + (columnIndex + 1))) {
+						selectedFiles.add(entry.getValue());
+						fileIndices.add(columnIndex);
+						management.getFileSelectionController()
+								.appendToTextArea(
+										management
+												.getFileSelectionView()
+												.getModel()
+												.get(fileIndices
+														.get(selectedFiles
+																.size() - 1))
+												.split(":")[0]
+												+ " has been selected. Total: "
+												+ (selectedFiles.size()));
+
+						if (rowIndex == columnIndex) {
+							selectedFiles.add(entry.getValue());
+							management
+									.getFileSelectionController()
+									.appendToTextArea(
+											management
+													.getFileSelectionView()
+													.getModel()
+													.get(fileIndices.get(selectedFiles
+															.size() - 1))
+													.split(":")[0]
+													+ " has been selected. Total: "
+													+ (selectedFiles.size()));
+						}
 					}
 				}
+
+				// Klick auf Spaltenkopf
 			} else if (tableMatrix.getTableHeader().equals(e.getSource())) {
 				int columnIndex = tableMatrix.columnAtPoint(e.getPoint());
 				for (Map.Entry<File, File> entry : tempFiles) {
 					if (entry.getValue().getName()
-							.equals("temp_" + (columnIndex + 1)))
-						selected.add(entry.getValue());
+							.equals("temp_" + (columnIndex + 1))) {
+						selectedFiles.add(entry.getValue());
+						fileIndices.add(columnIndex);
+						management.getFileSelectionController()
+								.appendToTextArea(
+										management
+												.getFileSelectionView()
+												.getModel()
+												.get(fileIndices
+														.get(selectedFiles
+																.size() - 1))
+												.split(":")[0]
+												+ " has been selected. Total: "
+												+ (selectedFiles.size()));
+					}
 				}
 			}
 
-			if (selected.size() == 3) {
-				management.setComparisonView(new ComparisonView(selected, management.getFileSelectionController().getMode()));
-				selected.clear();
+			if ((selectedFiles.size() == 2 && kreuzKlick == true)
+					|| selectedFiles.size() == 3) {
+				management.setComparisonView(new ComparisonView(selectedFiles,
+						fileIndices, management.getFileSelectionController()
+								.getMode()));
+				management.getFileSelectionController().appendToTextArea(
+						"Comparison is now visible");
+				selectedFiles.clear();
+				fileIndices.clear();
+				kreuzKlick = false;
 			}
 		}
-
 	}
 
-	// Generierung der Farbe passend zum �hnlichkeitswert
+	// Generierung der Farbe passend zum Aehnlichkeitswert
 	private Color getColor(double value) {
 		double h = value * 0.3; // Hue
 		double s = 0.9; // Saturation
@@ -231,8 +270,8 @@ public class MainView extends JFrame {
 				.getTextdateien().size()];
 		for (int i = 0; i < management.getFileImporter().getTextdateien()
 				.size(); i++) {
-			pathArray[i] = management.getFileImporter().getTextdateien()
-					.get(i).getAbsolutePath();
+			pathArray[i] = management.getFileImporter().getTextdateien().get(i)
+					.getAbsolutePath();
 		}
 		return pathArray;
 	}
