@@ -397,21 +397,6 @@ public class IXMLVergleicherImplTest {
 		
 		ergebnisMap = iXML.xmlPrepare(testMap);
 		
-		
-		for(Map.Entry<File, File> entry : ergebnisMap.entrySet()) {
-			try{
-				System.out.println("===================================================");
-				System.out.println("Kontrollausgabe Testfall: test_xmlPrepare_Correct()");
-				System.out.println("===================================================");
-				readFileToConsole(entry.getKey());
-				System.out.println("========================================");
-				readFileToConsole(entry.getValue());
-				
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-		
-		}
 		assertTrue(iXML.getErrorList().size() == 0);
 		
 		
@@ -442,21 +427,6 @@ public class IXMLVergleicherImplTest {
 		
 		ergebnisMap = iXML.xmlPrepare(testMap);
 		
-		
-		for(Map.Entry<File, File> entry : ergebnisMap.entrySet()) {
-			try{
-				System.out.println("=====================================================");
-				System.out.println("Kontrollausgabe Testfall: test_xmlPrepare_Incorrect()");
-				System.out.println("=====================================================");
-				readFileToConsole(entry.getKey());
-				System.out.println("========================================");
-				readFileToConsole(entry.getValue());
-				
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-		
-		}
 		assertTrue(iXML.getErrorList().size() > 0);
 		
 	}
