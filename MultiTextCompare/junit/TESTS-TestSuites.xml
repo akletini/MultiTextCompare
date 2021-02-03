@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <testsuites>
-  <testsuite errors="0" failures="0" hostname="DESKTOP-6F37MS8" id="0" name="IDiffHelperImplTest" package="test" skipped="0" tests="7" time="0.047" timestamp="2021-01-30T18:33:16">
+  <testsuite errors="0" failures="0" hostname="DESKTOP-6F37MS8" id="0" name="IDiffHelperImplTest" package="test" skipped="0" tests="7" time="0.049" timestamp="2021-02-03T19:28:59">
       <properties>
           <property name="java.vendor" value="Oracle Corporation" />
 
@@ -152,7 +152,7 @@
 
           <property name="ant.version" value="Apache Ant(TM) version 1.9.2 compiled on July 8 2013" />
 
-          <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner test.IDiffHelperImplTest filtertrace=true haltOnError=false haltOnFailure=false formatter=org.apache.tools.ant.taskdefs.optional.junit.OutErrSummaryJUnitResultFormatter showoutput=false outputtoformatters=true logfailedtests=true logtestlistenerevents=false formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,F:\Home\SYP2020\team06\MultiTextCompare\junit\TEST-test.IDiffHelperImplTest.xml crashfile=F:\Home\SYP2020\team06\MultiTextCompare\junitvmwatcher7154910524792454506.properties propsfile=F:\Home\SYP2020\team06\MultiTextCompare\junit6604962983248305406.properties" />
+          <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner test.IDiffHelperImplTest filtertrace=true haltOnError=false haltOnFailure=false formatter=org.apache.tools.ant.taskdefs.optional.junit.OutErrSummaryJUnitResultFormatter showoutput=false outputtoformatters=true logfailedtests=true logtestlistenerevents=false formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,F:\Home\SYP2020\team06\MultiTextCompare\junit\TEST-test.IDiffHelperImplTest.xml crashfile=F:\Home\SYP2020\team06\MultiTextCompare\junitvmwatcher7053003710773824406.properties propsfile=F:\Home\SYP2020\team06\MultiTextCompare\junit3958419397382086677.properties" />
 
           <property name="java.class.path" value="F:\Home\SYP2020\team06\MultiTextCompare\bin;F:\Eclipse\plugins\org.junit_4.11.0.v201303080030\junit.jar;F:\Eclipse\plugins\org.hamcrest.core_1.3.0.v201303031735.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\diffutils-1.2.1-sources.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\diffutils-1.2.1.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\jdom-2.0.6.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\jdom-2.0.6-javadoc.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\jdom-2.0.6-sources.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\commons-io-2.6-javadoc.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\commons-io-2.6-sources.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\commons-io-2.6.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\commons-text-1.3-javadoc.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\commons-text-1.3-sources.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\commons-text-1.3.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\miglayout-swing.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\miglayout-core.jar;F:\Eclipse\plugins\org.apache.ant_1.9.2.v201404171502\lib\ant-launcher.jar;F:\Eclipse\plugins\org.apache.ant_1.9.2.v201404171502\lib\ant.jar;F:\Eclipse\plugins\org.apache.ant_1.9.2.v201404171502\lib\ant-junit.jar;F:\Eclipse\plugins\org.apache.ant_1.9.2.v201404171502\lib\ant-junit4.jar" />
 
@@ -212,7 +212,7 @@
 
           <property name="env.PATHEXT" value=".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC" />
 
-          <property name="org.apache.tools.ant.taskdefs.optional.junit.AggregateTransformer0" value="C:\Users\allen\AppData\Local\Temp\null2037090203" />
+          <property name="org.apache.tools.ant.taskdefs.optional.junit.AggregateTransformer0" value="C:\Users\allen\AppData\Local\Temp\null323516514" />
 
           <property name="env.Path" value="C:/Program Files (x86)/Java/jre7/bin/client;C:/Program Files (x86)/Java/jre7/bin;C:/Program Files (x86)/Java/jre7/lib/i386;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\Git\cmd;C:\Users\allen\AppData\Local\Programs\Python\Python39\Scripts\;C:\Users\allen\AppData\Local\Programs\Python\Python39\;C:\Users\allen\AppData\Local\Microsoft\WindowsApps;C:\Users\allen\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files (x86)\Java\jdk1.7.0_75\jre\bin;C:\Program Files\Java\jdk1.7.0_75;;F:\Eclipse;" />
 
@@ -240,9 +240,9 @@
 
       </properties>
 
-      <testcase classname="test.IDiffHelperImplTest" name="test_diffListNotEmptyTwoFiles" time="0.007" />
+      <testcase classname="test.IDiffHelperImplTest" name="test_diffListNotEmptyTwoFiles" time="0.008" />
 
-      <testcase classname="test.IDiffHelperImplTest" name="test_diffListNotEmptyThreeFiles" time="0.001" />
+      <testcase classname="test.IDiffHelperImplTest" name="test_diffListNotEmptyThreeFiles" time="0.002" />
 
       <testcase classname="test.IDiffHelperImplTest" name="test_detectChangeInRightFile" time="0.001" />
 
@@ -259,7 +259,7 @@
       <system-err><![CDATA[]]></system-err>
 
   </testsuite>
-  <testsuite errors="0" failures="0" hostname="DESKTOP-6F37MS8" id="1" name="IFileImporterImplTest" package="test" skipped="0" tests="9" time="0.053" timestamp="2021-01-30T18:33:16">
+  <testsuite errors="0" failures="0" hostname="DESKTOP-6F37MS8" id="1" name="IFileImporterImplTest" package="test" skipped="0" tests="11" time="0.081" timestamp="2021-02-03T19:29:00">
       <properties>
           <property name="java.vendor" value="Oracle Corporation" />
 
@@ -411,7 +411,7 @@
 
           <property name="ant.version" value="Apache Ant(TM) version 1.9.2 compiled on July 8 2013" />
 
-          <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner test.IFileImporterImplTest filtertrace=true haltOnError=false haltOnFailure=false formatter=org.apache.tools.ant.taskdefs.optional.junit.OutErrSummaryJUnitResultFormatter showoutput=false outputtoformatters=true logfailedtests=true logtestlistenerevents=false formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,F:\Home\SYP2020\team06\MultiTextCompare\junit\TEST-test.IFileImporterImplTest.xml crashfile=F:\Home\SYP2020\team06\MultiTextCompare\junitvmwatcher8891283330528726761.properties propsfile=F:\Home\SYP2020\team06\MultiTextCompare\junit3371763226281409522.properties" />
+          <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner test.IFileImporterImplTest filtertrace=true haltOnError=false haltOnFailure=false formatter=org.apache.tools.ant.taskdefs.optional.junit.OutErrSummaryJUnitResultFormatter showoutput=false outputtoformatters=true logfailedtests=true logtestlistenerevents=false formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,F:\Home\SYP2020\team06\MultiTextCompare\junit\TEST-test.IFileImporterImplTest.xml crashfile=F:\Home\SYP2020\team06\MultiTextCompare\junitvmwatcher557602842086385676.properties propsfile=F:\Home\SYP2020\team06\MultiTextCompare\junit7832242066594595523.properties" />
 
           <property name="java.class.path" value="F:\Home\SYP2020\team06\MultiTextCompare\bin;F:\Eclipse\plugins\org.junit_4.11.0.v201303080030\junit.jar;F:\Eclipse\plugins\org.hamcrest.core_1.3.0.v201303031735.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\diffutils-1.2.1-sources.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\diffutils-1.2.1.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\jdom-2.0.6.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\jdom-2.0.6-javadoc.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\jdom-2.0.6-sources.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\commons-io-2.6-javadoc.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\commons-io-2.6-sources.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\commons-io-2.6.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\commons-text-1.3-javadoc.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\commons-text-1.3-sources.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\commons-text-1.3.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\miglayout-swing.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\miglayout-core.jar;F:\Eclipse\plugins\org.apache.ant_1.9.2.v201404171502\lib\ant-launcher.jar;F:\Eclipse\plugins\org.apache.ant_1.9.2.v201404171502\lib\ant.jar;F:\Eclipse\plugins\org.apache.ant_1.9.2.v201404171502\lib\ant-junit.jar;F:\Eclipse\plugins\org.apache.ant_1.9.2.v201404171502\lib\ant-junit4.jar" />
 
@@ -471,7 +471,7 @@
 
           <property name="env.PATHEXT" value=".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC" />
 
-          <property name="org.apache.tools.ant.taskdefs.optional.junit.AggregateTransformer0" value="C:\Users\allen\AppData\Local\Temp\null2037090203" />
+          <property name="org.apache.tools.ant.taskdefs.optional.junit.AggregateTransformer0" value="C:\Users\allen\AppData\Local\Temp\null323516514" />
 
           <property name="env.Path" value="C:/Program Files (x86)/Java/jre7/bin/client;C:/Program Files (x86)/Java/jre7/bin;C:/Program Files (x86)/Java/jre7/lib/i386;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\Git\cmd;C:\Users\allen\AppData\Local\Programs\Python\Python39\Scripts\;C:\Users\allen\AppData\Local\Programs\Python\Python39\;C:\Users\allen\AppData\Local\Microsoft\WindowsApps;C:\Users\allen\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files (x86)\Java\jdk1.7.0_75\jre\bin;C:\Program Files\Java\jdk1.7.0_75;;F:\Eclipse;" />
 
@@ -499,37 +499,34 @@
 
       </properties>
 
-      <testcase classname="test.IFileImporterImplTest" name="test_loescheTempFiles" time="0.003" />
+      <testcase classname="test.IFileImporterImplTest" name="test_deleteImport" time="0.001" />
 
-      <testcase classname="test.IFileImporterImplTest" name="test_createTempFiles" time="0.001" />
+      <testcase classname="test.IFileImporterImplTest" name="test_createTempFiles" time="0.01" />
 
-      <testcase classname="test.IFileImporterImplTest" name="test_normTempFiles" time="0.005" />
+      <testcase classname="test.IFileImporterImplTest" name="test_normTempFiles" time="0.018" />
 
-      <testcase classname="test.IFileImporterImplTest" name="test_defaultConfig" time="0.0" />
+      <testcase classname="test.IFileImporterImplTest" name="test_defaultConfig" time="0.001" />
 
       <testcase classname="test.IFileImporterImplTest" name="test_configPath" time="0.0" />
 
-      <testcase classname="test.IFileImporterImplTest" name="test_configParameter" time="0.008" />
+      <testcase classname="test.IFileImporterImplTest" name="test_createXmlTempFiles" time="0.006" />
+
+      <testcase classname="test.IFileImporterImplTest" name="test_deleteImports" time="0.0" />
+
+      <testcase classname="test.IFileImporterImplTest" name="test_configParameter" time="0.006" />
 
       <testcase classname="test.IFileImporterImplTest" name="test_importRoot" time="0.001" />
 
-      <testcase classname="test.IFileImporterImplTest" name="test_loescheTextdateien" time="0.001" />
+      <testcase classname="test.IFileImporterImplTest" name="test_deleteTempFiles" time="0.003" />
 
       <testcase classname="test.IFileImporterImplTest" name="test_importTextdateien" time="0.0" />
 
-      <system-out><![CDATA[starts
-finished
-F:\Home\SYP2020\team06\MultiTextCompare\src\test\testFiles\FileA.txt
-F:\Home\SYP2020\team06\MultiTextCompare\src\test\testFiles\FileB.txt
-F:\Home\SYP2020\team06\MultiTextCompare\src\test\testFiles\FileC.txt
-F:\Home\SYP2020\team06\MultiTextCompare\src\test\testFiles\FileD.txt
-F:\Home\SYP2020\team06\MultiTextCompare\src\test\testFiles\FileE.txt
-]]></system-out>
+      <system-out><![CDATA[]]></system-out>
 
       <system-err><![CDATA[]]></system-err>
 
   </testsuite>
-  <testsuite errors="0" failures="0" hostname="DESKTOP-6F37MS8" id="2" name="ITextvergleicherImplTest" package="test" skipped="0" tests="3" time="0.041" timestamp="2021-01-30T18:33:17">
+  <testsuite errors="0" failures="0" hostname="DESKTOP-6F37MS8" id="2" name="ITextvergleicherImplTest" package="test" skipped="0" tests="3" time="0.043" timestamp="2021-02-03T19:29:00">
       <properties>
           <property name="java.vendor" value="Oracle Corporation" />
 
@@ -681,7 +678,7 @@ F:\Home\SYP2020\team06\MultiTextCompare\src\test\testFiles\FileE.txt
 
           <property name="ant.version" value="Apache Ant(TM) version 1.9.2 compiled on July 8 2013" />
 
-          <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner test.ITextvergleicherImplTest filtertrace=true haltOnError=false haltOnFailure=false formatter=org.apache.tools.ant.taskdefs.optional.junit.OutErrSummaryJUnitResultFormatter showoutput=false outputtoformatters=true logfailedtests=true logtestlistenerevents=false formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,F:\Home\SYP2020\team06\MultiTextCompare\junit\TEST-test.ITextvergleicherImplTest.xml crashfile=F:\Home\SYP2020\team06\MultiTextCompare\junitvmwatcher2371419146466126009.properties propsfile=F:\Home\SYP2020\team06\MultiTextCompare\junit5005011528792003870.properties" />
+          <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner test.ITextvergleicherImplTest filtertrace=true haltOnError=false haltOnFailure=false formatter=org.apache.tools.ant.taskdefs.optional.junit.OutErrSummaryJUnitResultFormatter showoutput=false outputtoformatters=true logfailedtests=true logtestlistenerevents=false formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,F:\Home\SYP2020\team06\MultiTextCompare\junit\TEST-test.ITextvergleicherImplTest.xml crashfile=F:\Home\SYP2020\team06\MultiTextCompare\junitvmwatcher997840243259805696.properties propsfile=F:\Home\SYP2020\team06\MultiTextCompare\junit3588216941020650835.properties" />
 
           <property name="java.class.path" value="F:\Home\SYP2020\team06\MultiTextCompare\bin;F:\Eclipse\plugins\org.junit_4.11.0.v201303080030\junit.jar;F:\Eclipse\plugins\org.hamcrest.core_1.3.0.v201303031735.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\diffutils-1.2.1-sources.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\diffutils-1.2.1.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\jdom-2.0.6.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\jdom-2.0.6-javadoc.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\jdom-2.0.6-sources.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\commons-io-2.6-javadoc.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\commons-io-2.6-sources.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\commons-io-2.6.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\commons-text-1.3-javadoc.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\commons-text-1.3-sources.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\commons-text-1.3.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\miglayout-swing.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\miglayout-core.jar;F:\Eclipse\plugins\org.apache.ant_1.9.2.v201404171502\lib\ant-launcher.jar;F:\Eclipse\plugins\org.apache.ant_1.9.2.v201404171502\lib\ant.jar;F:\Eclipse\plugins\org.apache.ant_1.9.2.v201404171502\lib\ant-junit.jar;F:\Eclipse\plugins\org.apache.ant_1.9.2.v201404171502\lib\ant-junit4.jar" />
 
@@ -741,7 +738,7 @@ F:\Home\SYP2020\team06\MultiTextCompare\src\test\testFiles\FileE.txt
 
           <property name="env.PATHEXT" value=".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC" />
 
-          <property name="org.apache.tools.ant.taskdefs.optional.junit.AggregateTransformer0" value="C:\Users\allen\AppData\Local\Temp\null2037090203" />
+          <property name="org.apache.tools.ant.taskdefs.optional.junit.AggregateTransformer0" value="C:\Users\allen\AppData\Local\Temp\null323516514" />
 
           <property name="env.Path" value="C:/Program Files (x86)/Java/jre7/bin/client;C:/Program Files (x86)/Java/jre7/bin;C:/Program Files (x86)/Java/jre7/lib/i386;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\Git\cmd;C:\Users\allen\AppData\Local\Programs\Python\Python39\Scripts\;C:\Users\allen\AppData\Local\Programs\Python\Python39\;C:\Users\allen\AppData\Local\Microsoft\WindowsApps;C:\Users\allen\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files (x86)\Java\jdk1.7.0_75\jre\bin;C:\Program Files\Java\jdk1.7.0_75;;F:\Eclipse;" />
 
@@ -771,7 +768,7 @@ F:\Home\SYP2020\team06\MultiTextCompare\src\test\testFiles\FileE.txt
 
       <testcase classname="test.ITextvergleicherImplTest" name="test_vergleichZeichenmenge" time="0.002" />
 
-      <testcase classname="test.ITextvergleicherImplTest" name="test_vergleichWortFuerWort" time="0.009" />
+      <testcase classname="test.ITextvergleicherImplTest" name="test_vergleichWortFuerWort" time="0.01" />
 
       <testcase classname="test.ITextvergleicherImplTest" name="test_getVergleichspaarungen" time="0.0" />
 
@@ -780,7 +777,7 @@ F:\Home\SYP2020\team06\MultiTextCompare\src\test\testFiles\FileE.txt
       <system-err><![CDATA[]]></system-err>
 
   </testsuite>
-  <testsuite errors="0" failures="0" hostname="DESKTOP-6F37MS8" id="3" name="IXMLVergleicherImplTest" package="test" skipped="0" tests="11" time="0.105" timestamp="2021-01-30T18:33:18">
+  <testsuite errors="0" failures="0" hostname="DESKTOP-6F37MS8" id="3" name="IXMLVergleicherImplTest" package="test" skipped="0" tests="13" time="0.114" timestamp="2021-02-03T19:29:01">
       <properties>
           <property name="java.vendor" value="Oracle Corporation" />
 
@@ -932,7 +929,7 @@ F:\Home\SYP2020\team06\MultiTextCompare\src\test\testFiles\FileE.txt
 
           <property name="ant.version" value="Apache Ant(TM) version 1.9.2 compiled on July 8 2013" />
 
-          <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner test.IXMLVergleicherImplTest filtertrace=true haltOnError=false haltOnFailure=false formatter=org.apache.tools.ant.taskdefs.optional.junit.OutErrSummaryJUnitResultFormatter showoutput=false outputtoformatters=true logfailedtests=true logtestlistenerevents=false formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,F:\Home\SYP2020\team06\MultiTextCompare\junit\TEST-test.IXMLVergleicherImplTest.xml crashfile=F:\Home\SYP2020\team06\MultiTextCompare\junitvmwatcher5510308561650463304.properties propsfile=F:\Home\SYP2020\team06\MultiTextCompare\junit414088449444244862.properties" />
+          <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner test.IXMLVergleicherImplTest filtertrace=true haltOnError=false haltOnFailure=false formatter=org.apache.tools.ant.taskdefs.optional.junit.OutErrSummaryJUnitResultFormatter showoutput=false outputtoformatters=true logfailedtests=true logtestlistenerevents=false formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,F:\Home\SYP2020\team06\MultiTextCompare\junit\TEST-test.IXMLVergleicherImplTest.xml crashfile=F:\Home\SYP2020\team06\MultiTextCompare\junitvmwatcher3411323977727679806.properties propsfile=F:\Home\SYP2020\team06\MultiTextCompare\junit6944831745631216263.properties" />
 
           <property name="java.class.path" value="F:\Home\SYP2020\team06\MultiTextCompare\bin;F:\Eclipse\plugins\org.junit_4.11.0.v201303080030\junit.jar;F:\Eclipse\plugins\org.hamcrest.core_1.3.0.v201303031735.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\diffutils-1.2.1-sources.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\diffutils-1.2.1.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\jdom-2.0.6.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\jdom-2.0.6-javadoc.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\jdom-2.0.6-sources.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\commons-io-2.6-javadoc.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\commons-io-2.6-sources.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\commons-io-2.6.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\commons-text-1.3-javadoc.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\commons-text-1.3-sources.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\commons-text-1.3.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\miglayout-swing.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\miglayout-core.jar;F:\Eclipse\plugins\org.apache.ant_1.9.2.v201404171502\lib\ant-launcher.jar;F:\Eclipse\plugins\org.apache.ant_1.9.2.v201404171502\lib\ant.jar;F:\Eclipse\plugins\org.apache.ant_1.9.2.v201404171502\lib\ant-junit.jar;F:\Eclipse\plugins\org.apache.ant_1.9.2.v201404171502\lib\ant-junit4.jar" />
 
@@ -992,7 +989,7 @@ F:\Home\SYP2020\team06\MultiTextCompare\src\test\testFiles\FileE.txt
 
           <property name="env.PATHEXT" value=".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC" />
 
-          <property name="org.apache.tools.ant.taskdefs.optional.junit.AggregateTransformer0" value="C:\Users\allen\AppData\Local\Temp\null2037090203" />
+          <property name="org.apache.tools.ant.taskdefs.optional.junit.AggregateTransformer0" value="C:\Users\allen\AppData\Local\Temp\null323516514" />
 
           <property name="env.Path" value="C:/Program Files (x86)/Java/jre7/bin/client;C:/Program Files (x86)/Java/jre7/bin;C:/Program Files (x86)/Java/jre7/lib/i386;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\Git\cmd;C:\Users\allen\AppData\Local\Programs\Python\Python39\Scripts\;C:\Users\allen\AppData\Local\Programs\Python\Python39\;C:\Users\allen\AppData\Local\Microsoft\WindowsApps;C:\Users\allen\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files (x86)\Java\jdk1.7.0_75\jre\bin;C:\Program Files\Java\jdk1.7.0_75;;F:\Eclipse;" />
 
@@ -1020,13 +1017,15 @@ F:\Home\SYP2020\team06\MultiTextCompare\src\test\testFiles\FileE.txt
 
       </properties>
 
-      <testcase classname="test.IXMLVergleicherImplTest" name="test_tagsOnly" time="0.024" />
+      <testcase classname="test.IXMLVergleicherImplTest" name="test_tagsOnly" time="0.025" />
 
       <testcase classname="test.IXMLVergleicherImplTest" name="test_parseFile_Validation_XSDinternal_successful" time="0.021" />
 
+      <testcase classname="test.IXMLVergleicherImplTest" name="test_xmlPrepare_Incorrect" time="0.002" />
+
       <testcase classname="test.IXMLVergleicherImplTest" name="test_parseFile_NoValidation_Successful" time="0.001" />
 
-      <testcase classname="test.IXMLVergleicherImplTest" name="test_parseFile_NoValidation_unsuccessful" time="0.002" />
+      <testcase classname="test.IXMLVergleicherImplTest" name="test_parseFile_NoValidation_unsuccessful" time="0.001" />
 
       <testcase classname="test.IXMLVergleicherImplTest" name="test_parseFile_Validation_dtd_unsuccessful" time="0.002" />
 
@@ -1036,75 +1035,15 @@ F:\Home\SYP2020\team06\MultiTextCompare\src\test\testFiles\FileE.txt
 
       <testcase classname="test.IXMLVergleicherImplTest" name="test_sortAttributes" time="0.002" />
 
-      <testcase classname="test.IXMLVergleicherImplTest" name="test_deleteComments" time="0.002" />
+      <testcase classname="test.IXMLVergleicherImplTest" name="test_deleteComments" time="0.003" />
 
-      <testcase classname="test.IXMLVergleicherImplTest" name="test_parseFile_Validation_XSDinternal_unsuccessful" time="0.004" />
+      <testcase classname="test.IXMLVergleicherImplTest" name="test_parseFile_Validation_XSDinternal_unsuccessful" time="0.001" />
 
       <testcase classname="test.IXMLVergleicherImplTest" name="test_deleteAttributes" time="0.001" />
 
-      <system-out><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
-<KUNDE>
-	<KNR></KNR>
-	
-	<KNAME></KNAME>
-	<BESTELLUNG>
-		
-		<BSTNR></BSTNR>
-		<STATUS />
-		<RSUM></RSUM>
-		<BPOS>
-			<MENGE></MENGE>
-			<POSNR />
-			<WERT></WERT>
-			
-			<ARTIKEL>
-				<MGE></MGE>
-				<PREIS></PREIS>
-				<KUEHL></KUEHL>
-				
-				<ARTNR></ARTNR>
-				<ARTBEZ></ARTBEZ>
-			</ARTIKEL>
-		</BPOS>
-		
-	</BESTELLUNG>
-	<PLZ></PLZ>
-	<WORT></WORT>
-	<STRASSE></STRASSE>
-</KUNDE>
+      <testcase classname="test.IXMLVergleicherImplTest" name="test_xmlPrepare_Correct" time="0.002" />
 
-<?xml version="1.0" encoding="UTF-8"?>
-<KUNDE>
-	<KNR></KNR>
-	
-	<KNAME></KNAME>
-	<BESTELLUNG>
-		
-		<BSTNR></BSTNR>
-		<STATUS />
-		<RSUM></RSUM>
-		<BPOS>
-			<MENGE></MENGE>
-			<POSNR />
-			<WERT></WERT>
-			
-			<ARTIKEL>
-				<MGE></MGE>
-				<PREIS></PREIS>
-				<KUEHL></KUEHL>
-				
-				<ARTNR></ARTNR>
-				<ARTBEZ></ARTBEZ>
-			</ARTIKEL>
-		</BPOS>
-		
-	</BESTELLUNG>
-	<PLZ></PLZ>
-	<WORT></WORT>
-	<STRASSE></STRASSE>
-</KUNDE>
-
-]]></system-out>
+      <system-out><![CDATA[]]></system-out>
 
       <system-err><![CDATA[]]></system-err>
 

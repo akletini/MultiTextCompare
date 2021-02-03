@@ -99,6 +99,14 @@
             <classpath refid="MultiTextCompare.classpath"/>
         </junit>
     </target>
+    <target name="IFileImporterImplTest.test_configParameter">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="test.IFileImporterImplTest" todir="${junit.output.dir}"/>
+            <classpath refid="MultiTextCompare.classpath"/>
+        </junit>
+    </target>
     <target name="ITextvergleicherImplTest">
         <mkdir dir="${junit.output.dir}"/>
         <junit fork="yes" printsummary="withOutAndErr">
@@ -125,6 +133,7 @@
     </target>
     <target name="Main (1)">
         <java classname="de.thkoeln.syp.mtc.gui.Main" failonerror="true" fork="yes">
+            <arg line="-Xmx2048m"/>
             <classpath refid="MultiTextCompare.classpath"/>
         </java>
     </target>

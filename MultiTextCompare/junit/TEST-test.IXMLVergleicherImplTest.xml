@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite errors="0" failures="0" hostname="DESKTOP-6F37MS8" name="test.IXMLVergleicherImplTest" skipped="0" tests="11" time="0.103" timestamp="2021-01-30T18:33:29">
+<testsuite errors="0" failures="0" hostname="DESKTOP-6F37MS8" name="test.IXMLVergleicherImplTest" skipped="0" tests="13" time="0.113" timestamp="2021-02-03T19:30:06">
   <properties>
     <property name="java.vendor" value="Oracle Corporation" />
     <property name="env.USERDOMAIN_ROAMINGPROFILE" value="DESKTOP-6F37MS8" />
@@ -76,7 +76,7 @@
     <property name="java.vm.vendor" value="Oracle Corporation" />
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment" />
     <property name="ant.version" value="Apache Ant(TM) version 1.9.2 compiled on July 8 2013" />
-    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner test.IXMLVergleicherImplTest filtertrace=true haltOnError=false haltOnFailure=false formatter=org.apache.tools.ant.taskdefs.optional.junit.OutErrSummaryJUnitResultFormatter showoutput=false outputtoformatters=true logfailedtests=true logtestlistenerevents=false formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,F:\Home\SYP2020\team06\MultiTextCompare\junit\TEST-test.IXMLVergleicherImplTest.xml crashfile=F:\Home\SYP2020\team06\MultiTextCompare\junitvmwatcher4147056706405588672.properties propsfile=F:\Home\SYP2020\team06\MultiTextCompare\junit8404059069375455138.properties" />
+    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner test.IXMLVergleicherImplTest filtertrace=true haltOnError=false haltOnFailure=false formatter=org.apache.tools.ant.taskdefs.optional.junit.OutErrSummaryJUnitResultFormatter showoutput=false outputtoformatters=true logfailedtests=true logtestlistenerevents=false formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,F:\Home\SYP2020\team06\MultiTextCompare\junit\TEST-test.IXMLVergleicherImplTest.xml crashfile=F:\Home\SYP2020\team06\MultiTextCompare\junitvmwatcher5007974084268877996.properties propsfile=F:\Home\SYP2020\team06\MultiTextCompare\junit2150218385687613831.properties" />
     <property name="java.class.path" value="F:\Home\SYP2020\team06\MultiTextCompare\bin;F:\Eclipse\plugins\org.junit_4.11.0.v201303080030\junit.jar;F:\Eclipse\plugins\org.hamcrest.core_1.3.0.v201303031735.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\diffutils-1.2.1-sources.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\diffutils-1.2.1.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\jdom-2.0.6.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\jdom-2.0.6-javadoc.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\jdom-2.0.6-sources.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\commons-io-2.6-javadoc.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\commons-io-2.6-sources.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\commons-io-2.6.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\commons-text-1.3-javadoc.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\commons-text-1.3-sources.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\commons-text-1.3.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\miglayout-swing.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\miglayout-core.jar;F:\Eclipse\plugins\org.apache.ant_1.9.2.v201404171502\lib\ant-launcher.jar;F:\Eclipse\plugins\org.apache.ant_1.9.2.v201404171502\lib\ant.jar;F:\Eclipse\plugins\org.apache.ant_1.9.2.v201404171502\lib\ant-junit.jar;F:\Eclipse\plugins\org.apache.ant_1.9.2.v201404171502\lib\ant-junit4.jar" />
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification" />
     <property name="env.LOGONSERVER" value="\\DESKTOP-6F37MS8" />
@@ -106,7 +106,7 @@
     <property name="line.separator" value="&#xd;&#xa;" />
     <property name="java.vm.name" value="Java HotSpot(TM) Client VM" />
     <property name="env.PATHEXT" value=".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC" />
-    <property name="org.apache.tools.ant.taskdefs.optional.junit.AggregateTransformer0" value="C:\Users\allen\AppData\Local\Temp\null1258743178" />
+    <property name="org.apache.tools.ant.taskdefs.optional.junit.AggregateTransformer0" value="C:\Users\allen\AppData\Local\Temp\null155335273" />
     <property name="env.Path" value="C:/Program Files (x86)/Java/jre7/bin/client;C:/Program Files (x86)/Java/jre7/bin;C:/Program Files (x86)/Java/jre7/lib/i386;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\Git\cmd;C:\Users\allen\AppData\Local\Programs\Python\Python39\Scripts\;C:\Users\allen\AppData\Local\Programs\Python\Python39\;C:\Users\allen\AppData\Local\Microsoft\WindowsApps;C:\Users\allen\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files (x86)\Java\jdk1.7.0_75\jre\bin;C:\Program Files\Java\jdk1.7.0_75;;F:\Eclipse;" />
     <property name="basedir" value="F:\Home\SYP2020\team06\MultiTextCompare" />
     <property name="ant.java.version" value="1.7" />
@@ -122,77 +122,17 @@
   </properties>
   <testcase classname="test.IXMLVergleicherImplTest" name="test_tagsOnly" time="0.025" />
   <testcase classname="test.IXMLVergleicherImplTest" name="test_parseFile_Validation_XSDinternal_successful" time="0.02" />
-  <testcase classname="test.IXMLVergleicherImplTest" name="test_parseFile_NoValidation_Successful" time="0.0" />
-  <testcase classname="test.IXMLVergleicherImplTest" name="test_parseFile_NoValidation_unsuccessful" time="0.002" />
+  <testcase classname="test.IXMLVergleicherImplTest" name="test_xmlPrepare_Incorrect" time="0.003" />
+  <testcase classname="test.IXMLVergleicherImplTest" name="test_parseFile_NoValidation_Successful" time="0.001" />
+  <testcase classname="test.IXMLVergleicherImplTest" name="test_parseFile_NoValidation_unsuccessful" time="0.001" />
   <testcase classname="test.IXMLVergleicherImplTest" name="test_parseFile_Validation_dtd_unsuccessful" time="0.002" />
   <testcase classname="test.IXMLVergleicherImplTest" name="test_parseFile_Validation_dtd_successful" time="0.002" />
-  <testcase classname="test.IXMLVergleicherImplTest" name="test_sortElements" time="0.003" />
-  <testcase classname="test.IXMLVergleicherImplTest" name="test_sortAttributes" time="0.001" />
-  <testcase classname="test.IXMLVergleicherImplTest" name="test_deleteComments" time="0.001" />
-  <testcase classname="test.IXMLVergleicherImplTest" name="test_parseFile_Validation_XSDinternal_unsuccessful" time="0.003" />
-  <testcase classname="test.IXMLVergleicherImplTest" name="test_deleteAttributes" time="0.001" />
-  <system-out><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
-<KUNDE>
-	<KNR></KNR>
-	
-	<KNAME></KNAME>
-	<BESTELLUNG>
-		
-		<BSTNR></BSTNR>
-		<STATUS />
-		<RSUM></RSUM>
-		<BPOS>
-			<MENGE></MENGE>
-			<POSNR />
-			<WERT></WERT>
-			
-			<ARTIKEL>
-				<MGE></MGE>
-				<PREIS></PREIS>
-				<KUEHL></KUEHL>
-				
-				<ARTNR></ARTNR>
-				<ARTBEZ></ARTBEZ>
-			</ARTIKEL>
-		</BPOS>
-		
-	</BESTELLUNG>
-	<PLZ></PLZ>
-	<WORT></WORT>
-	<STRASSE></STRASSE>
-</KUNDE>
-
-<?xml version="1.0" encoding="UTF-8"?>
-<KUNDE>
-	<KNR></KNR>
-	
-	<KNAME></KNAME>
-	<BESTELLUNG>
-		
-		<BSTNR></BSTNR>
-		<STATUS />
-		<RSUM></RSUM>
-		<BPOS>
-			<MENGE></MENGE>
-			<POSNR />
-			<WERT></WERT>
-			
-			<ARTIKEL>
-				<MGE></MGE>
-				<PREIS></PREIS>
-				<KUEHL></KUEHL>
-				
-				<ARTNR></ARTNR>
-				<ARTBEZ></ARTBEZ>
-			</ARTIKEL>
-		</BPOS>
-		
-	</BESTELLUNG>
-	<PLZ></PLZ>
-	<WORT></WORT>
-	<STRASSE></STRASSE>
-</KUNDE>
-
-]]></system-out>
+  <testcase classname="test.IXMLVergleicherImplTest" name="test_sortElements" time="0.004" />
+  <testcase classname="test.IXMLVergleicherImplTest" name="test_sortAttributes" time="0.002" />
+  <testcase classname="test.IXMLVergleicherImplTest" name="test_deleteComments" time="0.004" />
+  <testcase classname="test.IXMLVergleicherImplTest" name="test_parseFile_Validation_XSDinternal_unsuccessful" time="0.002" />
+  <testcase classname="test.IXMLVergleicherImplTest" name="test_deleteAttributes" time="0.002" />
+  <testcase classname="test.IXMLVergleicherImplTest" name="test_xmlPrepare_Correct" time="0.003" />
+  <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
