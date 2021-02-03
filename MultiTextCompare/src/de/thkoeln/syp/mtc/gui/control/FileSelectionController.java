@@ -34,7 +34,7 @@ public class FileSelectionController extends JFrame {
 	private JFileChooser fc;
 	private File[] selection;
 	private List<File> selectionList;
-	private List<File> lastComparison;
+	private List<File> lastComparisonFiles;
 	private IMatrix matrix;
 	private IFileImporter fileImporter;
 	private ITextvergleicher textvergleicher;
@@ -49,7 +49,7 @@ public class FileSelectionController extends JFrame {
 		xmlvergleicher = management.getXmlvergleicher();
 		panel = new JPanel();
 		matrix = new IMatrixImpl();
-		lastComparison = new ArrayList<File>();
+		lastComparisonFiles = new ArrayList<File>();
 		fileSelectionView.addSetRootListener(new SetRootListener());
 		fileSelectionView.addSearchListener(new SearchListener());
 		fileSelectionView.addAddFilesListener(new AddFilesListener());
@@ -85,7 +85,7 @@ public class FileSelectionController extends JFrame {
 			fc.showOpenDialog(management.getFileSelectionView());
 			fileImporter.setRootDir(fc.getSelectedFile());
 			updateLblRootPath();
-			// management.getDateiauswahlView().pack();
+			management.getFileSelectionView().pack();
 		}
 	}
 
@@ -170,7 +170,7 @@ public class FileSelectionController extends JFrame {
 						"Please select at least two files for comparison");
 				return;
 			}
-			if (!lastComparison.equals(fileImporter.getTextdateien())) {
+//			if (!lastComparisonFiles.equals(fileImporter.getTextdateien())) {
 				fileImporter.deleteTempFiles();
 				fileImporter.createTempFiles();
 				xmlvergleicher.clearErrorList();
@@ -197,8 +197,8 @@ public class FileSelectionController extends JFrame {
 						textvergleicher.getMatrix(), anzDateien,
 						getFileNames(anzDateien));
 
-				lastComparison.clear();
-				lastComparison.addAll(fileImporter.getTextdateien());
+				lastComparisonFiles.clear();
+				lastComparisonFiles.addAll(fileImporter.getTextdateien());
 
 				if (!xmlvergleicher.getErrorList().isEmpty()) {
 					appendToTextArea("A matrix with "
@@ -213,7 +213,7 @@ public class FileSelectionController extends JFrame {
 							+ " files has been created successfully!");
 				}
 			}
-		}
+//		}
 	}
 
 	public File[] getAuswahl() {
