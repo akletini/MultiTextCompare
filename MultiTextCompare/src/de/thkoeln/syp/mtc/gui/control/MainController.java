@@ -41,10 +41,7 @@ public class MainController {
 
 	class HilfeListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			try {
-				new HelpView();
-			} catch (IOException io) {
-			}
+			new HelpView();
 		}
 	}
 }

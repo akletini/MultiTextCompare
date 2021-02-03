@@ -1,6 +1,7 @@
 package de.thkoeln.syp.mtc.gui.view;
 
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Insets;
 import java.io.File;
 import java.io.IOException;
@@ -40,6 +41,9 @@ public class ComparisonView extends JFrame {
 		if (management.getComparisonView() != null)
 			management.getComparisonView().dispose();
 		panel = new JPanel();
+		tPane1 = new JTextPane();
+		tPane2 = new JTextPane();
+		tPane3 = new JTextPane();
 		backgroundColor = new Color(20, 20, 20);
 
 		for (File f : selectedList) {
@@ -70,9 +74,6 @@ public class ComparisonView extends JFrame {
 
 			if (selection.size() == 2) {
 				EmptyBorder eb = new EmptyBorder(new Insets(10, 10, 10, 10));
-
-				tPane1 = new JTextPane();
-				tPane3 = new JTextPane();
 
 				tPane1.setBorder(eb);
 				tPane3.setBorder(eb);
@@ -105,10 +106,7 @@ public class ComparisonView extends JFrame {
 			if (selection.size() == 3) {
 				EmptyBorder eb = new EmptyBorder(new Insets(10, 10, 10, 10));
 
-				tPane1 = new JTextPane();
-				tPane2 = new JTextPane();
-				tPane3 = new JTextPane();
-
+				
 				tPane1.setBorder(eb);
 				tPane2.setBorder(eb);
 				tPane3.setBorder(eb);
@@ -150,6 +148,7 @@ public class ComparisonView extends JFrame {
 				}
 
 			}
+			getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
 			this.getContentPane().add(panel);
 			String file1Name = management.getFileSelectionView().getModel()
@@ -185,6 +184,7 @@ public class ComparisonView extends JFrame {
 				"Lucida Console");
 		aset = sc.addAttribute(aset, StyleConstants.Alignment,
 				StyleConstants.ALIGN_JUSTIFIED);
+		aset = sc.addAttribute(aset, StyleConstants.FontSize, 12);
 
 		int len = tp.getDocument().getLength();
 		tp.setCaretPosition(len);
