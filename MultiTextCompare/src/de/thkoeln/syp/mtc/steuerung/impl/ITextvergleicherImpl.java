@@ -36,12 +36,10 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		this.vgl = vgl;
 
 	}
-	
-	public ITextvergleicherImpl(){
-		
-	}
 
-	
+	public ITextvergleicherImpl() {
+
+	}
 
 	/**
 	 * Sucht zunächst alle gleichen Zeilen. Falls es nur inserts und deletes
@@ -54,68 +52,63 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 			this.ref = a.getVon();
 			this.vgl = a.getZu();
 			double gewicht = 0, aehnlichkeit = 0;
-//			if (a.getVon() == a.getZu()) {
-//				a.setWert(1);
-//			} else {
-				ITextvergleicherImpl comp = new ITextvergleicherImpl(
-						a.getVon(), a.getZu());
-				try {
-					List<String> refList = fileToLines(a.getVon());
-					List<String> vglList = fileToLines(a.getZu());
+			ITextvergleicherImpl comp = new ITextvergleicherImpl(a.getVon(),
+					a.getZu());
+			try {
+				List<String> refList = fileToLines(a.getVon());
+				List<String> vglList = fileToLines(a.getZu());
 
-					gewicht = 1 / ermittleGewicht(refList.size(),
-							vglList.size());
+				gewicht = 1 / ermittleGewicht(refList.size(), vglList.size());
 
-					List<Chunk> changedChunks = comp.getChangesFromOriginal();
+				List<Chunk> changedChunks = comp.getChangesFromOriginal();
 
-					List<Chunk> deletedChunks = comp.getDeletesInReference();
+				List<Chunk> deletedChunks = comp.getDeletesInReference();
 
-					List<Chunk> unchangedChunks = comp.getChangesInReference();
+				List<Chunk> unchangedChunks = comp.getChangesInReference();
 
-					int anzahlGleicherZeilen = 0, anzahlGeloeschterZeilen = 0, anzahlGeaenderterZeilen = 0;
-					for (int i = 0; i < deletedChunks.size(); i++) {
-						anzahlGeloeschterZeilen += deletedChunks.get(i)
-								.getLines().size();
+				int anzahlGleicherZeilen = 0, anzahlGeloeschterZeilen = 0, anzahlGeaenderterZeilen = 0;
+				for (int i = 0; i < deletedChunks.size(); i++) {
+					anzahlGeloeschterZeilen += deletedChunks.get(i).getLines()
+							.size();
 
-					}
-
-					for (int i = 0; i < unchangedChunks.size(); i++) {
-						anzahlGeaenderterZeilen += unchangedChunks.get(i)
-								.getLines().size();
-					}
-
-					anzahlGleicherZeilen = refList.size()
-							- anzahlGeloeschterZeilen - anzahlGeaenderterZeilen;
-
-					if (changedChunks.size() == 0) {
-						aehnlichkeit = anzahlGleicherZeilen * gewicht;
-						a.setWert(aehnlichkeit);
-
-					} else {
-
-						referenzZeilen = new ArrayList<String>();
-						vergleichsZeilen = new ArrayList<String>();
-
-						changedChunkListToStringList(unchangedChunks,
-								referenzZeilen);
-						changedChunkListToStringList(changedChunks,
-								vergleichsZeilen);
-
-						double[] metrikProZeile = berechneMetrik(gewicht,
-								referenzZeilen, vergleichsZeilen);
-						for (int i = 0; i < metrikProZeile.length; i++) {
-							aehnlichkeit += metrikProZeile[i];
-						}
-						aehnlichkeit += anzahlGleicherZeilen * gewicht;
-						a.setWert(aehnlichkeit);
-
-					}
-
-				} catch (IOException e) {
-					e.printStackTrace();
 				}
+
+				for (int i = 0; i < unchangedChunks.size(); i++) {
+					anzahlGeaenderterZeilen += unchangedChunks.get(i)
+							.getLines().size();
+				}
+
+				anzahlGleicherZeilen = refList.size() - anzahlGeloeschterZeilen
+						- anzahlGeaenderterZeilen;
+
+				if (changedChunks.size() == 0) {
+					aehnlichkeit = anzahlGleicherZeilen * gewicht;
+					a.setWert(aehnlichkeit);
+
+				} else {
+
+					referenzZeilen = new ArrayList<String>();
+					vergleichsZeilen = new ArrayList<String>();
+
+					changedChunkListToStringList(unchangedChunks,
+							referenzZeilen);
+					changedChunkListToStringList(changedChunks,
+							vergleichsZeilen);
+
+					double[] metrikProZeile = berechneMetrik(gewicht,
+							referenzZeilen, vergleichsZeilen);
+					for (int i = 0; i < metrikProZeile.length; i++) {
+						aehnlichkeit += metrikProZeile[i];
+					}
+					aehnlichkeit += anzahlGleicherZeilen * gewicht;
+					a.setWert(aehnlichkeit);
+
+				}
+
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-//		}
+		}
 		fillMatrix();
 	}
 
@@ -195,16 +188,16 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 			public int compare(Map.Entry<File, File> o1,
 					Map.Entry<File, File> o2) {
 				try {
-				Integer von = Integer.parseInt(o1.getValue().getName().replace("temp_", ""));
-				Integer zu = Integer.parseInt(o2.getValue()
-						.getName().replace("temp_", ""));
-				return von.compareTo(zu);
-				}
-				catch (NumberFormatException e) {
+					Integer von = Integer.parseInt(o1.getValue().getName()
+							.replace("temp_", ""));
+					Integer zu = Integer.parseInt(o2.getValue().getName()
+							.replace("temp_", ""));
+					return von.compareTo(zu);
+				} catch (NumberFormatException e) {
 					e.printStackTrace();
 					return -1;
 				}
-				
+
 			}
 		});
 
@@ -367,8 +360,12 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 			double laengeDesLaengsten = (double) laengsterString.length();
 			double levenshteinDist = (double) berechneLevenshteinDistanz(
 					ref.toCharArray(), vgl.toCharArray());
-			metrikProZeile[i] = gewicht
-					* (double) ((laengeDesLaengsten - levenshteinDist) / laengeDesLaengsten);
+			if (laengeDesLaengsten != 0) {
+				metrikProZeile[i] = gewicht
+						* (double) ((laengeDesLaengsten - levenshteinDist) / laengeDesLaengsten);
+			} else {
+				metrikProZeile[i] = 0;
+			}
 
 		}
 		return metrikProZeile;
@@ -471,7 +468,6 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	private List<Chunk> getChangesInReference() throws IOException {
 		return getUnchangedChunksByType(Delta.TYPE.CHANGE);
 	}
-
 
 	private List<Chunk> getDeletesInReference() throws IOException {
 		return getUnchangedChunksByType(Delta.TYPE.DELETE);
