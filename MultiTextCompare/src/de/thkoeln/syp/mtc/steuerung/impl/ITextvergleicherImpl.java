@@ -364,7 +364,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 				metrikProZeile[i] = gewicht
 						* (double) ((laengeDesLaengsten - levenshteinDist) / laengeDesLaengsten);
 			} else {
-				metrikProZeile[i] = 0;
+				metrikProZeile[i] = gewicht * 1.0;
 			}
 
 		}
