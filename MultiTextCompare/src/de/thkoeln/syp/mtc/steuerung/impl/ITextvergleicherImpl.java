@@ -54,9 +54,9 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 			this.ref = a.getVon();
 			this.vgl = a.getZu();
 			double gewicht = 0, aehnlichkeit = 0;
-			if (a.getVon() == a.getZu()) {
-				a.setWert(1);
-			} else {
+//			if (a.getVon() == a.getZu()) {
+//				a.setWert(1);
+//			} else {
 				ITextvergleicherImpl comp = new ITextvergleicherImpl(
 						a.getVon(), a.getZu());
 				try {
@@ -115,7 +115,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 					e.printStackTrace();
 				}
 			}
-		}
+//		}
 		fillMatrix();
 	}
 
@@ -194,8 +194,17 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		Collections.sort(list, new Comparator<Map.Entry<File, File>>() {
 			public int compare(Map.Entry<File, File> o1,
 					Map.Entry<File, File> o2) {
-				return (o1.getValue().getName()).compareTo(o2.getValue()
-						.getName());
+				try {
+				Integer von = Integer.parseInt(o1.getValue().getName().replace("temp_", ""));
+				Integer zu = Integer.parseInt(o2.getValue()
+						.getName().replace("temp_", ""));
+				return von.compareTo(zu);
+				}
+				catch (NumberFormatException e) {
+					e.printStackTrace();
+					return -1;
+				}
+				
 			}
 		});
 
