@@ -191,7 +191,7 @@ public class IDiffHelperImpl implements IDiffHelper {
 
 		// Read file line by line so that comparison can be done line by
 		// line.
-		while (file1.hasNext() || file2.hasNext()) {
+		while (file1.hasNext() || file2.hasNext() || lineNum < fileCommandsVisitor.getLeftLines().size()) {
 			/*
 			 * In case both files have different number of lines, fill in with
 			 * empty strings. Also append newline char at end so next line
