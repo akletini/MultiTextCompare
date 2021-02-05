@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -134,10 +135,16 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 				for (String s : vglList) {
 					vergleichsString += s;
 				}
+				char[] referenzArray = referenzString.toCharArray();
+				char[] vergleichsArray = vergleichsString.toCharArray();
+				
+				Arrays.sort(referenzArray);
+				Arrays.sort(vergleichsArray);
 
 				double levenshtein = (double) berechneLevenshteinDistanz(
-						referenzString.toCharArray(),
-						vergleichsString.toCharArray());
+						referenzArray,
+						vergleichsArray);
+				System.out.println(levenshtein);
 
 				double maxSize;
 				if (referenzString.length() > vergleichsString.length()) {
@@ -347,19 +354,22 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 
 		double[] metrikProZeile = new double[max];
 		for (int i = 0; i < max; i++) {
-			String ref = refList.get(i);
-			String vgl = vglList.get(i);
-			String laengsterString;
+			char[] ref = refList.get(i).toCharArray();
+			char[] vgl = vglList.get(i).toCharArray();
+			int laengsterString;
 
-			if (ref.length() >= vgl.length()) {
-				laengsterString = ref;
+			if (ref.length >= vgl.length) {
+				laengsterString = ref.length;
 			} else {
-				laengsterString = vgl;
+				laengsterString = vgl.length;
 			}
+			
+			Arrays.sort(ref);
+			Arrays.sort(vgl);
 
-			double laengeDesLaengsten = (double) laengsterString.length();
+			double laengeDesLaengsten = (double) laengsterString;
 			double levenshteinDist = (double) berechneLevenshteinDistanz(
-					ref.toCharArray(), vgl.toCharArray());
+					ref, vgl);
 			if (laengeDesLaengsten != 0) {
 				metrikProZeile[i] = gewicht
 						* (double) ((laengeDesLaengsten - levenshteinDist) / laengeDesLaengsten);
