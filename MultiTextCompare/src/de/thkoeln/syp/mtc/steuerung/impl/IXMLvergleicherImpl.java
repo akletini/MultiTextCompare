@@ -120,7 +120,7 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 			try{
 				
 				writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(entry.getValue())));
-				writer.write(xmlString + "\n");
+				writer.write(xmlString);
 				writer.close();
 			}catch(Exception e){
 				
