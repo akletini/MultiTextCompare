@@ -144,7 +144,6 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 				double levenshtein = (double) berechneLevenshteinDistanz(
 						referenzArray,
 						vergleichsArray);
-				System.out.println(levenshtein);
 
 				double maxSize;
 				if (referenzString.length() > vergleichsString.length()) {
