@@ -1,12 +1,16 @@
 package de.thkoeln.syp.mtc.steuerung.impl;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
+import org.apache.commons.text.diff.StringsComparator;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IMatch;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IAehnlichkeitImpl;
@@ -22,8 +26,8 @@ public class IMatchHelperImpl implements IMatchHelper {
 	private List<File> tempfiles;
 	public List<IMatch> matches;
 	List<IMatch> oldIndeces;
-	List<String> leftFile = new ArrayList<String>();
-	List<String> rightFile = new ArrayList<String>();
+	List<String> leftFile;
+	List<String> rightFile;
 
 	public String[] leftFileLines, rightFileLines;
 
@@ -51,12 +55,14 @@ public class IMatchHelperImpl implements IMatchHelper {
 	 */
 	@Override
 	public void matchEqualLines(File a, File b) throws IOException {
-
 		String reference = "", comp = "";
 		int lineCountLeft = 0, lineCountRight = 0;
+		
 		oldIndeces = new ArrayList<IMatch>();
-
 		matches = new ArrayList<IMatch>();
+		
+		leftFile = new ArrayList<String>();
+		rightFile = new ArrayList<String>();
 
 		lineCountLeft = getLineCounts(a, leftFile);
 		lineCountRight = getLineCounts(b, rightFile);
@@ -67,15 +73,19 @@ public class IMatchHelperImpl implements IMatchHelper {
 			reference = rightFile.get(0);
 		}
 
+		int lastMatchedIndex = 0;
 		// Schaue für jede Zeile der linken Datei
 		for (int i = 0; i < lineCountLeft; i++) {
 			reference = leftFile.get(i);
 			// ob es in der rechten Datei ein Match gibt
 			for (int j = 0; j < lineCountRight; j++) {
-				if (reference.equals(rightFile.get(j)) && j >= i
+				//matches(reference, rightFile.get(j))
+				if (reference.equals(rightFile.get(j))
+						&& j >= lastMatchedIndex
 						&& notMatchedYet(i, j)) {
 					IMatch match1 = new IMatchImpl(i, j, reference);
 					IMatch match2 = new IMatchImpl(i, j, reference);
+					lastMatchedIndex = j;
 					matches.add(match1);
 					oldIndeces.add(match2);
 					break;
@@ -86,11 +96,11 @@ public class IMatchHelperImpl implements IMatchHelper {
 
 		leftSize = lineCountLeft + getMaxDistance(matches);
 		rightSize = lineCountRight + getMaxDistance(matches);
-
+		
 		alignMatches(matches);
 		fillInMatches();
 		fillInBetweenMatches(oldIndeces);
-
+//		writeArrayToFile();
 	}
 
 	/**
@@ -296,6 +306,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 			}
 		}
 
+
 	}
 
 	/**
@@ -363,5 +374,30 @@ public class IMatchHelperImpl implements IMatchHelper {
 			}
 		}
 	}
+	
+	private boolean matches(String ref, String comp){
+		StringsComparator comparator = new StringsComparator(ref, comp);
+		if(comparator.getScript().getLCSLength() > (Math.max(
+						ref.length(), comp.length()) * 0.8)) {
+			return true;
+		}
+		return false;
+	}
+	
+//	private void writeArrayToFile() throws IOException{
+//		BufferedWriter outputLinks = new BufferedWriter(new FileWriter("links.txt"));
+//		for(int i = 0; i < leftFileLines.length; i++){
+//			outputLinks.write(leftFileLines[i]);
+//			outputLinks.newLine();
+//		}
+//		
+//		BufferedWriter outputRechts = new BufferedWriter(new FileWriter("rechts.txt"));
+//		for(int i = 0; i < rightFileLines.length; i++){
+//			outputRechts.write(rightFileLines[i]);
+//			outputRechts.newLine();
+//		}
+//		outputLinks.close();
+//		outputRechts.close();
+//	}
 
 }
