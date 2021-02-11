@@ -64,7 +64,8 @@ public class IMatchHelperImpl {
 			reference = leftFile.get(i);
 			// ob es in der rechten Datei ein Match gibt
 			for (int j = 0; j < lineCountRight; j++) {
-				if (reference.equals(rightFile.get(j)) && j >= i && notMatchedYet(i, j)) {
+				if (reference.equals(rightFile.get(j)) && j >= i
+						&& notMatchedYet(i, j)) {
 					IMatch match1 = new IMatchImpl(i, j, reference);
 					IMatch match2 = new IMatchImpl(i, j, reference);
 					matches.add(match1);
@@ -89,17 +90,17 @@ public class IMatchHelperImpl {
 		// }
 
 	}
-	
-	private boolean notMatchedYet(Integer left, Integer right){
+
+	private boolean notMatchedYet(Integer left, Integer right) {
 		//
-		List<Integer> leftIndeces = new LinkedList<Integer>(), rightIndeces= new LinkedList<Integer>();
-		for(IMatch match : matches){
+		List<Integer> leftIndeces = new LinkedList<Integer>(), rightIndeces = new LinkedList<Integer>();
+		for (IMatch match : matches) {
 			leftIndeces.add(match.getLeftRow());
 			rightIndeces.add(match.getRightRow());
 		}
-		if(leftIndeces.contains(left) || rightIndeces.contains(right))
+		if (leftIndeces.contains(left) || rightIndeces.contains(right))
 			return false;
-		else 
+		else
 			return true;
 	}
 
@@ -179,8 +180,12 @@ public class IMatchHelperImpl {
 	private void fillInBetweenMatches(List<IMatch> oldIndeces) {
 		List<String> chunk = new ArrayList<String>();
 		int differenceOld = 0, differenceNew = 0, firstIndexOld = 0, secondIndexOld = 0, firstIndexNew = 0, secondIndexNew = 0;
+		fillLinesBeforeMatch();
 		for (int i = 1; i < oldIndeces.size(); i++) {
 
+			// --------------------------------------------------------------------------------
+			// --------------------------leftFile----------------------------------------------
+			// --------------------------------------------------------------------------------
 			firstIndexOld = oldIndeces.get(i - 1).getLeftRow() + 1;
 			firstIndexNew = matches.get(i - 1).getLeftRow() + 1;
 
@@ -205,16 +210,6 @@ public class IMatchHelperImpl {
 					firstIndexNew++;
 					index++;
 				}
-			}
-
-			chunk = leftFile.subList(oldIndeces.get(oldIndeces.size() - 1)
-					.getLeftRow() + 1, leftFile.size());
-
-			// Teil zwischen letztem Match und Ende füllen
-			index = 0;
-			for (int j = matches.get(matches.size() - 1).getLeftRow() + 1; j < leftFileLines.length; j++) {
-				leftFileLines[j] = chunk.get(index);
-				index++;
 			}
 
 			// --------------------------------------------------------------------------------
@@ -243,18 +238,9 @@ public class IMatchHelperImpl {
 				}
 			}
 
-			// Teil zwischen letztem Match und Ende füllen
-			chunk = rightFile.subList(oldIndeces.get(oldIndeces.size() - 1)
-					.getRightRow() + 1, rightFile.size());
-
-			index = 0;
-			for (int j = matches.get(matches.size() - 1).getRightRow() + 1; j < rightFileLines.length; j++) {
-				rightFileLines[j] = chunk.get(index);
-				index++;
-			}
-
 		}
-		
+		fillLinesAfterMatches();
+
 		for (int m = 0; m < leftFileLines.length; m++) {
 			if (leftFileLines[m] == null) {
 				leftFileLines[m] = "";
@@ -285,6 +271,49 @@ public class IMatchHelperImpl {
 					- matches.get(i).getRightRow());
 		}
 		return dist;
+	}
+
+	private void fillLinesBeforeMatch() {
+		if (oldIndeces != null) {
+			IMatch firstMatch = oldIndeces.get(0);
+			List<String> chunk = leftFile.subList(0, firstMatch.getLeftRow());
+
+			for (int i = 0; i < chunk.size(); i++) {
+				leftFileLines[i] = chunk.get(i);
+			}
+
+			chunk = rightFile.subList(0, firstMatch.getRightRow());
+
+			for (int i = 0; i < chunk.size(); i++) {
+				rightFileLines[i] = chunk.get(i);
+			}
+		}
+	}
+
+	private void fillLinesAfterMatches() {
+		if (oldIndeces != null) {
+			IMatch lastMatchOld = oldIndeces.get(oldIndeces.size() - 1);
+			IMatch lastMatchNew = matches.get(matches.size() - 1);
+			List<String> chunk = leftFile.subList(
+					oldIndeces.get(oldIndeces.size() - 1).getLeftRow() + 1,
+					leftFile.size());
+
+			int index = 0;
+
+			for (int j = matches.get(matches.size() - 1).getLeftRow() + 1; j < leftFileLines.length; j++) {
+				leftFileLines[j] = chunk.get(index);
+				index++;
+			}
+
+			chunk = rightFile.subList(oldIndeces.get(oldIndeces.size() - 1)
+					.getRightRow() + 1, rightFile.size());
+
+			index = 0;
+			for (int j = matches.get(matches.size() - 1).getRightRow() + 1; j < rightFileLines.length; j++) {
+				rightFileLines[j] = chunk.get(index);
+				index++;
+			}
+		}
 	}
 
 	// Debugging functions, DELETE AFTER DEVELOPMENT
