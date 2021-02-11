@@ -14,8 +14,12 @@ public interface IMatch {
 
 	void setRightRow(int rightRow);
 
-	String getValue();
+	String getValueLeft();
 
-	void setValue(String value);
+	void setValueLeft(String value);
+
+	String getValueRight();
+
+	void setValueRight(String valueRight);
 
 }

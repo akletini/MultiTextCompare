@@ -33,6 +33,9 @@ public class IMatchHelperImpl implements IMatchHelper {
 
 	// Anzahl der Zeilen, fuer die nach einer identischen Zeile gesucht wird
 	private final int LOOKAHEAD = 5;
+	// Ähnlichkeit ab der Zeilen gematcht werden (Wert von 0 bis 1)
+	private final double MATCH_AT = 0.8;
+	
 	private int leftSize = 0, rightSize = 0;
 
 	public IMatchHelperImpl() {
@@ -79,12 +82,13 @@ public class IMatchHelperImpl implements IMatchHelper {
 			reference = leftFile.get(i);
 			// ob es in der rechten Datei ein Match gibt
 			for (int j = 0; j < lineCountRight; j++) {
+				comp = rightFile.get(j);
 				//matches(reference, rightFile.get(j))
-				if (reference.equals(rightFile.get(j))
+				if (matches(reference, rightFile.get(j))
 						&& j >= lastMatchedIndex
 						&& notMatchedYet(i, j)) {
-					IMatch match1 = new IMatchImpl(i, j, reference);
-					IMatch match2 = new IMatchImpl(i, j, reference);
+					IMatch match1 = new IMatchImpl(i, j, reference, comp);
+					IMatch match2 = new IMatchImpl(i, j, reference, comp);
 					lastMatchedIndex = j;
 					matches.add(match1);
 					oldIndeces.add(match2);
@@ -100,7 +104,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 		alignMatches(matches);
 		fillInMatches();
 		fillInBetweenMatches(oldIndeces);
-//		writeArrayToFile();
+		writeArrayToFile();
 	}
 
 	/**
@@ -200,10 +204,10 @@ public class IMatchHelperImpl implements IMatchHelper {
 		for (int i = 0; i < matches.size(); i++) {
 			IMatch match = matches.get(i);
 			int row = match.getLeftRow();
-			leftFileLines[row] = match.getValue();
+			leftFileLines[row] = match.getValueLeft();
 
 			row = match.getRightRow();
-			rightFileLines[row] = match.getValue();
+			rightFileLines[row] = match.getValueRight();
 		}
 
 	}
@@ -378,26 +382,34 @@ public class IMatchHelperImpl implements IMatchHelper {
 	private boolean matches(String ref, String comp){
 		StringsComparator comparator = new StringsComparator(ref, comp);
 		if(comparator.getScript().getLCSLength() > (Math.max(
-						ref.length(), comp.length()) * 0.8)) {
+						ref.length(), comp.length()) * MATCH_AT)) {
 			return true;
 		}
 		return false;
 	}
 	
-//	private void writeArrayToFile() throws IOException{
-//		BufferedWriter outputLinks = new BufferedWriter(new FileWriter("links.txt"));
-//		for(int i = 0; i < leftFileLines.length; i++){
-//			outputLinks.write(leftFileLines[i]);
-//			outputLinks.newLine();
-//		}
-//		
-//		BufferedWriter outputRechts = new BufferedWriter(new FileWriter("rechts.txt"));
-//		for(int i = 0; i < rightFileLines.length; i++){
-//			outputRechts.write(rightFileLines[i]);
-//			outputRechts.newLine();
-//		}
-//		outputLinks.close();
-//		outputRechts.close();
-//	}
+	//Debug-Methoden
+	
+	private void writeArrayToFile() throws IOException{
+		BufferedWriter outputLinks = new BufferedWriter(new FileWriter("links.txt"));
+		for(int i = 0; i < leftFileLines.length; i++){
+			outputLinks.write(leftFileLines[i]);
+			outputLinks.newLine();
+		}
+		
+		BufferedWriter outputRechts = new BufferedWriter(new FileWriter("rechts.txt"));
+		for(int i = 0; i < rightFileLines.length; i++){
+			outputRechts.write(rightFileLines[i]);
+			outputRechts.newLine();
+		}
+		printMatches();
+		outputLinks.close();
+		outputRechts.close();
+	}
+	private void printMatches(){
+		for(IMatch match :  matches){
+			System.out.println(match.toString());
+		}
+	}
 
 }
