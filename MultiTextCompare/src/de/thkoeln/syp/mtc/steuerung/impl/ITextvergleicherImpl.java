@@ -39,7 +39,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	}
 
 	public ITextvergleicherImpl() {
-
+		tempFiles = new ArrayList<File>();
 	}
 
 	/**
@@ -168,12 +168,12 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	 * werden
 	 */
 	@Override
-	public void getTempfilesFromHashMap(Map<File, File> map) {
-		tempFiles = new ArrayList<File>();
+	public List<File> getTempfilesFromHashMap(Map<File, File> map, List<File> tempFiles) {
 		Map<File, File> sorted = sortHashMapByValue(map);
 		for (Map.Entry<File, File> entry : sorted.entrySet()) {
 			tempFiles.add(entry.getValue());
 		}
+		return tempFiles;
 	}
 
 	/**
