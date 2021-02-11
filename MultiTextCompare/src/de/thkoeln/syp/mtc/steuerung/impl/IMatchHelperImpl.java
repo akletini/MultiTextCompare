@@ -12,9 +12,10 @@ import de.thkoeln.syp.mtc.datenhaltung.api.IMatch;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IAehnlichkeitImpl;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IMatchImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
+import de.thkoeln.syp.mtc.steuerung.services.IMatchHelper;
 import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
 
-public class IMatchHelperImpl {
+public class IMatchHelperImpl implements IMatchHelper {
 	private List<IAehnlichkeitImpl> paarungen;
 	private ITextvergleicher textvergleicher;
 	private IFileImporter fileimporter;
@@ -39,16 +40,23 @@ public class IMatchHelperImpl {
 		}
 	}
 
+	/**
+	 * Sucht in a und b gleiche Zeilen und ruft Methoden auf, die diese in einer
+	 * sinnvolle Darstellung schreiben.
+	 * 
+	 * @param a
+	 *            Referenzdatei
+	 * @param b
+	 *            Vergleichsdatei
+	 */
+	@Override
 	public void matchEqualLines(File a, File b) throws IOException {
-		// for (IAehnlichkeit a : paarungen) {
+
 		String reference = "", comp = "";
 		int lineCountLeft = 0, lineCountRight = 0;
 		oldIndeces = new ArrayList<IMatch>();
 
 		matches = new ArrayList<IMatch>();
-
-		// lineCountLeft = getLineCounts(a.getVon(), leftFile);
-		// lineCountRight = getLineCounts(a.getZu(), rightFile);
 
 		lineCountLeft = getLineCounts(a, leftFile);
 		lineCountRight = getLineCounts(b, rightFile);
@@ -79,18 +87,21 @@ public class IMatchHelperImpl {
 		leftSize = lineCountLeft + getMaxDistance(matches);
 		rightSize = lineCountRight + getMaxDistance(matches);
 
-		// printListString(leftFile);
-		// System.out.println("\n");
-		// printListString(rightFile);
-		// System.out.println("-----------------");
-		printMatches();
 		alignMatches(matches);
 		fillInMatches();
 		fillInBetweenMatches(oldIndeces);
-		// }
 
 	}
 
+	/**
+	 * Prueft ob es bereits ein Match für eine der uebergebenen Zeilen gibt
+	 * 
+	 * @param left
+	 *            Zeile der linken Datei
+	 * @param right
+	 *            Zeile der rechten Datei
+	 * @return true wenn noch kein Match existiert, sonst false
+	 */
 	private boolean notMatchedYet(Integer left, Integer right) {
 		//
 		List<Integer> leftIndeces = new LinkedList<Integer>(), rightIndeces = new LinkedList<Integer>();
@@ -104,6 +115,16 @@ public class IMatchHelperImpl {
 			return true;
 	}
 
+	/**
+	 * Zaehlt die Anzahl der Zeilen von file und schreibt diese Zeilen in list
+	 * 
+	 * @param file
+	 *            Die betrachtete Datei
+	 * @param list
+	 *            Die Liste die befuellt werden soll
+	 * @return die Anzahl der Zeilen innerhalb von file
+	 * @throws IOException
+	 */
 	private int getLineCounts(File file, List<String> list) throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(file));
 		int lines = 0;
@@ -116,6 +137,13 @@ public class IMatchHelperImpl {
 		return lines;
 	}
 
+	/**
+	 * Berechnet auf welche Zeile Matches geschrieben werden muessen um sinnvoll
+	 * in der gleichen Zeile zu stehen
+	 * 
+	 * @param matches
+	 *            die Matches die eingereiht werden sollen
+	 */
 	private void alignMatches(List<IMatch> matches) {
 		for (int i = 0; i < matches.size(); i++) {
 			IMatch match = matches.get(i);
@@ -138,6 +166,13 @@ public class IMatchHelperImpl {
 
 	}
 
+	/**
+	 * Prueft ob gematchte Zeilen innerhalb der gleichen Zeile stehen
+	 * 
+	 * @param match
+	 *            das zu ueberpruefende Match
+	 * @return true wenn die Zeilen auf einer Hoehe stehen, sonst false
+	 */
 	private boolean isMatchAligned(IMatch match) {
 		if (match.getLeftRow() == match.getRightRow()) {
 			return true;
@@ -146,7 +181,7 @@ public class IMatchHelperImpl {
 	}
 
 	/**
-	 * needs right side too
+	 * Schreibt gematchte Zeilen in ihre berechnete Position
 	 */
 	private void fillInMatches() {
 		calculateLineArraySize();
@@ -163,6 +198,10 @@ public class IMatchHelperImpl {
 
 	}
 
+	/**
+	 * Berechnet wie groß die finalen Arrays mit den gematchten Ergebnissen sein
+	 * muessen
+	 */
 	private void calculateLineArraySize() {
 
 		List<String> chunk = leftFile.subList(
@@ -177,6 +216,13 @@ public class IMatchHelperImpl {
 		rightSize = chunk.size() + lastMatchIndex;
 	}
 
+	/**
+	 * Befuellt die Zeilen zwischen Matches mit Zeilen aus der Ursprungsdatei
+	 * auf eine sinnvolle Hoehe und fuellt Luecken falls welche durch das
+	 * alignen (auf eine Linie bringen) der Matches entstanden sind
+	 * 
+	 * @param oldIndeces
+	 */
 	private void fillInBetweenMatches(List<IMatch> oldIndeces) {
 		List<String> chunk = new ArrayList<String>();
 		int differenceOld = 0, differenceNew = 0, firstIndexOld = 0, secondIndexOld = 0, firstIndexNew = 0, secondIndexNew = 0;
@@ -194,13 +240,9 @@ public class IMatchHelperImpl {
 			differenceOld = secondIndexOld - firstIndexOld - 1;
 
 			secondIndexNew = matches.get(i).getLeftRow() + 1;
-			// Anzahl der freien Zeilen zwischen matches
-			differenceNew = secondIndexNew - firstIndexNew - 1;
 
 			chunk = leftFile.subList(firstIndexOld, secondIndexOld - 1);
 
-			int numEmptyLines = differenceNew - differenceOld;
-			// differenceNew - differenceOld = Anzahl der Leerzeilen
 			int index = 0;
 
 			// Teil zwischen den Matches füllen
@@ -241,6 +283,7 @@ public class IMatchHelperImpl {
 		}
 		fillLinesAfterMatches();
 
+		// Unbefuellte Zeilen zur Leerzeile umschreiben
 		for (int m = 0; m < leftFileLines.length; m++) {
 			if (leftFileLines[m] == null) {
 				leftFileLines[m] = "";
@@ -253,17 +296,16 @@ public class IMatchHelperImpl {
 			}
 		}
 
-		// /////////////////////////////Prints/////////////////////
-
-		for (String s : leftFileLines) {
-			System.out.println(s);
-		}
-		System.out.println("------------------------------------");
-		for (String s : rightFileLines) {
-			System.out.println(s);
-		}
 	}
 
+	/**
+	 * Berechnet die Anzahl der Zeilen die durch das Angleichen gematchter
+	 * Zeilen zusaetzlich im Ergebnisarray allokiert werden muessen
+	 * 
+	 * @param matches
+	 *            Liste der gematchten Zeilen
+	 * @return Die Anzahl zusaetzlicher zeilen
+	 */
 	private int getMaxDistance(List<IMatch> matches) {
 		int dist = 0;
 		for (int i = 0; i < matches.size(); i++) {
@@ -273,6 +315,10 @@ public class IMatchHelperImpl {
 		return dist;
 	}
 
+	/**
+	 * Falls das erste Match nicht in der ersten Zeile steht, werden hier vorher
+	 * die alten Zeilen vor das erste Match eingefuegt
+	 */
 	private void fillLinesBeforeMatch() {
 		if (oldIndeces != null) {
 			IMatch firstMatch = oldIndeces.get(0);
@@ -290,10 +336,12 @@ public class IMatchHelperImpl {
 		}
 	}
 
+	/**
+	 * Falls nach dem letzten Match weitere Zeilen existieren, werden diese hier
+	 * eingefuegt
+	 */
 	private void fillLinesAfterMatches() {
 		if (oldIndeces != null) {
-			IMatch lastMatchOld = oldIndeces.get(oldIndeces.size() - 1);
-			IMatch lastMatchNew = matches.get(matches.size() - 1);
 			List<String> chunk = leftFile.subList(
 					oldIndeces.get(oldIndeces.size() - 1).getLeftRow() + 1,
 					leftFile.size());
@@ -313,22 +361,6 @@ public class IMatchHelperImpl {
 				rightFileLines[j] = chunk.get(index);
 				index++;
 			}
-		}
-	}
-
-	// Debugging functions, DELETE AFTER DEVELOPMENT
-	private void printListString(List<String> list) {
-		int index = 0;
-		for (String s : list) {
-			index++;
-			System.out.println(index + " " + s);
-		}
-	}
-
-	private void printMatches() {
-		for (IMatch m : matches) {
-			System.out.println("I : " + m.getLeftRow() + " J: "
-					+ m.getRightRow() + " Value: " + m.getValue());
 		}
 	}
 
