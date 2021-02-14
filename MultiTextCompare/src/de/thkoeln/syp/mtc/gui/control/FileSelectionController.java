@@ -188,7 +188,7 @@ public class FileSelectionController extends JFrame {
 
 			fileImporter.normTempFiles();
 			textvergleicher.getTempfilesFromHashMap(management
-					.getFileImporter().getTempFilesMap(), textvergleicher.getTempFiles());
+					.getFileImporter().getTempFilesMap());
 			textvergleicher.getVergleiche(textvergleicher.getTempFiles());
 			if (fileImporter.getConfig().getLineMatch() == false) {
 				textvergleicher.vergleicheUeberGanzesDokument();
