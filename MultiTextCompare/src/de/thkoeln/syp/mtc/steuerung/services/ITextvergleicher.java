@@ -15,8 +15,6 @@ public interface ITextvergleicher {
 	
 	void vergleicheZeilenweise();
 
-	void getTempfilesFromHashMap(Map<File, File> map);
-
 	void setRef(File von);
 
 	void setVgl(File vgl);
@@ -27,5 +25,6 @@ public interface ITextvergleicher {
 
 	IMatrixImpl getMatrix();
 
+	void getTempfilesFromHashMap(Map<File, File> map);
 	
 }

@@ -123,6 +123,7 @@ public class ComparisonView extends JFrame {
 				panel.add(tPane1);
 				panel.add(tPane2);
 				panel.add(tPane3);
+				
 
 				for (IDiffLine diffLine : diff.getLeftLines()) {
 					for (IDiffChar diffChar : diffLine.getDiffedLine()) {
