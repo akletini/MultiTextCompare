@@ -3,9 +3,12 @@ package de.thkoeln.syp.mtc.steuerung.impl;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -35,16 +38,11 @@ public class IMatchHelperImpl implements IMatchHelper {
 	private final int LOOKAHEAD = 5;
 	// Ähnlichkeit ab der Zeilen gematcht werden (Wert von 0 bis 1)
 	private final double MATCH_AT = 0.8;
-	
+
 	private int leftSize = 0, rightSize = 0;
 
 	public IMatchHelperImpl() {
-		if (textvergleicher != null) {
-			tempfiles = textvergleicher.getTempfilesFromHashMap(
-					fileimporter.getTempFilesMap(), tempfiles);
-			textvergleicher.getVergleiche(tempfiles);
-			paarungen = textvergleicher.getPaarungen();
-		}
+
 	}
 
 	/**
@@ -60,10 +58,10 @@ public class IMatchHelperImpl implements IMatchHelper {
 	public void matchEqualLines(File a, File b) throws IOException {
 		String reference = "", comp = "";
 		int lineCountLeft = 0, lineCountRight = 0;
-		
+
 		oldIndeces = new ArrayList<IMatch>();
 		matches = new ArrayList<IMatch>();
-		
+
 		leftFile = new ArrayList<String>();
 		rightFile = new ArrayList<String>();
 
@@ -83,10 +81,9 @@ public class IMatchHelperImpl implements IMatchHelper {
 			// ob es in der rechten Datei ein Match gibt
 			for (int j = 0; j < lineCountRight; j++) {
 				comp = rightFile.get(j);
-				//matches(reference, rightFile.get(j))
+				// matches(reference, rightFile.get(j))
 				if (matches(reference, rightFile.get(j))
-						&& j >= lastMatchedIndex
-						&& notMatchedYet(i, j)) {
+						&& j >= lastMatchedIndex && notMatchedYet(i, j)) {
 					IMatch match1 = new IMatchImpl(i, j, reference, comp);
 					IMatch match2 = new IMatchImpl(i, j, reference, comp);
 					lastMatchedIndex = j;
@@ -98,13 +95,18 @@ public class IMatchHelperImpl implements IMatchHelper {
 			}
 		}
 
+		if(matches.size() > 0){
 		leftSize = lineCountLeft + getMaxDistance(matches);
 		rightSize = lineCountRight + getMaxDistance(matches);
-		
+
 		alignMatches(matches);
-		fillInMatches();
+		fillInMatches(a, b);
 		fillInBetweenMatches(oldIndeces);
-		writeArrayToFile();
+		writeArrayToFile(a, b);
+		}
+		else {
+			
+		}
 	}
 
 	/**
@@ -196,9 +198,11 @@ public class IMatchHelperImpl implements IMatchHelper {
 
 	/**
 	 * Schreibt gematchte Zeilen in ihre berechnete Position
+	 * 
+	 * @throws IOException
 	 */
-	private void fillInMatches() {
-		calculateLineArraySize();
+	private void fillInMatches(File a, File b) throws IOException {
+		calculateLineArraySize(a, b);
 		leftFileLines = new String[leftSize];
 		rightFileLines = new String[rightSize];
 		for (int i = 0; i < matches.size(); i++) {
@@ -215,19 +219,25 @@ public class IMatchHelperImpl implements IMatchHelper {
 	/**
 	 * Berechnet wie groß die finalen Arrays mit den gematchten Ergebnissen sein
 	 * muessen
+	 * 
+	 * @throws IOException
 	 */
-	private void calculateLineArraySize() {
+	private void calculateLineArraySize(File a, File b) throws IOException {
+		if (oldIndeces.size() != 0) {
+			List<String> chunk = leftFile.subList(
+					oldIndeces.get(oldIndeces.size() - 1).getLeftRow() + 1,
+					leftFile.size());
+			int lastMatchIndex = matches.get(matches.size() - 1).getLeftRow() + 1;
+			leftSize = chunk.size() + lastMatchIndex;
 
-		List<String> chunk = leftFile.subList(
-				oldIndeces.get(oldIndeces.size() - 1).getLeftRow() + 1,
-				leftFile.size());
-		int lastMatchIndex = matches.get(matches.size() - 1).getLeftRow() + 1;
-		leftSize = chunk.size() + lastMatchIndex;
-
-		chunk = rightFile.subList(oldIndeces.get(oldIndeces.size() - 1)
-				.getRightRow() + 1, rightFile.size());
-		lastMatchIndex = matches.get(matches.size() - 1).getRightRow() + 1;
-		rightSize = chunk.size() + lastMatchIndex;
+			chunk = rightFile.subList(oldIndeces.get(oldIndeces.size() - 1)
+					.getRightRow() + 1, rightFile.size());
+			lastMatchIndex = matches.get(matches.size() - 1).getRightRow() + 1;
+			rightSize = chunk.size() + lastMatchIndex;
+		} else {
+			leftSize = getLineCounts(a, leftFile);
+			rightSize = getLineCounts(b, rightFile);
+		}
 	}
 
 	/**
@@ -310,7 +320,6 @@ public class IMatchHelperImpl implements IMatchHelper {
 			}
 		}
 
-
 	}
 
 	/**
@@ -335,7 +344,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 	 * die alten Zeilen vor das erste Match eingefuegt
 	 */
 	private void fillLinesBeforeMatch() {
-		if (oldIndeces != null) {
+		if (oldIndeces.size() != 0) {
 			IMatch firstMatch = oldIndeces.get(0);
 			List<String> chunk = leftFile.subList(0, firstMatch.getLeftRow());
 
@@ -356,7 +365,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 	 * eingefuegt
 	 */
 	private void fillLinesAfterMatches() {
-		if (oldIndeces != null) {
+		if (oldIndeces.size() != 0) {
 			List<String> chunk = leftFile.subList(
 					oldIndeces.get(oldIndeces.size() - 1).getLeftRow() + 1,
 					leftFile.size());
@@ -378,36 +387,41 @@ public class IMatchHelperImpl implements IMatchHelper {
 			}
 		}
 	}
-	
-	private boolean matches(String ref, String comp){
+
+	private boolean matches(String ref, String comp) {
 		StringsComparator comparator = new StringsComparator(ref, comp);
-		if(comparator.getScript().getLCSLength() > (Math.max(
-						ref.length(), comp.length()) * MATCH_AT)) {
+		if (comparator.getScript().getLCSLength() > (Math.max(ref.length(),
+				comp.length()) * MATCH_AT)) {
 			return true;
 		}
 		return false;
 	}
-	
-	//Debug-Methoden
-	
-	private void writeArrayToFile() throws IOException{
-		BufferedWriter outputLinks = new BufferedWriter(new FileWriter("links.txt"));
-		for(int i = 0; i < leftFileLines.length; i++){
+
+	// Debug-Methoden
+
+	private void writeArrayToFile(File a, File b) throws IOException {
+//		BufferedWriter outputLinks = new BufferedWriter(new OutputStreamWriter(
+//				new FileOutputStream(a)));
+		BufferedWriter outputLinks = new BufferedWriter(new FileWriter(a));
+		for (int i = 0; i < leftFileLines.length; i++) {
 			outputLinks.write(leftFileLines[i]);
 			outputLinks.newLine();
 		}
-		
-		BufferedWriter outputRechts = new BufferedWriter(new FileWriter("rechts.txt"));
-		for(int i = 0; i < rightFileLines.length; i++){
+
+//		BufferedWriter outputRechts = new BufferedWriter(new OutputStreamWriter(
+//				new FileOutputStream(b)));
+		BufferedWriter outputRechts = new BufferedWriter(new FileWriter(b));
+		for (int i = 0; i < rightFileLines.length; i++) {
 			outputRechts.write(rightFileLines[i]);
 			outputRechts.newLine();
 		}
-		printMatches();
+
 		outputLinks.close();
 		outputRechts.close();
 	}
-	private void printMatches(){
-		for(IMatch match :  matches){
+
+	private void printMatches() {
+		for (IMatch match : matches) {
 			System.out.println(match.toString());
 		}
 	}

@@ -22,7 +22,9 @@ import de.thkoeln.syp.mtc.datenhaltung.api.IDiffChar;
 import de.thkoeln.syp.mtc.datenhaltung.api.IDiffLine;
 import de.thkoeln.syp.mtc.gui.control.Management;
 import de.thkoeln.syp.mtc.steuerung.impl.IDiffHelperImpl;
+import de.thkoeln.syp.mtc.steuerung.impl.IMatchHelperImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IDiffHelper;
+import de.thkoeln.syp.mtc.steuerung.services.IMatchHelper;
 
 public class ComparisonView extends JFrame {
 	private Management management;
@@ -68,8 +70,16 @@ public class ComparisonView extends JFrame {
 			selection.add(selection.get(0));
 
 		IDiffHelper diff = new IDiffHelperImpl();
+//		IMatchHelper match = new IMatchHelperImpl();
 		try {
-
+			
+//			if(selection.size() == 2){
+//				match.matchEqualLines(selection.get(0), selection.get(1));
+//			}
+//			else if(selection.size() == 3){
+//				matchUntilFilesUnchanged(match);
+//			}
+			
 			diff.computeDisplayDiff(selection.toArray(new File[selection.size()]));
 
 			if (selection.size() == 2) {
@@ -213,5 +223,12 @@ public class ComparisonView extends JFrame {
 		}
 
 		return null;
+	}
+	
+	private boolean matchUntilFilesUnchanged(IMatchHelper match) throws IOException{
+		match.matchEqualLines(selection.get(0), selection.get(1));
+		match.matchEqualLines(selection.get(0), selection.get(2));
+		match.matchEqualLines(selection.get(1), selection.get(2));
+		return false;
 	}
 }
