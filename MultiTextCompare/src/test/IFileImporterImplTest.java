@@ -215,15 +215,15 @@ public class IFileImporterImplTest {
 	}
 
 	@Test
-	public void test_createXmlTempFiles() {
+	public void test_createDiffTempFiles() {
 		assertTrue(fileImporter.createTempFiles());
-		assertTrue(fileImporter.createXmlTempFiles(fileImporter
+		assertTrue(fileImporter.createDiffTempFiles(fileImporter
 				.getTempFilesMap()));
 
 		assertEquals(fileImporter.getTempFilesMap().size(), fileImporter
-				.getXmlTempFilesMap().size());
-		for (File f : fileImporter.getXmlTempFilesMap().keySet())
-			assertNotNull(fileImporter.getXmlTempFilesMap().get(f));
+				.getDiffTempFilesMap().size());
+		for (File f : fileImporter.getDiffTempFilesMap().keySet())
+			assertNotNull(fileImporter.getDiffTempFilesMap().get(f));
 	}
 
 	@Test

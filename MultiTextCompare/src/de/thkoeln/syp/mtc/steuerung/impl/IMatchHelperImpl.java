@@ -36,13 +36,12 @@ public class IMatchHelperImpl implements IMatchHelper {
 
 	// Anzahl der Zeilen, fuer die nach einer identischen Zeile gesucht wird
 	private final int LOOKAHEAD = 5;
-	// Ähnlichkeit ab der Zeilen gematcht werden (Wert von 0 bis 1)
+	// ï¿½hnlichkeit ab der Zeilen gematcht werden (Wert von 0 bis 1)
 	private final double MATCH_AT = 0.8;
 
 	private int leftSize = 0, rightSize = 0;
 
 	public IMatchHelperImpl() {
-
 	}
 
 	/**
@@ -75,7 +74,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 		}
 
 		int lastMatchedIndex = 0;
-		// Schaue für jede Zeile der linken Datei
+		// Schaue fï¿½r jede Zeile der linken Datei
 		for (int i = 0; i < lineCountLeft; i++) {
 			reference = leftFile.get(i);
 			// ob es in der rechten Datei ein Match gibt
@@ -110,7 +109,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 	}
 
 	/**
-	 * Prueft ob es bereits ein Match für eine der uebergebenen Zeilen gibt
+	 * Prueft ob es bereits ein Match fï¿½r eine der uebergebenen Zeilen gibt
 	 * 
 	 * @param left
 	 *            Zeile der linken Datei
@@ -217,7 +216,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 	}
 
 	/**
-	 * Berechnet wie groß die finalen Arrays mit den gematchten Ergebnissen sein
+	 * Berechnet wie groï¿½ die finalen Arrays mit den gematchten Ergebnissen sein
 	 * muessen
 	 * 
 	 * @throws IOException
@@ -260,7 +259,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 			firstIndexNew = matches.get(i - 1).getLeftRow() + 1;
 
 			secondIndexOld = oldIndeces.get(i).getLeftRow() + 1;
-			// Anzahl der Zeilen die einzufügen sind
+			// Anzahl der Zeilen die einzufï¿½gen sind
 			differenceOld = secondIndexOld - firstIndexOld - 1;
 
 			secondIndexNew = matches.get(i).getLeftRow() + 1;
@@ -269,7 +268,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 
 			int index = 0;
 
-			// Teil zwischen den Matches füllen
+			// Teil zwischen den Matches fï¿½llen
 			for (int m = firstIndexNew; m < secondIndexNew; m++) {
 				if (index < differenceOld) {
 					leftFileLines[firstIndexNew] = chunk.get(index);
@@ -286,7 +285,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 			firstIndexNew = matches.get(i - 1).getRightRow() + 1;
 
 			secondIndexOld = oldIndeces.get(i).getRightRow() + 1;
-			// Anzahl der Zeilen die einzufügen sind
+			// Anzahl der Zeilen die einzufï¿½gen sind
 			differenceOld = secondIndexOld - firstIndexOld - 1;
 
 			secondIndexNew = matches.get(i).getRightRow() + 1;
