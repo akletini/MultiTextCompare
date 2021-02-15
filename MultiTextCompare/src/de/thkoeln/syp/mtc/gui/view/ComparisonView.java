@@ -55,14 +55,11 @@ public class ComparisonView extends JFrame {
 		}
 
 		// XML
-		if (mode == 1) {
-			for (File f : selection) {
-				temp.add(management.getFileImporter().getXmlTempFilesMap()
-						.get(f));
-			}
-			selection.clear();
-			selection.addAll(temp);
+		for (File f : selection) {
+			temp.add(management.getFileImporter().getDiffTempFilesMap().get(f));
 		}
+		selection.clear();
+		selection.addAll(temp);
 
 		if (selection.size() == 1)
 			selection.add(selection.get(0));
@@ -106,7 +103,6 @@ public class ComparisonView extends JFrame {
 			if (selection.size() == 3) {
 				EmptyBorder eb = new EmptyBorder(new Insets(10, 10, 10, 10));
 
-				
 				tPane1.setBorder(eb);
 				tPane2.setBorder(eb);
 				tPane3.setBorder(eb);
@@ -123,7 +119,6 @@ public class ComparisonView extends JFrame {
 				panel.add(tPane1);
 				panel.add(tPane2);
 				panel.add(tPane3);
-				
 
 				for (IDiffLine diffLine : diff.getLeftLines()) {
 					for (IDiffChar diffChar : diffLine.getDiffedLine()) {

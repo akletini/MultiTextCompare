@@ -24,7 +24,7 @@ public class IFileImporterImpl implements IFileImporter {
 
 	private IConfig iConfig;
 	private List<File> textdateien;
-	private Map<File, File> tempFiles, xmlTempFiles;
+	private Map<File, File> tempFiles, diffTempFiles;
 	private Properties prop;
 	private Thread rootImporter;
 
@@ -35,7 +35,7 @@ public class IFileImporterImpl implements IFileImporter {
 	public IFileImporterImpl() {
 		textdateien = new ArrayList<>();
 		tempFiles = new HashMap<>();
-		xmlTempFiles = new HashMap<>();
+		diffTempFiles = new HashMap<>();
 		prop = new Properties();
 
 		prop.setProperty(PROP_LEERZEICHEN, "true");
@@ -73,8 +73,8 @@ public class IFileImporterImpl implements IFileImporter {
 	}
 
 	@Override
-	public Map<File, File> getXmlTempFilesMap() {
-		return xmlTempFiles;
+	public Map<File, File> getDiffTempFilesMap() {
+		return diffTempFiles;
 	}
 
 	@Override
@@ -539,12 +539,12 @@ public class IFileImporterImpl implements IFileImporter {
 	}
 
 	/**
-	 * Erstellt aus den manipulierten XML-Dateien temporaere Dateien im Ordner
+	 * Erstellt aus den manipulierten Dateien temporaere Dateien im Ordner
 	 * 'TempFiles'. Die temporaeren Dateien werden in einer HashMap gespeichert
 	 * um von diesen auch wieder auf die originalen Dateien schliessen zu
 	 * koennen
 	 * 
-	 * @param xmlFileMap
+	 * @param fileMap
 	 *            manipulierte tempFileMap
 	 * 
 	 * @return true: bei erfolgreichem Erstellen der temporaeren Dateien
@@ -553,7 +553,7 @@ public class IFileImporterImpl implements IFileImporter {
 	 *         auftritt
 	 */
 	@Override
-	public boolean createXmlTempFiles(Map<File, File> xmlFileMap) {
+	public boolean createDiffTempFiles(Map<File, File> fileMap) {
 		BufferedReader reader;
 		BufferedWriter writer;
 		int index = 1;
@@ -561,30 +561,40 @@ public class IFileImporterImpl implements IFileImporter {
 		new File(System.getProperty("user.dir") + File.separator + "TempFiles")
 				.mkdirs();
 
-		for (File f : xmlFileMap.keySet()) {
-			File temp = xmlFileMap.get(f);
+		for (File f : fileMap.keySet()) {
+			File temp = fileMap.get(f);
 			String path = System.getProperty("user.dir") + File.separator
 					+ "TempFiles" + File.separator + "temp_"
-					+ Integer.toString(index) + "xml";
-			File tempXml = new File(path);
+					+ Integer.toString(index) + "diff";
+			File tempDiff = new File(path);
 
 			try {
-				if (tempXml.exists()) {
-					tempXml.delete();
+				if (tempDiff.exists()) {
+					tempDiff.delete();
 				}
-				tempXml.createNewFile();
+				tempDiff.createNewFile();
 
 				reader = new BufferedReader(new InputStreamReader(
 						new FileInputStream(temp)));
 				writer = new BufferedWriter(new OutputStreamWriter(
-						new FileOutputStream(tempXml)));
+						new FileOutputStream(tempDiff)));
 
 				String line;
 				while ((line = reader.readLine()) != null) {
+					if (!iConfig.getBeachteLeerzeilen())
+						if (line.isEmpty())
+							continue;
+					if (!iConfig.getBeachteGrossschreibung())
+						line = line.toLowerCase();
+					if (!iConfig.getBeachteSatzzeichen())
+						line = line.replaceAll("\\p{Punct}", "");
+					if (!iConfig.getBeachteLeerzeichen())
+						line = line.replaceAll("\\s", "");
+
 					writer.write(line + "\n");
 				}
 
-				xmlTempFiles.put(f, tempXml);
+				diffTempFiles.put(f, tempDiff);
 				index++;
 
 				reader.close();
@@ -609,12 +619,16 @@ public class IFileImporterImpl implements IFileImporter {
 	 */
 	@Override
 	public boolean deleteTempFiles() {
-		for (File f : this.tempFiles.keySet()) {
-			File temp = tempFiles.get(f);
+		File tempFiles = new File(System.getProperty("user.dir")
+				+ File.separator + "TempFiles");
 
-			temp.delete();
+		if (tempFiles.exists() && tempFiles.isDirectory()) {
+			for (File f : tempFiles.listFiles())
+				f.delete();
+			
+			this.tempFiles.clear();
+			this.diffTempFiles.clear();
 		}
-		tempFiles.clear();
 
 		return true;
 	}

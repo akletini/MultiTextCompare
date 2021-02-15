@@ -39,12 +39,6 @@ public class IMatchHelperImpl implements IMatchHelper {
 	private int leftSize = 0, rightSize = 0;
 
 	public IMatchHelperImpl() {
-		if (textvergleicher != null) {
-			tempfiles = textvergleicher.getTempfilesFromHashMap(
-					fileimporter.getTempFilesMap(), tempfiles);
-			textvergleicher.getVergleiche(tempfiles);
-			paarungen = textvergleicher.getPaarungen();
-		}
 	}
 
 	/**
