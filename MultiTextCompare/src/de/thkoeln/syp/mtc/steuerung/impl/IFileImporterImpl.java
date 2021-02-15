@@ -335,7 +335,7 @@ public class IFileImporterImpl implements IFileImporter {
 		if (fileName == null || fileName.equals(""))
 			return false;
 
-		if (!rootDir.isDirectory())
+		if (!rootDir.exists() || !rootDir.isDirectory())
 			return false;
 
 		fileName = fileName.toLowerCase();
