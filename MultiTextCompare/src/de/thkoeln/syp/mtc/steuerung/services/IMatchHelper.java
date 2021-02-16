@@ -7,4 +7,6 @@ public interface IMatchHelper {
 
 	void matchEqualLines(File a, File b) throws IOException;
 
+	File[] createMatchFiles(File[] files) throws IOException;
+
 }

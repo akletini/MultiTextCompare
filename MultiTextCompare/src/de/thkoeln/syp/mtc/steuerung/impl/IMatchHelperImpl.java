@@ -4,10 +4,12 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -389,7 +391,43 @@ public class IMatchHelperImpl implements IMatchHelper {
 		return false;
 	}
 
-	// Debug-Methoden
+	@Override
+	public File[] createMatchFiles(File[] files) throws IOException {
+		BufferedReader reader;
+		BufferedWriter writer;
+		List<File> matchFiles = new ArrayList<File>();
+		int index = 1;
+		for (File f : files) {
+			String path = System.getProperty("user.dir") + File.separator
+					+ "TempFiles" + File.separator + "temp_match_"
+					+ Integer.toString(index);
+			File temp = new File(path);
+
+			if (temp.exists()) {
+				temp.delete();
+			}
+			temp.createNewFile();
+
+			reader = new BufferedReader(new InputStreamReader(
+					new FileInputStream(f), "UTF-8"));
+			writer = new BufferedWriter(new OutputStreamWriter(
+					new FileOutputStream(temp), "UTF-8"));
+
+			String line;
+			while ((line = reader.readLine()) != null) {
+				writer.write(line + "\n");
+			}
+			matchFiles.add(temp);
+
+			index++;
+
+			reader.close();
+			writer.close();
+
+		}
+		return matchFiles.toArray(new File[files.length]);
+
+	}
 
 	private void writeArrayToFile(File a, File b) throws IOException {
 		BufferedWriter outputLinks = new BufferedWriter(new OutputStreamWriter(
@@ -401,8 +439,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 		}
 
 		BufferedWriter outputRechts = new BufferedWriter(
-				new OutputStreamWriter(new FileOutputStream(b),
-						"UTF-8"));
+				new OutputStreamWriter(new FileOutputStream(b), "UTF-8"));
 		// BufferedWriter outputRechts = new BufferedWriter(new FileWriter(b));
 		for (int i = 0; i < rightFileLines.length; i++) {
 			outputRechts.write(rightFileLines[i]);
@@ -413,6 +450,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 		outputRechts.close();
 	}
 
+	// Debug-Methoden
 	private void printMatches() {
 		for (IMatch match : matches) {
 			System.out.println(match.toString());
