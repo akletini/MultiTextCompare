@@ -20,8 +20,15 @@ import de.thkoeln.syp.mtc.steuerung.services.IDiffHelper;
 public class IDiffHelperImpl implements IDiffHelper {
 
 	private List<IDiffLine> leftLines;
-	private List<IDiffLine> rightLines;
 	private List<IDiffLine> middleLines;
+	private List<IDiffLine> rightLines;
+
+	public IDiffHelperImpl() {
+		leftLines = new ArrayList<IDiffLine>();
+		middleLines = new ArrayList<IDiffLine>();
+		rightLines = new ArrayList<IDiffLine>();
+
+	}
 
 	/**
 	 * Die Methode ermittelt die Differenzen zwischen den übergebenen Dateien
@@ -52,10 +59,8 @@ public class IDiffHelperImpl implements IDiffHelper {
 				 */
 				lineNum++;
 
-				String left = lineNum + "  "
-						+ (file1.hasNext() ? file1.nextLine() : "") + "\n";
-				String right = lineNum + "  "
-						+ (file2.hasNext() ? file2.nextLine() : "") + "\n";
+				String left = (file1.hasNext() ? file1.nextLine() : "") + "\n";
+				String right = (file2.hasNext() ? file2.nextLine() : "") + "\n";
 
 				// Prepare diff comparator with lines from both files.
 				StringsComparator comparator = new StringsComparator(left,
@@ -68,6 +73,9 @@ public class IDiffHelperImpl implements IDiffHelper {
 					 * compare with each other so that they are aligned with
 					 * each other in final diff.
 					 */
+					left = lineNum + "  " + left;
+					right = lineNum + "  " + right;
+					comparator = new StringsComparator(left, right);
 					comparator.getScript().visit(fileCommandsVisitor);
 				} else {
 					/*
@@ -76,6 +84,8 @@ public class IDiffHelperImpl implements IDiffHelper {
 					 * other in final diff instead they show up on separate
 					 * lines.
 					 */
+					left = lineNum + "  " + left;
+					right = lineNum + "  " + right;
 					StringsComparator leftComparator = new StringsComparator(
 							left, "");
 					leftComparator.getScript().visit(fileCommandsVisitor);
@@ -106,12 +116,10 @@ public class IDiffHelperImpl implements IDiffHelper {
 				 */
 				lineNum++;
 
-				String left = lineNum + "  "
-						+ (file1.hasNext() ? file1.nextLine() : "") + "\n";
-				String middle = lineNum + "  "
-						+ (file2.hasNext() ? file2.nextLine() : "") + "\n";
-				String right = lineNum + "  "
-						+ (file3.hasNext() ? file3.nextLine() : "") + "\n";
+				String left = (file1.hasNext() ? file1.nextLine() : "") + "\n";
+				String middle = (file2.hasNext() ? file2.nextLine() : "")
+						+ "\n";
+				String right = (file3.hasNext() ? file3.nextLine() : "") + "\n";
 
 				// Prepare diff comparator with lines from both files.
 				StringsComparator comparator1 = new StringsComparator(left,
@@ -126,6 +134,10 @@ public class IDiffHelperImpl implements IDiffHelper {
 					 * compare with each other so that they are aligned with
 					 * each other in final diff.
 					 */
+					left = lineNum + "  " + left;
+					middle = lineNum + "  " + middle;
+
+					comparator1 = new StringsComparator(left, middle);
 					comparator1.getScript().visit(fileCommandsVisitor);
 
 				} else {
@@ -135,6 +147,9 @@ public class IDiffHelperImpl implements IDiffHelper {
 					 * other in final diff instead they show up on separate
 					 * lines.
 					 */
+					left = lineNum + "  " + left;
+					middle = lineNum + "  " + middle;
+
 					StringsComparator leftComparator = new StringsComparator(
 							left, "");
 					leftComparator.getScript().visit(fileCommandsVisitor);
@@ -151,6 +166,9 @@ public class IDiffHelperImpl implements IDiffHelper {
 					 * compare with each other so that they are aligned with
 					 * each other in final diff.
 					 */
+					right = lineNum + "  " + right;
+
+					comparator2 = new StringsComparator(left, right);
 					comparator2.getScript().visit(fileCommandsVisitor);
 				} else {
 					/*
@@ -159,6 +177,8 @@ public class IDiffHelperImpl implements IDiffHelper {
 					 * other in final diff instead they show up on separate
 					 * lines.
 					 */
+					right = lineNum + "  " + right;
+
 					StringsComparator leftComparator = new StringsComparator(
 							left, "");
 					leftComparator.getScript().visit(fileCommandsVisitor);
@@ -177,7 +197,6 @@ public class IDiffHelperImpl implements IDiffHelper {
 			leftLines = fileCommandsVisitor.getLeftLines();
 			middleLines = fileCommandsVisitor.getMiddleLines();
 			rightLines = fileCommandsVisitor.getRightLines();
-
 		}
 	}
 
@@ -199,10 +218,8 @@ public class IDiffHelperImpl implements IDiffHelper {
 			 */
 			lineNum++;
 
-			String middle = lineNum + "  "
-					+ (file1.hasNext() ? file1.nextLine() : "") + "\n";
-			String right = lineNum + "  "
-					+ (file2.hasNext() ? file2.nextLine() : "") + "\n";
+			String middle = (file1.hasNext() ? file1.nextLine() : "") + "\n";
+			String right = (file2.hasNext() ? file2.nextLine() : "") + "\n";
 
 			// Prepare diff comparator with lines from both files.
 			StringsComparator comparator = new StringsComparator(middle, right);
@@ -214,6 +231,9 @@ public class IDiffHelperImpl implements IDiffHelper {
 				 * with each other so that they are aligned with each other in
 				 * final diff.
 				 */
+				right = lineNum + "  " + right;
+				middle = lineNum + "  " + middle;
+				comparator = new StringsComparator(middle, right);
 				comparator.getScript().visit(fileCommandsVisitor);
 			} else {
 				/*
@@ -221,6 +241,8 @@ public class IDiffHelperImpl implements IDiffHelper {
 				 * with empty line so that they are not aligned to each other in
 				 * final diff instead they show up on separate lines.
 				 */
+				right = lineNum + "  " + right;
+				middle = lineNum + "  " + middle;
 				StringsComparator leftComparator = new StringsComparator(
 						middle, "");
 				leftComparator.getScript().visit(fileCommandsVisitor);
@@ -231,7 +253,6 @@ public class IDiffHelperImpl implements IDiffHelper {
 		}
 
 	}
-
 
 	@Override
 	public List<IDiffLine> getLeftLines() {
@@ -247,7 +268,6 @@ public class IDiffHelperImpl implements IDiffHelper {
 	public List<IDiffLine> getMiddleLines() {
 		return middleLines;
 	}
-
 }
 
 /*
@@ -258,7 +278,7 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 	private static final String DELETION = "RED";
 	private static final String INSERTION = "GREEN";
 	private static final String UNCHANGED = "WHITE";
-	
+
 	private static final String DIFFTOLEFT = "CYAN";
 	private static final String DIFFTOMIDDLE = "ORANGE";
 	private static final String DIFFTORIGHT = "GREEN";
@@ -309,17 +329,19 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 	@Override
 	public void visitKeepCommand(Character c) {
 
-		IDiffChar toAppend = new IDiffCharImpl();
-//		Character cha = (Character) ("\n".equals(c) ? "\n" : c);
-		toAppend.setCharColor(UNCHANGED);
-		toAppend.setCurrentChar(c);
+		IDiffChar toAppendLeft = new IDiffCharImpl(c, UNCHANGED);
+		IDiffChar toAppendMiddle = new IDiffCharImpl(c, UNCHANGED);
+		IDiffChar toAppendRight = new IDiffCharImpl(c, UNCHANGED);
+		IDiffChar toAppendMiddle2 = new IDiffCharImpl(c, UNCHANGED);
+		IDiffChar toAppendRight2 = new IDiffCharImpl(c, UNCHANGED);
+
 		if (durchgang == 1) {
-			leftFile.add(toAppend);
-			middleFile.add(toAppend);
-			rightFile.add(toAppend);
+			leftFile.add(toAppendLeft);
+			middleFile.add(toAppendMiddle);
+			rightFile.add(toAppendRight);
 		} else {
-			middleFile2.add(toAppend);
-			rightFile2.add(toAppend);
+			middleFile2.add(toAppendMiddle2);
+			rightFile2.add(toAppendRight2);
 		}
 
 	}
@@ -333,16 +355,15 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 	 */
 	@Override
 	public void visitInsertCommand(Character c) {
-		IDiffChar toAppend = new IDiffCharImpl();
-//		Character cha = (Character) ("\n".equals(c) ? "\n" : c);
-		toAppend.setCharColor(INSERTION);
-		toAppend.setCurrentChar(c);
+		IDiffChar toAppendMiddle = new IDiffCharImpl(c, INSERTION);
+		IDiffChar toAppendRight = new IDiffCharImpl(c, INSERTION);
+		IDiffChar toAppendRight2 = new IDiffCharImpl(c, INSERTION);
 
 		if (durchgang == 1) {
-			middleFile.add(toAppend);
-			rightFile.add(toAppend);
+			middleFile.add(toAppendMiddle);
+			rightFile.add(toAppendRight);
 		} else {
-			rightFile2.add(toAppend);
+			rightFile2.add(toAppendRight2);
 		}
 
 	}
@@ -357,15 +378,13 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 	 */
 	@Override
 	public void visitDeleteCommand(Character c) {
-		IDiffChar toAppend = new IDiffCharImpl();
-//		Character cha = (Character) ("\n".equals(c) ? "\n" : c);
-		toAppend.setCharColor(DELETION);
-		toAppend.setCurrentChar(c);
+		IDiffChar toAppendLeft = new IDiffCharImpl(c, DELETION);
+		IDiffChar toAppendMiddle2 = new IDiffCharImpl(c, DELETION);
 
 		if (durchgang == 1) {
-			leftFile.add(toAppend);
+			leftFile.add(toAppendLeft);
 		} else {
-			middleFile2.add(toAppend);
+			middleFile2.add(toAppendMiddle2);
 
 		}
 	}
@@ -417,13 +436,14 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 			writeToDiffLines(rightFile, rightLines);
 			removeLastLineBreak(leftLines);
 			removeLastLineBreak(rightLines);
+
 		} else if (numberOfFiles == 3) {
 			writeToDiffLines(leftFile, leftLines);
 			writeToDiffLines(middleFile, middleLines);
 			writeToDiffLines(rightFile, rightLines);
-
 			correctMiddleAndRight();
 			mergeDiffedLines();
+			normalizeEmptyLines();
 			removeLastLineBreak(leftLines);
 			removeLastLineBreak(middleLines);
 			removeLastLineBreak(rightLines);
@@ -488,7 +508,7 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 					mergedLine.add(new IDiffCharImpl(upper.get(j)
 							.getCurrentChar(), UNCHANGED));
 				}
-				//diff zur Mitte
+				// diff zur Mitte
 				if (upper.get(j).getCharColor().equals("RED")
 						&& lower.get(j).getCharColor().equals("WHITE")) {
 					mergedLine.add(new IDiffCharImpl(upper.get(j)
@@ -526,7 +546,6 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 			mergedLine = new ArrayList<IDiffChar>();
 			List<IDiffChar> left = middleLines.get(i).getDiffedLine();
 			List<IDiffChar> right = middleLines2.get(i).getDiffedLine();
-			
 
 			for (int j = 0; j < left.size(); j++) {
 				if (left.get(j).getCharColor()
@@ -608,10 +627,61 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 	private void removeLastLineBreak(List<IDiffLine> lines) {
 		IDiffLine line = new IDiffLineImpl();
 		List<IDiffChar> lineAsChars = new ArrayList<IDiffChar>();
+
 		lineAsChars = lines.get(lines.size() - 1).getDiffedLine();
 		line.setDiffedLine(lineAsChars.subList(0, lineAsChars.size() - 1));
 		lines.remove(lines.size() - 1);
 		lines.add(line);
+
+	}
+
+	/**
+	 * Behebt Verhalten, bei dem Leerzeilen falls vom Algorithmus markiert
+	 * werden. Prueft manuell ob in allen drei Dateien an der gleichen Zeile
+	 * eine Leerzeile steht und faerbt diese korrekt ein
+	 */
+	private void normalizeEmptyLines() {
+		List<Boolean> emptyLinesLeft = checkWholeLineEmpty(leftLines);
+		List<Boolean> emptyLinesMiddle = checkWholeLineEmpty(middleLines);
+		List<Boolean> emptyLinesRight = checkWholeLineEmpty(rightLines);
+		for (int i = 0; i < leftLines.size(); i++) {
+			if (emptyLinesLeft.get(i).booleanValue() == true
+					&& emptyLinesMiddle.get(i).booleanValue() == true
+					&& emptyLinesRight.get(i).booleanValue() == true) {
+				for (int j = 0; j < leftLines.get(i).getDiffedLine().size(); j++) {
+					leftLines.get(i).getDiffedLine().get(j)
+							.setCharColor("WHITE");
+					middleLines.get(i).getDiffedLine().get(j)
+							.setCharColor("WHITE");
+					rightLines.get(i).getDiffedLine().get(j)
+							.setCharColor("WHITE");
+				}
+			}
+		}
+	}
+
+	/**
+	 * Enfernt die Zeilennummerierung und prueft ob der restliche String dem
+	 * Rest des Praefixes gleich ist. Falls ja wird der Ergebnisliste true
+	 * hinzugefuegt, sonst false
+	 * 
+	 * @param lines
+	 *            Die zu untersuchenden Zeilen einer Datei
+	 * @return Liste mit Eintraegen ob Zeilen leer sind oder nicht
+	 */
+	private List<Boolean> checkWholeLineEmpty(List<IDiffLine> lines) {
+		// Check all lines
+		String line = "";
+		List<Boolean> isEmptyLine = new ArrayList<Boolean>();
+		for (int i = 0; i < lines.size(); i++) {
+			line = lines.get(i).toString();
+			if (line.replaceAll("[0-9]", "").equals("  \n")) {
+				isEmptyLine.add(true);
+			} else {
+				isEmptyLine.add(false);
+			}
+		}
+		return isEmptyLine;
 	}
 
 	public List<IDiffLine> getLeftLines() {

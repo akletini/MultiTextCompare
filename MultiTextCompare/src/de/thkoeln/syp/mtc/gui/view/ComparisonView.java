@@ -22,7 +22,9 @@ import de.thkoeln.syp.mtc.datenhaltung.api.IDiffChar;
 import de.thkoeln.syp.mtc.datenhaltung.api.IDiffLine;
 import de.thkoeln.syp.mtc.gui.control.Management;
 import de.thkoeln.syp.mtc.steuerung.impl.IDiffHelperImpl;
+import de.thkoeln.syp.mtc.steuerung.impl.IMatchHelperImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IDiffHelper;
+import de.thkoeln.syp.mtc.steuerung.services.IMatchHelper;
 
 public class ComparisonView extends JFrame {
 	private Management management;
@@ -54,21 +56,25 @@ public class ComparisonView extends JFrame {
 			}
 		}
 
-		// XML
-		if (mode == 1) {
-			for (File f : selection) {
-				temp.add(management.getFileImporter().getXmlTempFilesMap()
-						.get(f));
-			}
-			selection.clear();
-			selection.addAll(temp);
+		for (File f : selection) {
+			temp.add(management.getFileImporter().getDiffTempFilesMap().get(f));
 		}
+		selection.clear();
+		selection.addAll(temp);
 
 		if (selection.size() == 1)
 			selection.add(selection.get(0));
-
+		
+		
 		IDiffHelper diff = new IDiffHelperImpl();
+		IMatchHelper match = new IMatchHelperImpl();
 		try {
+
+			if (selection.size() == 2) {
+				match.matchEqualLines(selection.get(0), selection.get(1));
+			} else if (selection.size() == 3) {
+				matchUntilFilesUnchanged(match);
+			}
 
 			diff.computeDisplayDiff(selection.toArray(new File[selection.size()]));
 
@@ -106,7 +112,6 @@ public class ComparisonView extends JFrame {
 			if (selection.size() == 3) {
 				EmptyBorder eb = new EmptyBorder(new Insets(10, 10, 10, 10));
 
-				
 				tPane1.setBorder(eb);
 				tPane2.setBorder(eb);
 				tPane3.setBorder(eb);
@@ -212,5 +217,15 @@ public class ComparisonView extends JFrame {
 		}
 
 		return null;
+	}
+
+	private boolean matchUntilFilesUnchanged(IMatchHelper match)
+			throws IOException {
+		for (int i = 0; i < 1; i++) {
+			match.matchEqualLines(selection.get(0), selection.get(1));
+			match.matchEqualLines(selection.get(0), selection.get(2));
+			match.matchEqualLines(selection.get(1), selection.get(2));
+		}
+		return false;
 	}
 }

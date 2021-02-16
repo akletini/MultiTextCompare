@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.nio.LongBuffer;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
@@ -178,9 +179,14 @@ public class FileSelectionController extends JFrame {
 			fileImporter.createTempFiles();
 			xmlvergleicher.clearErrorList();
 
+			
+			// TXT Vergleich
+			if (mode == 0) {
+				fileImporter.createDiffTempFiles(fileImporter.getTempFilesMap());
+			}
 			// XML Vergleich
-			if (mode == 1) {
-				fileImporter.createXmlTempFiles(xmlvergleicher
+			else if (mode == 1) {
+				fileImporter.createDiffTempFiles(xmlvergleicher
 						.xmlPrepare(fileImporter.getTempFilesMap()));
 				for (IXMLParseError error : xmlvergleicher.getErrorList())
 					appendToTextArea(error.getMessage());
@@ -276,20 +282,24 @@ public class FileSelectionController extends JFrame {
 
 	public String[] getFileNames(int length) {
 		String[] fileNames = new String[length];
-		String alphabet = "A";
-		char[] charAlphabet;
-		for (int i = 0; i < length; i++) {
-			fileNames[i] = alphabet;
-			charAlphabet = alphabet.toCharArray();
-			charAlphabet[charAlphabet.length - 1] += 1;
-			alphabet = String.valueOf(charAlphabet);
 
-			if (alphabet.contains("[")) {
-				alphabet = "A" + alphabet;
-				alphabet = alphabet.replace("[", "A");
-			}
+		for (int i = 0; i < fileNames.length; i++) {
+			fileNames[i] = intToFilename(i + 1);
 		}
+
 		return fileNames;
+	}
+
+	private String intToFilename(int n) {
+		char[] buf = new char[(int) java.lang.Math.floor(java.lang.Math
+				.log(25 * (n + 1)) / java.lang.Math.log(26))];
+		for (int i = buf.length - 1; i >= 0; i--) {
+			n--;
+			buf[i] = (char) ('A' + n % 26);
+			n /= 26;
+		}
+
+		return new String(buf);
 	}
 
 	public List<String> convertToPaths(List<String> list) {
