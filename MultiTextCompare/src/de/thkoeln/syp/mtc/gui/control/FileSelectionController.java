@@ -179,6 +179,7 @@ public class FileSelectionController extends JFrame {
 			fileImporter.createTempFiles();
 			xmlvergleicher.clearErrorList();
 
+			
 			// TXT Vergleich
 			if (mode == 0) {
 				fileImporter.createDiffTempFiles(fileImporter.getTempFilesMap());

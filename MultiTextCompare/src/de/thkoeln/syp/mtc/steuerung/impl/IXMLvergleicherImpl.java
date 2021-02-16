@@ -74,7 +74,7 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 		int mode = iConfig.getValidation(); //iConfig.getValue
 			
 		for(Map.Entry<File, File> entry : tempFiles.entrySet()) {
-			
+
 			if(!this.parseFile(entry.getKey(), mode)){
 				//korrekt
 				
@@ -119,7 +119,7 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 			BufferedWriter writer;
 			try{
 				
-				writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(entry.getValue())));
+				writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(entry.getValue()), "UTF-8"));
 				writer.write(xmlString);
 				writer.close();
 			}catch(Exception e){

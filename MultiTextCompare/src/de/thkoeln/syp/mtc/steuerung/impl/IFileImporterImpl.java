@@ -12,6 +12,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -34,8 +35,8 @@ public class IFileImporterImpl implements IFileImporter {
 	 */
 	public IFileImporterImpl() {
 		textdateien = new ArrayList<>();
-		tempFiles = new HashMap<>();
-		diffTempFiles = new HashMap<>();
+		tempFiles = new LinkedHashMap<>();
+		diffTempFiles = new LinkedHashMap<>();
 		prop = new Properties();
 
 		prop.setProperty(PROP_LEERZEICHEN, "true");
@@ -456,9 +457,9 @@ public class IFileImporterImpl implements IFileImporter {
 				temp.createNewFile();
 
 				reader = new BufferedReader(new InputStreamReader(
-						new FileInputStream(f)));
+						new FileInputStream(f), "UTF-8"));
 				writer = new BufferedWriter(new OutputStreamWriter(
-						new FileOutputStream(temp)));
+						new FileOutputStream(temp), "UTF-8"));
 
 				String line;
 				while ((line = reader.readLine()) != null) {
@@ -504,7 +505,7 @@ public class IFileImporterImpl implements IFileImporter {
 
 			try {
 				reader = new BufferedReader(new InputStreamReader(
-						new FileInputStream(temp)));
+						new FileInputStream(temp), "UTF-8"));
 
 				String line;
 				while ((line = reader.readLine()) != null) {
@@ -525,7 +526,7 @@ public class IFileImporterImpl implements IFileImporter {
 				reader.close();
 
 				writer = new BufferedWriter(new OutputStreamWriter(
-						new FileOutputStream(temp)));
+						new FileOutputStream(temp), "UTF-8"));
 
 				writer.write(text);
 				writer.close();
@@ -575,9 +576,9 @@ public class IFileImporterImpl implements IFileImporter {
 				tempDiff.createNewFile();
 
 				reader = new BufferedReader(new InputStreamReader(
-						new FileInputStream(temp)));
+						new FileInputStream(temp), "UTF-8"));
 				writer = new BufferedWriter(new OutputStreamWriter(
-						new FileOutputStream(tempDiff)));
+						new FileOutputStream(tempDiff), "UTF-8"));
 
 				String line;
 				while ((line = reader.readLine()) != null) {

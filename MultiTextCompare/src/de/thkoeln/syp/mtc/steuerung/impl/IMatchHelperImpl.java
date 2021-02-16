@@ -3,12 +3,11 @@ package de.thkoeln.syp.mtc.steuerung.impl;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,17 +15,11 @@ import java.util.List;
 import org.apache.commons.text.diff.StringsComparator;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IMatch;
-import de.thkoeln.syp.mtc.datenhaltung.impl.IAehnlichkeitImpl;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IMatchImpl;
-import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
 import de.thkoeln.syp.mtc.steuerung.services.IMatchHelper;
-import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
 
 public class IMatchHelperImpl implements IMatchHelper {
-	private List<IAehnlichkeitImpl> paarungen;
-	private ITextvergleicher textvergleicher;
-	private IFileImporter fileimporter;
-	private List<File> tempfiles;
+
 	public List<IMatch> matches;
 	List<IMatch> oldIndeces;
 	List<String> leftFile;
@@ -94,17 +87,16 @@ public class IMatchHelperImpl implements IMatchHelper {
 			}
 		}
 
-		if(matches.size() > 0){
-		leftSize = lineCountLeft + getMaxDistance(matches);
-		rightSize = lineCountRight + getMaxDistance(matches);
+		if (matches.size() > 0) {
+			leftSize = lineCountLeft + getMaxDistance(matches);
+			rightSize = lineCountRight + getMaxDistance(matches);
 
-		alignMatches(matches);
-		fillInMatches(a, b);
-		fillInBetweenMatches(oldIndeces);
-		writeArrayToFile(a, b);
-		}
-		else {
-			
+			alignMatches(matches);
+			fillInMatches(a, b);
+			fillInBetweenMatches(oldIndeces);
+			writeArrayToFile(a, b);
+		} else {
+
 		}
 	}
 
@@ -141,7 +133,8 @@ public class IMatchHelperImpl implements IMatchHelper {
 	 * @throws IOException
 	 */
 	private int getLineCounts(File file, List<String> list) throws IOException {
-		BufferedReader reader = new BufferedReader(new FileReader(file));
+		BufferedReader reader = new BufferedReader(new InputStreamReader(
+				new FileInputStream(file), "UTF-8"));
 		int lines = 0;
 		String line = "";
 		while ((line = reader.readLine()) != null) {
@@ -216,8 +209,8 @@ public class IMatchHelperImpl implements IMatchHelper {
 	}
 
 	/**
-	 * Berechnet wie gro� die finalen Arrays mit den gematchten Ergebnissen sein
-	 * muessen
+	 * Berechnet wie gro� die finalen Arrays mit den gematchten Ergebnissen
+	 * sein muessen
 	 * 
 	 * @throws IOException
 	 */
@@ -399,17 +392,18 @@ public class IMatchHelperImpl implements IMatchHelper {
 	// Debug-Methoden
 
 	private void writeArrayToFile(File a, File b) throws IOException {
-//		BufferedWriter outputLinks = new BufferedWriter(new OutputStreamWriter(
-//				new FileOutputStream(a)));
-		BufferedWriter outputLinks = new BufferedWriter(new FileWriter(a));
+		BufferedWriter outputLinks = new BufferedWriter(new OutputStreamWriter(
+				new FileOutputStream(a), "UTF-8"));
+		// BufferedWriter outputLinks = new BufferedWriter(new FileWriter(a));
 		for (int i = 0; i < leftFileLines.length; i++) {
 			outputLinks.write(leftFileLines[i]);
 			outputLinks.newLine();
 		}
 
-//		BufferedWriter outputRechts = new BufferedWriter(new OutputStreamWriter(
-//				new FileOutputStream(b)));
-		BufferedWriter outputRechts = new BufferedWriter(new FileWriter(b));
+		BufferedWriter outputRechts = new BufferedWriter(
+				new OutputStreamWriter(new FileOutputStream(b),
+						"UTF-8"));
+		// BufferedWriter outputRechts = new BufferedWriter(new FileWriter(b));
 		for (int i = 0; i < rightFileLines.length; i++) {
 			outputRechts.write(rightFileLines[i]);
 			outputRechts.newLine();

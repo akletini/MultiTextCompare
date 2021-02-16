@@ -192,20 +192,20 @@ public class MainView extends JFrame {
 						fileIndices.add(columnIndex);
 						fileIndices.add(rowIndex);
 
-//						if (rowIndex == columnIndex) {
-//							selectedFiles.add(entry.getValue());
-//							management
-//									.getFileSelectionController()
-//									.appendToTextArea(
-//											management
-//													.getFileSelectionView()
-//													.getModel()
-//													.get(fileIndices.get(selectedFiles
-//															.size() - 1))
-//													.split(":")[0]
-//													+ " has been selected. Total: "
-//													+ (selectedFiles.size()));
-//						}
+						// if (rowIndex == columnIndex) {
+						// selectedFiles.add(entry.getValue());
+						// management
+						// .getFileSelectionController()
+						// .appendToTextArea(
+						// management
+						// .getFileSelectionView()
+						// .getModel()
+						// .get(fileIndices.get(selectedFiles
+						// .size() - 1))
+						// .split(":")[0]
+						// + " has been selected. Total: "
+						// + (selectedFiles.size()));
+						// }
 					}
 				}
 				management.getFileSelectionController().appendToTextArea(
@@ -213,8 +213,8 @@ public class MainView extends JFrame {
 								.get(fileIndices.get(selectedFiles.size() - 2))
 								.split(":")[0]
 								+ " has been selected. Total: "
-								+ (selectedFiles.size()-1));
-				
+								+ (selectedFiles.size() - 1));
+
 				management.getFileSelectionController().appendToTextArea(
 						management.getFileSelectionView().getModel()
 								.get(fileIndices.get(selectedFiles.size() - 1))
@@ -253,6 +253,7 @@ public class MainView extends JFrame {
 								.getMode()));
 				management.getFileSelectionController().appendToTextArea(
 						"Comparison is now visible");
+//				management.getFileImporter().createDiffTempFiles(management.getFileImporter().getTempFilesMap());
 				selectedFiles.clear();
 				fileIndices.clear();
 				kreuzKlick = false;
