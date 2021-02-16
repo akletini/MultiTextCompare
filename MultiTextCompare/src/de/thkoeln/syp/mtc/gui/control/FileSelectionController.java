@@ -123,7 +123,7 @@ public class FileSelectionController extends JFrame {
 			panel.setBorder(BorderFactory.createEmptyBorder(20, 60, 20, 60));
 			panel.setLayout(new GridLayout(0, 1));
 			fd = new FileDialog(management.getFileSelectionView(),
-					"Dateiauswahl", FileDialog.LOAD);
+					"File selection", FileDialog.LOAD);
 			fd.setLocationRelativeTo(null);
 			fd.setMultipleMode(true);
 			fd.setDirectory(fileImporter.getConfig().getRootDir());
