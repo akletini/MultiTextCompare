@@ -59,6 +59,8 @@ public class ComparisonView extends JFrame {
 		for (File f : selection) {
 			temp.add(management.getFileImporter().getDiffTempFilesMap().get(f));
 		}
+		
+		
 		selection.clear();
 		selection.addAll(temp);
 
@@ -69,14 +71,15 @@ public class ComparisonView extends JFrame {
 		IDiffHelper diff = new IDiffHelperImpl();
 		IMatchHelper match = new IMatchHelperImpl();
 		try {
-
+			File[] selectedTempFiles = selection.toArray(new File[selection.size()]);
+			File[] matchedDiffFiles = match.createMatchFiles(selectedTempFiles);
 			if (selection.size() == 2) {
-				match.matchEqualLines(selection.get(0), selection.get(1));
+				match.matchEqualLines(matchedDiffFiles[0], matchedDiffFiles[1]);
 			} else if (selection.size() == 3) {
-				matchUntilFilesUnchanged(match);
+				matchUntilFilesUnchanged(match, matchedDiffFiles);
 			}
 
-			diff.computeDisplayDiff(selection.toArray(new File[selection.size()]));
+			diff.computeDisplayDiff(matchedDiffFiles);
 
 			if (selection.size() == 2) {
 				EmptyBorder eb = new EmptyBorder(new Insets(10, 10, 10, 10));
@@ -219,12 +222,12 @@ public class ComparisonView extends JFrame {
 		return null;
 	}
 
-	private boolean matchUntilFilesUnchanged(IMatchHelper match)
+	private boolean matchUntilFilesUnchanged(IMatchHelper match, File[] files)
 			throws IOException {
-		for (int i = 0; i < 1; i++) {
-			match.matchEqualLines(selection.get(0), selection.get(1));
-			match.matchEqualLines(selection.get(0), selection.get(2));
-			match.matchEqualLines(selection.get(1), selection.get(2));
+		for (int i = 0; i < 3; i++) {
+			match.matchEqualLines(files[0], files[1]);
+			match.matchEqualLines(files[0], files[2]);
+			match.matchEqualLines(files[1], files[2]);
 		}
 		return false;
 	}
