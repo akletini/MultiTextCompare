@@ -44,8 +44,8 @@ public class MainController {
 		public void actionPerformed(ActionEvent e) {
 			if (Management.getInstance().getHelpView() == null)
 				management.setHelpView(new HelpView());
-			management.getHelpView().setVisible(true);
-			management.getHelpView().toFront();
+			management.setHelpView(null);
+			management.appendToLog("Opening help file...");
 		}
 	}
 
