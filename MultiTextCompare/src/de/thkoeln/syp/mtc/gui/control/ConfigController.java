@@ -34,25 +34,25 @@ public class ConfigController {
 			fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 			fc.showOpenDialog(configView);
 			management.getFileImporter().setRootDir(fc.getSelectedFile());
-			configView.updateWurzelpfad();
+			management.updateWurzelpfad();
 			configView.pack();
 		}
 	}
 
 	class DefaultListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			configView.getCheckboxLeerzeichen().setSelected(false);
+			configView.getCheckBoxLeerzeichen().setSelected(false);
 			configView.getCheckBoxLeerzeilen().setSelected(false);
-			configView.getCheckboxSatzzeichen().setSelected(false);
-			configView.getCheckboxGrossschreibung().setSelected(false);
-			configView.getCheckboxLinematch().setSelected(false);
+			configView.getCheckBoxSatzzeichen().setSelected(false);
+			configView.getCheckBoxGrossschreibung().setSelected(false);
+			configView.getCheckBoxLinematch().setSelected(false);
 			configView.getComboBoxValidation().setSelectedIndex(0);
 			configView.getCheckBoxSortiereElemente().setSelected(false);
 			configView.getCheckBoxSortiereAttribute().setSelected(false);
 			configView.getCheckBoxLoescheAttribute().setSelected(false);
 			configView.getCheckBoxLoescheKommentare().setSelected(false);
 			configView.getCheckBoxNurTags().setSelected(false);
-			configView.getCheckboxLeerzeichen().setSelected(false);
+			configView.getCheckBoxLeerzeichen().setSelected(false);
 		}
 	}
 
@@ -60,19 +60,19 @@ public class ConfigController {
 		public void actionPerformed(ActionEvent e) {
 			IConfig config = management.getFileImporter().getConfig();
 
-			config.setBeachteLeerzeichen(configView.getCheckboxLeerzeichen()
+			config.setBeachteLeerzeichen(configView.getCheckBoxLeerzeichen()
 					.isSelected());
 
 			config.setBeachteLeerzeilen(configView.getCheckBoxLeerzeilen()
 					.isSelected());
 
 			config.setBeachteGrossschreibung(configView
-					.getCheckboxGrossschreibung().isSelected());
+					.getCheckBoxGrossschreibung().isSelected());
 
-			config.setBeachteSatzzeichen(configView.getCheckboxSatzzeichen()
+			config.setBeachteSatzzeichen(configView.getCheckBoxSatzzeichen()
 					.isSelected());
 
-			config.setLineMatch(configView.getCheckboxLinematch().isSelected());
+			config.setLineMatch(configView.getCheckBoxLinematch().isSelected());
 
 			switch (configView.getComboBoxValidation().getSelectedItem()
 					.toString()) {

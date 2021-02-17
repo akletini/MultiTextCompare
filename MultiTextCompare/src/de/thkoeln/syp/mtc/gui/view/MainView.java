@@ -46,8 +46,6 @@ public class MainView extends JFrame {
 	private JScrollPane scrollPaneMatrix, scrollPaneFiles;
 	private RowNumberTable rowTable;
 	private JTextArea textArea;
-	private Map<Double, IAehnlichkeitImpl> tempFiles;
-	private MainController mainController;
 
 	public MainView() {
 		management = Management.getInstance();
@@ -131,7 +129,7 @@ public class MainView extends JFrame {
 						int realIndex = columnModel.getColumn(index)
 								.getModelIndex();
 
-						return getPaths()[realIndex];
+						return management.getPaths()[realIndex];
 					}
 				};
 			}
@@ -177,7 +175,7 @@ public class MainView extends JFrame {
 			boolean kreuzKlick = false;
 
 			// Klick in der Matrix (Kreuzung)
-			if (tableMatrix.equals(e.getSource()) && selectedFiles.size() < 2) {
+			if (tableMatrix.equals(e.getSource())) {
 				JTable table = (JTable) e.getSource();
 				int rowIndex = table.rowAtPoint(e.getPoint());
 				int columnIndex = table.columnAtPoint(e.getPoint());
@@ -185,42 +183,43 @@ public class MainView extends JFrame {
 
 				for (Map.Entry<File, File> entry : tempFiles) {
 					if (entry.getValue().getName()
-							.equals("temp_" + (rowIndex + 1))
-							|| entry.getValue().getName()
-									.equals("temp_" + (columnIndex + 1))) {
+							.equals("temp_" + (columnIndex + 1))
+							&& !fileIndices.contains(columnIndex)) {
 						selectedFiles.add(entry.getValue());
 						fileIndices.add(columnIndex);
+					}
+					if (entry.getValue().getName()
+							.equals("temp_" + (rowIndex + 1))
+							&& !fileIndices.contains(rowIndex)) {
+						selectedFiles.add(entry.getValue());
 						fileIndices.add(rowIndex);
-
-						// if (rowIndex == columnIndex) {
-						// selectedFiles.add(entry.getValue());
-						// management
-						// .getFileSelectionController()
-						// .appendToTextArea(
-						// management
-						// .getFileSelectionView()
-						// .getModel()
-						// .get(fileIndices.get(selectedFiles
-						// .size() - 1))
-						// .split(":")[0]
-						// + " has been selected. Total: "
-						// + (selectedFiles.size()));
-						// }
 					}
 				}
-				management.getFileSelectionController().appendToTextArea(
-						management.getFileSelectionView().getModel()
-								.get(fileIndices.get(selectedFiles.size() - 2))
-								.split(":")[0]
-								+ " has been selected. Total: "
-								+ (selectedFiles.size() - 1));
 
-				management.getFileSelectionController().appendToTextArea(
-						management.getFileSelectionView().getModel()
-								.get(fileIndices.get(selectedFiles.size() - 1))
-								.split(":")[0]
-								+ " has been selected. Total: "
-								+ (selectedFiles.size()));
+				if (columnIndex == rowIndex) {
+					management.appendToLog(management.getFileSelectionView()
+							.getModel()
+							.get(fileIndices.get(selectedFiles.size() - 1))
+							.split("\\|")[0].trim()
+							+ " has been selected. Total: "
+							+ (selectedFiles.size()));
+				} else {
+					management
+							.appendToLog(management
+									.getFileSelectionView()
+									.getModel()
+									.get(fileIndices.get(selectedFiles.size() - 2))
+									.split("\\|")[0].trim()
+									+ " & "
+									+ management
+											.getFileSelectionView()
+											.getModel()
+											.get(fileIndices.get(selectedFiles
+													.size() - 1)).split("\\|")[0]
+									+ " have been selected. Total: "
+									+ (selectedFiles.size()));
+				}
+
 			}
 
 			// Klick auf Spaltenkopf
@@ -231,29 +230,29 @@ public class MainView extends JFrame {
 							.equals("temp_" + (columnIndex + 1))) {
 						selectedFiles.add(entry.getValue());
 						fileIndices.add(columnIndex);
-						management.getFileSelectionController()
-								.appendToTextArea(
-										management
-												.getFileSelectionView()
-												.getModel()
-												.get(fileIndices
-														.get(selectedFiles
-																.size() - 1))
-												.split(":")[0]
-												+ " has been selected. Total: "
-												+ (selectedFiles.size()));
+						management.appendToLog(management
+								.getFileSelectionView().getModel()
+								.get(fileIndices.get(selectedFiles.size() - 1))
+								.split("\\|")[0].trim()
+								+ " has been selected. Total: "
+								+ (selectedFiles.size()));
 					}
 				}
 			}
 
-			if ((selectedFiles.size() == 2 && kreuzKlick == true)
+			if (selectedFiles.size() > 3) {
+				management
+						.appendToLog("Error! Only 2 or 3 files can be compared at once.");
+				selectedFiles.clear();
+				fileIndices.clear();
+				kreuzKlick = false;
+
+			} else if ((selectedFiles.size() == 2 && kreuzKlick == true)
 					|| selectedFiles.size() == 3) {
 				management.setComparisonView(new ComparisonView(selectedFiles,
-						fileIndices, management.getFileSelectionController()
-								.getMode()));
-				management.getFileSelectionController().appendToTextArea(
-						"Comparison is now visible");
-//				management.getFileImporter().createDiffTempFiles(management.getFileImporter().getTempFilesMap());
+						fileIndices));
+				management.appendToLog("Comparison is now visible");
+				// management.getFileImporter().createDiffTempFiles(management.getFileImporter().getTempFilesMap());
 				selectedFiles.clear();
 				fileIndices.clear();
 				kreuzKlick = false;
@@ -270,30 +269,23 @@ public class MainView extends JFrame {
 		return Color.getHSBColor((float) h, (float) s, (float) b);
 	}
 
-	private String[] getPaths() {
-		String[] pathArray = new String[management.getFileImporter()
-				.getTextdateien().size()];
-		for (int i = 0; i < management.getFileImporter().getTextdateien()
-				.size(); i++) {
-			pathArray[i] = management.getFileImporter().getTextdateien().get(i)
-					.getAbsolutePath();
-		}
-		return pathArray;
-	}
-
 	public JTextArea getTextArea() {
 		return textArea;
 	}
 
-	public void addDateiauswahlListener(ActionListener e) {
+	public void addFileSelectionListener(ActionListener e) {
 		btnDateiauswahl.addActionListener(e);
 	}
 
-	public void addKonfigurationListener(ActionListener e) {
+	public void addConfigListener(ActionListener e) {
 		btnKonfig.addActionListener(e);
 	}
 
-	public void addHilfeListener(ActionListener e) {
+	public void addHelpListener(ActionListener e) {
 		btnHilfe.addActionListener(e);
+	}
+
+	public void addAboutListener(ActionListener e) {
+		btnAbout.addActionListener(e);
 	}
 }

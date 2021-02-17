@@ -32,9 +32,9 @@ public class PopupView extends JFrame {
 		this.add(panel, BorderLayout.CENTER);
 		this.setTitle(name);
 		this.pack();
-		this.setVisible(true);
 		this.setLocationRelativeTo(null);
 		this.getRootPane().setDefaultButton(btnOk);
+		this.setVisible(true);
 		popupController = new PopupController(this);
 	}
 

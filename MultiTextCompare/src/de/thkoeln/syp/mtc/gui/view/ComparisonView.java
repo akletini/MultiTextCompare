@@ -1,8 +1,11 @@
 package de.thkoeln.syp.mtc.gui.view;
 
 import java.awt.Color;
-import java.awt.FlowLayout;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,7 +14,10 @@ import java.util.Map.Entry;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.SimpleAttributeSet;
@@ -28,26 +34,78 @@ import de.thkoeln.syp.mtc.steuerung.services.IMatchHelper;
 
 public class ComparisonView extends JFrame {
 	private Management management;
-	private JPanel panel;
+	private IDiffHelper diffHelper;
+	private IMatchHelper matchHelper;
+	private File[] selectedTempFiles, matchedDiffFiles;
 	private List<File> selection;
 	private List<File> temp;
-	private Color backgroundColor;
-	private JTextPane tPane1, tPane2, tPane3;
+	private String fileName1, fileName2, fileName3;
+	private JTextPane tPaneLeft, tPaneMid, tPaneRight;
+	private JScrollPane scrollPaneLeft, scrollPaneMid, scrollPaneRight,
+			scrollPaneMain;
+	private JPanel panel;
 
-	// mode 0 = .txt, mode 1 = .xml
-	public ComparisonView(List<File> selectedList, List<Integer> fileIndices,
-			int mode) {
+	public ComparisonView(List<File> selectedList, List<Integer> fileIndices) {
+		// Management
 		management = Management.getInstance();
-		selection = new ArrayList<File>();
-		temp = new ArrayList<File>();
 		if (management.getComparisonView() != null)
 			management.getComparisonView().dispose();
-		panel = new JPanel();
-		tPane1 = new JTextPane();
-		tPane2 = new JTextPane();
-		tPane3 = new JTextPane();
-		backgroundColor = new Color(20, 20, 20);
 
+		// Variablen fuer den Vergleich
+		diffHelper = new IDiffHelperImpl();
+		matchHelper = new IMatchHelperImpl();
+		selection = new ArrayList<File>();
+		temp = new ArrayList<File>();
+		
+		// Dateinamen werden ermittelt fuer die Anzeige im Frame Titel
+		fileName1 = management.getFileSelectionView().getModel()
+				.get(fileIndices.get(0)).split("\\|")[0];
+		fileName2 = management.getFileSelectionView().getModel()
+				.get(fileIndices.get(1)).split("\\|")[0];
+		fileName3 = "";
+		
+		// -- Alle Container --
+		
+		tPaneLeft = new NoWrapJTextPane();
+		tPaneMid = new NoWrapJTextPane();
+		tPaneRight = new NoWrapJTextPane();
+		scrollPaneLeft = new JScrollPane(tPaneLeft);
+		scrollPaneMid = new JScrollPane(tPaneMid);
+		scrollPaneRight = new JScrollPane(tPaneRight);
+		panel = new JPanel();
+		scrollPaneMain = new JScrollPane(panel);
+
+		setupTextPane(tPaneLeft);
+		setupTextPane(tPaneMid);
+		setupTextPane(tPaneRight);
+
+		scrollPaneLeft
+				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+		scrollPaneLeft
+				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		
+		scrollPaneMid
+		.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+		scrollPaneMid
+		.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		
+		scrollPaneRight
+				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+
+		new ScrollBarSynchronizer(scrollPaneLeft.getVerticalScrollBar(),
+				scrollPaneMid.getVerticalScrollBar(),
+				scrollPaneRight.getVerticalScrollBar());
+
+		
+		panel.setPreferredSize(new Dimension(200, 200));
+		
+		scrollPaneMain.setViewportView(panel);
+		scrollPaneMain
+				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+		
+		// Anzeige wird vorbereitet
+		
 		for (File f : selectedList) {
 			for (Entry<File, File> entry : management.getFileImporter()
 					.getTempFilesMap().entrySet()) {
@@ -59,120 +117,63 @@ public class ComparisonView extends JFrame {
 		for (File f : selection) {
 			temp.add(management.getFileImporter().getDiffTempFilesMap().get(f));
 		}
-		
-		
+
 		selection.clear();
 		selection.addAll(temp);
 
 		if (selection.size() == 1)
 			selection.add(selection.get(0));
-		
-		
-		IDiffHelper diff = new IDiffHelperImpl();
-		IMatchHelper match = new IMatchHelperImpl();
+
 		try {
-			File[] selectedTempFiles = selection.toArray(new File[selection.size()]);
-			File[] matchedDiffFiles = match.createMatchFiles(selectedTempFiles);
+			selectedTempFiles = selection.toArray(new File[selection.size()]);
+			matchedDiffFiles = matchHelper.createMatchFiles(selectedTempFiles);
 			if (selection.size() == 2) {
-				match.matchEqualLines(matchedDiffFiles[0], matchedDiffFiles[1]);
+				matchHelper.matchEqualLines(matchedDiffFiles[0],
+						matchedDiffFiles[1]);
 			} else if (selection.size() == 3) {
-				matchUntilFilesUnchanged(match, matchedDiffFiles);
+				matchUntilFilesUnchanged(matchHelper, matchedDiffFiles);
 			}
 
-			diff.computeDisplayDiff(matchedDiffFiles);
+			diffHelper.computeDisplayDiff(matchedDiffFiles);
 
+			// -- Fuer 2 Dateien --
 			if (selection.size() == 2) {
-				EmptyBorder eb = new EmptyBorder(new Insets(10, 10, 10, 10));
-
-				tPane1.setBorder(eb);
-				tPane3.setBorder(eb);
-
-				tPane1.setMargin(new Insets(5, 5, 5, 5));
-				tPane1.setBackground(backgroundColor);
-
-				tPane3.setMargin(new Insets(5, 5, 5, 5));
-				tPane3.setBackground(backgroundColor);
-
-				panel.add(tPane1);
-				panel.add(tPane3);
-
-				for (IDiffLine diffLine : diff.getLeftLines()) {
-					for (IDiffChar diffChar : diffLine.getDiffedLine()) {
-						appendToPane(tPane1, diffChar.getCurrentChar()
-								.toString(),
-								stringToColor(diffChar.getCharColor()));
-					}
-				}
-
-				for (IDiffLine diffLine : diff.getRightLines()) {
-					for (IDiffChar diffChar : diffLine.getDiffedLine()) {
-						appendToPane(tPane3, diffChar.getCurrentChar()
-								.toString(),
-								stringToColor(diffChar.getCharColor()));
-					}
-				}
+				panel.setLayout(new GridLayout(0, 2));
+				panel.add(scrollPaneLeft);
+				panel.add(scrollPaneRight);
+				
+				diffWriter(diffHelper.getLeftLines(), tPaneLeft);
+				diffWriter(diffHelper.getRightLines(), tPaneRight);
+				
+				tPaneLeft.setCaretPosition(0);
+				tPaneRight.setCaretPosition(0);
 			}
+
+			// -- Fuer 3 Dateien --
 			if (selection.size() == 3) {
-				EmptyBorder eb = new EmptyBorder(new Insets(10, 10, 10, 10));
-
-				tPane1.setBorder(eb);
-				tPane2.setBorder(eb);
-				tPane3.setBorder(eb);
-
-				tPane1.setMargin(new Insets(5, 5, 5, 5));
-				tPane1.setBackground(backgroundColor);
-
-				tPane2.setMargin(new Insets(5, 5, 5, 5));
-				tPane2.setBackground(backgroundColor);
-
-				tPane3.setMargin(new Insets(5, 5, 5, 5));
-				tPane3.setBackground(backgroundColor);
-
-				panel.add(tPane1);
-				panel.add(tPane2);
-				panel.add(tPane3);
-
-				for (IDiffLine diffLine : diff.getLeftLines()) {
-					for (IDiffChar diffChar : diffLine.getDiffedLine()) {
-						appendToPane(tPane1, diffChar.getCurrentChar()
-								.toString(),
-								stringToColor(diffChar.getCharColor()));
-					}
-				}
-				for (IDiffLine diffLine : diff.getMiddleLines()) {
-					for (IDiffChar diffChar : diffLine.getDiffedLine()) {
-						appendToPane(tPane2, diffChar.getCurrentChar()
-								.toString(),
-								stringToColor(diffChar.getCharColor()));
-					}
-				}
-
-				for (IDiffLine diffLine : diff.getRightLines()) {
-					for (IDiffChar diffChar : diffLine.getDiffedLine()) {
-						appendToPane(tPane3, diffChar.getCurrentChar()
-								.toString(),
-								stringToColor(diffChar.getCharColor()));
-					}
-				}
-
-			}
-			getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-
-			this.getContentPane().add(panel);
-			String file1Name = management.getFileSelectionView().getModel()
-					.get(fileIndices.get(0)).split(":")[0];
-			String file2Name = management.getFileSelectionView().getModel()
-					.get(fileIndices.get(1)).split(":")[0];
-			String file3Name = "";
-			if (fileIndices.size() == 3) {
-				file3Name = " <-> "
+				fileName3 = " <-> "
 						+ management.getFileSelectionView().getModel()
-								.get(fileIndices.get(2)).split(":")[0];
+								.get(fileIndices.get(2)).split("\\|")[0];
+				
+				panel.setLayout(new GridLayout(0, 3));
+				panel.add(scrollPaneLeft);
+				panel.add(scrollPaneMid);
+				panel.add(scrollPaneRight);
+
+				diffWriter(diffHelper.getLeftLines(), tPaneLeft);
+				diffWriter(diffHelper.getMiddleLines(), tPaneMid);
+				diffWriter(diffHelper.getRightLines(), tPaneRight);
+
+				tPaneLeft.setCaretPosition(0);
+				tPaneMid.setCaretPosition(0);
+				tPaneRight.setCaretPosition(0);
 			}
 
-			this.setTitle("Selected:     " + file1Name + " <-> " + file2Name
-					+ file3Name);
-			this.pack();
+			// Frame
+			this.add(scrollPaneMain);
+			this.setTitle("Selected:     " + fileName1 + " <-> " + fileName2
+					+ fileName3);
+			this.setSize(1000, 500);
 			this.setVisible(true);
 			this.setLocationRelativeTo(null);
 
@@ -183,7 +184,17 @@ public class ComparisonView extends JFrame {
 
 	}
 
-	private void appendToPane(JTextPane tp, String msg, Color c) {
+	
+	// Setup der TextPanes
+	private void setupTextPane(JTextPane textPane){
+		textPane.setBorder(new EmptyBorder(new Insets(10, 10, 10, 10)));
+		textPane.setMargin(new Insets(5, 5, 5, 5));
+		textPane.setBackground(new Color(20, 20, 20));
+		textPane.setPreferredSize((new Dimension(500, 200)));
+	}
+	
+	// Schreibt eine Zeile in die TextPane
+	private void appendToPane(JTextPane textPane, String msg, Color c) {
 		StyleContext sc = StyleContext.getDefaultStyleContext();
 		AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY,
 				StyleConstants.Foreground, c);
@@ -194,12 +205,24 @@ public class ComparisonView extends JFrame {
 				StyleConstants.ALIGN_JUSTIFIED);
 		aset = sc.addAttribute(aset, StyleConstants.FontSize, 12);
 
-		int len = tp.getDocument().getLength();
-		tp.setCaretPosition(len);
-		tp.setCharacterAttributes(aset, false);
-		tp.replaceSelection(msg);
+		int len = textPane.getDocument().getLength();
+		textPane.setCaretPosition(len);
+		textPane.setCharacterAttributes(aset, false);
+		textPane.replaceSelection(msg);
+	}
+	
+	// Befuellt eine TextPane
+	private void diffWriter(List <IDiffLine> lineList, JTextPane textPane){
+		for (IDiffLine diffLine : lineList) {
+			for (IDiffChar diffChar : diffLine.getDiffedLine()) {
+				appendToPane(textPane, diffChar.getCurrentChar()
+						.toString(),
+						stringToColor(diffChar.getCharColor()));
+			}
+		}
 	}
 
+	// Wandelt String mit Farbbezeichnung in Color um
 	private Color stringToColor(String string) {
 		if (string.equals("WHITE")) {
 			return Color.WHITE;
@@ -222,6 +245,7 @@ public class ComparisonView extends JFrame {
 		return null;
 	}
 
+	// Fuer das Matchen der Lines
 	private boolean matchUntilFilesUnchanged(IMatchHelper match, File[] files)
 			throws IOException {
 		for (int i = 0; i < 3; i++) {
@@ -230,5 +254,50 @@ public class ComparisonView extends JFrame {
 			match.matchEqualLines(files[1], files[2]);
 		}
 		return false;
+	}
+
+	// Extraklasse um die Scrollbars der einzelnen ScrollPanes zu
+	// synchronisieren
+	static class ScrollBarSynchronizer implements AdjustmentListener {
+		JScrollBar[] scrollBars;
+
+		public ScrollBarSynchronizer(JScrollBar... scrollBars) {
+			this.scrollBars = scrollBars;
+
+			for (JScrollBar scrollBar : scrollBars)
+				scrollBar.addAdjustmentListener(this);
+		}
+
+		@Override
+		public void adjustmentValueChanged(AdjustmentEvent e) {
+			JScrollBar source = (JScrollBar) e.getSource();
+			int value = e.getValue();
+
+			for (JScrollBar scrollBar : scrollBars) {
+				if (scrollBar != source) {
+					scrollBar.removeAdjustmentListener(this);
+					scrollBar.setValue(value);
+					scrollBar.addAdjustmentListener(this);
+				}
+			}
+		}
+	}
+
+	// Extra JTextPane Klasse, die "Word Wrapping" verhindert
+	public class NoWrapJTextPane extends JTextPane {
+		@Override
+		public boolean getScrollableTracksViewportWidth() {
+			// Only track viewport width when the viewport is wider than the
+			// preferred width
+			return getUI().getPreferredSize(this).width <= getParent()
+					.getSize().width;
+		};
+
+		@Override
+		public Dimension getPreferredSize() {
+			// Avoid substituting the minimum width for the preferred width when
+			// the viewport is too narrow
+			return getUI().getPreferredSize(this);
+		};
 	}
 }

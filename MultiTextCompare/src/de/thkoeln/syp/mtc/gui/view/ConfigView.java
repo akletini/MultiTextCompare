@@ -18,9 +18,8 @@ import de.thkoeln.syp.mtc.gui.control.Management;
 
 public class ConfigView extends JFrame {
 	private Management management;
-	private ConfigController configController;
 	private JPanel panel;
-	private JLabel lblWurzelpfad, lblAllgemein, lblXml, lblLeerzeichen,
+	private JLabel lblRootPath, lblAllgemein, lblXml, lblLeerzeichen,
 			lblLeerzeilen, lblSatzzeichen, lblGrossschreibung,
 			lblWurzelverzeichnis, lblLinematch, lblValidation,
 			lblSortiereElemente, lblSortiereAttribute, lblLoescheAttribute,
@@ -48,8 +47,8 @@ public class ConfigView extends JFrame {
 		lblWurzelverzeichnis = new JLabel("Root path ");
 		lblWurzelverzeichnis.setFont(new Font("Tahoma", Font.BOLD, 12));
 		panel.add(lblWurzelverzeichnis, "cell 0 1,grow");
-		lblWurzelpfad = new JLabel(config.getRootDir());
-		panel.add(lblWurzelpfad, "cell 1 1 4 1,grow");
+		lblRootPath = new JLabel(config.getRootDir());
+		panel.add(lblRootPath, "cell 1 1 4 1,grow");
 
 		// Buttons
 		btnWurzelverzeichnis = new JButton("Select");
@@ -154,7 +153,6 @@ public class ConfigView extends JFrame {
 		this.getContentPane().add(panel);
 		this.setTitle("Configuration");
 		this.pack();
-		this.setVisible(true);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		
@@ -174,12 +172,7 @@ public class ConfigView extends JFrame {
 		btnSpeichern.addActionListener(e);
 	}
 
-	public void updateWurzelpfad() {
-		lblWurzelpfad.setText(management.getFileImporter().getConfig()
-				.getRootDir());
-	}
-
-	public JCheckBox getCheckboxLeerzeichen() {
+	public JCheckBox getCheckBoxLeerzeichen() {
 		return checkBoxLeerzeichen;
 	}
 
@@ -187,15 +180,15 @@ public class ConfigView extends JFrame {
 		return checkBoxLeerzeilen;
 	}
 
-	public JCheckBox getCheckboxSatzzeichen() {
+	public JCheckBox getCheckBoxSatzzeichen() {
 		return checkBoxSatzzeichen;
 	}
 
-	public JCheckBox getCheckboxGrossschreibung() {
+	public JCheckBox getCheckBoxGrossschreibung() {
 		return checkBoxGrossschreibung;
 	}
 
-	public JCheckBox getCheckboxLinematch() {
+	public JCheckBox getCheckBoxLinematch() {
 		return checkBoxLinematch;
 	}
 
@@ -221,6 +214,10 @@ public class ConfigView extends JFrame {
 
 	public JCheckBox getCheckBoxNurTags() {
 		return checkBoxNurTags;
+	}
+	
+	public JLabel getLblRootPath(){
+		return lblRootPath;
 	}
 
 }

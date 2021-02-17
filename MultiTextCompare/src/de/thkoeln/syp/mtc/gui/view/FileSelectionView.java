@@ -38,7 +38,8 @@ public class FileSelectionView extends JFrame {
 		// Panel
 		panel = new JPanel();
 		panel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		panel.setLayout(new MigLayout("", "[][100px,grow,center][]", "[][][][10px][5][grow][][][][][][][10][]"));
+		panel.setLayout(new MigLayout("", "[][100px,grow,center][]",
+				"[][][][10px][5][grow][][][][][][][10][]"));
 
 		// Label, Eingabefeld Buttons, Radiobuttons
 		lblRoot = new JLabel("Root path:");
@@ -115,11 +116,10 @@ public class FileSelectionView extends JFrame {
 		// Frame
 		this.setContentPane(panel);
 		this.setTitle("File selection");
-		this.setVisible(true);
 		this.setBounds(100, 100, 750, 500);
-		this.setLocationRelativeTo(null);
 		this.getRootPane().setDefaultButton(btnSearch);
 		this.pack();
+		this.setLocationRelativeTo(null);
 	}
 
 	public JLabel getLblRootPath() {

@@ -2,8 +2,8 @@ package de.thkoeln.syp.mtc.gui.control;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
+import de.thkoeln.syp.mtc.gui.view.AboutView;
 import de.thkoeln.syp.mtc.gui.view.ConfigView;
 import de.thkoeln.syp.mtc.gui.view.FileSelectionView;
 import de.thkoeln.syp.mtc.gui.view.HelpView;
@@ -15,12 +15,13 @@ public class MainController {
 	public MainController(MainView mainView) {
 		management = Management.getInstance();
 		management.setMainController(this);
-		mainView.addDateiauswahlListener(new DateiauswahlListener());
-		mainView.addKonfigurationListener(new KonfigurationListener());
-		mainView.addHilfeListener(new HilfeListener());
+		mainView.addFileSelectionListener(new FileSelectionListener());
+		mainView.addConfigListener(new ConfigListener());
+		mainView.addHelpListener(new HelpListener());
+		mainView.addAboutListener(new AboutListener());
 	}
 
-	class DateiauswahlListener implements ActionListener {
+	class FileSelectionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 
 			if (Management.getInstance().getFileSelectionView() == null)
@@ -30,18 +31,30 @@ public class MainController {
 		}
 	}
 
-	class KonfigurationListener implements ActionListener {
+	class ConfigListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			if (Management.getInstance().getKonfigurationView() == null)
-				management.setKonfigurationView(new ConfigView());
-			management.getKonfigurationView().setVisible(true);
-			management.getKonfigurationView().toFront();
+			if (Management.getInstance().getConfigView() == null)
+				management.setConfigView(new ConfigView());
+			management.getConfigView().setVisible(true);
+			management.getConfigView().toFront();
 		}
 	}
 
-	class HilfeListener implements ActionListener {
+	class HelpListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			new HelpView();
+			if (Management.getInstance().getHelpView() == null)
+				management.setHelpView(new HelpView());
+			management.getHelpView().setVisible(true);
+			management.getHelpView().toFront();
+		}
+	}
+
+	class AboutListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			if (Management.getInstance().getAboutView() == null)
+				management.setAboutView(new AboutView());
+			management.getAboutView().setVisible(true);
+			management.getAboutView().toFront();
 		}
 	}
 }
