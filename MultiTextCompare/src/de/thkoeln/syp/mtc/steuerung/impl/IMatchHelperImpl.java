@@ -32,7 +32,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 	// Anzahl der Zeilen, fuer die nach einer identischen Zeile gesucht wird
 	private final int LOOKAHEAD = 5;
 	// �hnlichkeit ab der Zeilen gematcht werden (Wert von 0 bis 1)
-	private final double MATCH_AT = 0.8;
+	private final double MATCH_AT = 0.5;
 
 	private int leftSize = 0, rightSize = 0;
 
@@ -61,6 +61,10 @@ public class IMatchHelperImpl implements IMatchHelper {
 
 		lineCountLeft = getLineCounts(a, leftFile);
 		lineCountRight = getLineCounts(b, rightFile);
+
+		if (lineCountLeft == 0 || lineCountRight == 0) {
+			return;
+		}
 
 		if (lineCountLeft == Math.min(lineCountLeft, lineCountRight)) {
 			reference = leftFile.get(0);
@@ -98,8 +102,9 @@ public class IMatchHelperImpl implements IMatchHelper {
 			fillInBetweenMatches(oldIndeces);
 			writeArrayToFile(a, b);
 		} else {
-
+			return;
 		}
+
 	}
 
 	/**

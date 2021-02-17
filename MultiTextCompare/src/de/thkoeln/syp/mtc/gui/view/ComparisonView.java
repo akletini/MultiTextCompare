@@ -248,7 +248,7 @@ public class ComparisonView extends JFrame {
 	// Fuer das Matchen der Lines
 	private boolean matchUntilFilesUnchanged(IMatchHelper match, File[] files)
 			throws IOException {
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 2; i++) {
 			match.matchEqualLines(files[0], files[1]);
 			match.matchEqualLines(files[0], files[2]);
 			match.matchEqualLines(files[1], files[2]);

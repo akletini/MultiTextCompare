@@ -22,6 +22,8 @@ public class IDiffHelperImpl implements IDiffHelper {
 	private List<IDiffLine> leftLines;
 	private List<IDiffLine> middleLines;
 	private List<IDiffLine> rightLines;
+	
+	private final double minCommonality = 0.33;
 
 	public IDiffHelperImpl() {
 		leftLines = new ArrayList<IDiffLine>();
@@ -67,7 +69,7 @@ public class IDiffHelperImpl implements IDiffHelper {
 						right);
 
 				if (comparator.getScript().getLCSLength() > (Math.max(
-						left.length(), right.length()) * 0.4)) {
+						left.length(), right.length()) * minCommonality)) {
 					/*
 					 * If both lines have atleast 40% commonality then only
 					 * compare with each other so that they are aligned with
@@ -128,7 +130,7 @@ public class IDiffHelperImpl implements IDiffHelper {
 						right);
 
 				if (comparator1.getScript().getLCSLength() > (Math.max(
-						left.length(), middle.length()) * 0.4)) {
+						left.length(), middle.length()) * minCommonality)) {
 					/*
 					 * If both lines have atleast 40% commonality then only
 					 * compare with each other so that they are aligned with
@@ -160,7 +162,7 @@ public class IDiffHelperImpl implements IDiffHelper {
 				}
 
 				if (comparator2.getScript().getLCSLength() > (Math.max(
-						left.length(), right.length()) * 0.4)) {
+						left.length(), right.length()) * minCommonality)) {
 					/*
 					 * If both lines have atleast 40% commonality then only
 					 * compare with each other so that they are aligned with
@@ -225,7 +227,7 @@ public class IDiffHelperImpl implements IDiffHelper {
 			StringsComparator comparator = new StringsComparator(middle, right);
 
 			if (comparator.getScript().getLCSLength() > (Math.max(
-					middle.length(), right.length()) * 0.4)) {
+					middle.length(), right.length()) * minCommonality)) {
 				/*
 				 * If both lines have atleast 40% commonality then only compare
 				 * with each other so that they are aligned with each other in
@@ -636,7 +638,7 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 	}
 
 	/**
-	 * Behebt Verhalten, bei dem Leerzeilen falls vom Algorithmus markiert
+	 * Behebt Verhalten, bei dem Leerzeilen falsch vom Algorithmus markiert
 	 * werden. Prueft manuell ob in allen drei Dateien an der gleichen Zeile
 	 * eine Leerzeile steht und faerbt diese korrekt ein
 	 */

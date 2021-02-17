@@ -3,7 +3,13 @@ package de.thkoeln.syp.mtc.gui.control;
 import java.awt.FileDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -12,12 +18,14 @@ import java.util.List;
 import javax.swing.Action;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JPanel;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IMatrix;
 import de.thkoeln.syp.mtc.datenhaltung.api.IXMLParseError;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IMatrixImpl;
 import de.thkoeln.syp.mtc.gui.view.FileSelectionView;
+import de.thkoeln.syp.mtc.gui.view.FileView;
 import de.thkoeln.syp.mtc.gui.view.PopupView;
 import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
 import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
@@ -57,6 +65,7 @@ public class FileSelectionController extends JFrame {
 		fileSelectionView.addDeleteListener(new DeleteListener());
 		fileSelectionView.addResetListener(new ResetListener());
 		fileSelectionView.addCompareListener(new CompareListener());
+		fileSelectionView.addFileViewListener(new FileViewListener());
 
 		// Wurzelverzeichnis anzeigen
 		fileSelectionView.getLblRootPath().setText(
@@ -235,6 +244,40 @@ public class FileSelectionController extends JFrame {
 						+ " files has been created successfully!");
 			}
 
+		}
+	}
+	
+	class FileViewListener extends MouseAdapter {
+		
+		public void mouseClicked(MouseEvent evt){
+			
+			JList list = (JList) evt.getSource();
+			if(Management.getInstance().getFileView() == null){
+				management.setFileView(new FileView());
+			}
+			if (evt.getClickCount() == 2){	
+				
+				
+				int index = list.locationToIndex(evt.getPoint());
+				String fileName = management.getFileSelectionView().getModel().get(index).split("\\|")[1].trim();
+				File selectedFile = new File(fileName);
+				
+				try {
+					BufferedReader input = new BufferedReader(new InputStreamReader(
+					          new FileInputStream(selectedFile), "UTF-8"));
+					management.getFileView().getTextArea().setText(null);
+					management.getFileView().getTextArea().read(input, "Reading file...");
+					management.getFileView().getTextArea().setCaretPosition(0);
+					
+					management.getFileView().getFrame().setTitle(fileName);
+					management.getFileView().getFrame().setVisible(true);
+					
+				} catch (IOException e) {
+
+					e.printStackTrace();
+				}
+				
+			}
 		}
 	}
 

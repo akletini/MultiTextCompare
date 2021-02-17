@@ -9,6 +9,7 @@ import de.thkoeln.syp.mtc.gui.view.AboutView;
 import de.thkoeln.syp.mtc.gui.view.ComparisonView;
 import de.thkoeln.syp.mtc.gui.view.ConfigView;
 import de.thkoeln.syp.mtc.gui.view.FileSelectionView;
+import de.thkoeln.syp.mtc.gui.view.FileView;
 import de.thkoeln.syp.mtc.gui.view.HelpView;
 import de.thkoeln.syp.mtc.gui.view.MainView;
 import de.thkoeln.syp.mtc.steuerung.impl.IFileImporterImpl;
@@ -27,6 +28,7 @@ public class Management {
 	private ConfigView configView;
 	private MainView mainView;
 	private AboutView aboutView;
+	private FileView fileView;
 
 	private FileSelectionController fileSelectionController;
 	private ConfigController configController;
@@ -98,6 +100,14 @@ public class Management {
 	public void setAboutView(AboutView aboutView) {
 		this.aboutView = aboutView;
 	}
+	
+	public void setFileView(FileView fileView){
+		this.fileView = fileView;
+	}
+	
+	public FileView getFileView(){
+		return fileView;
+	}
 
 	public FileSelectionController getFileSelectionController() {
 		return fileSelectionController;
@@ -147,6 +157,8 @@ public class Management {
 	public void setXmlvergleicher(IXMLvergleicher xmlvergleicher) {
 		this.xmlvergleicher = xmlvergleicher;
 	}
+	
+	
 
 	// Aktualisiert Wurzelpfad Anzeige in fileSelectionView & configView
 	public void updateWurzelpfad() {
