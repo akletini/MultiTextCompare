@@ -244,7 +244,7 @@ public class FileSelectionController extends JFrame {
 						double time_difference = (end_time - start_time) / 1e6;
 						String timeDiffAsString;
 						if(time_difference > 1000){
-							time_difference *= 1000;
+							time_difference /= 1000;
 							timeDiffAsString = " (time taken: "
 									+ time_difference + " s)";
 						}
