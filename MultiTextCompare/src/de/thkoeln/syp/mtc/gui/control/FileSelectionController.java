@@ -90,8 +90,9 @@ public class FileSelectionController extends JFrame {
 
 	class SearchListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			List<File> reference = new ArrayList<File>(fileImporter.getTextdateien());
-			
+			List<File> reference = new ArrayList<File>(
+					fileImporter.getTextdateien());
+
 			// Importiert & startet Suche ueber Wurzelverzeichnis
 			fileImporter.importTextRoot(management.getFileSelectionView()
 					.getTextFieldFileName().getText()
@@ -103,7 +104,7 @@ public class FileSelectionController extends JFrame {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			
+
 			// Gibt einen Hinweis aus, falls keine neuen Dateien gefunden wurden
 			if (fileImporter.getTextdateien().equals(reference))
 				new PopupView("Hinweis",
@@ -112,8 +113,7 @@ public class FileSelectionController extends JFrame {
 			// Aktualisiert Anzeige
 			setRdbtn(fileImporter.getTextdateien().isEmpty());
 			updateListFilePath();
-			
-			
+
 			fileImporter.getConfig().setDateiname(
 					management.getFileSelectionView().getTextFieldFileName()
 							.getText());
@@ -184,99 +184,134 @@ public class FileSelectionController extends JFrame {
 	}
 
 	class CompareListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
-			int anzDateien = fileImporter.getTextdateien().size();
-			if (anzDateien < 2) {
-				new PopupView("Error",
-						"Please select at least two files for comparison");
-				return;
-			}
+		public void actionPerformed(ActionEvent e){
 
-			fileImporter.deleteTempFiles();
-			fileImporter.createTempFiles();
-			xmlvergleicher.clearErrorList();
+			management.appendToLog("Start comparing...");
+			Thread comparisonThread = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						long start_time = System.nanoTime();
+						int anzDateien = fileImporter.getTextdateien().size();
+						if (anzDateien < 2) {
+							new PopupView("Error",
+									"Please select at least two files for comparison");
+							return;
+						}
 
-			// XML Vergleich
-			if (mode == 1) {
-				fileImporter.createDiffTempFiles(xmlvergleicher
-						.xmlPrepare(fileImporter.getTempFilesMap()));
-				for (IXMLParseError error : xmlvergleicher.getErrorList())
-					management.appendToLog(error.getMessage());
-			}
-			// Standard Vergleich
-			else {
-				fileImporter
-						.createDiffTempFiles(fileImporter.getTempFilesMap());
-			}
+						fileImporter.deleteTempFiles();
+						fileImporter.createTempFiles();
+						xmlvergleicher.clearErrorList();
 
-			// Vergleich
-			fileImporter.normTempFiles();
-			textvergleicher.getTempfilesFromHashMap(management
-					.getFileImporter().getTempFilesMap());
-			textvergleicher.getVergleiche(textvergleicher.getTempFiles());
+						// XML Vergleich
+						if (mode == 1) {
+							fileImporter.createDiffTempFiles(xmlvergleicher
+									.xmlPrepare(fileImporter.getTempFilesMap()));
+							for (IXMLParseError error : xmlvergleicher
+									.getErrorList())
+								management.appendToLog(error.getMessage());
+						}
+						// Standard Vergleich
+						else {
+							fileImporter.createDiffTempFiles(fileImporter
+									.getTempFilesMap());
+						}
 
-			if (fileImporter.getConfig().getLineMatch() == false) {
-				textvergleicher.vergleicheUeberGanzesDokument();
-			} else {
-				textvergleicher.vergleicheZeilenweise();
-			}
+						// Vergleich
+						fileImporter.normTempFiles();
+						textvergleicher.getTempfilesFromHashMap(management
+								.getFileImporter().getTempFilesMap());
+						textvergleicher.getVergleiche(textvergleicher
+								.getTempFiles());
 
-			management.getMainView().updateMatrix(textvergleicher.getMatrix(),
-					anzDateien, getFileNames(anzDateien));
+						if (fileImporter.getConfig().getLineMatch() == false) {
+							textvergleicher.vergleicheUeberGanzesDokument();
+						} else {
+							textvergleicher.vergleicheZeilenweise();
 
-			lastComparisonFiles.clear();
-			lastComparisonFiles.addAll(fileImporter.getTextdateien());
+						}
 
-			// for(int i=0;
-			// i<management.getFileSelectionView().getListFilePath(); i++)
+						management.getMainView().updateMatrix(
+								textvergleicher.getMatrix(), anzDateien,
+								getFileNames(anzDateien));
 
-			if (!xmlvergleicher.getErrorList().isEmpty()) {
-				management
-						.appendToLog("A matrix with "
-								+ anzDateien
-								+ " files has been created, but the file selection contained "
-								+ xmlvergleicher.getErrorList().size()
-								+ " XML errors.");
-			}
+						lastComparisonFiles.clear();
+						lastComparisonFiles.addAll(fileImporter
+								.getTextdateien());
 
-			else {
-				management.appendToLog("A matrix with " + anzDateien
-						+ " files has been created successfully!");
-			}
+			
+						long end_time = System.nanoTime();
+						double time_difference = (end_time - start_time) / 1e6;
+						String timeDiffAsString;
+						if(time_difference > 1000){
+							time_difference *= 1000;
+							timeDiffAsString = " (time taken: "
+									+ time_difference + " s)";
+						}
+						else {
+							timeDiffAsString = " (time taken: "
+									+ time_difference + " ms)";
+						}
+						if (!xmlvergleicher.getErrorList().isEmpty()) {
+							management
+									.appendToLog("A matrix with "
+											+ anzDateien
+											+ " files has been created, but the file selection contained "
+											+ xmlvergleicher.getErrorList()
+													.size() + " XML errors."
+											+ timeDiffAsString);
+						}
 
+						else {
+							management.appendToLog("A matrix with "
+									+ anzDateien
+									+ " files has been created successfully!"
+									+ timeDiffAsString);
+						}
+					} catch (final Exception ex) {
+						
+					}
+				}
+
+			});
+			
+			comparisonThread.start();
+			
 		}
 	}
-	
+
 	class FileViewListener extends MouseAdapter {
-		
-		public void mouseClicked(MouseEvent evt){
-			
+
+		public void mouseClicked(MouseEvent evt) {
+
 			JList list = (JList) evt.getSource();
-			if(Management.getInstance().getFileView() == null){
+			if (Management.getInstance().getFileView() == null) {
 				management.setFileView(new FileView());
 			}
-			if (evt.getClickCount() == 2){	
-				
-				
+			if (evt.getClickCount() == 2) {
+
 				int index = list.locationToIndex(evt.getPoint());
-				String fileName = management.getFileSelectionView().getModel().get(index).split("\\|")[1].trim();
+				String fileName = management.getFileSelectionView().getModel()
+						.get(index).split("\\|")[1].trim();
 				File selectedFile = new File(fileName);
-				
+
 				try {
-					BufferedReader input = new BufferedReader(new InputStreamReader(
-					          new FileInputStream(selectedFile), "UTF-8"));
+					BufferedReader input = new BufferedReader(
+							new InputStreamReader(new FileInputStream(
+									selectedFile), "UTF-8"));
 					management.getFileView().getTextArea().setText(null);
-					management.getFileView().getTextArea().read(input, "Reading file...");
+					management.getFileView().getTextArea()
+							.read(input, "Reading file...");
 					management.getFileView().getTextArea().setCaretPosition(0);
-					
+
 					management.getFileView().getFrame().setTitle(fileName);
 					management.getFileView().getFrame().setVisible(true);
-					
+
 				} catch (IOException e) {
 
 					e.printStackTrace();
 				}
-				
+
 			}
 		}
 	}
@@ -321,7 +356,6 @@ public class FileSelectionController extends JFrame {
 
 		}
 	}
-
 
 	// Gibt passenden Buchstaben fuer Index
 	private String intToFilename(int n) {
