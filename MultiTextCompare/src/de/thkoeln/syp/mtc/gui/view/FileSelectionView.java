@@ -171,7 +171,7 @@ public class FileSelectionView extends JFrame {
 			return -1;
 	}
 
-	public void fileExtToButton() {
+	private void fileExtToButton() {
 		switch (management.getFileImporter().getConfig().getDateityp()) {
 		case (".txt"):
 			rdbtnTxt.setSelected(true);
