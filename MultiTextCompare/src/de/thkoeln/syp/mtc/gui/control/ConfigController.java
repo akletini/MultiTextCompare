@@ -45,7 +45,7 @@ public class ConfigController {
 			configView.getCheckBoxLeerzeilen().setSelected(false);
 			configView.getCheckBoxSatzzeichen().setSelected(false);
 			configView.getCheckBoxGrossschreibung().setSelected(false);
-			configView.getCheckBoxLinematch().setSelected(false);
+			configView.getCheckBoxCompareLines().setSelected(false);
 			configView.getComboBoxValidation().setSelectedIndex(0);
 			configView.getCheckBoxSortiereElemente().setSelected(false);
 			configView.getCheckBoxSortiereAttribute().setSelected(false);
@@ -60,49 +60,49 @@ public class ConfigController {
 		public void actionPerformed(ActionEvent e) {
 			IConfig config = management.getFileImporter().getConfig();
 
-			config.setBeachteLeerzeichen(configView.getCheckBoxLeerzeichen()
+			config.setKeepWhitespaces(configView.getCheckBoxLeerzeichen()
 					.isSelected());
 
-			config.setBeachteLeerzeilen(configView.getCheckBoxLeerzeilen()
+			config.setKeepBlankLines(configView.getCheckBoxLeerzeilen()
 					.isSelected());
 
-			config.setBeachteGrossschreibung(configView
+			config.setKeepCapitalization(configView
 					.getCheckBoxGrossschreibung().isSelected());
 
-			config.setBeachteSatzzeichen(configView.getCheckBoxSatzzeichen()
+			config.setKeepPuctuation(configView.getCheckBoxSatzzeichen()
 					.isSelected());
 
-			config.setLineMatch(configView.getCheckBoxLinematch().isSelected());
+			config.setCompareLines(configView.getCheckBoxCompareLines().isSelected());
 
 			switch (configView.getComboBoxValidation().getSelectedItem()
 					.toString()) {
 			case "Internal XSD":
-				config.setValidation(1);
+				config.setXmlValidation(1);
 				break;
 			case "External XSD":
-				config.setValidation(2);
+				config.setXmlValidation(2);
 				break;
 			case "DTD":
-				config.setValidation(3);
+				config.setXmlValidation(3);
 				break;
 			default:
-				config.setValidation(0);
+				config.setXmlValidation(0);
 				break;
 			}
 
-			config.setSortiereElemente(configView.getCheckBoxSortiereElemente()
+			config.setXmlSortElements(configView.getCheckBoxSortiereElemente()
 					.isSelected());
 
-			config.setSortiereAttribute((configView
+			config.setXmlSortAttributes((configView
 					.getCheckBoxSortiereAttribute().isSelected()));
 
-			config.setLoescheAttribute(configView.getCheckBoxLoescheAttribute()
+			config.setXmlDeleteAttributes(configView.getCheckBoxLoescheAttribute()
 					.isSelected());
 
-			config.setLoescheKommentare(configView
+			config.setXmlDeleteComments(configView
 					.getCheckBoxLoescheKommentare().isSelected());
 
-			config.setNurTags(configView.getCheckBoxNurTags().isSelected());
+			config.setXmlOnlyTags(configView.getCheckBoxNurTags().isSelected());
 
 			management.getFileImporter().exportConfigdatei();
 

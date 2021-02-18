@@ -7,21 +7,26 @@ import java.util.Map;
 import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
 
 public interface IFileImporter {
-	final String PROP_LEERZEICHEN = "beachteLeerzeichen";
-	final String PROP_SATZZEICHEN = "beachteSatzzeichen";
-	final String PROP_GROSSSCHREIBUNG = "beachteGrossschreibung";
-	final String PROP_LEERZEILEN = "beachteLeerzeilen";
 	final String PROP_ROOT = "rootDirectory";
-	final String PROP_LINEMATCH = "lineMatch";
-	final String PROP_DATEINAME = "dateiname";
-	final String PROP_DATEITYP = "dateityp";
+	final String PROP_FILENAME = "filename";
+	final String PROP_FILETYPE = "filetype";
 
-	final String PROP_SORTIEREELEMENTE = "sortiereElemente";
-	final String PROP_SORTIEREATTRIBUTE = "sortiereAttribute";
-	final String PROP_LOESCHEATTRIBUTE = "loescheAttribute";
-	final String PROP_LOESCHEKOMMENTARE = "loescheKommentare";
-	final String PROP_NURTAGS = "nurTags";
-	final String PROP_VALIDATION = "validation";
+	final String PROP_WHITESPACES = "whitespaces";
+	final String PROP_BLANKLINES = "blanklines";
+	final String PROP_PUNCTUATION = "punctuation";
+	final String PROP_CAPITALIZATION = "capitalization";
+	final String PROP_COMPARELINES = "compareLines";
+	final String PROP_LINEMATCH = "lineMatch";
+
+	final String PROP_XMLVALIDATION = "xmlValidation";
+	final String PROP_XMLSORTELEMNTS = "xmlSortElements";
+	final String PROP_XMLSORTATTRIBUTES = "xmlSortAttributes";
+	final String PROP_XMLDELETEATTRIBUTES = "xmlDeleteAttributes";
+	final String PROP_XMLDELETECOMMENTS = "xmlDeleteComments";
+	final String PROP_XMLONLYTAGS = "xmlOnlyTags";
+	
+	final String PROP_JSONSORTKEYS = "jsonSortKeys";
+	final String PROP_JSONDELETEVALUES = "jsonDeleteValues";
 
 	final File DEFAULT_CONFIG = new File(System.getProperty("user.dir")
 			+ File.separator + "config.properties");

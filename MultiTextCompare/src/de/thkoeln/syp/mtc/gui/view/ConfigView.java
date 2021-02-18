@@ -21,12 +21,12 @@ public class ConfigView extends JFrame {
 	private JPanel panel;
 	private JLabel lblRootPath, lblGeneral, lblXml, lblWhitespaces,
 			lblBlankLines, lblPunctMarks, lblCaps,
-			lblSelectedPath, lblLineMatch, lblValidation,
+			lblSelectedPath, lblCompareLines, lblValidation,
 			lblSortElements, lblSortAttributes, lblDeleteAttributes,
 			lblDeleteComments, lblOnlyTags;
 	private JComboBox<String> comboBoxValidation;
 	private JCheckBox checkBoxWhitespaces, checkBoxBlankLines,
-			checkBoxCaps, checkBoxPunctMarks, checkBoxLineMatch,
+			checkBoxCaps, checkBoxPunctMarks, checkBoxCompareLines,
 			checkBoxSortElements, checkBoxSortAttributes,
 			checkBoxDeleteAttributes, checkBoxDeleteComments,
 			checkBoxOnlyTags;
@@ -91,12 +91,12 @@ public class ConfigView extends JFrame {
 		panel.add(checkBoxCaps, "cell 1 7,alignx center,growy");
 		checkBoxCaps.setSelected(config.getBeachteGrossschreibung());
 
-		// Linematch
-		lblLineMatch = new JLabel("LineMatch");
-		panel.add(lblLineMatch, "cell 0 8,grow");
-		checkBoxLineMatch = new JCheckBox();
-		panel.add(checkBoxLineMatch, "cell 1 8,alignx center,growy");
-		checkBoxLineMatch.setSelected(config.getLineMatch());
+		// CompareLines
+		lblCompareLines = new JLabel("Compare Lines");
+		panel.add(lblCompareLines, "cell 0 8,grow");
+		checkBoxCompareLines = new JCheckBox();
+		panel.add(checkBoxCompareLines, "cell 1 8,alignx center,growy");
+		checkBoxCompareLines.setSelected(config.getCompareLines());
 
 		// * XML *
 		lblXml = new JLabel("XML");
@@ -110,7 +110,7 @@ public class ConfigView extends JFrame {
 				"DTD" };
 		comboBoxValidation = new JComboBox<String>(comboBoxStrings);
 		comboBoxValidation.setSelectedIndex(management.getFileImporter()
-				.getConfig().getValidation());
+				.getConfig().getXmlValidation());
 		panel.add(comboBoxValidation, "cell 4 4,alignx center");
 
 		// Sortierte Elemente
@@ -134,7 +134,7 @@ public class ConfigView extends JFrame {
 		checkBoxDeleteAttributes.setSelected(config.getLoescheAttribute());
 		panel.add(checkBoxDeleteAttributes, "cell 4 7,alignx center,growy");
 
-		// Lösche Kommentare
+		// Lï¿½sche Kommentare
 		lblDeleteComments = new JLabel("Delete comments");
 		panel.add(lblDeleteComments, "cell 3 8,grow");
 		checkBoxDeleteComments = new JCheckBox();
@@ -188,8 +188,8 @@ public class ConfigView extends JFrame {
 		return checkBoxCaps;
 	}
 
-	public JCheckBox getCheckBoxLinematch() {
-		return checkBoxLineMatch;
+	public JCheckBox getCheckBoxCompareLines() {
+		return checkBoxCompareLines;
 	}
 
 	public JComboBox<String> getComboBoxValidation() {

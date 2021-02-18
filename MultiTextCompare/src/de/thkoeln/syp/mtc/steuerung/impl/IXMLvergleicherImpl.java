@@ -66,12 +66,12 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 	public Map<File, File> xmlPrepare(Map<File, File> tempFiles) {
 		this.clearErrorList();
 		XMLOutputter xout = new XMLOutputter();
-		boolean sortAttributes = iConfig.getSortiereAttribute(); //iConfig.getValue
-		boolean sortElements = iConfig.getSortiereElemente(); //iConfig.getValue
-		boolean deleteAttributes = iConfig.getLoescheAttribute(); //iConfig.getValue
-		boolean deleteComments = iConfig.getLoescheKommentare(); //iConfig.getValue
-		boolean tagsOnly = iConfig.getNurTags(); //iConfig.getValue
-		int mode = iConfig.getValidation(); //iConfig.getValue
+		boolean sortAttributes = iConfig.getXmlSortAttributes(); //iConfig.getValue
+		boolean sortElements = iConfig.getXmlSortElements(); //iConfig.getValue
+		boolean deleteAttributes = iConfig.getXmlDeleteAttributes(); //iConfig.getValue
+		boolean deleteComments = iConfig.getXmlDeleteComments(); //iConfig.getValue
+		boolean tagsOnly = iConfig.getXmlOnlyTags(); //iConfig.getValue
+		int mode = iConfig.getXmlValidation(); //iConfig.getValue
 			
 		for(Map.Entry<File, File> entry : tempFiles.entrySet()) {
 

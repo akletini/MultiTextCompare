@@ -1,67 +1,81 @@
 package de.thkoeln.syp.mtc.datenhaltung.api;
 
 public interface IConfig {
-	void setBeachteLeerzeichen(boolean beachteLeerzeichen);
+	void setKeepWhitespaces(boolean keepWhitespaces);
 
-	void setBeachteSatzzeichen(boolean beachteSatzzeichen);
+	void setKeepPuctuation(boolean keepPuctuation);
 
-	void setBeachteGrossschreibung(boolean beachteGrossschreibung);
+	void setKeepCapitalization(boolean keepCapitalization);
 
 	void setRootDir(String rootDir);
 
 	void setPath(String path);
 
+	void setCompareLines(boolean compareLines);
+
+	void setFilename(String filename);
+
+	void setFiletype(String filetype);
+
+	void setKeepBlankLines(boolean keepBlankLines);
+
 	void setLineMatch(boolean lineMatch);
 
-	void setDateiname(String dateiname);
-	
-	void setDateityp(String dateityp);
+	boolean getKeepWhitespaces();
 
-	void setBeachteLeerzeilen(boolean beachteLeerzeilen);
+	boolean getKeepPuctuation();
 
-	boolean getBeachteLeerzeichen();
-
-	boolean getBeachteSatzzeichen();
-
-	boolean getBeachteGrossschreibung();
+	boolean getKeepCapitalization();
 
 	String getRootDir();
 
 	String getPath();
 
+	boolean getCompareLines();
+
+	String getFilename();
+
+	String getFiletype();
+
+	boolean getKeepBlankLines();
+
 	boolean getLineMatch();
 
-	String getDateiname();
-	
-	String getDateityp();
+	// XML spezifische Parameter
+	void setXmlSortElements(boolean xmlSortElements);
 
-	boolean getBeachteLeerzeilen();
+	void setXmlSortAttributes(boolean xmlSortAttributes);
+
+	void setXmlDeleteAttributes(boolean xmlDeleteAttributes);
+
+	void setXmlDeleteComments(boolean xmlDeleteComments);
+
+	void setXmlOnlyTags(boolean xmlOnlyTags);
+
+	void setXmlValidation(int xmlValidation);
 	
+	void setXmlPrint(int xmlPrint);
+
+	boolean getXmlSortElements();
+
+	boolean getXmlSortAttributes();
+
+	boolean getXmlDeleteAttributes();
+
+	boolean getXmlDeleteComments();
+
+	boolean getXmlOnlyTags();
+
+	int getXmlValidation();
 	
-	//XML spezifische Parameter
-	void setSortiereElemente(boolean sortiereElemente);
-	
-	void setSortiereAttribute(boolean sortiereAttribute);
-	
-	void setLoescheAttribute(boolean loescheAttribute);
-	
-	void setLoescheKommentare(boolean loescheKommentare);
-	
-	void setNurTags(boolean nurTags);
-	
-	void setValidation(int validation);
-	
-	boolean getSortiereElemente();
-	
-	boolean getSortiereAttribute();
-	
-	boolean getLoescheAttribute();
-	
-	boolean getLoescheKommentare();
-	
-	boolean getNurTags();
-	
-	int getValidation();
-	
-	
+	int getXmlPrint();
+
+	// JSON spezifische Parameter
+	void setJsonSortKeys(boolean jsonSortKeys);
+
+	void setJsonDeleteValues(boolean jsonDeleteValues);
+
+	boolean getJsonSortKeys();
+
+	boolean getJsonDeleteValues();
 }

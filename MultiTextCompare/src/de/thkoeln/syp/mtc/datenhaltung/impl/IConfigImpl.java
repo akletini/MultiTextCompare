@@ -4,33 +4,37 @@ import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
 
 public class IConfigImpl implements IConfig {
 
-	private boolean beachteLeerzeichen, beachteSatzzeichen,
-			beachteGrossschreibung, lineMatch, beachteLeerzeilen;
-	
-	private String rootDir, path, dateiname, dateityp;
-	
-	//XML Spezifische Parameter
-	private boolean sortiereElemente, sortiereAttribute, loescheAttribute, loescheKommentare, nurTags;
-	private int validation;
+	private boolean keepWhitespaces, keepPunctuation, keepCapitalizazion,
+			compareLines, keepBlankLines, lineMatch;
+
+	private String rootDir, path, filename, filetype;
+
+	// XML spezifische Parameter
+	private boolean xmlSortElements, xmlSortAttributes, xmlDeleteAttributes,
+			xmlDeleteComments, xmlOnlyTags;
+	private int xmlValidation, xmlPrint;
+
+	// JSON spezifische Parameter
+	private boolean jsonSortKeys, jsonDeleteValues;
 
 	@Override
-	public void setLineMatch(boolean lineMatch) {
-		this.lineMatch = lineMatch;
+	public void setCompareLines(boolean compareLines) {
+		this.compareLines = compareLines;
 	}
 
 	@Override
-	public void setBeachteLeerzeichen(boolean beachteLeerzeichen) {
-		this.beachteLeerzeichen = beachteLeerzeichen;
+	public void setKeepWhitespaces(boolean keepWhitespaces) {
+		this.keepWhitespaces = keepWhitespaces;
 	}
 
 	@Override
-	public void setBeachteSatzzeichen(boolean beachteSatzzeichen) {
-		this.beachteSatzzeichen = beachteSatzzeichen;
+	public void setKeepPuctuation(boolean keepPunctuation) {
+		this.keepPunctuation = keepPunctuation;
 	}
 
 	@Override
-	public void setBeachteGrossschreibung(boolean beachteGrossschreibung) {
-		this.beachteGrossschreibung = beachteGrossschreibung;
+	public void setKeepCapitalization(boolean keepCapitalizazion) {
+		this.keepCapitalizazion = keepCapitalizazion;
 	}
 
 	@Override
@@ -44,28 +48,28 @@ public class IConfigImpl implements IConfig {
 	}
 
 	@Override
-	public void setDateiname(String dateiname) {
-		this.dateiname = dateiname;
-	}
-	
-	@Override
-	public void setDateityp(String dateityp) {
-		this.dateityp = dateityp;
+	public void setFilename(String filename) {
+		this.filename = filename;
 	}
 
 	@Override
-	public boolean getBeachteLeerzeichen() {
-		return beachteLeerzeichen;
+	public void setFiletype(String filetype) {
+		this.filetype = filetype;
 	}
 
 	@Override
-	public boolean getBeachteSatzzeichen() {
-		return beachteSatzzeichen;
+	public boolean getKeepWhitespaces() {
+		return keepWhitespaces;
 	}
 
 	@Override
-	public boolean getBeachteGrossschreibung() {
-		return beachteGrossschreibung;
+	public boolean getKeepPuctuation() {
+		return keepPunctuation;
+	}
+
+	@Override
+	public boolean getKeepCapitalization() {
+		return keepCapitalizazion;
 	}
 
 	@Override
@@ -79,89 +83,127 @@ public class IConfigImpl implements IConfig {
 	}
 
 	@Override
+	public boolean getCompareLines() {
+		return compareLines;
+	}
+
+	@Override
+	public String getFilename() {
+		return filename;
+	}
+
+	@Override
+	public String getFiletype() {
+		return filetype;
+	}
+
+	@Override
+	public void setKeepBlankLines(boolean keepBlankLines) {
+		this.keepBlankLines = keepBlankLines;
+	}
+
+	@Override
+	public boolean getKeepBlankLines() {
+		return keepBlankLines;
+	}
+
+	@Override
+	public void setXmlSortElements(boolean xmlSortElements) {
+		this.xmlSortElements = xmlSortElements;
+	}
+
+	@Override
+	public boolean getXmlSortElements() {
+		return this.xmlSortElements;
+	}
+
+	@Override
+	public void setXmlSortAttributes(boolean xmlSortAttributes) {
+		this.xmlSortAttributes = xmlSortAttributes;
+	}
+
+	@Override
+	public boolean getXmlSortAttributes() {
+		return this.xmlSortAttributes;
+	}
+
+	@Override
+	public void setXmlDeleteAttributes(boolean xmlDeleteAttributes) {
+		this.xmlDeleteAttributes = xmlDeleteAttributes;
+	}
+
+	@Override
+	public boolean getXmlDeleteAttributes() {
+		return this.xmlDeleteAttributes;
+	}
+
+	@Override
+	public void setXmlDeleteComments(boolean xmlDeleteComments) {
+		this.xmlDeleteComments = xmlDeleteComments;
+	}
+
+	@Override
+	public boolean getXmlDeleteComments() {
+		return this.xmlDeleteComments;
+	}
+
+	@Override
+	public void setXmlOnlyTags(boolean xmlOnlyTags) {
+		this.xmlOnlyTags = xmlOnlyTags;
+	}
+
+	@Override
+	public boolean getXmlOnlyTags() {
+		return this.xmlOnlyTags;
+	}
+
+	@Override
+	public void setXmlValidation(int xmlValidation) {
+		this.xmlValidation = xmlValidation;
+	}
+
+	@Override
+	public int getXmlValidation() {
+		return this.xmlValidation;
+	}
+
+	@Override
+	public void setJsonSortKeys(boolean jsonSortKeys) {
+		this.jsonSortKeys = jsonSortKeys;
+	}
+
+	@Override
+	public void setJsonDeleteValues(boolean jsonDeleteValues) {
+		this.jsonDeleteValues = jsonDeleteValues;
+	}
+
+	@Override
+	public boolean getJsonSortKeys() {
+		return jsonSortKeys;
+	}
+
+	@Override
+	public boolean getJsonDeleteValues() {
+		return jsonDeleteValues;
+	}
+
+	@Override
+	public void setLineMatch(boolean lineMatch) {
+		this.lineMatch = lineMatch;
+	}
+
+	@Override
 	public boolean getLineMatch() {
 		return lineMatch;
 	}
 
 	@Override
-	public String getDateiname() {
-		return dateiname;
-	}
-	
-	@Override
-	public String getDateityp() {
-		return dateityp;
+	public void setXmlPrint(int xmlPrint) {
+		this.xmlPrint = xmlPrint;
 	}
 
 	@Override
-	public void setBeachteLeerzeilen(boolean beachteLeerzeilen) {
-		this.beachteLeerzeilen = beachteLeerzeilen;
+	public int getXmlPrint() {
+		return xmlPrint;
 	}
-
-	@Override
-	public boolean getBeachteLeerzeilen() {
-		return beachteLeerzeilen;
-	}
-	
-	@Override
-	public void setSortiereElemente(boolean sortiereElemente){
-		this.sortiereElemente = sortiereElemente;
-	}
-	
-	@Override
-	public boolean getSortiereElemente(){
-		return this.sortiereElemente;
-	}
-	
-	@Override
-	public void setSortiereAttribute(boolean sortiereAttribute){
-		this.sortiereAttribute = sortiereAttribute;
-	}
-	
-	@Override
-	public boolean getSortiereAttribute(){
-		return this.sortiereAttribute;
-	}
-	
-	@Override
-	public void setLoescheAttribute(boolean loescheAttribute){
-		this.loescheAttribute = loescheAttribute;
-	}
-	
-	@Override
-	public boolean getLoescheAttribute(){
-		return this.loescheAttribute;
-	}
-	
-	@Override
-	public void setLoescheKommentare(boolean loescheKommentare){
-		this.loescheKommentare = loescheKommentare;
-	}
-	
-	@Override
-	public boolean getLoescheKommentare(){
-		return this.loescheKommentare;
-	}
-	
-	@Override
-	public void setNurTags(boolean nurTags){
-		this.nurTags = nurTags;
-	}
-	
-	@Override
-	public boolean getNurTags(){
-		return this.nurTags;
-	}
-	
-	@Override
-	public void setValidation(int validation){
-		this.validation = validation;
-	}
-	
-	@Override
-	public int getValidation(){
-		return this.validation;
-	}
-	
-	
 }

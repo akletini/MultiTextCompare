@@ -22,8 +22,8 @@ public class IDiffHelperImpl implements IDiffHelper {
 	private List<IDiffLine> leftLines;
 	private List<IDiffLine> middleLines;
 	private List<IDiffLine> rightLines;
-	
-	private final double minCommonality = 0.33;
+
+	private final double minCommonality = 0.4;
 
 	public IDiffHelperImpl() {
 		leftLines = new ArrayList<IDiffLine>();
@@ -44,8 +44,8 @@ public class IDiffHelperImpl implements IDiffHelper {
 	public void computeDisplayDiff(File[] files) throws IOException {
 		// Read both files with line iterator.
 		if (files.length == 2) {
-			LineIterator file1 = FileUtils.lineIterator(files[0]);
-			LineIterator file2 = FileUtils.lineIterator(files[1]);
+			LineIterator file1 = FileUtils.lineIterator(files[0], "UTF-8");
+			LineIterator file2 = FileUtils.lineIterator(files[1], "UTF-8");
 
 			// Initialize visitor.
 			FileCommandVisitor fileCommandsVisitor = new FileCommandVisitor();
@@ -100,9 +100,12 @@ public class IDiffHelperImpl implements IDiffHelper {
 			leftLines = fileCommandsVisitor.getLeftLines();
 			rightLines = fileCommandsVisitor.getRightLines();
 		} else {
-			final LineIterator file1 = FileUtils.lineIterator(files[0]);
-			final LineIterator file2 = FileUtils.lineIterator(files[1]);
-			final LineIterator file3 = FileUtils.lineIterator(files[2]);
+			final LineIterator file1 = FileUtils
+					.lineIterator(files[0], "UTF-8");
+			final LineIterator file2 = FileUtils
+					.lineIterator(files[1], "UTF-8");
+			final LineIterator file3 = FileUtils
+					.lineIterator(files[2], "UTF-8");
 
 			// Initialize visitor.
 			FileCommandVisitor fileCommandsVisitor = new FileCommandVisitor();
@@ -204,15 +207,16 @@ public class IDiffHelperImpl implements IDiffHelper {
 
 	private void generateOuterDiff(File[] files,
 			FileCommandVisitor fileCommandsVisitor) throws IOException {
-		LineIterator file1 = FileUtils.lineIterator(files[1]);
-		LineIterator file2 = FileUtils.lineIterator(files[2]);
+		LineIterator file1 = FileUtils.lineIterator(files[1], "UTF-8");
+		LineIterator file2 = FileUtils.lineIterator(files[2], "UTF-8");
 
 		// Initialize visitor.
 		int lineNum = 0;
 
 		// Read file line by line so that comparison can be done line by
 		// line.
-		while (file1.hasNext() || file2.hasNext() || lineNum < fileCommandsVisitor.getLeftLines().size()) {
+		while (file1.hasNext() || file2.hasNext()
+				|| lineNum < fileCommandsVisitor.getLeftLines().size()) {
 			/*
 			 * In case both files have different number of lines, fill in with
 			 * empty strings. Also append newline char at end so next line
@@ -461,6 +465,7 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 		writeToDiffLines(middleFile2, middleLines2);
 		writeToDiffLines(rightFile2, rightLines2);
 		mergeOuterDiff();
+		removeWrongTriggersOnShortLines();
 	}
 
 	/**
@@ -684,6 +689,40 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 			}
 		}
 		return isEmptyLine;
+	}
+
+	/**
+	 * Bei kurzen Zeilen werden die Indices falsch markiert. Diese Methode
+	 * behebt den Fehler
+	 */
+	private void removeWrongTriggersOnShortLines() {
+		String colorLeftIndex, colorMiddleIndex, colorRightIndex;
+
+		for (int i = 0; i < leftLines.size(); i++) {
+			int numberOfDigits = (int) (Math.log10(i + 1) + 1);
+			// Check index coloration
+			colorLeftIndex = leftLines.get(i).getDiffedLine().get(0)
+					.getCharColor();
+			colorMiddleIndex = middleLines.get(i).getDiffedLine().get(0)
+					.getCharColor();
+			colorRightIndex = rightLines.get(i).getDiffedLine().get(0)
+					.getCharColor();
+
+			if (colorLeftIndex.equals(DIFFTORIGHT)
+					&& colorMiddleIndex.equals(UNCHANGED)
+					&& colorRightIndex.equals(DIFFTOLEFT)) {
+
+				for (int j = 0; j < numberOfDigits; j++) {
+					leftLines.get(i).getDiffedLine().get(j)
+							.setCharColor(UNCHANGED);
+					middleLines.get(i).getDiffedLine().get(j)
+							.setCharColor(UNCHANGED);
+					rightLines.get(i).getDiffedLine().get(j)
+							.setCharColor(UNCHANGED);
+				}
+			}
+
+		}
 	}
 
 	public List<IDiffLine> getLeftLines() {
