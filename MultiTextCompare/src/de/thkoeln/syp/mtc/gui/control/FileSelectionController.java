@@ -91,36 +91,69 @@ public class FileSelectionController extends JFrame {
 
 	class SearchListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			List<File> reference = new ArrayList<File>(
-					fileImporter.getTextdateien());
+			management.appendToLog("Searching for files..");
+			
+			class rootSearchThread extends SwingWorker<String, Void> {
+				List<File> reference;
+				long start_time;
+				@Override
+				public String doInBackground() {
+					start_time = System.nanoTime();
+					reference = new ArrayList<File>(
+							fileImporter.getTextdateien());
 
-			// Importiert & startet Suche ueber Wurzelverzeichnis
-			fileImporter.importTextRoot(management.getFileSelectionView()
-					.getTextFieldFileName().getText()
-					+ getFileExt());
-			fileImporter.getRootImporter().start();
-			try {
-				fileImporter.getRootImporter().join();
-			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+					// Importiert & startet Suche ueber Wurzelverzeichnis
+					fileImporter.importTextRoot(management
+							.getFileSelectionView().getTextFieldFileName()
+							.getText()
+							+ getFileExt());
+					fileImporter.getRootImporter().start();
+					try {
+						fileImporter.getRootImporter().join();
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					return null;
+				}
+
+				@Override
+				public void done() {
+					// Gibt einen Hinweis aus, falls keine neuen Dateien
+					// gefunden wurden
+					if (fileImporter.getTextdateien().equals(reference)){
+						new PopupView("Hinweis",
+								"Bei dieser Suche wurden keine weiteren Dateien gefunden");
+						return;
+					}
+
+					// Aktualisiert Anzeige
+					setRdbtn(fileImporter.getTextdateien().isEmpty());
+					updateListFilePath();
+					long end_time = System.nanoTime();
+					double time_difference = (end_time - start_time) / 1e6;
+					String timeDiffAsString;
+					if (time_difference > 1000) {
+						time_difference /= 1000;
+						time_difference = Math.round(time_difference * 100.0) / 100.0;
+						timeDiffAsString = " (seek time: " + time_difference
+								+ "s)";
+					} else {
+						timeDiffAsString = " (seek time: " + time_difference
+								+ "ms)";
+					}
+					int foundFiles = fileImporter.getTextdateien().size();
+					management.appendToLog("Found " + foundFiles + " files! " + timeDiffAsString);
+
+					fileImporter.getConfig().setDateiname(
+							management.getFileSelectionView()
+									.getTextFieldFileName().getText());
+					fileImporter.getConfig().setDateityp(getFileExt());
+					fileImporter.exportConfigdatei();
+					mode = management.getFileSelectionView().getRadioButton();
+				}
 			}
-
-			// Gibt einen Hinweis aus, falls keine neuen Dateien gefunden wurden
-			if (fileImporter.getTextdateien().equals(reference))
-				new PopupView("Hinweis",
-						"Bei dieser Suche wurden keine weiteren Dateien gefunden");
-
-			// Aktualisiert Anzeige
-			setRdbtn(fileImporter.getTextdateien().isEmpty());
-			updateListFilePath();
-
-			fileImporter.getConfig().setDateiname(
-					management.getFileSelectionView().getTextFieldFileName()
-							.getText());
-			fileImporter.getConfig().setDateityp(getFileExt());
-			fileImporter.exportConfigdatei();
-			mode = management.getFileSelectionView().getRadioButton();
+			new rootSearchThread().execute();
 		}
 	}
 
