@@ -20,6 +20,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.SwingWorker;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IMatrix;
 import de.thkoeln.syp.mtc.datenhaltung.api.IXMLParseError;
@@ -184,99 +185,102 @@ public class FileSelectionController extends JFrame {
 	}
 
 	class CompareListener implements ActionListener {
-		public void actionPerformed(ActionEvent e){
+		public void actionPerformed(ActionEvent e) {
 
-			management.appendToLog("Start comparing...");
-			Thread comparisonThread = new Thread(new Runnable() {
+			class CompareThread extends SwingWorker<Void, Object> {
+				int anzDateien;
+				long start_time;
+
 				@Override
-				public void run() {
-					try {
-						long start_time = System.nanoTime();
-						int anzDateien = fileImporter.getTextdateien().size();
-						if (anzDateien < 2) {
-							new PopupView("Error",
-									"Please select at least two files for comparison");
-							return;
-						}
+				protected Void doInBackground() throws Exception {
 
-						fileImporter.deleteTempFiles();
-						fileImporter.createTempFiles();
-						xmlvergleicher.clearErrorList();
-
-						// XML Vergleich
-						if (mode == 1) {
-							fileImporter.createDiffTempFiles(xmlvergleicher
-									.xmlPrepare(fileImporter.getTempFilesMap()));
-							for (IXMLParseError error : xmlvergleicher
-									.getErrorList())
-								management.appendToLog(error.getMessage());
-						}
-						// Standard Vergleich
-						else {
-							fileImporter.createDiffTempFiles(fileImporter
-									.getTempFilesMap());
-						}
-
-						// Vergleich
-						fileImporter.normTempFiles();
-						textvergleicher.getTempfilesFromHashMap(management
-								.getFileImporter().getTempFilesMap());
-						textvergleicher.getVergleiche(textvergleicher
-								.getTempFiles());
-
-						if (fileImporter.getConfig().getLineMatch() == false) {
-							textvergleicher.vergleicheUeberGanzesDokument();
-						} else {
-							textvergleicher.vergleicheZeilenweise();
-
-						}
-
-						management.getMainView().updateMatrix(
-								textvergleicher.getMatrix(), anzDateien,
-								getFileNames(anzDateien));
-
-						lastComparisonFiles.clear();
-						lastComparisonFiles.addAll(fileImporter
-								.getTextdateien());
-
-			
-						long end_time = System.nanoTime();
-						double time_difference = (end_time - start_time) / 1e6;
-						String timeDiffAsString;
-						if(time_difference > 1000){
-							time_difference *= 1000;
-							timeDiffAsString = " (time taken: "
-									+ time_difference + " s)";
-						}
-						else {
-							timeDiffAsString = " (time taken: "
-									+ time_difference + " ms)";
-						}
-						if (!xmlvergleicher.getErrorList().isEmpty()) {
-							management
-									.appendToLog("A matrix with "
-											+ anzDateien
-											+ " files has been created, but the file selection contained "
-											+ xmlvergleicher.getErrorList()
-													.size() + " XML errors."
-											+ timeDiffAsString);
-						}
-
-						else {
-							management.appendToLog("A matrix with "
-									+ anzDateien
-									+ " files has been created successfully!"
-									+ timeDiffAsString);
-						}
-					} catch (final Exception ex) {
-						
+					anzDateien = fileImporter.getTextdateien().size();
+					if (anzDateien < 2) {
+						return null;
 					}
+
+					fileImporter.deleteTempFiles();
+					fileImporter.createTempFiles();
+					xmlvergleicher.clearErrorList();
+					management.appendToLog("Start comparing...");
+					start_time = System.nanoTime();
+
+					// XML Vergleich
+					if (mode == 1) {
+						fileImporter.createDiffTempFiles(xmlvergleicher
+								.xmlPrepare(fileImporter.getTempFilesMap()));
+						for (IXMLParseError error : xmlvergleicher
+								.getErrorList())
+							management.appendToLog(error.getMessage());
+					}
+					// Standard Vergleich
+					else {
+						fileImporter.createDiffTempFiles(fileImporter
+								.getTempFilesMap());
+					}
+
+					// Vergleich
+					fileImporter.normTempFiles();
+					textvergleicher.getTempfilesFromHashMap(management
+							.getFileImporter().getTempFilesMap());
+					textvergleicher.getVergleiche(textvergleicher
+							.getTempFiles());
+
+					if (fileImporter.getConfig().getLineMatch() == false) {
+						textvergleicher.vergleicheUeberGanzesDokument();
+					} else {
+						textvergleicher.vergleicheZeilenweise();
+
+					}
+
+					return null;
 				}
 
-			});
-			
-			comparisonThread.start();
-			
+				@Override
+				protected void done() {
+
+					if (anzDateien < 2) {
+						new PopupView("Error",
+								"Please select at least two files for comparison");
+						return;
+					}
+
+					management.getMainView().updateMatrix(
+							textvergleicher.getMatrix(), anzDateien,
+							getFileNames(anzDateien));
+
+					lastComparisonFiles.clear();
+					lastComparisonFiles.addAll(fileImporter.getTextdateien());
+
+					long end_time = System.nanoTime();
+					double time_difference = (end_time - start_time) / 1e6;
+					String timeDiffAsString;
+					if (time_difference > 1000) {
+						time_difference /= 1000;
+						timeDiffAsString = " (time taken: " + time_difference
+								+ "s)";
+					} else {
+						timeDiffAsString = " (time taken: " + time_difference
+								+ "ms)";
+					}
+					if (!xmlvergleicher.getErrorList().isEmpty()) {
+						management
+								.appendToLog("A matrix with "
+										+ anzDateien
+										+ " files has been created, but the file selection contained "
+										+ xmlvergleicher.getErrorList().size()
+										+ " XML errors." + timeDiffAsString);
+					}
+
+					else {
+						management.appendToLog("A matrix with " + anzDateien
+								+ " files has been created successfully!"
+								+ timeDiffAsString);
+					}
+				}
+			}
+
+			new CompareThread().execute();
 		}
 	}
 
