@@ -49,8 +49,8 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	@Override
 	public void vergleicheZeilenweise() {
 		for (IAehnlichkeit a : paarungen) {
-			this.ref = a.getVon();
-			this.vgl = a.getZu();
+			ref = a.getVon();
+			vgl = a.getZu();
 			double gewicht = 0, aehnlichkeit = 0;
 			ITextvergleicherImpl comp = new ITextvergleicherImpl(a.getVon(),
 					a.getZu());
@@ -120,8 +120,8 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	@Override
 	public void vergleicheUeberGanzesDokument() {
 		for (IAehnlichkeitImpl a : paarungen) {
-			this.ref = a.getVon();
-			this.vgl = a.getZu();
+			ref = a.getVon();
+			vgl = a.getZu();
 
 			try {
 				List<String> refList = fileToLines(a.getVon());

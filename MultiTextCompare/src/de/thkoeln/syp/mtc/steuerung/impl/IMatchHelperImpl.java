@@ -31,7 +31,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 
 	// Anzahl der Zeilen, fuer die nach einer identischen Zeile gesucht wird
 	private final int LOOKAHEAD = 5;
-	// �hnlichkeit ab der Zeilen gematcht werden (Wert von 0 bis 1)
+	// Aehnlichkeit ab der Zeilen gematcht werden (Wert von 0 bis 1)
 	private final double MATCH_AT = 0.6;
 
 	private int leftSize = 0, rightSize = 0;
@@ -117,7 +117,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 	 * @return true wenn noch kein Match existiert, sonst false
 	 */
 	private boolean notMatchedYet(Integer left, Integer right) {
-		//
+		
 		List<Integer> leftIndeces = new LinkedList<Integer>(), rightIndeces = new LinkedList<Integer>();
 		for (IMatch match : matches) {
 			leftIndeces.add(match.getLeftRow());
@@ -395,7 +395,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 	 */
 	private boolean matches(String ref, String comp) {
 		StringsComparator comparator = new StringsComparator(ref, comp);
-		if (comparator.getScript().getLCSLength() > (Math.max(ref.length(),
+		if (comparator.getScript().getLCSLength() >= (Math.max(ref.length(),
 				comp.length()) * MATCH_AT)) {
 			return true;
 		}
