@@ -50,6 +50,7 @@ public class IFileImporterImpl implements IFileImporter {
 		prop.setProperty(PROP_LINEMATCH, "true");
 
 		prop.setProperty(PROP_XMLVALIDATION, "0");
+		prop.setProperty(PROP_XMLPRINT, "0");
 		prop.setProperty(PROP_XMLSORTELEMNTS, "true");
 		prop.setProperty(PROP_XMLSORTATTRIBUTES, "true");
 		prop.setProperty(PROP_XMLDELETEATTRIBUTES, "false");
@@ -174,6 +175,7 @@ public class IFileImporterImpl implements IFileImporter {
 
 		iConfig.setXmlValidation(Integer.parseInt(prop
 				.getProperty(PROP_XMLVALIDATION)));
+		iConfig.setXmlPrint(Integer.parseInt(prop.getProperty(PROP_XMLPRINT)));
 		iConfig.setXmlSortElements(Boolean.parseBoolean(prop
 				.getProperty(PROP_XMLSORTELEMNTS)));
 		iConfig.setXmlSortAttributes(Boolean.parseBoolean(prop
@@ -285,6 +287,8 @@ public class IFileImporterImpl implements IFileImporter {
 
 			prop.setProperty(PROP_XMLVALIDATION,
 					Integer.toString(iConfig.getXmlValidation()));
+			prop.setProperty(PROP_XMLPRINT,
+					Integer.toString(iConfig.getXmlPrint()));
 			prop.setProperty(PROP_XMLSORTELEMNTS,
 					Boolean.toString(iConfig.getXmlSortElements()));
 			prop.setProperty(PROP_XMLSORTATTRIBUTES,

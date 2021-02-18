@@ -19,6 +19,7 @@ public interface IFileImporter {
 	final String PROP_LINEMATCH = "lineMatch";
 
 	final String PROP_XMLVALIDATION = "xmlValidation";
+	final String PROP_XMLPRINT = "xmlPrint";
 	final String PROP_XMLSORTELEMNTS = "xmlSortElements";
 	final String PROP_XMLSORTATTRIBUTES = "xmlSortAttributes";
 	final String PROP_XMLDELETEATTRIBUTES = "xmlDeleteAttributes";

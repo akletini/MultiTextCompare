@@ -105,6 +105,7 @@ public class IFileImporterImplTest {
 		assertTrue(config.getLineMatch());
 
 		assertEquals(0, config.getXmlValidation());
+		assertEquals(0, config.getXmlPrint());
 		assertTrue(config.getXmlSortElements());
 		assertTrue(config.getXmlSortAttributes());
 		assertFalse(config.getXmlDeleteAttributes());
@@ -128,6 +129,7 @@ public class IFileImporterImplTest {
 		config.setLineMatch(false);
 
 		config.setXmlValidation(1);
+		config.setXmlPrint(1);
 		config.setXmlSortElements(false);
 		config.setXmlSortAttributes(false);
 		config.setXmlDeleteAttributes(true);
@@ -156,6 +158,7 @@ public class IFileImporterImplTest {
 		assertFalse(config.getLineMatch());
 
 		assertEquals(1, config.getXmlValidation());
+		assertEquals(1, config.getXmlPrint());
 		assertFalse(config.getXmlSortElements());
 		assertFalse(config.getXmlSortAttributes());
 		assertTrue(config.getXmlDeleteAttributes());
