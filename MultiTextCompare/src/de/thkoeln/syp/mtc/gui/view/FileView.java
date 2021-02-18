@@ -15,8 +15,6 @@ public class FileView {
 	private JTextArea textArea;
 	private JScrollPane scroll;
 	
-	
-
 	public FileView(){
 		frame = new JFrame();
 		textArea = new JTextArea();

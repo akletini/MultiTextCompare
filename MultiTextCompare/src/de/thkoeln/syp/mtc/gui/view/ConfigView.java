@@ -19,18 +19,18 @@ import de.thkoeln.syp.mtc.gui.control.Management;
 public class ConfigView extends JFrame {
 	private Management management;
 	private JPanel panel;
-	private JLabel lblRootPath, lblAllgemein, lblXml, lblLeerzeichen,
-			lblLeerzeilen, lblSatzzeichen, lblGrossschreibung,
-			lblWurzelverzeichnis, lblLinematch, lblValidation,
-			lblSortiereElemente, lblSortiereAttribute, lblLoescheAttribute,
-			lblLoescheKommentare, lblNurTags;
+	private JLabel lblRootPath, lblGeneral, lblXml, lblWhitespaces,
+			lblBlankLines, lblPunctMarks, lblCaps,
+			lblSelectedPath, lblCompareLines, lblValidation,
+			lblSortElements, lblSortAttributes, lblDeleteAttributes,
+			lblDeleteComments, lblOnlyTags;
 	private JComboBox<String> comboBoxValidation;
-	private JCheckBox checkBoxLeerzeichen, checkBoxLeerzeilen,
-			checkBoxGrossschreibung, checkBoxSatzzeichen, checkBoxLinematch,
-			checkBoxSortiereElemente, checkBoxSortiereAttribute,
-			checkBoxLoescheAttribute, checkBoxLoescheKommentare,
-			checkBoxNurTags;
-	private JButton btnWurzelverzeichnis, btnDefault, btnSpeichern;
+	private JCheckBox checkBoxWhitespaces, checkBoxBlankLines,
+			checkBoxCaps, checkBoxPunctMarks, checkBoxCompareLines,
+			checkBoxSortElements, checkBoxSortAttributes,
+			checkBoxDeleteAttributes, checkBoxDeleteComments,
+			checkBoxOnlyTags;
+	private JButton btnSetRoot, btnDefault, btnSave;
 	private IConfig config;
 
 	public ConfigView() {
@@ -44,59 +44,59 @@ public class ConfigView extends JFrame {
 				"[][][20][][][][][][][][][]"));
 
 		// Labels (Wurzelverzeichnis)
-		lblWurzelverzeichnis = new JLabel("Root path ");
-		lblWurzelverzeichnis.setFont(new Font("Tahoma", Font.BOLD, 12));
-		panel.add(lblWurzelverzeichnis, "cell 0 1,grow");
+		lblSelectedPath = new JLabel("Root path ");
+		lblSelectedPath.setFont(new Font("Tahoma", Font.BOLD, 12));
+		panel.add(lblSelectedPath, "cell 0 1,grow");
 		lblRootPath = new JLabel(config.getRootDir());
 		panel.add(lblRootPath, "cell 1 1 4 1,grow");
 
 		// Buttons
-		btnWurzelverzeichnis = new JButton("Select");
-		panel.add(btnWurzelverzeichnis, "cell 5 1,grow");
+		btnSetRoot = new JButton("Select");
+		panel.add(btnSetRoot, "cell 5 1,grow");
 		btnDefault = new JButton("Reset");
 		panel.add(btnDefault, "cell 1 11 2 1,grow");
-		btnSpeichern = new JButton("Save");
-		panel.add(btnSpeichern, "cell 3 11,grow");
+		btnSave = new JButton("Save");
+		panel.add(btnSave, "cell 3 11,grow");
 
 		// * Allgemein *
-		lblAllgemein = new JLabel("General");
-		lblAllgemein.setFont(new Font("Tahoma", Font.BOLD, 12));
-		panel.add(lblAllgemein, "cell 0 3");
+		lblGeneral = new JLabel("General");
+		lblGeneral.setFont(new Font("Tahoma", Font.BOLD, 12));
+		panel.add(lblGeneral, "cell 0 3");
 
 		// Leerzeichen
-		lblLeerzeichen = new JLabel("Keep whitespaces ");
-		panel.add(lblLeerzeichen, "cell 0 4,grow");
-		checkBoxLeerzeichen = new JCheckBox();
-		checkBoxLeerzeichen.setSelected(config.getBeachteLeerzeichen());
-		panel.add(checkBoxLeerzeichen, "cell 1 4,alignx center,growy");
+		lblWhitespaces = new JLabel("Keep whitespaces ");
+		panel.add(lblWhitespaces, "cell 0 4,grow");
+		checkBoxWhitespaces = new JCheckBox();
+		checkBoxWhitespaces.setSelected(config.getKeepWhitespaces());
+		panel.add(checkBoxWhitespaces, "cell 1 4,alignx center,growy");
 
 		// Leerzeilen
-		lblLeerzeilen = new JLabel("Keep blank lines ");
-		panel.add(lblLeerzeilen, "cell 0 5,grow");
-		checkBoxLeerzeilen = new JCheckBox();
-		checkBoxLeerzeilen.setSelected(config.getBeachteLeerzeilen());
-		panel.add(checkBoxLeerzeilen, "cell 1 5,alignx center,growy");
+		lblBlankLines = new JLabel("Keep blank lines ");
+		panel.add(lblBlankLines, "cell 0 5,grow");
+		checkBoxBlankLines = new JCheckBox();
+		checkBoxBlankLines.setSelected(config.getKeepBlankLines());
+		panel.add(checkBoxBlankLines, "cell 1 5,alignx center,growy");
 
 		// Satzzeichen
-		lblSatzzeichen = new JLabel("Keep punctuation marks ");
-		panel.add(lblSatzzeichen, "cell 0 6,grow");
-		checkBoxSatzzeichen = new JCheckBox();
-		checkBoxSatzzeichen.setSelected(config.getBeachteSatzzeichen());
-		panel.add(checkBoxSatzzeichen, "cell 1 6,alignx center,growy");
+		lblPunctMarks = new JLabel("Keep punctuation marks ");
+		panel.add(lblPunctMarks, "cell 0 6,grow");
+		checkBoxPunctMarks = new JCheckBox();
+		checkBoxPunctMarks.setSelected(config.getKeepPuctuation());
+		panel.add(checkBoxPunctMarks, "cell 1 6,alignx center,growy");
 
 		// Grossschreibung
-		lblGrossschreibung = new JLabel("Keep capitalization ");
-		panel.add(lblGrossschreibung, "cell 0 7,grow");
-		checkBoxGrossschreibung = new JCheckBox();
-		panel.add(checkBoxGrossschreibung, "cell 1 7,alignx center,growy");
-		checkBoxGrossschreibung.setSelected(config.getBeachteGrossschreibung());
+		lblCaps = new JLabel("Keep capitalization ");
+		panel.add(lblCaps, "cell 0 7,grow");
+		checkBoxCaps = new JCheckBox();
+		panel.add(checkBoxCaps, "cell 1 7,alignx center,growy");
+		checkBoxCaps.setSelected(config.getKeepCapitalization());
 
-		// Linematch
-		lblLinematch = new JLabel("LineMatch");
-		panel.add(lblLinematch, "cell 0 8,grow");
-		checkBoxLinematch = new JCheckBox();
-		panel.add(checkBoxLinematch, "cell 1 8,alignx center,growy");
-		checkBoxLinematch.setSelected(config.getLineMatch());
+		// CompareLines
+		lblCompareLines = new JLabel("Compare Lines");
+		panel.add(lblCompareLines, "cell 0 8,grow");
+		checkBoxCompareLines = new JCheckBox();
+		panel.add(checkBoxCompareLines, "cell 1 8,alignx center,growy");
+		checkBoxCompareLines.setSelected(config.getCompareLines());
 
 		// * XML *
 		lblXml = new JLabel("XML");
@@ -110,43 +110,43 @@ public class ConfigView extends JFrame {
 				"DTD" };
 		comboBoxValidation = new JComboBox<String>(comboBoxStrings);
 		comboBoxValidation.setSelectedIndex(management.getFileImporter()
-				.getConfig().getValidation());
+				.getConfig().getXmlValidation());
 		panel.add(comboBoxValidation, "cell 4 4,alignx center");
 
 		// Sortierte Elemente
-		lblSortiereElemente = new JLabel("Sort elements");
-		panel.add(lblSortiereElemente, "cell 3 5,grow");
-		checkBoxSortiereElemente = new JCheckBox();
-		checkBoxSortiereElemente.setSelected(config.getSortiereElemente());
-		panel.add(checkBoxSortiereElemente, "cell 4 5,alignx center,growy");
+		lblSortElements = new JLabel("Sort elements");
+		panel.add(lblSortElements, "cell 3 5,grow");
+		checkBoxSortElements = new JCheckBox();
+		checkBoxSortElements.setSelected(config.getXmlSortElements());
+		panel.add(checkBoxSortElements, "cell 4 5,alignx center,growy");
 
 		// Sortierte Attribute
-		lblSortiereAttribute = new JLabel("Sort attributes");
-		panel.add(lblSortiereAttribute, "cell 3 6,grow");
-		checkBoxSortiereAttribute = new JCheckBox();
-		checkBoxSortiereAttribute.setSelected(config.getSortiereAttribute());
-		panel.add(checkBoxSortiereAttribute, "cell 4 6,alignx center,growy");
+		lblSortAttributes = new JLabel("Sort attributes");
+		panel.add(lblSortAttributes, "cell 3 6,grow");
+		checkBoxSortAttributes = new JCheckBox();
+		checkBoxSortAttributes.setSelected(config.getXmlDeleteAttributes());
+		panel.add(checkBoxSortAttributes, "cell 4 6,alignx center,growy");
 
 		// Loesche Attribute
-		lblLoescheAttribute = new JLabel("Delete attributes");
-		panel.add(lblLoescheAttribute, "cell 3 7,grow");
-		checkBoxLoescheAttribute = new JCheckBox();
-		checkBoxLoescheAttribute.setSelected(config.getLoescheAttribute());
-		panel.add(checkBoxLoescheAttribute, "cell 4 7,alignx center,growy");
+		lblDeleteAttributes = new JLabel("Delete attributes");
+		panel.add(lblDeleteAttributes, "cell 3 7,grow");
+		checkBoxDeleteAttributes = new JCheckBox();
+		checkBoxDeleteAttributes.setSelected(config.getXmlDeleteAttributes());
+		panel.add(checkBoxDeleteAttributes, "cell 4 7,alignx center,growy");
 
-		// Lösche Kommentare
-		lblLoescheKommentare = new JLabel("Delete comments");
-		panel.add(lblLoescheKommentare, "cell 3 8,grow");
-		checkBoxLoescheKommentare = new JCheckBox();
-		checkBoxLoescheKommentare.setSelected(config.getLoescheKommentare());
-		panel.add(checkBoxLoescheKommentare, "cell 4 8,alignx center,growy");
+		// Lï¿½sche Kommentare
+		lblDeleteComments = new JLabel("Delete comments");
+		panel.add(lblDeleteComments, "cell 3 8,grow");
+		checkBoxDeleteComments = new JCheckBox();
+		checkBoxDeleteComments.setSelected(config.getXmlDeleteComments());
+		panel.add(checkBoxDeleteComments, "cell 4 8,alignx center,growy");
 
 		// Nur Tags
-		lblNurTags = new JLabel("Only tags");
-		panel.add(lblNurTags, "cell 3 9,grow");
-		checkBoxNurTags = new JCheckBox();
-		checkBoxNurTags.setSelected(config.getNurTags());
-		panel.add(checkBoxNurTags, "cell 4 9,alignx center,growy");
+		lblOnlyTags = new JLabel("Only tags");
+		panel.add(lblOnlyTags, "cell 3 9,grow");
+		checkBoxOnlyTags = new JCheckBox();
+		checkBoxOnlyTags.setSelected(config.getXmlOnlyTags());
+		panel.add(checkBoxOnlyTags, "cell 4 9,alignx center,growy");
 
 		
 		// Frame
@@ -161,7 +161,7 @@ public class ConfigView extends JFrame {
 	}
 
 	public void addWurzelverzeichnisListener(ActionListener e) {
-		btnWurzelverzeichnis.addActionListener(e);
+		btnSetRoot.addActionListener(e);
 	}
 
 	public void addDefaultListener(ActionListener e) {
@@ -169,27 +169,27 @@ public class ConfigView extends JFrame {
 	}
 
 	public void addSpeichernListener(ActionListener e) {
-		btnSpeichern.addActionListener(e);
+		btnSave.addActionListener(e);
 	}
 
 	public JCheckBox getCheckBoxLeerzeichen() {
-		return checkBoxLeerzeichen;
+		return checkBoxWhitespaces;
 	}
 
 	public JCheckBox getCheckBoxLeerzeilen() {
-		return checkBoxLeerzeilen;
+		return checkBoxBlankLines;
 	}
 
 	public JCheckBox getCheckBoxSatzzeichen() {
-		return checkBoxSatzzeichen;
+		return checkBoxPunctMarks;
 	}
 
 	public JCheckBox getCheckBoxGrossschreibung() {
-		return checkBoxGrossschreibung;
+		return checkBoxCaps;
 	}
 
-	public JCheckBox getCheckBoxLinematch() {
-		return checkBoxLinematch;
+	public JCheckBox getCheckBoxCompareLines() {
+		return checkBoxCompareLines;
 	}
 
 	public JComboBox<String> getComboBoxValidation() {
@@ -197,23 +197,23 @@ public class ConfigView extends JFrame {
 	}
 
 	public JCheckBox getCheckBoxSortiereElemente() {
-		return checkBoxSortiereElemente;
+		return checkBoxSortElements;
 	}
 
 	public JCheckBox getCheckBoxSortiereAttribute() {
-		return checkBoxSortiereAttribute;
+		return checkBoxSortAttributes;
 	}
 
 	public JCheckBox getCheckBoxLoescheAttribute() {
-		return checkBoxLoescheAttribute;
+		return checkBoxDeleteAttributes;
 	}
 
 	public JCheckBox getCheckBoxLoescheKommentare() {
-		return checkBoxLoescheKommentare;
+		return checkBoxDeleteComments;
 	}
 
 	public JCheckBox getCheckBoxNurTags() {
-		return checkBoxNurTags;
+		return checkBoxOnlyTags;
 	}
 	
 	public JLabel getLblRootPath(){

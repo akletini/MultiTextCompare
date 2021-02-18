@@ -59,8 +59,8 @@ public class IJSONvergleicherImpl extends JsonNodeFactory implements IJSONvergle
 	public Map<File, File> jsonPrepare(Map<File, File> tempFiles) {
 		this.clearErrorList();
 		
-		boolean deleteValues = false; //iConfig.getValue
-		boolean sortKeys = false; //iConfig.getValue
+		boolean deleteValues = iConfig.getJsonDeleteValues();
+		boolean sortKeys = iConfig.getJsonSortKeys();
 			
 		for(Map.Entry<File, File> entry : tempFiles.entrySet()) {
 

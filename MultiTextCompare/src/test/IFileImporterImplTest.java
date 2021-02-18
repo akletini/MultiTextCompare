@@ -32,7 +32,7 @@ public class IFileImporterImplTest {
 	public static void beforeAllTests() {
 		new File(System.getProperty("user.dir") + File.separator
 				+ "config.properties").delete();
-		
+
 		fileImporter = new IFileImporterImpl();
 		textdateien = new ArrayList<File>();
 
@@ -93,62 +93,80 @@ public class IFileImporterImplTest {
 	public void test_configParameter() {
 		IConfig config = fileImporter.getConfig();
 
-		assertTrue(config.getBeachteLeerzeichen());
-		assertTrue(config.getBeachteSatzzeichen());
-		assertTrue(config.getBeachteGrossschreibung());
-		assertTrue(config.getBeachteLeerzeilen());
 		assertEquals(System.getProperty("user.dir"), config.getRootDir());
+		assertEquals("", config.getFilename());
+		assertEquals(".txt", config.getFiletype());
+
+		assertTrue(config.getKeepWhitespaces());
+		assertTrue(config.getKeepBlankLines());
+		assertTrue(config.getKeepPuctuation());
+		assertTrue(config.getKeepCapitalization());
+		assertTrue(config.getCompareLines());
 		assertTrue(config.getLineMatch());
-		assertEquals("", config.getDateiname());
-		assertEquals(".txt", config.getDateityp());
 
-		assertTrue(config.getSortiereElemente());
-		assertTrue(config.getSortiereAttribute());
-		assertFalse(config.getLoescheAttribute());
-		assertFalse(config.getLoescheKommentare());
-		assertFalse(config.getNurTags());
-		assertEquals(0, config.getValidation());
+		assertEquals(0, config.getXmlValidation());
+		assertEquals(0, config.getXmlPrint());
+		assertTrue(config.getXmlSortElements());
+		assertTrue(config.getXmlSortAttributes());
+		assertFalse(config.getXmlDeleteAttributes());
+		assertFalse(config.getXmlDeleteComments());
+		assertFalse(config.getXmlOnlyTags());
 
-		config.setBeachteLeerzeichen(false);
-		config.setBeachteSatzzeichen(false);
-		config.setBeachteGrossschreibung(false);
-		config.setBeachteLeerzeilen(false);
+		assertTrue(config.getJsonSortKeys());
+		assertFalse(config.getJsonDeleteValues());
+
 		config.setRootDir(System.getProperty("user.dir") + File.separator
 				+ "src" + File.separator + "test" + File.separator
 				+ "testFiles");
+		config.setFilename("testName.txt");
+		config.setFiletype(".xml");
+
+		config.setKeepWhitespaces(false);
+		config.setKeepBlankLines(false);
+		config.setKeepPuctuation(false);
+		config.setKeepCapitalization(false);
+		config.setCompareLines(false);
 		config.setLineMatch(false);
-		config.setDateiname("testName.txt");
-		config.setDateityp(".xml");
 
-		config.setSortiereElemente(false);
-		config.setSortiereAttribute(false);
-		config.setLoescheAttribute(true);
-		config.setLoescheKommentare(true);
-		config.setNurTags(true);
-		config.setValidation(1);
+		config.setXmlValidation(1);
+		config.setXmlPrint(1);
+		config.setXmlSortElements(false);
+		config.setXmlSortAttributes(false);
+		config.setXmlDeleteAttributes(true);
+		config.setXmlDeleteComments(true);
+		config.setXmlOnlyTags(true);
 
+		config.setJsonSortKeys(false);
+		config.setJsonDeleteValues(true);
+		
 		assertTrue(fileImporter.exportConfigdatei());
 		assertTrue(fileImporter.importConfigdatei(new File(config.getPath())));
 
 		config = fileImporter.getConfig();
 
-		assertFalse(config.getBeachteLeerzeichen());
-		assertFalse(config.getBeachteSatzzeichen());
-		assertFalse(config.getBeachteGrossschreibung());
-		assertFalse(config.getBeachteLeerzeilen());
 		assertEquals(System.getProperty("user.dir") + File.separator + "src"
 				+ File.separator + "test" + File.separator + "testFiles",
 				config.getRootDir());
+		assertEquals("testName.txt", config.getFilename());
+		assertEquals(".xml", config.getFiletype());
+		
+		assertFalse(config.getKeepWhitespaces());
+		assertFalse(config.getKeepBlankLines());
+		assertFalse(config.getKeepPuctuation());
+		assertFalse(config.getKeepCapitalization());
+		assertFalse(config.getCompareLines());
 		assertFalse(config.getLineMatch());
-		assertEquals("testName.txt", config.getDateiname());
-		assertEquals(".xml", config.getDateityp());
 
-		assertFalse(config.getSortiereElemente());
-		assertFalse(config.getSortiereAttribute());
-		assertTrue(config.getLoescheAttribute());
-		assertTrue(config.getLoescheKommentare());
-		assertTrue(config.getNurTags());
-		assertEquals(1, config.getValidation());
+		assertEquals(1, config.getXmlValidation());
+		assertEquals(1, config.getXmlPrint());
+		assertFalse(config.getXmlSortElements());
+		assertFalse(config.getXmlSortAttributes());
+		assertTrue(config.getXmlDeleteAttributes());
+		assertTrue(config.getXmlDeleteComments());
+		assertTrue(config.getXmlOnlyTags());
+		
+		assertFalse(config.getJsonSortKeys());
+		assertTrue(config.getJsonDeleteValues());
 	}
 
 	@Test
@@ -199,14 +217,14 @@ public class IFileImporterImplTest {
 
 			String line;
 			while ((line = reader.readLine()) != null) {
-				if (!fileImporter.getConfig().getBeachteLeerzeilen())
+				if (!fileImporter.getConfig().getKeepBlankLines())
 					assertFalse(line.isEmpty());
-				if (!fileImporter.getConfig().getBeachteGrossschreibung())
+				if (!fileImporter.getConfig().getKeepCapitalization())
 					for (char c : line.toCharArray())
 						assertFalse(Character.isUpperCase(c));
-				if (!fileImporter.getConfig().getBeachteSatzzeichen())
+				if (!fileImporter.getConfig().getKeepPuctuation())
 					assertFalse(line.contains("\\p{Punct}"));
-				if (!fileImporter.getConfig().getBeachteLeerzeichen())
+				if (!fileImporter.getConfig().getKeepWhitespaces())
 					assertFalse(line.contains(" "));
 			}
 
