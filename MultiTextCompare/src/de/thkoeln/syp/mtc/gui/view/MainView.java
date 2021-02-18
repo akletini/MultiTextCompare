@@ -23,6 +23,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JToolBar;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
@@ -75,6 +76,7 @@ public class MainView extends JFrame {
 		textArea.setFont(new Font("Monospaced", Font.PLAIN, 14));
 		textArea.setEditable(false);
 		scrollPaneFiles = new JScrollPane(textArea);
+		scrollPaneFiles.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		panel.add(scrollPaneFiles, "flowx,cell 0 2,grow");
 
 		// Frame
