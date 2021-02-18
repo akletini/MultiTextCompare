@@ -109,7 +109,7 @@ public class FileSelectionView extends JFrame {
 
 		// Config Parameter
 		textFieldFileName.setText(management.getFileImporter().getConfig()
-				.getDateiname());
+				.getFilename());
 
 		// Controller
 		management
@@ -174,7 +174,7 @@ public class FileSelectionView extends JFrame {
 	}
 
 	public void fileExtToButton() {
-		switch (management.getFileImporter().getConfig().getDateityp()) {
+		switch (management.getFileImporter().getConfig().getFiletype()) {
 		case (".txt"):
 			rdbtnTxt.setSelected(true);
 			break;

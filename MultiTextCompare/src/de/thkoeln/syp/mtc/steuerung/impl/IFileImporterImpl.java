@@ -11,7 +11,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,21 +38,26 @@ public class IFileImporterImpl implements IFileImporter {
 		diffTempFiles = new LinkedHashMap<>();
 		prop = new Properties();
 
-		prop.setProperty(PROP_LEERZEICHEN, "true");
-		prop.setProperty(PROP_SATZZEICHEN, "true");
-		prop.setProperty(PROP_GROSSSCHREIBUNG, "true");
-		prop.setProperty(PROP_LEERZEILEN, "true");
 		prop.setProperty(PROP_ROOT, System.getProperty("user.dir"));
-		prop.setProperty(PROP_LINEMATCH, "true");
-		prop.setProperty(PROP_DATEINAME, "");
-		prop.setProperty(PROP_DATEITYP, ".txt");
+		prop.setProperty(PROP_FILENAME, "");
+		prop.setProperty(PROP_FILETYPE, ".txt");
 
-		prop.setProperty(PROP_SORTIEREELEMENTE, "true");
-		prop.setProperty(PROP_SORTIEREATTRIBUTE, "true");
-		prop.setProperty(PROP_LOESCHEATTRIBUTE, "false");
-		prop.setProperty(PROP_LOESCHEKOMMENTARE, "false");
-		prop.setProperty(PROP_NURTAGS, "false");
-		prop.setProperty(PROP_VALIDATION, "0");
+		prop.setProperty(PROP_WHITESPACES, "true");
+		prop.setProperty(PROP_BLANKLINES, "true");
+		prop.setProperty(PROP_PUNCTUATION, "true");
+		prop.setProperty(PROP_CAPITALIZATION, "true");
+		prop.setProperty(PROP_COMPARELINES, "true");
+		prop.setProperty(PROP_LINEMATCH, "true");
+
+		prop.setProperty(PROP_XMLVALIDATION, "0");
+		prop.setProperty(PROP_XMLSORTELEMNTS, "true");
+		prop.setProperty(PROP_XMLSORTATTRIBUTES, "true");
+		prop.setProperty(PROP_XMLDELETEATTRIBUTES, "false");
+		prop.setProperty(PROP_XMLDELETECOMMENTS, "false");
+		prop.setProperty(PROP_XMLONLYTAGS, "false");
+
+		prop.setProperty(PROP_JSONSORTKEYS, "true");
+		prop.setProperty(PROP_JSONDELETEVALUES, "false");
 
 		importConfigdatei(DEFAULT_CONFIG);
 	}
@@ -151,31 +155,40 @@ public class IFileImporterImpl implements IFileImporter {
 			}
 		}
 
-		iConfig.setBeachteLeerzeichen(Boolean.parseBoolean(prop
-				.getProperty(PROP_LEERZEICHEN)));
-		iConfig.setBeachteSatzzeichen(Boolean.parseBoolean(prop
-				.getProperty(PROP_SATZZEICHEN)));
-		iConfig.setBeachteGrossschreibung(Boolean.parseBoolean(prop
-				.getProperty(PROP_GROSSSCHREIBUNG)));
-		iConfig.setBeachteLeerzeilen(Boolean.parseBoolean(prop
-				.getProperty(PROP_LEERZEILEN)));
 		iConfig.setRootDir(prop.getProperty(PROP_ROOT));
+		iConfig.setFilename(prop.getProperty(PROP_FILENAME));
+		iConfig.setFiletype(prop.getProperty(PROP_FILETYPE));
+
+		iConfig.setKeepWhitespaces(Boolean.parseBoolean(prop
+				.getProperty(PROP_WHITESPACES)));
+		iConfig.setKeepBlankLines(Boolean.parseBoolean(prop
+				.getProperty(PROP_BLANKLINES)));
+		iConfig.setKeepPuctuation(Boolean.parseBoolean(prop
+				.getProperty(PROP_PUNCTUATION)));
+		iConfig.setKeepCapitalization(Boolean.parseBoolean(prop
+				.getProperty(PROP_CAPITALIZATION)));
+		iConfig.setCompareLines(Boolean.parseBoolean(prop
+				.getProperty(PROP_COMPARELINES)));
 		iConfig.setLineMatch(Boolean.parseBoolean(prop
 				.getProperty(PROP_LINEMATCH)));
-		iConfig.setDateiname(prop.getProperty(PROP_DATEINAME));
-		iConfig.setDateityp(prop.getProperty(PROP_DATEITYP));
 
-		iConfig.setSortiereElemente(Boolean.parseBoolean(prop
-				.getProperty(PROP_SORTIEREELEMENTE)));
-		iConfig.setSortiereAttribute(Boolean.parseBoolean(prop
-				.getProperty(PROP_SORTIEREATTRIBUTE)));
-		iConfig.setLoescheAttribute(Boolean.parseBoolean(prop
-				.getProperty(PROP_LOESCHEATTRIBUTE)));
-		iConfig.setLoescheKommentare(Boolean.parseBoolean(prop
-				.getProperty(PROP_LOESCHEKOMMENTARE)));
-		iConfig.setNurTags(Boolean.parseBoolean(prop.getProperty(PROP_NURTAGS)));
-		iConfig.setValidation(Integer.parseInt(prop
-				.getProperty(PROP_VALIDATION)));
+		iConfig.setXmlValidation(Integer.parseInt(prop
+				.getProperty(PROP_XMLVALIDATION)));
+		iConfig.setXmlSortElements(Boolean.parseBoolean(prop
+				.getProperty(PROP_XMLSORTELEMNTS)));
+		iConfig.setXmlSortAttributes(Boolean.parseBoolean(prop
+				.getProperty(PROP_XMLSORTATTRIBUTES)));
+		iConfig.setXmlDeleteAttributes(Boolean.parseBoolean(prop
+				.getProperty(PROP_XMLDELETEATTRIBUTES)));
+		iConfig.setXmlDeleteComments(Boolean.parseBoolean(prop
+				.getProperty(PROP_XMLDELETECOMMENTS)));
+		iConfig.setXmlOnlyTags(Boolean.parseBoolean(prop
+				.getProperty(PROP_XMLONLYTAGS)));
+
+		iConfig.setJsonSortKeys(Boolean.parseBoolean(prop
+				.getProperty(PROP_JSONSORTKEYS)));
+		iConfig.setJsonDeleteValues(Boolean.parseBoolean(prop
+				.getProperty(PROP_JSONDELETEVALUES)));
 
 		return true;
 	}
@@ -253,32 +266,40 @@ public class IFileImporterImpl implements IFileImporter {
 		try {
 			outputStream = new FileOutputStream(iConfig.getPath());
 
-			prop.setProperty(PROP_LEERZEICHEN,
-					Boolean.toString(iConfig.getBeachteLeerzeichen()));
-			prop.setProperty(PROP_SATZZEICHEN,
-					Boolean.toString(iConfig.getBeachteSatzzeichen()));
-			prop.setProperty(PROP_GROSSSCHREIBUNG,
-					Boolean.toString(iConfig.getBeachteGrossschreibung()));
-			prop.setProperty(PROP_LEERZEILEN,
-					Boolean.toString(iConfig.getBeachteLeerzeilen()));
 			prop.setProperty(PROP_ROOT, iConfig.getRootDir());
+			prop.setProperty(PROP_FILENAME, iConfig.getFilename());
+			prop.setProperty(PROP_FILETYPE, iConfig.getFiletype());
+
+			prop.setProperty(PROP_WHITESPACES,
+					Boolean.toString(iConfig.getKeepWhitespaces()));
+			prop.setProperty(PROP_BLANKLINES,
+					Boolean.toString(iConfig.getKeepBlankLines()));
+			prop.setProperty(PROP_PUNCTUATION,
+					Boolean.toString(iConfig.getKeepPuctuation()));
+			prop.setProperty(PROP_CAPITALIZATION,
+					Boolean.toString(iConfig.getKeepCapitalization()));
+			prop.setProperty(PROP_COMPARELINES,
+					Boolean.toString(iConfig.getCompareLines()));
 			prop.setProperty(PROP_LINEMATCH,
 					Boolean.toString(iConfig.getLineMatch()));
-			prop.setProperty(PROP_DATEINAME, iConfig.getDateiname());
-			prop.setProperty(PROP_DATEITYP, iConfig.getDateityp());
 
-			prop.setProperty(PROP_SORTIEREELEMENTE,
-					Boolean.toString(iConfig.getSortiereElemente()));
-			prop.setProperty(PROP_SORTIEREATTRIBUTE,
-					Boolean.toString(iConfig.getSortiereAttribute()));
-			prop.setProperty(PROP_LOESCHEATTRIBUTE,
-					Boolean.toString(iConfig.getLoescheAttribute()));
-			prop.setProperty(PROP_LOESCHEKOMMENTARE,
-					Boolean.toString(iConfig.getLoescheKommentare()));
-			prop.setProperty(PROP_NURTAGS,
-					Boolean.toString(iConfig.getNurTags()));
-			prop.setProperty(PROP_VALIDATION,
-					Integer.toString(iConfig.getValidation()));
+			prop.setProperty(PROP_XMLVALIDATION,
+					Integer.toString(iConfig.getXmlValidation()));
+			prop.setProperty(PROP_XMLSORTELEMNTS,
+					Boolean.toString(iConfig.getXmlSortElements()));
+			prop.setProperty(PROP_XMLSORTATTRIBUTES,
+					Boolean.toString(iConfig.getXmlSortAttributes()));
+			prop.setProperty(PROP_XMLDELETEATTRIBUTES,
+					Boolean.toString(iConfig.getXmlDeleteAttributes()));
+			prop.setProperty(PROP_XMLDELETECOMMENTS,
+					Boolean.toString(iConfig.getXmlDeleteComments()));
+			prop.setProperty(PROP_XMLONLYTAGS,
+					Boolean.toString(iConfig.getXmlOnlyTags()));
+
+			prop.setProperty(PROP_JSONSORTKEYS,
+					Boolean.toString(iConfig.getJsonSortKeys()));
+			prop.setProperty(PROP_JSONDELETEVALUES,
+					Boolean.toString(iConfig.getJsonDeleteValues()));
 
 			prop.store(outputStream, null);
 
@@ -509,14 +530,14 @@ public class IFileImporterImpl implements IFileImporter {
 
 				String line;
 				while ((line = reader.readLine()) != null) {
-					if (!iConfig.getBeachteLeerzeilen())
+					if (!iConfig.getKeepBlankLines())
 						if (line.isEmpty())
 							continue;
-					if (!iConfig.getBeachteGrossschreibung())
+					if (!iConfig.getKeepCapitalization())
 						line = line.toLowerCase();
-					if (!iConfig.getBeachteSatzzeichen())
+					if (!iConfig.getKeepPuctuation())
 						line = line.replaceAll("\\p{Punct}", "");
-					if (!iConfig.getBeachteLeerzeichen())
+					if (!iConfig.getKeepWhitespaces())
 						line = line.replaceAll("\\s", "\n");
 					else
 						line = line.replaceAll(" ", " \n");
@@ -582,14 +603,14 @@ public class IFileImporterImpl implements IFileImporter {
 
 				String line;
 				while ((line = reader.readLine()) != null) {
-					if (!iConfig.getBeachteLeerzeilen())
+					if (!iConfig.getKeepBlankLines())
 						if (line.isEmpty())
 							continue;
-					if (!iConfig.getBeachteGrossschreibung())
+					if (!iConfig.getKeepCapitalization())
 						line = line.toLowerCase();
-					if (!iConfig.getBeachteSatzzeichen())
+					if (!iConfig.getKeepPuctuation())
 						line = line.replaceAll("\\p{Punct}", "");
-					if (!iConfig.getBeachteLeerzeichen())
+					if (!iConfig.getKeepWhitespaces())
 						line = line.replaceAll("\\s", "");
 
 					writer.write(line + "\n");
@@ -626,7 +647,7 @@ public class IFileImporterImpl implements IFileImporter {
 		if (tempFiles.exists() && tempFiles.isDirectory()) {
 			for (File f : tempFiles.listFiles())
 				f.delete();
-			
+
 			this.tempFiles.clear();
 			this.diffTempFiles.clear();
 		}

@@ -146,10 +146,10 @@ public class FileSelectionController extends JFrame {
 					int foundFiles = fileImporter.getTextdateien().size();
 					management.appendToLog("Found " + foundFiles + " files! " + timeDiffAsString + "\n");
 
-					fileImporter.getConfig().setDateiname(
+					fileImporter.getConfig().setFilename(
 							management.getFileSelectionView()
 									.getTextFieldFileName().getText());
-					fileImporter.getConfig().setDateityp(getFileExt());
+					fileImporter.getConfig().setFiletype(getFileExt());
 					fileImporter.exportConfigdatei();
 					mode = management.getFileSelectionView().getRadioButton();
 				}
@@ -183,7 +183,7 @@ public class FileSelectionController extends JFrame {
 
 			// Ggf. Radio Buttons ausgrauen und gewaehlten Dateityp speichern
 			setRdbtn(fileImporter.getTextdateien().isEmpty());
-			fileImporter.getConfig().setDateityp(getFileExt());
+			fileImporter.getConfig().setFiletype(getFileExt());
 			mode = management.getFileSelectionView().getRadioButton();
 
 			// JList Anzeige aktualisieren
@@ -260,7 +260,7 @@ public class FileSelectionController extends JFrame {
 					textvergleicher.getVergleiche(textvergleicher
 							.getTempFiles());
 
-					if (fileImporter.getConfig().getLineMatch() == false) {
+					if (fileImporter.getConfig().getCompareLines() == false) {
 						textvergleicher.vergleicheUeberGanzesDokument();
 					} else {
 						textvergleicher.vergleicheZeilenweise();
