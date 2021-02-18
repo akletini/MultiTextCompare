@@ -67,21 +67,21 @@ public class ConfigView extends JFrame {
 		lblWhitespaces = new JLabel("Keep whitespaces ");
 		panel.add(lblWhitespaces, "cell 0 4,grow");
 		checkBoxWhitespaces = new JCheckBox();
-		checkBoxWhitespaces.setSelected(config.getBeachteLeerzeichen());
+		checkBoxWhitespaces.setSelected(config.getKeepWhitespaces());
 		panel.add(checkBoxWhitespaces, "cell 1 4,alignx center,growy");
 
 		// Leerzeilen
 		lblBlankLines = new JLabel("Keep blank lines ");
 		panel.add(lblBlankLines, "cell 0 5,grow");
 		checkBoxBlankLines = new JCheckBox();
-		checkBoxBlankLines.setSelected(config.getBeachteLeerzeilen());
+		checkBoxBlankLines.setSelected(config.getKeepBlankLines());
 		panel.add(checkBoxBlankLines, "cell 1 5,alignx center,growy");
 
 		// Satzzeichen
 		lblPunctMarks = new JLabel("Keep punctuation marks ");
 		panel.add(lblPunctMarks, "cell 0 6,grow");
 		checkBoxPunctMarks = new JCheckBox();
-		checkBoxPunctMarks.setSelected(config.getBeachteSatzzeichen());
+		checkBoxPunctMarks.setSelected(config.getKeepPuctuation());
 		panel.add(checkBoxPunctMarks, "cell 1 6,alignx center,growy");
 
 		// Grossschreibung
@@ -89,7 +89,7 @@ public class ConfigView extends JFrame {
 		panel.add(lblCaps, "cell 0 7,grow");
 		checkBoxCaps = new JCheckBox();
 		panel.add(checkBoxCaps, "cell 1 7,alignx center,growy");
-		checkBoxCaps.setSelected(config.getBeachteGrossschreibung());
+		checkBoxCaps.setSelected(config.getKeepCapitalization());
 
 		// CompareLines
 		lblCompareLines = new JLabel("Compare Lines");
@@ -117,35 +117,35 @@ public class ConfigView extends JFrame {
 		lblSortElements = new JLabel("Sort elements");
 		panel.add(lblSortElements, "cell 3 5,grow");
 		checkBoxSortElements = new JCheckBox();
-		checkBoxSortElements.setSelected(config.getSortiereElemente());
+		checkBoxSortElements.setSelected(config.getXmlSortElements());
 		panel.add(checkBoxSortElements, "cell 4 5,alignx center,growy");
 
 		// Sortierte Attribute
 		lblSortAttributes = new JLabel("Sort attributes");
 		panel.add(lblSortAttributes, "cell 3 6,grow");
 		checkBoxSortAttributes = new JCheckBox();
-		checkBoxSortAttributes.setSelected(config.getSortiereAttribute());
+		checkBoxSortAttributes.setSelected(config.getXmlDeleteAttributes());
 		panel.add(checkBoxSortAttributes, "cell 4 6,alignx center,growy");
 
 		// Loesche Attribute
 		lblDeleteAttributes = new JLabel("Delete attributes");
 		panel.add(lblDeleteAttributes, "cell 3 7,grow");
 		checkBoxDeleteAttributes = new JCheckBox();
-		checkBoxDeleteAttributes.setSelected(config.getLoescheAttribute());
+		checkBoxDeleteAttributes.setSelected(config.getXmlDeleteAttributes());
 		panel.add(checkBoxDeleteAttributes, "cell 4 7,alignx center,growy");
 
 		// L�sche Kommentare
 		lblDeleteComments = new JLabel("Delete comments");
 		panel.add(lblDeleteComments, "cell 3 8,grow");
 		checkBoxDeleteComments = new JCheckBox();
-		checkBoxDeleteComments.setSelected(config.getLoescheKommentare());
+		checkBoxDeleteComments.setSelected(config.getXmlDeleteComments());
 		panel.add(checkBoxDeleteComments, "cell 4 8,alignx center,growy");
 
 		// Nur Tags
 		lblOnlyTags = new JLabel("Only tags");
 		panel.add(lblOnlyTags, "cell 3 9,grow");
 		checkBoxOnlyTags = new JCheckBox();
-		checkBoxOnlyTags.setSelected(config.getNurTags());
+		checkBoxOnlyTags.setSelected(config.getXmlOnlyTags());
 		panel.add(checkBoxOnlyTags, "cell 4 9,alignx center,growy");
 
 		
