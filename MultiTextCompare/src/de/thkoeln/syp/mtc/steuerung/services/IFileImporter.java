@@ -25,7 +25,7 @@ public interface IFileImporter {
 	final String PROP_XMLDELETEATTRIBUTES = "xmlDeleteAttributes";
 	final String PROP_XMLDELETECOMMENTS = "xmlDeleteComments";
 	final String PROP_XMLONLYTAGS = "xmlOnlyTags";
-	
+
 	final String PROP_JSONSORTKEYS = "jsonSortKeys";
 	final String PROP_JSONDELETEVALUES = "jsonDeleteValues";
 
