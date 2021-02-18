@@ -122,8 +122,9 @@ public class FileSelectionController extends JFrame {
 					// Gibt einen Hinweis aus, falls keine neuen Dateien
 					// gefunden wurden
 					if (fileImporter.getTextdateien().equals(reference)){
-						new PopupView("Hinweis",
-								"Bei dieser Suche wurden keine weiteren Dateien gefunden");
+						new PopupView("Attention",
+								"No more files found");
+						management.appendToLog("No more files found \n");
 						return;
 					}
 
@@ -143,7 +144,7 @@ public class FileSelectionController extends JFrame {
 								+ "ms)";
 					}
 					int foundFiles = fileImporter.getTextdateien().size();
-					management.appendToLog("Found " + foundFiles + " files! " + timeDiffAsString);
+					management.appendToLog("Found " + foundFiles + " files! " + timeDiffAsString + "\n");
 
 					fileImporter.getConfig().setDateiname(
 							management.getFileSelectionView()
@@ -290,6 +291,7 @@ public class FileSelectionController extends JFrame {
 					String timeDiffAsString;
 					if (time_difference > 1000) {
 						time_difference /= 1000;
+						time_difference = Math.round(time_difference * 100.0) / 100.0;
 						timeDiffAsString = " (time taken: " + time_difference
 								+ "s)";
 					} else {
