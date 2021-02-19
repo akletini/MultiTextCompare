@@ -48,7 +48,7 @@ public class IDiffHelperImpl implements IDiffHelper {
 			LineIterator file2 = FileUtils.lineIterator(files[1], "UTF-8");
 
 			// Initialize visitor.
-			FileCommandVisitor fileCommandsVisitor = new FileCommandVisitor();
+			FileCommandVisitor fileCommandVisitor = new FileCommandVisitor();
 			int lineNum = 0;
 
 			// Read file line by line so that comparison can be done line by
@@ -78,7 +78,7 @@ public class IDiffHelperImpl implements IDiffHelper {
 					left = lineNum + "  " + left;
 					right = lineNum + "  " + right;
 					comparator = new StringsComparator(left, right);
-					comparator.getScript().visit(fileCommandsVisitor);
+					comparator.getScript().visit(fileCommandVisitor);
 				} else {
 					/*
 					 * If both lines do not have 40% commanlity then compare
@@ -90,15 +90,15 @@ public class IDiffHelperImpl implements IDiffHelper {
 					right = lineNum + "  " + right;
 					StringsComparator leftComparator = new StringsComparator(
 							left, "");
-					leftComparator.getScript().visit(fileCommandsVisitor);
+					leftComparator.getScript().visit(fileCommandVisitor);
 					StringsComparator rightComparator = new StringsComparator(
 							"", right);
-					rightComparator.getScript().visit(fileCommandsVisitor);
+					rightComparator.getScript().visit(fileCommandVisitor);
 				}
 			}
-			fileCommandsVisitor.generatePrimaryDiff(2);
-			leftLines = fileCommandsVisitor.getLeftLines();
-			rightLines = fileCommandsVisitor.getRightLines();
+			fileCommandVisitor.generatePrimaryDiff(2);
+			leftLines = fileCommandVisitor.getLeftLines();
+			rightLines = fileCommandVisitor.getRightLines();
 		} else {
 			final LineIterator file1 = FileUtils
 					.lineIterator(files[0], "UTF-8");
@@ -108,7 +108,7 @@ public class IDiffHelperImpl implements IDiffHelper {
 					.lineIterator(files[2], "UTF-8");
 
 			// Initialize visitor.
-			FileCommandVisitor fileCommandsVisitor = new FileCommandVisitor();
+			FileCommandVisitor fileCommandVisitor = new FileCommandVisitor();
 			int lineNum = 0;
 
 			// Read file line by line so that comparison can be done line by
@@ -143,7 +143,7 @@ public class IDiffHelperImpl implements IDiffHelper {
 					middle = lineNum + "  " + middle;
 
 					comparator1 = new StringsComparator(left, middle);
-					comparator1.getScript().visit(fileCommandsVisitor);
+					comparator1.getScript().visit(fileCommandVisitor);
 
 				} else {
 					/*
@@ -157,10 +157,10 @@ public class IDiffHelperImpl implements IDiffHelper {
 
 					StringsComparator leftComparator = new StringsComparator(
 							left, "");
-					leftComparator.getScript().visit(fileCommandsVisitor);
+					leftComparator.getScript().visit(fileCommandVisitor);
 					StringsComparator middleComparator = new StringsComparator(
 							"", middle);
-					middleComparator.getScript().visit(fileCommandsVisitor);
+					middleComparator.getScript().visit(fileCommandVisitor);
 
 				}
 
@@ -174,7 +174,7 @@ public class IDiffHelperImpl implements IDiffHelper {
 					right = lineNum + "  " + right;
 
 					comparator2 = new StringsComparator(left, right);
-					comparator2.getScript().visit(fileCommandsVisitor);
+					comparator2.getScript().visit(fileCommandVisitor);
 				} else {
 					/*
 					 * If both lines do not have 40% commanlity then compare
@@ -186,27 +186,37 @@ public class IDiffHelperImpl implements IDiffHelper {
 
 					StringsComparator leftComparator = new StringsComparator(
 							left, "");
-					leftComparator.getScript().visit(fileCommandsVisitor);
+					leftComparator.getScript().visit(fileCommandVisitor);
 					StringsComparator rightComparator = new StringsComparator(
 							"", right);
-					rightComparator.getScript().visit(fileCommandsVisitor);
+					rightComparator.getScript().visit(fileCommandVisitor);
 				}
 
 			}
 
-			fileCommandsVisitor.generatePrimaryDiff(3);
-			fileCommandsVisitor.setDurchgang(2);
-			generateOuterDiff(files, fileCommandsVisitor);
-			fileCommandsVisitor.generateFinalDiff();
+			fileCommandVisitor.generatePrimaryDiff(3);
+			fileCommandVisitor.setDurchgang(2);
+			generateOuterDiff(files, fileCommandVisitor);
+			fileCommandVisitor.generateFinalDiff();
 
-			leftLines = fileCommandsVisitor.getLeftLines();
-			middleLines = fileCommandsVisitor.getMiddleLines();
-			rightLines = fileCommandsVisitor.getRightLines();
+			leftLines = fileCommandVisitor.getLeftLines();
+			middleLines = fileCommandVisitor.getMiddleLines();
+			rightLines = fileCommandVisitor.getRightLines();
 		}
 	}
 
+	/**
+	 * Erstellt Diff fuer mittleres und rechtes File
+	 * 
+	 * @param files
+	 *            ausgewaehlte Dateien
+	 * @param fileCommandVisitor
+	 *            aktuelle Instanz des fileCommandVisitors auf dem die primaere
+	 *            Diff gebildet wurde
+	 * @throws IOException
+	 */
 	private void generateOuterDiff(File[] files,
-			FileCommandVisitor fileCommandsVisitor) throws IOException {
+			FileCommandVisitor fileCommandVisitor) throws IOException {
 		LineIterator file1 = FileUtils.lineIterator(files[1], "UTF-8");
 		LineIterator file2 = FileUtils.lineIterator(files[2], "UTF-8");
 
@@ -216,7 +226,7 @@ public class IDiffHelperImpl implements IDiffHelper {
 		// Read file line by line so that comparison can be done line by
 		// line.
 		while (file1.hasNext() || file2.hasNext()
-				|| lineNum < fileCommandsVisitor.getLeftLines().size()) {
+				|| lineNum < fileCommandVisitor.getLeftLines().size()) {
 			/*
 			 * In case both files have different number of lines, fill in with
 			 * empty strings. Also append newline char at end so next line
@@ -240,7 +250,7 @@ public class IDiffHelperImpl implements IDiffHelper {
 				right = lineNum + "  " + right;
 				middle = lineNum + "  " + middle;
 				comparator = new StringsComparator(middle, right);
-				comparator.getScript().visit(fileCommandsVisitor);
+				comparator.getScript().visit(fileCommandVisitor);
 			} else {
 				/*
 				 * If both lines do not have 40% commanlity then compare each
@@ -251,10 +261,10 @@ public class IDiffHelperImpl implements IDiffHelper {
 				middle = lineNum + "  " + middle;
 				StringsComparator leftComparator = new StringsComparator(
 						middle, "");
-				leftComparator.getScript().visit(fileCommandsVisitor);
+				leftComparator.getScript().visit(fileCommandVisitor);
 				StringsComparator rightComparator = new StringsComparator("",
 						right);
-				rightComparator.getScript().visit(fileCommandsVisitor);
+				rightComparator.getScript().visit(fileCommandVisitor);
 			}
 		}
 

@@ -22,17 +22,17 @@ import de.thkoeln.syp.mtc.steuerung.services.IMatchHelper;
 
 public class IMatchHelperImpl implements IMatchHelper {
 
-	public List<IMatch> matches;
-	List<IMatch> oldIndeces;
-	List<String> leftFile;
-	List<String> rightFile;
+	private List<IMatch> matches;
+	private List<IMatch> oldIndeces;
+	private List<String> leftFile;
+	private List<String> rightFile;
 
 	public String[] leftFileLines, rightFileLines;
 
 	// Anzahl der Zeilen, fuer die nach einer identischen Zeile gesucht wird
 	private final int LOOKAHEAD = 5;
-	// �hnlichkeit ab der Zeilen gematcht werden (Wert von 0 bis 1)
-	private final double MATCH_AT = 0.5;
+	// Aehnlichkeit ab der Zeilen gematcht werden (Wert von 0 bis 1)
+	private final double MATCH_AT = 0.6;
 
 	private int leftSize = 0, rightSize = 0;
 
@@ -108,7 +108,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 	}
 
 	/**
-	 * Prueft ob es bereits ein Match f�r eine der uebergebenen Zeilen gibt
+	 * Prueft ob es bereits ein Match fuer eine der uebergebenen Zeilen gibt
 	 * 
 	 * @param left
 	 *            Zeile der linken Datei
@@ -117,7 +117,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 	 * @return true wenn noch kein Match existiert, sonst false
 	 */
 	private boolean notMatchedYet(Integer left, Integer right) {
-		//
+		
 		List<Integer> leftIndeces = new LinkedList<Integer>(), rightIndeces = new LinkedList<Integer>();
 		for (IMatch match : matches) {
 			leftIndeces.add(match.getLeftRow());
@@ -216,7 +216,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 	}
 
 	/**
-	 * Berechnet wie gro� die finalen Arrays mit den gematchten Ergebnissen
+	 * Berechnet wie gross die finalen Arrays mit den gematchten Ergebnissen
 	 * sein muessen
 	 * 
 	 * @throws IOException
@@ -268,7 +268,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 
 			int index = 0;
 
-			// Teil zwischen den Matches f�llen
+			// Teil zwischen den Matches fuellen
 			for (int m = firstIndexNew; m < secondIndexNew; m++) {
 				if (index < differenceOld) {
 					leftFileLines[firstIndexNew] = chunk.get(index);
@@ -386,16 +386,25 @@ public class IMatchHelperImpl implements IMatchHelper {
 			}
 		}
 	}
-
+	
+	/**
+	 * Prueft ob ref und comp sich aehnlich sind
+	 * @param ref Referenz-String
+	 * @param comp String mit dem verglichen wird
+	 * @return true wenn sich die Strings aehnlich sind, sonst false
+	 */
 	private boolean matches(String ref, String comp) {
 		StringsComparator comparator = new StringsComparator(ref, comp);
-		if (comparator.getScript().getLCSLength() > (Math.max(ref.length(),
+		if (comparator.getScript().getLCSLength() >= (Math.max(ref.length(),
 				comp.length()) * MATCH_AT)) {
 			return true;
 		}
 		return false;
 	}
-
+	
+	/**
+	 * erstellt temporaere Dateien auf denen das Matching stattfindet
+	 */
 	@Override
 	public File[] createMatchFiles(File[] files) throws IOException {
 		BufferedReader reader;
@@ -433,11 +442,16 @@ public class IMatchHelperImpl implements IMatchHelper {
 		return matchFiles.toArray(new File[files.length]);
 
 	}
-
+	
+	/**
+	 * schreibt angepasste/gematchte Eintraege der jeweiligen Zeilenarrays in a und b
+	 * @param a file mit Zeilen der linken Ursprungsdatei
+	 * @param b file mit Zeilen der rechten Ursprungsdatei
+	 * @throws IOException
+	 */
 	private void writeArrayToFile(File a, File b) throws IOException {
 		BufferedWriter outputLinks = new BufferedWriter(new OutputStreamWriter(
 				new FileOutputStream(a), "UTF-8"));
-		// BufferedWriter outputLinks = new BufferedWriter(new FileWriter(a));
 		for (int i = 0; i < leftFileLines.length; i++) {
 			outputLinks.write(leftFileLines[i]);
 			outputLinks.newLine();
@@ -445,7 +459,6 @@ public class IMatchHelperImpl implements IMatchHelper {
 
 		BufferedWriter outputRechts = new BufferedWriter(
 				new OutputStreamWriter(new FileOutputStream(b), "UTF-8"));
-		// BufferedWriter outputRechts = new BufferedWriter(new FileWriter(b));
 		for (int i = 0; i < rightFileLines.length; i++) {
 			outputRechts.write(rightFileLines[i]);
 			outputRechts.newLine();
@@ -455,11 +468,11 @@ public class IMatchHelperImpl implements IMatchHelper {
 		outputRechts.close();
 	}
 
-	// Debug-Methoden
-	private void printMatches() {
-		for (IMatch match : matches) {
-			System.out.println(match.toString());
-		}
+	@Override
+	public List<IMatch> getMatches() {
+		return matches;
 	}
+
+	
 
 }
