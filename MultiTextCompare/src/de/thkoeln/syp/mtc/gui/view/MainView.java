@@ -55,7 +55,6 @@ public class MainView extends JFrame {
 		// Panel
 		panel = new JPanel();
 		panel.setBorder(new EmptyBorder(5, 5, 5, 5));
-
 		panel.setLayout(new MigLayout("", "[grow]",
 				"[30px:n:100px,top][grow,center][80px:n:160px,grow,bottom]"));
 

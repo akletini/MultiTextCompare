@@ -93,7 +93,7 @@ public class ComparisonView extends JFrame {
 		scrollPaneRight
 				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollPaneMain
-		.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
 		// Synced das vertikale Scrollen
 		new ScrollBarSynchronizer(scrollPaneLeft.getVerticalScrollBar(),
@@ -125,11 +125,15 @@ public class ComparisonView extends JFrame {
 		try {
 			selectedTempFiles = selection.toArray(new File[selection.size()]);
 			matchedDiffFiles = matchHelper.createMatchFiles(selectedTempFiles);
-			if (selection.size() == 2) {
-				matchHelper.matchEqualLines(matchedDiffFiles[0],
-						matchedDiffFiles[1]);
-			} else if (selection.size() == 3) {
-				matchUntilFilesUnchanged(matchHelper, matchedDiffFiles);
+			
+			// Falls Line Match aktiviert
+			if (management.getFileImporter().getConfig().getLineMatch()) {
+				if (selection.size() == 2) {
+					matchHelper.matchEqualLines(matchedDiffFiles[0],
+							matchedDiffFiles[1]);
+				} else if (selection.size() == 3) {
+					matchUntilFilesUnchanged(matchHelper, matchedDiffFiles);
+				}
 			}
 
 			diffHelper.computeDisplayDiff(matchedDiffFiles);
