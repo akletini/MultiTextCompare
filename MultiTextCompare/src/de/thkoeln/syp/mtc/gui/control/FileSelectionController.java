@@ -22,6 +22,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 
+import de.thkoeln.syp.mtc.datenhaltung.api.IJSONParseError;
 import de.thkoeln.syp.mtc.datenhaltung.api.IMatrix;
 import de.thkoeln.syp.mtc.datenhaltung.api.IXMLParseError;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IMatrixImpl;
@@ -29,6 +30,7 @@ import de.thkoeln.syp.mtc.gui.view.FileSelectionView;
 import de.thkoeln.syp.mtc.gui.view.FileView;
 import de.thkoeln.syp.mtc.gui.view.PopupView;
 import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
+import de.thkoeln.syp.mtc.steuerung.services.IJSONvergleicher;
 import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
 import de.thkoeln.syp.mtc.steuerung.services.IXMLvergleicher;
 
@@ -38,21 +40,23 @@ public class FileSelectionController extends JFrame {
 	private FileDialog fd;
 	private JFileChooser fc;
 	private File[] selection;
-	private List<File> selectionList;
-	private List<File> lastComparisonFiles;
+	private List<File> selectionList, lastComparisonFiles;
 	private IMatrix matrix;
 	private IFileImporter fileImporter;
 	private ITextvergleicher textvergleicher;
 	private IXMLvergleicher xmlvergleicher;
+	private IJSONvergleicher jsonvergleicher;
 	private int mode;
+	private boolean newSelection;
 
 	public FileSelectionController(FileSelectionView fileSelectionView) {
 		// Management Variablen
 		management = Management.getInstance();
 		management.setFileSelectionController(this);
 		fileImporter = management.getFileImporter();
-		textvergleicher = management.getTextVergleicher();
+		textvergleicher = management.getTextvergleicher();
 		xmlvergleicher = management.getXmlvergleicher();
+		jsonvergleicher = management.getJsonvergleicher();
 
 		// Panel & neue Matrix fuer den naechsten Vergleich
 		panel = new JPanel();
@@ -71,6 +75,10 @@ public class FileSelectionController extends JFrame {
 		// Wurzelverzeichnis anzeigen
 		fileSelectionView.getLblRootPath().setText(
 				fileImporter.getConfig().getRootDir());
+
+		// Variable um zu bestimmen ob nach Anzeige der Matrix die Selection
+		// geaendert wurde
+		newSelection = false;
 	}
 
 	class SetRootListener implements ActionListener {
@@ -92,10 +100,11 @@ public class FileSelectionController extends JFrame {
 	class SearchListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			management.appendToLog("Searching for files..");
-			
+
 			class rootSearchThread extends SwingWorker<String, Void> {
 				List<File> reference;
 				long start_time;
+
 				@Override
 				public String doInBackground() {
 					start_time = System.nanoTime();
@@ -121,9 +130,8 @@ public class FileSelectionController extends JFrame {
 				public void done() {
 					// Gibt einen Hinweis aus, falls keine neuen Dateien
 					// gefunden wurden
-					if (fileImporter.getTextdateien().equals(reference)){
-						new PopupView("Attention",
-								"No more files found");
+					if (fileImporter.getTextdateien().equals(reference)) {
+						new PopupView("Attention", "No more files found");
 						management.appendToLog("No more files found \n");
 						return;
 					}
@@ -144,7 +152,8 @@ public class FileSelectionController extends JFrame {
 								+ "ms)";
 					}
 					int foundFiles = fileImporter.getTextdateien().size();
-					management.appendToLog("Found " + foundFiles + " files! " + timeDiffAsString + "\n");
+					management.appendToLog("Found " + foundFiles + " files! "
+							+ timeDiffAsString + "\n");
 
 					fileImporter.getConfig().setFilename(
 							management.getFileSelectionView()
@@ -197,6 +206,7 @@ public class FileSelectionController extends JFrame {
 			for (File f : getListSelection()) {
 				// System.out.println(f.getAbsolutePath());
 				fileImporter.deleteImport(f);
+				newSelection = true;
 			}
 
 			// Anzeige aktualsieren
@@ -215,6 +225,7 @@ public class FileSelectionController extends JFrame {
 			management.getFileSelectionView().getModel().clear();
 			management.getFileSelectionView().getLblFileCount().setText("0");
 			setRdbtn(true);
+			newSelection = true;
 		}
 	}
 
@@ -247,6 +258,16 @@ public class FileSelectionController extends JFrame {
 								.getErrorList())
 							management.appendToLog(error.getMessage());
 					}
+
+					// JSON Vergleich
+					else if (mode == 2) {
+						fileImporter.createDiffTempFiles(jsonvergleicher
+								.jsonPrepare(fileImporter.getTempFilesMap()));
+						for (IJSONParseError error : jsonvergleicher
+								.getErrorList())
+							management.appendToLog(error.getMessage() + "\n");
+
+					}
 					// Standard Vergleich
 					else {
 						fileImporter.createDiffTempFiles(fileImporter
@@ -264,9 +285,9 @@ public class FileSelectionController extends JFrame {
 						textvergleicher.vergleicheUeberGanzesDokument();
 					} else {
 						textvergleicher.vergleicheZeilenweise();
-
 					}
 
+					newSelection = false;
 					return null;
 				}
 
@@ -320,7 +341,6 @@ public class FileSelectionController extends JFrame {
 	}
 
 	class FileViewListener extends MouseAdapter {
-
 		public void mouseClicked(MouseEvent evt) {
 
 			JList list = (JList) evt.getSource();
@@ -453,5 +473,9 @@ public class FileSelectionController extends JFrame {
 
 	public int getMode() {
 		return mode;
+	}
+
+	public boolean getNewSelection() {
+		return newSelection;
 	}
 }

@@ -7,15 +7,16 @@ import de.thkoeln.syp.mtc.gui.view.PopupView;
 
 public class PopupController {
 	private PopupView popupView;
-	public PopupController(PopupView popupView){
+
+	public PopupController(PopupView popupView) {
 		this.popupView = popupView;
 		popupView.addOkListener(new OkListener());
 	}
-	
+
 	class OkListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			popupView.setVisible(false);
-			popupView.dispose(); 
+			popupView.dispose();
 		}
 	}
 }

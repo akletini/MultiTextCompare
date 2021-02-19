@@ -124,6 +124,34 @@ public class FileSelectionView extends JFrame {
 		this.setLocationRelativeTo(null);
 	}
 
+	// Waehlt den richtigen Radiobutton je nach Dateiendung
+	private void fileExtToButton() {
+		switch (management.getFileImporter().getConfig().getFiletype()) {
+		case (".txt"):
+			rdbtnTxt.setSelected(true);
+			break;
+
+		case (".xml"):
+			rdbtnXml.setSelected(true);
+			break;
+
+		case (".json"):
+			rdbtnJson.setSelected(true);
+			break;
+
+		case (""):
+			rdbtnAll.setSelected(true);
+			break;
+
+		default:
+			rdbtnTxt.setSelected(true);
+			break;
+
+		}
+	}
+
+	// -- Getter --
+	
 	public JLabel getLblRootPath() {
 		return lblRootPath;
 	}
@@ -173,32 +201,9 @@ public class FileSelectionView extends JFrame {
 			return -1;
 	}
 
-	private void fileExtToButton() {
-		switch (management.getFileImporter().getConfig().getFiletype()) {
-		case (".txt"):
-			rdbtnTxt.setSelected(true);
-			break;
-
-		case (".xml"):
-			rdbtnXml.setSelected(true);
-			break;
-
-		case (".json"):
-			rdbtnJson.setSelected(true);
-			break;
-
-		case (""):
-			rdbtnAll.setSelected(true);
-			break;
-
-		default:
-			rdbtnTxt.setSelected(true);
-			break;
-
-		}
-
-	}
-
+	
+	// -- Methoden um die Buttons auf den Controller zu verweisen -- 
+	
 	public void addSetRootListener(ActionListener e) {
 		btnSetRoot.addActionListener(e);
 	}

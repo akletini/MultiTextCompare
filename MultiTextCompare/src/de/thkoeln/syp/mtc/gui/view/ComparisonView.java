@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Insets;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,7 +12,6 @@ import java.util.Map.Entry;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.ScrollPaneConstants;
@@ -27,6 +24,8 @@ import javax.swing.text.StyleContext;
 import de.thkoeln.syp.mtc.datenhaltung.api.IDiffChar;
 import de.thkoeln.syp.mtc.datenhaltung.api.IDiffLine;
 import de.thkoeln.syp.mtc.gui.control.Management;
+import de.thkoeln.syp.mtc.gui.resources.NoWrapJTextPane;
+import de.thkoeln.syp.mtc.gui.resources.ScrollBarSynchronizer;
 import de.thkoeln.syp.mtc.steuerung.impl.IDiffHelperImpl;
 import de.thkoeln.syp.mtc.steuerung.impl.IMatchHelperImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IDiffHelper;
@@ -34,16 +33,16 @@ import de.thkoeln.syp.mtc.steuerung.services.IMatchHelper;
 
 public class ComparisonView extends JFrame {
 	private Management management;
-	private IDiffHelper diffHelper;
-	private IMatchHelper matchHelper;
 	private File[] selectedTempFiles, matchedDiffFiles;
-	private List<File> selection;
-	private List<File> temp;
 	private String fileName1, fileName2, fileName3;
 	private JTextPane tPaneLeft, tPaneMid, tPaneRight;
 	private JScrollPane scrollPaneLeft, scrollPaneMid, scrollPaneRight,
 			scrollPaneMain;
 	private JPanel panel;
+	private IDiffHelper diffHelper;
+	private IMatchHelper matchHelper;
+	private List<File> selection;
+	private List<File> temp;
 
 	public ComparisonView(List<File> selectedList, List<Integer> fileIndices) {
 		// Management
@@ -56,16 +55,16 @@ public class ComparisonView extends JFrame {
 		matchHelper = new IMatchHelperImpl();
 		selection = new ArrayList<File>();
 		temp = new ArrayList<File>();
-		
+
 		// Dateinamen werden ermittelt fuer die Anzeige im Frame Titel
 		fileName1 = management.getFileSelectionView().getModel()
 				.get(fileIndices.get(0)).split("\\|")[0];
 		fileName2 = management.getFileSelectionView().getModel()
 				.get(fileIndices.get(1)).split("\\|")[0];
 		fileName3 = "";
-		
+
 		// -- Alle Container --
-		
+
 		tPaneLeft = new NoWrapJTextPane();
 		tPaneMid = new NoWrapJTextPane();
 		tPaneRight = new NoWrapJTextPane();
@@ -75,37 +74,36 @@ public class ComparisonView extends JFrame {
 		panel = new JPanel();
 		scrollPaneMain = new JScrollPane(panel);
 
+		// Textpane Parameter
 		setupTextPane(tPaneLeft);
 		setupTextPane(tPaneMid);
 		setupTextPane(tPaneRight);
 
+		// Nur horizontale Scollbars + vertikal rechts
 		scrollPaneLeft
 				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 		scrollPaneLeft
 				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-		
+
 		scrollPaneMid
-		.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 		scrollPaneMid
-		.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-		
-		scrollPaneRight
 				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 
+		scrollPaneRight
+				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scrollPaneMain
+		.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+		// Synced das vertikale Scrollen
 		new ScrollBarSynchronizer(scrollPaneLeft.getVerticalScrollBar(),
 				scrollPaneMid.getVerticalScrollBar(),
 				scrollPaneRight.getVerticalScrollBar());
 
-		
+		// Panel Parameter
 		panel.setPreferredSize(new Dimension(200, 200));
-		
-		scrollPaneMain.setViewportView(panel);
-		scrollPaneMain
-				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-		
 		// Anzeige wird vorbereitet
-		
 		for (File f : selectedList) {
 			for (Entry<File, File> entry : management.getFileImporter()
 					.getTempFilesMap().entrySet()) {
@@ -141,10 +139,10 @@ public class ComparisonView extends JFrame {
 				panel.setLayout(new GridLayout(0, 2));
 				panel.add(scrollPaneLeft);
 				panel.add(scrollPaneRight);
-				
+
 				diffWriter(diffHelper.getLeftLines(), tPaneLeft);
 				diffWriter(diffHelper.getRightLines(), tPaneRight);
-				
+
 				tPaneLeft.setCaretPosition(0);
 				tPaneRight.setCaretPosition(0);
 			}
@@ -154,7 +152,7 @@ public class ComparisonView extends JFrame {
 				fileName3 = " <-> "
 						+ management.getFileSelectionView().getModel()
 								.get(fileIndices.get(2)).split("\\|")[0];
-				
+
 				panel.setLayout(new GridLayout(0, 3));
 				panel.add(scrollPaneLeft);
 				panel.add(scrollPaneMid);
@@ -184,15 +182,14 @@ public class ComparisonView extends JFrame {
 
 	}
 
-	
 	// Setup der TextPanes
-	private void setupTextPane(JTextPane textPane){
+	private void setupTextPane(JTextPane textPane) {
 		textPane.setBorder(new EmptyBorder(new Insets(10, 10, 10, 10)));
 		textPane.setMargin(new Insets(5, 5, 5, 5));
 		textPane.setBackground(new Color(20, 20, 20));
 		textPane.setPreferredSize((new Dimension(500, 200)));
 	}
-	
+
 	// Schreibt eine Zeile in die TextPane
 	private void appendToPane(JTextPane textPane, String msg, Color c) {
 		StyleContext sc = StyleContext.getDefaultStyleContext();
@@ -210,13 +207,12 @@ public class ComparisonView extends JFrame {
 		textPane.setCharacterAttributes(aset, false);
 		textPane.replaceSelection(msg);
 	}
-	
+
 	// Befuellt eine TextPane
-	private void diffWriter(List <IDiffLine> lineList, JTextPane textPane){
+	private void diffWriter(List<IDiffLine> lineList, JTextPane textPane) {
 		for (IDiffLine diffLine : lineList) {
 			for (IDiffChar diffChar : diffLine.getDiffedLine()) {
-				appendToPane(textPane, diffChar.getCurrentChar()
-						.toString(),
+				appendToPane(textPane, diffChar.getCurrentChar().toString(),
 						stringToColor(diffChar.getCharColor()));
 			}
 		}
@@ -248,54 +244,9 @@ public class ComparisonView extends JFrame {
 	// Fuer das Matchen der Lines
 	private void matchUntilFilesUnchanged(IMatchHelper match, File[] files)
 			throws IOException {
-			match.matchEqualLines(files[0], files[1]);
-			match.matchEqualLines(files[0], files[2]);
-			match.matchEqualLines(files[1], files[2]);
-			
-	}
+		match.matchEqualLines(files[0], files[1]);
+		match.matchEqualLines(files[0], files[2]);
+		match.matchEqualLines(files[1], files[2]);
 
-	// Extraklasse um die Scrollbars der einzelnen ScrollPanes zu
-	// synchronisieren
-	static class ScrollBarSynchronizer implements AdjustmentListener {
-		JScrollBar[] scrollBars;
-
-		public ScrollBarSynchronizer(JScrollBar... scrollBars) {
-			this.scrollBars = scrollBars;
-
-			for (JScrollBar scrollBar : scrollBars)
-				scrollBar.addAdjustmentListener(this);
-		}
-
-		@Override
-		public void adjustmentValueChanged(AdjustmentEvent e) {
-			JScrollBar source = (JScrollBar) e.getSource();
-			int value = e.getValue();
-
-			for (JScrollBar scrollBar : scrollBars) {
-				if (scrollBar != source) {
-					scrollBar.removeAdjustmentListener(this);
-					scrollBar.setValue(value);
-					scrollBar.addAdjustmentListener(this);
-				}
-			}
-		}
-	}
-
-	// Extra JTextPane Klasse, die "Word Wrapping" verhindert
-	public class NoWrapJTextPane extends JTextPane {
-		@Override
-		public boolean getScrollableTracksViewportWidth() {
-			// Only track viewport width when the viewport is wider than the
-			// preferred width
-			return getUI().getPreferredSize(this).width <= getParent()
-					.getSize().width;
-		};
-
-		@Override
-		public Dimension getPreferredSize() {
-			// Avoid substituting the minimum width for the preferred width when
-			// the viewport is too narrow
-			return getUI().getPreferredSize(this);
-		};
 	}
 }

@@ -9,7 +9,6 @@ import javax.swing.JFileChooser;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
 import de.thkoeln.syp.mtc.gui.view.ConfigView;
-import de.thkoeln.syp.mtc.gui.view.PopupView;
 
 public class ConfigController {
 	private Management management;
@@ -20,12 +19,12 @@ public class ConfigController {
 		management = Management.getInstance();
 		this.configView = configView;
 		this.configView
-				.addWurzelverzeichnisListener(new WurzelverzeichnisListener());
+				.addSetRootListener(new SetRootListener());
 		this.configView.addDefaultListener(new DefaultListener());
-		this.configView.addSpeichernListener(new SpeichernListener());
+		this.configView.addSaveListener(new SaveListener());
 	}
 
-	class WurzelverzeichnisListener implements ActionListener {
+	class SetRootListener implements ActionListener {
 		public void actionPerformed(ActionEvent action) {
 			fc = new JFileChooser();
 			fc.setCurrentDirectory(new File(management.getFileImporter()
@@ -41,40 +40,50 @@ public class ConfigController {
 
 	class DefaultListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			configView.getCheckBoxLeerzeichen().setSelected(false);
-			configView.getCheckBoxLeerzeilen().setSelected(false);
-			configView.getCheckBoxSatzzeichen().setSelected(false);
-			configView.getCheckBoxGrossschreibung().setSelected(false);
+			configView.getCheckBoxWhitespaces().setSelected(false);
+			configView.getCheckBoxBlankLines().setSelected(false);
+			configView.getCheckBoxPunctuation().setSelected(false);
+			configView.getCheckBoxCaps().setSelected(false);
 			configView.getCheckBoxCompareLines().setSelected(false);
-			configView.getComboBoxValidation().setSelectedIndex(0);
-			configView.getCheckBoxSortiereElemente().setSelected(false);
-			configView.getCheckBoxSortiereAttribute().setSelected(false);
-			configView.getCheckBoxLoescheAttribute().setSelected(false);
-			configView.getCheckBoxLoescheKommentare().setSelected(false);
-			configView.getCheckBoxNurTags().setSelected(false);
-			configView.getCheckBoxLeerzeichen().setSelected(false);
+			configView.getComboBoxXmlValidation().setSelectedIndex(0);
+			configView.getCheckBoxXmlSortElements().setSelected(false);
+			configView.getCheckBoxXmlSortAttributes().setSelected(false);
+			configView.getCheckBoxXmlDeleteAttribute().setSelected(false);
+			configView.getCheckBoxXmlDeleteComments().setSelected(false);
+			configView.getCheckBoxXmlOnlyTags().setSelected(false);
+			configView.getCheckBoxWhitespaces().setSelected(false);
 		}
 	}
 
-	class SpeichernListener implements ActionListener {
+	class SaveListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			IConfig config = management.getFileImporter().getConfig();
 
-			config.setKeepWhitespaces(configView.getCheckBoxLeerzeichen()
+			config.setKeepWhitespaces(configView.getCheckBoxWhitespaces()
 					.isSelected());
-
-			config.setKeepBlankLines(configView.getCheckBoxLeerzeilen()
+			config.setKeepBlankLines(configView.getCheckBoxBlankLines()
 					.isSelected());
-
 			config.setKeepCapitalization(configView
-					.getCheckBoxGrossschreibung().isSelected());
-
-			config.setKeepPuctuation(configView.getCheckBoxSatzzeichen()
+					.getCheckBoxCaps().isSelected());
+			config.setKeepPuctuation(configView.getCheckBoxPunctuation()
 					.isSelected());
-
 			config.setCompareLines(configView.getCheckBoxCompareLines().isSelected());
+			config.setLineMatch(configView.getCheckBoxLineMatch().isSelected());
 
-			switch (configView.getComboBoxValidation().getSelectedItem()
+			config.setXmlSortElements(configView.getCheckBoxXmlSortElements()
+					.isSelected());
+			config.setXmlSortAttributes((configView
+					.getCheckBoxXmlSortAttributes().isSelected()));
+			config.setXmlDeleteAttributes(configView.getCheckBoxXmlDeleteAttribute()
+					.isSelected());
+			config.setXmlDeleteComments(configView
+					.getCheckBoxXmlDeleteComments().isSelected());
+			config.setXmlOnlyTags(configView.getCheckBoxXmlOnlyTags().isSelected());
+			
+			config.setJsonSortKeys(configView.getCheckBoxJsonSortKeys().isSelected());
+			config.setJsonDeleteValues(configView.getCheckBoxJsonDeleteValues().isSelected());
+			
+			switch (configView.getComboBoxXmlValidation().getSelectedItem()
 					.toString()) {
 			case "Internal XSD":
 				config.setXmlValidation(1);
@@ -89,24 +98,21 @@ public class ConfigController {
 				config.setXmlValidation(0);
 				break;
 			}
-
-			config.setXmlSortElements(configView.getCheckBoxSortiereElemente()
-					.isSelected());
-
-			config.setXmlSortAttributes((configView
-					.getCheckBoxSortiereAttribute().isSelected()));
-
-			config.setXmlDeleteAttributes(configView.getCheckBoxLoescheAttribute()
-					.isSelected());
-
-			config.setXmlDeleteComments(configView
-					.getCheckBoxLoescheKommentare().isSelected());
-
-			config.setXmlOnlyTags(configView.getCheckBoxNurTags().isSelected());
-
+			
+			switch (configView.getComboBoxXmlPrint().getSelectedItem().toString()) {
+			case "Raw":
+				config.setXmlPrint(1);
+				break;
+			case "Compact":
+				config.setXmlPrint(2);
+				break;
+			default:
+				config.setXmlPrint(0);
+				break;
+			}
+			
 			management.getFileImporter().exportConfigdatei();
-
-			new PopupView("", "The settings have been saved.");
+			management.appendToLog("Configuration has been saved");
 			configView.dispatchEvent(new WindowEvent(configView,
 					WindowEvent.WINDOW_CLOSING));
 		}

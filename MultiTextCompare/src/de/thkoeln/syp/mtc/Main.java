@@ -1,4 +1,4 @@
-package de.thkoeln.syp.mtc.gui;
+package de.thkoeln.syp.mtc;
 
 import java.awt.EventQueue;
 

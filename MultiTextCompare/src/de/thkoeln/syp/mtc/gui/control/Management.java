@@ -1,9 +1,7 @@
 package de.thkoeln.syp.mtc.gui.control;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import de.thkoeln.syp.mtc.gui.view.AboutView;
 import de.thkoeln.syp.mtc.gui.view.ComparisonView;
@@ -13,9 +11,11 @@ import de.thkoeln.syp.mtc.gui.view.FileView;
 import de.thkoeln.syp.mtc.gui.view.HelpView;
 import de.thkoeln.syp.mtc.gui.view.MainView;
 import de.thkoeln.syp.mtc.steuerung.impl.IFileImporterImpl;
+import de.thkoeln.syp.mtc.steuerung.impl.IJSONvergleicherImpl;
 import de.thkoeln.syp.mtc.steuerung.impl.ITextvergleicherImpl;
 import de.thkoeln.syp.mtc.steuerung.impl.IXMLvergleicherImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
+import de.thkoeln.syp.mtc.steuerung.services.IJSONvergleicher;
 import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
 import de.thkoeln.syp.mtc.steuerung.services.IXMLvergleicher;
 
@@ -37,14 +37,13 @@ public class Management {
 	private IFileImporter fileImporter;
 	private ITextvergleicher textvergleicher;
 	private IXMLvergleicher xmlvergleicher;
-
-	private List<String> matrixList;
+	private IJSONvergleicher jsonvergleicher;
 
 	private Management() {
 		fileImporter = new IFileImporterImpl();
 		textvergleicher = new ITextvergleicherImpl();
 		xmlvergleicher = new IXMLvergleicherImpl(fileImporter);
-		matrixList = new ArrayList<>();
+		jsonvergleicher = new IJSONvergleicherImpl(fileImporter);
 	}
 
 	public static Management getInstance() {
@@ -100,12 +99,12 @@ public class Management {
 	public void setAboutView(AboutView aboutView) {
 		this.aboutView = aboutView;
 	}
-	
-	public void setFileView(FileView fileView){
+
+	public void setFileView(FileView fileView) {
 		this.fileView = fileView;
 	}
-	
-	public FileView getFileView(){
+
+	public FileView getFileView() {
 		return fileView;
 	}
 
@@ -142,11 +141,11 @@ public class Management {
 		this.fileImporter = fileImporter;
 	}
 
-	public ITextvergleicher getTextVergleicher() {
+	public ITextvergleicher getTextvergleicher() {
 		return textvergleicher;
 	}
 
-	public void setTextVergleicher(ITextvergleicher textVergleicher) {
+	public void setTextvergleicher(ITextvergleicher textVergleicher) {
 		this.textvergleicher = textVergleicher;
 	}
 
@@ -154,11 +153,17 @@ public class Management {
 		return xmlvergleicher;
 	}
 
-	public void setXmlvergleicher(IXMLvergleicher xmlvergleicher) {
-		this.xmlvergleicher = xmlvergleicher;
+	public void setXmlvergleicher(IXMLvergleicher xmlVergleicher) {
+		this.xmlvergleicher = xmlVergleicher;
 	}
-	
-	
+
+	public IJSONvergleicher getJsonvergleicher() {
+		return jsonvergleicher;
+	}
+
+	public void setJsonvergleicher(IJSONvergleicher jsonVergleicher) {
+		this.jsonvergleicher = jsonVergleicher;
+	}
 
 	// Aktualisiert Wurzelpfad Anzeige in fileSelectionView & configView
 	public void updateWurzelpfad() {

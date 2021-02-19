@@ -34,9 +34,10 @@ import javax.swing.table.TableCellRenderer;
 import net.miginfocom.swing.MigLayout;
 import de.thkoeln.syp.mtc.datenhaltung.api.IMatrix;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IAehnlichkeitImpl;
-import de.thkoeln.syp.mtc.gui.RowNumberTable;
 import de.thkoeln.syp.mtc.gui.control.MainController;
 import de.thkoeln.syp.mtc.gui.control.Management;
+import de.thkoeln.syp.mtc.gui.resources.MouseAdapterMatrix;
+import de.thkoeln.syp.mtc.gui.resources.RowNumberTable;
 
 public class MainView extends JFrame {
 	private Management management;
@@ -76,7 +77,8 @@ public class MainView extends JFrame {
 		textArea.setFont(new Font("Monospaced", Font.PLAIN, 14));
 		textArea.setEditable(false);
 		scrollPaneFiles = new JScrollPane(textArea);
-		scrollPaneFiles.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrollPaneFiles
+				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		panel.add(scrollPaneFiles, "flowx,cell 0 2,grow");
 
 		// Frame
@@ -93,13 +95,14 @@ public class MainView extends JFrame {
 	public void updateMatrix(IMatrix matrix, int anzahlDateien,
 			String[] nameDateien) {
 
-		DecimalFormat df = new DecimalFormat("0.000");
+		List<IAehnlichkeitImpl> listMatrix = management.getTextvergleicher()
+				.getMatrix().getInhalt(); // Aehnlichkeitswerte
+		String[][] data = new String[anzahlDateien][anzahlDateien]; // String Array zum befuellen der Matrix
+		DecimalFormat df = new DecimalFormat("0.000"); // Formatieren der Aehnlichkeitswerte
 		df.setDecimalFormatSymbols(DecimalFormatSymbols.getInstance(Locale.US));
-		int index = 0;
-		List<IAehnlichkeitImpl> listMatrix = management.getTextVergleicher()
-				.getMatrix().getInhalt();
-		String[][] data = new String[anzahlDateien][anzahlDateien];
-
+		int index = 0; // Zusaetzliche Index Variable fuer die for-Schleife
+		
+		// data Array wird mit Aehnlichkeitswerten befuellt
 		for (int i = 0; i < anzahlDateien; i++) {
 			data[i][i] = "1.000";
 			for (int j = i + 1; j < anzahlDateien; j++) {
@@ -111,6 +114,7 @@ public class MainView extends JFrame {
 			}
 		}
 
+		// Matrix wird erstellt
 		tableMatrix = new JTable(data, nameDateien) {
 			@Override
 			public Component prepareRenderer(TableCellRenderer renderer,
@@ -136,131 +140,38 @@ public class MainView extends JFrame {
 				};
 			}
 		};
+		
+		// Matrix Parameter
 		tableMatrix.getTableHeader().setReorderingAllowed(false);
 		tableMatrix.setRowHeight(60);
 		tableMatrix.setDefaultEditor(Object.class, null);
 		tableMatrix.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		
+		// Wenn noetig alte MatrixPane loeschen und Neue auf das Panel legen
 		if (scrollPaneMatrix != null)
 			panel.remove(scrollPaneMatrix);
 		scrollPaneMatrix = new JScrollPane(tableMatrix);
 		panel.add(scrollPaneMatrix, "cell 0 1,grow");
 
+		// Zentrieren der Aehnlichkeitswerte
 		DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) tableMatrix
 				.getDefaultRenderer(Object.class);
 		renderer.setHorizontalAlignment(SwingConstants.CENTER);
 
+		// Modifikation der Matrix fuer Zeilenbenennung
 		rowTable = new RowNumberTable(tableMatrix);
 		rowTable.setFilenames(nameDateien);
 		scrollPaneMatrix.setRowHeaderView(rowTable);
 		scrollPaneMatrix.setCorner(JScrollPane.UPPER_LEFT_CORNER,
 				rowTable.getTableHeader());
 		SwingUtilities.updateComponentTreeUI(this);
-		MouseAdapterMatrix mam = new MouseAdapterMatrix();
-		tableMatrix.addMouseListener(mam);
-		tableMatrix.getTableHeader().addMouseListener(mam);
+		
+		// MouseAdapter um Matrix klickbar zu machen
+		MouseAdapterMatrix mouseAdapterMatrix = new MouseAdapterMatrix();
+		tableMatrix.addMouseListener(mouseAdapterMatrix);
+		tableMatrix.getTableHeader().addMouseListener(mouseAdapterMatrix);
 	}
 
-	private class MouseAdapterMatrix extends MouseAdapter {
-		private List<File> selectedFiles;
-		private List<Integer> fileIndices;
-
-		public MouseAdapterMatrix() {
-			selectedFiles = new ArrayList<File>();
-			fileIndices = new ArrayList<Integer>();
-		}
-
-		@Override
-		public void mousePressed(MouseEvent e) {
-			Set<Entry<File, File>> tempFiles;
-			tempFiles = management.getFileImporter().getTempFilesMap()
-					.entrySet();
-			boolean kreuzKlick = false;
-
-			// Klick in der Matrix (Kreuzung)
-			if (tableMatrix.equals(e.getSource())) {
-				JTable table = (JTable) e.getSource();
-				int rowIndex = table.rowAtPoint(e.getPoint());
-				int columnIndex = table.columnAtPoint(e.getPoint());
-				kreuzKlick = true;
-
-				for (Map.Entry<File, File> entry : tempFiles) {
-					if (entry.getValue().getName()
-							.equals("temp_" + (columnIndex + 1))
-							&& !fileIndices.contains(columnIndex)) {
-						selectedFiles.add(entry.getValue());
-						fileIndices.add(columnIndex);
-					}
-					if (entry.getValue().getName()
-							.equals("temp_" + (rowIndex + 1))
-							&& !fileIndices.contains(rowIndex)) {
-						selectedFiles.add(entry.getValue());
-						fileIndices.add(rowIndex);
-					}
-				}
-
-				if (columnIndex == rowIndex) {
-					management.appendToLog(management.getFileSelectionView()
-							.getModel()
-							.get(fileIndices.get(selectedFiles.size() - 1))
-							.split("\\|")[0].trim()
-							+ " has been selected. Total: "
-							+ (selectedFiles.size()));
-				} else {
-					management
-							.appendToLog(management
-									.getFileSelectionView()
-									.getModel()
-									.get(fileIndices.get(selectedFiles.size() - 2))
-									.split("\\|")[0].trim()
-									+ " & "
-									+ management
-											.getFileSelectionView()
-											.getModel()
-											.get(fileIndices.get(selectedFiles
-													.size() - 1)).split("\\|")[0]
-									+ " have been selected. Total: "
-									+ (selectedFiles.size()));
-				}
-
-			}
-
-			// Klick auf Spaltenkopf
-			else if (tableMatrix.getTableHeader().equals(e.getSource())) {
-				int columnIndex = tableMatrix.columnAtPoint(e.getPoint());
-				for (Map.Entry<File, File> entry : tempFiles) {
-					if (entry.getValue().getName()
-							.equals("temp_" + (columnIndex + 1))) {
-						selectedFiles.add(entry.getValue());
-						fileIndices.add(columnIndex);
-						management.appendToLog(management
-								.getFileSelectionView().getModel()
-								.get(fileIndices.get(selectedFiles.size() - 1))
-								.split("\\|")[0].trim()
-								+ " has been selected. Total: "
-								+ (selectedFiles.size()));
-					}
-				}
-			}
-
-			if (selectedFiles.size() > 3) {
-				management
-						.appendToLog("Error! Only 2 or 3 files can be compared at once.");
-				selectedFiles.clear();
-				fileIndices.clear();
-				kreuzKlick = false;
-
-			} else if ((selectedFiles.size() == 2 && kreuzKlick == true)
-					|| selectedFiles.size() == 3) {
-				management.setComparisonView(new ComparisonView(selectedFiles,
-						fileIndices));
-				management.appendToLog("Comparison is now visible");
-				// management.getFileImporter().createDiffTempFiles(management.getFileImporter().getTempFilesMap());
-				selectedFiles.clear();
-				fileIndices.clear();
-				kreuzKlick = false;
-			}
-		}
-	}
 
 	// Generierung der Farbe passend zum Aehnlichkeitswert
 	private Color getColor(double value) {
@@ -271,10 +182,16 @@ public class MainView extends JFrame {
 		return Color.getHSBColor((float) h, (float) s, (float) b);
 	}
 
+	// -- Getter --
 	public JTextArea getTextArea() {
 		return textArea;
 	}
+	
+	public JTable getTableMatrix(){
+		return tableMatrix;
+	}
 
+	// -- Methoden um die Buttons auf den Controller zu verweisen -- 
 	public void addFileSelectionListener(ActionListener e) {
 		btnDateiauswahl.addActionListener(e);
 	}
