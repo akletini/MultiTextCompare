@@ -63,7 +63,7 @@ public class MouseAdapterMatrix extends MouseAdapter {
 						fileIndices.add(rowIndex);
 					}
 				}
-				
+
 				// Logausgabe bei Klick auf Diagonale
 				if (columnIndex == rowIndex) {
 					management.appendToLog(management.getFileSelectionView()
@@ -72,8 +72,8 @@ public class MouseAdapterMatrix extends MouseAdapter {
 							.split("\\|")[0].trim()
 							+ " has been selected. Total: "
 							+ (selectedFiles.size()));
-					
-				// Sonstige Logausgabe
+
+					// Sonstige Logausgabe
 				} else {
 					management
 							.appendToLog(management
@@ -98,14 +98,15 @@ public class MouseAdapterMatrix extends MouseAdapter {
 					.equals(e.getSource())) {
 				int columnIndex = management.getMainView().getTableMatrix()
 						.columnAtPoint(e.getPoint());
-				
+
 				// Tempfiles werden durchsucht
 				for (Map.Entry<File, File> entry : tempFiles) {
 					if (entry.getValue().getName()
-							.equals("temp_" + (columnIndex + 1))) {
+							.equals("temp_" + (columnIndex + 1))
+							&& !fileIndices.contains(columnIndex)) {
 						selectedFiles.add(entry.getValue());
 						fileIndices.add(columnIndex);
-						
+
 						// Logausgabe
 						management.appendToLog(management
 								.getFileSelectionView().getModel()
@@ -125,7 +126,7 @@ public class MouseAdapterMatrix extends MouseAdapter {
 				fileIndices.clear();
 				kreuzKlick = false;
 
-			// ComparisonView wird geoeffnet
+				// ComparisonView wird geoeffnet
 			} else if ((selectedFiles.size() == 2 && kreuzKlick == true)
 					|| selectedFiles.size() == 3) {
 				management.setComparisonView(new ComparisonView(selectedFiles,
