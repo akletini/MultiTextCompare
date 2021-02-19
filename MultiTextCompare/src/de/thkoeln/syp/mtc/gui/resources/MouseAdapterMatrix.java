@@ -102,10 +102,11 @@ public class MouseAdapterMatrix extends MouseAdapter {
 				// Tempfiles werden durchsucht
 				for (Map.Entry<File, File> entry : tempFiles) {
 					if (entry.getValue().getName()
-							.equals("temp_" + (columnIndex + 1))
-							&& !fileIndices.contains(columnIndex)) {
-						selectedFiles.add(entry.getValue());
-						fileIndices.add(columnIndex);
+							.equals("temp_" + (columnIndex + 1))) {
+						if (!fileIndices.contains(columnIndex)) {
+							selectedFiles.add(entry.getValue());
+							fileIndices.add(columnIndex);
+						}
 
 						// Logausgabe
 						management.appendToLog(management

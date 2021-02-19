@@ -1,8 +1,5 @@
 package de.thkoeln.syp.mtc.datenhaltung.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import de.thkoeln.syp.mtc.datenhaltung.api.IMatch;
 
 public class IMatchImpl implements IMatch{
