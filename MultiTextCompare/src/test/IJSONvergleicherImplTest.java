@@ -43,6 +43,35 @@ public class IJSONvergleicherImplTest {
 	}
 	
 	@Test
+	public void test_deleteValues() {
+		iJSON.clearErrorList();
+		try{
+			testdatei = new File(System.getProperty("user.dir")
+					+ File.separator + "/src/test/testFiles/JSONTestFiles/deleteValues.json");		
+		}catch(Exception e){
+			System.out.println("Fehler in beforeAllTests: Testdateien beschaedigt!");
+			e.printStackTrace();
+		}
+		
+		try{
+			erwarteteErgebnisse = new File(System.getProperty("user.dir")
+					+ File.separator + "/src/test/testFiles/JSONTestFiles/ExpectedOutcome/deleteValues.json");			
+		}catch(Exception e){
+			System.out.println("Fehler in beforeAllTests: Testdateien beschaedigt!");
+			e.printStackTrace();
+		}
+		
+		
+		String ist = iJSON.deleteValues(readFileToString(testdatei));
+		String soll = readFileToString(erwarteteErgebnisse);
+		
+		assertEquals(soll, ist);
+	
+	}
+	
+	
+	
+	@Test
 	public void test_sortKeysAlphabetical() {
 		iJSON.clearErrorList();
 		try{

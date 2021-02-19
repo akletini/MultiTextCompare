@@ -19,4 +19,6 @@ public interface IJSONvergleicher {
   Map<File, File> jsonPrepare(Map<File, File> tempFiles);
   
   String sortKeysAlphabetical(String jsonString);
+  
+  String deleteValues(String jsonString);
 }

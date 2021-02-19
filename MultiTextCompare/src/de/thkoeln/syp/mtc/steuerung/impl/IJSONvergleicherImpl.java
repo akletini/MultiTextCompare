@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 
-
-
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -114,11 +112,131 @@ public class IJSONvergleicherImpl extends JsonNodeFactory implements IJSONvergle
 	 */
 	public String deleteValues(String jsonString){
 		
-		//TODO
-		
-		return jsonString;
-		
+		String[] jsonStringArray = jsonString.split("");
+	    
+	    //keyValue
+	    boolean insideKeyValueContext = false;
+	    boolean openingKeyValueIndicatorFound = false;
+	    boolean closingKeyValueIndicatorFound= false;
+	    
+	    // keyValueSeperatorAtIndex -> :
+	    boolean keyValueSeperatorFound = false;
+	    int keyValueSeperatorAtIndex = -1;
+	    
+	    //seperatorFound-> , ] }
+	    boolean seperatorFound = false;
+	    int seperatorAtIndex = -1;
+	    
+	    //array
+	    boolean arrayIndicatorFound = false;
+	    int arrayIndiacatorAtIndex = -1;
+	    
+	    boolean arrayClosingIndicatorFound = false; 
+	    int arrayClosingIndicatorAtIndex = -1;
+	    
+	    boolean arrayComplete = false;
+	    
+	    for(int index=0; index<jsonStringArray.length; index++){
+	    	
+	    	if(jsonStringArray[index].equals("\"") ){
+		        
+	    		if(openingKeyValueIndicatorFound == true && closingKeyValueIndicatorFound == false){
+	          
+	    			closingKeyValueIndicatorFound = true;
+	    			insideKeyValueContext = false;
+	          
+	    		}
+	       
+		        if(openingKeyValueIndicatorFound == false && closingKeyValueIndicatorFound == false){
+		          
+		        	openingKeyValueIndicatorFound = true;
+		        	insideKeyValueContext = true;
+		          
+		        }
+      
+	    	}
+	    	if(insideKeyValueContext){
+	    		//ignore Context
+		    } else{   
+	      
+	        
+		    if(jsonStringArray[index].equals(":") ){     
+	            openingKeyValueIndicatorFound = false;
+	            closingKeyValueIndicatorFound = false;
+	            insideKeyValueContext = false;
+	            
+	            keyValueSeperatorFound = true;
+	            keyValueSeperatorAtIndex = index;
+	            
+	        }else if(jsonStringArray[index].equals("[")){
+	            arrayIndicatorFound = true;
+	            arrayIndiacatorAtIndex = index;
+	              
+	        }else if(jsonStringArray[index].equals(",") || jsonStringArray[index].equals("]") || jsonStringArray[index].equals("}") ){
+	     
+	            seperatorFound = true;
+	            seperatorAtIndex = index;
+	                
+	            if(jsonStringArray[index].equals("]")){
+	                  
+	            	arrayClosingIndicatorAtIndex = index;
+	                arrayComplete = true;
+	                  
+	            }
+	                              
+	        }
+	        
+		    }
+		    if(keyValueSeperatorFound == true && seperatorFound && arrayComplete && arrayIndicatorFound){
+		    	 //array specific
+		    	 for(int i = arrayIndiacatorAtIndex+1; i<arrayClosingIndicatorAtIndex; i++){
+		    		 jsonStringArray[i] = "";		
+		    	 }
+				 arrayComplete = false;
+			     arrayIndicatorFound = false;
+			     arrayIndiacatorAtIndex = -1;
+			     arrayClosingIndicatorFound = false;
+			     arrayClosingIndicatorAtIndex = -1;
+				 insideKeyValueContext = false;
+				 openingKeyValueIndicatorFound = false;
+				 closingKeyValueIndicatorFound= false;
+				 keyValueSeperatorFound = false;
+				 keyValueSeperatorAtIndex = -1;
+				 seperatorFound = false;
+				 seperatorAtIndex = -1; 
+				
+		     }else if(keyValueSeperatorFound == true && seperatorFound && !arrayComplete && !arrayIndicatorFound) {
+		    	 for(int i = keyValueSeperatorAtIndex+1; i<seperatorAtIndex; i++){
+		    		 jsonStringArray[i] = "";
+						
+				 }
+					
+		    	 arrayComplete = false;
+				 arrayIndicatorFound = false;
+				 arrayIndiacatorAtIndex = -1;
+			     arrayClosingIndicatorFound = false;
+			     arrayClosingIndicatorAtIndex = -1;
+				 insideKeyValueContext = false;
+				 openingKeyValueIndicatorFound = false;
+				 closingKeyValueIndicatorFound= false;
+				 keyValueSeperatorFound = false;
+				 keyValueSeperatorAtIndex = -1;
+				 seperatorFound = false;
+				 seperatorAtIndex = -1;	    
+			  
+		    }
+		         seperatorFound = false;
+	
 	}
+	    String returnString = "";
+	    for(String x : jsonStringArray){
+	      returnString = returnString + x;
+	    }
+	    return returnString;	    
+		   
+	}
+		
+
 	
 	
 	
