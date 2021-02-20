@@ -24,6 +24,7 @@ public class ConfigController {
 		this.configView.addSaveListener(new SaveListener());
 	}
 
+	// Select Button: Auswahl des Wurzelverzeichnisses
 	class SetRootListener implements ActionListener {
 		public void actionPerformed(ActionEvent action) {
 			fc = new JFileChooser();
@@ -38,6 +39,7 @@ public class ConfigController {
 		}
 	}
 
+	// Default Button: Enfernt alle Häkchen, setzt ComboBoxes auf 0
 	class DefaultListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			configView.getCheckBoxWhitespaces().setSelected(false);
@@ -45,16 +47,20 @@ public class ConfigController {
 			configView.getCheckBoxPunctuation().setSelected(false);
 			configView.getCheckBoxCaps().setSelected(false);
 			configView.getCheckBoxCompareLines().setSelected(false);
+			configView.getCheckBoxLineMatch().setSelected(false);
 			configView.getComboBoxXmlValidation().setSelectedIndex(0);
+			configView.getComboBoxXmlPrint().setSelectedIndex(0);
 			configView.getCheckBoxXmlSortElements().setSelected(false);
 			configView.getCheckBoxXmlSortAttributes().setSelected(false);
 			configView.getCheckBoxXmlDeleteAttribute().setSelected(false);
 			configView.getCheckBoxXmlDeleteComments().setSelected(false);
 			configView.getCheckBoxXmlOnlyTags().setSelected(false);
-			configView.getCheckBoxWhitespaces().setSelected(false);
+			configView.getCheckBoxJsonSortKeys().setSelected(false);
+			configView.getCheckBoxJsonDeleteValues().setSelected(false);
 		}
 	}
 
+	// Save Button: Speichert die Konfiguration in der config Datei
 	class SaveListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			IConfig config = management.getFileImporter().getConfig();
