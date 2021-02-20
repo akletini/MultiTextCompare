@@ -19,6 +19,7 @@ import org.jdom2.JDOMException;
 import org.jdom2.input.JDOMParseException;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.input.sax.XMLReaders;
+import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
@@ -66,12 +67,25 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 	public Map<File, File> xmlPrepare(Map<File, File> tempFiles) {
 		this.clearErrorList();
 		XMLOutputter xout = new XMLOutputter();
-		boolean sortAttributes = iConfig.getXmlSortAttributes(); //iConfig.getValue
-		boolean sortElements = iConfig.getXmlSortElements(); //iConfig.getValue
-		boolean deleteAttributes = iConfig.getXmlDeleteAttributes(); //iConfig.getValue
-		boolean deleteComments = iConfig.getXmlDeleteComments(); //iConfig.getValue
-		boolean tagsOnly = iConfig.getXmlOnlyTags(); //iConfig.getValue
-		int mode = iConfig.getXmlValidation(); //iConfig.getValue
+		boolean sortAttributes = iConfig.getXmlSortAttributes();
+		boolean sortElements = iConfig.getXmlSortElements();
+		boolean deleteAttributes = iConfig.getXmlDeleteAttributes();
+		boolean deleteComments = iConfig.getXmlDeleteComments(); 
+		boolean tagsOnly = iConfig.getXmlOnlyTags();
+		int mode = iConfig.getXmlValidation();
+		int prettyPrint = iConfig.getXmlPrint();
+		
+		
+		if(prettyPrint == 1){
+			//raw
+			xout.setFormat(Format.getRawFormat());
+		}else if(prettyPrint == 2){
+			//compact
+			xout.setFormat(Format.getCompactFormat());
+		}else if(prettyPrint == 0){
+			//pretty
+			xout.setFormat(Format.getPrettyFormat());
+		}
 			
 		for(Map.Entry<File, File> entry : tempFiles.entrySet()) {
 
@@ -100,6 +114,24 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 					
 					xmlString = this.tagsOnly(xmlString);
 					
+					BufferedWriter writer;
+					try{
+						
+						writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(entry.getValue()), "UTF-8"));
+						writer.write(xmlString);
+						writer.close();
+						
+						xml = builder.build(entry.getValue());
+						
+						xmlString = xout.outputString(xml);
+						
+					}catch(Exception e){
+						
+						e.printStackTrace();
+						
+					}
+					
+	
 				}else{
 				
 					if(deleteComments){
@@ -568,15 +600,13 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 						
 					}
 					
-					
 					openingTagIndicatorFound = false;
 					closingTagIndicatorFound = false;
 					priorContent = content;
 					content = "";
 					
 				}else{
-					
-					
+						
 					openingTagIndicatorFound = false;
 					closingTagIndicatorFound = false;
 					priorContent = content;
@@ -591,6 +621,9 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 		for(String x : xmlFileArray){
 			returnString = returnString + x;
 		}
+		
+		
+		
 		
 		return returnString;
 	}
