@@ -5,11 +5,16 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.List;
 import java.util.Locale;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -80,6 +85,11 @@ public class MainView extends JFrame {
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		this.setTitle("MultiTextCompare");
 		this.setContentPane(panel);
+		try {
+			this.setIconImage(ImageIO.read(new File("res/icon.png")));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		Management.getInstance().setMainController(new MainController(this));
 	}
@@ -90,11 +100,16 @@ public class MainView extends JFrame {
 
 		List<IAehnlichkeitImpl> listMatrix = management.getTextvergleicher()
 				.getMatrix().getInhalt(); // Aehnlichkeitswerte
-		String[][] data = new String[anzahlDateien][anzahlDateien]; // String Array zum befuellen der Matrix
-		DecimalFormat df = new DecimalFormat("0.000"); // Formatieren der Aehnlichkeitswerte
+		String[][] data = new String[anzahlDateien][anzahlDateien]; // String
+																	// Array zum
+																	// befuellen
+																	// der
+																	// Matrix
+		DecimalFormat df = new DecimalFormat("0.000"); // Formatieren der
+														// Aehnlichkeitswerte
 		df.setDecimalFormatSymbols(DecimalFormatSymbols.getInstance(Locale.US));
 		int index = 0; // Zusaetzliche Index Variable fuer die for-Schleife
-		
+
 		// data Array wird mit Aehnlichkeitswerten befuellt
 		for (int i = 0; i < anzahlDateien; i++) {
 			data[i][i] = "1.000";
@@ -127,19 +142,22 @@ public class MainView extends JFrame {
 								.getColumnIndexAtX(e.getPoint().x);
 						int realIndex = columnModel.getColumn(index)
 								.getModelIndex();
-
-						return management.getPaths()[realIndex];
+						if (!management.getFileSelectionController()
+								.getNewSelection())
+							return management.getPaths()[realIndex];
+						management.appendToLog("It is not possible to display the file names after altering the file selection.");
+						return null;
 					}
 				};
 			}
 		};
-		
+
 		// Matrix Parameter
 		tableMatrix.getTableHeader().setReorderingAllowed(false);
 		tableMatrix.setRowHeight(60);
 		tableMatrix.setDefaultEditor(Object.class, null);
 		tableMatrix.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		
+
 		// Wenn noetig alte MatrixPane loeschen und Neue auf das Panel legen
 		if (scrollPaneMatrix != null)
 			panel.remove(scrollPaneMatrix);
@@ -158,13 +176,12 @@ public class MainView extends JFrame {
 		scrollPaneMatrix.setCorner(JScrollPane.UPPER_LEFT_CORNER,
 				rowTable.getTableHeader());
 		SwingUtilities.updateComponentTreeUI(this);
-		
+
 		// MouseAdapter um Matrix klickbar zu machen
 		MouseAdapterMatrix mouseAdapterMatrix = new MouseAdapterMatrix();
 		tableMatrix.addMouseListener(mouseAdapterMatrix);
 		tableMatrix.getTableHeader().addMouseListener(mouseAdapterMatrix);
 	}
-
 
 	// Generierung der Farbe passend zum Aehnlichkeitswert
 	private Color getColor(double value) {
@@ -179,12 +196,12 @@ public class MainView extends JFrame {
 	public JTextArea getTextArea() {
 		return textArea;
 	}
-	
-	public JTable getTableMatrix(){
+
+	public JTable getTableMatrix() {
 		return tableMatrix;
 	}
 
-	// -- Methoden um die Buttons auf den Controller zu verweisen -- 
+	// -- Methoden um die Buttons auf den Controller zu verweisen --
 	public void addFileSelectionListener(ActionListener e) {
 		btnDateiauswahl.addActionListener(e);
 	}

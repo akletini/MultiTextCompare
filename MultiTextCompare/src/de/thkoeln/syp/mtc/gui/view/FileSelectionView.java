@@ -2,7 +2,10 @@ package de.thkoeln.syp.mtc.gui.view;
 
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -121,6 +124,10 @@ public class FileSelectionView extends JFrame {
 		this.getRootPane().setDefaultButton(btnSearch);
 		this.pack();
 		this.setLocationRelativeTo(null);
+		try {
+			this.setIconImage(ImageIO.read(new File("res/icon.png")));
+		} catch (IOException e) {
+		}
 	}
 
 	// Waehlt den richtigen Radiobutton je nach Dateiendung

@@ -15,6 +15,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.Action;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -84,15 +85,14 @@ public class FileSelectionController extends JFrame {
 	class SetRootListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			fc = new JFileChooser();
-			Action details = fc.getActionMap().get("viewTypeDetails");
-			details.actionPerformed(null);
+			fc.getActionMap().get("viewTypeDetails").actionPerformed(null);
 			fc.setCurrentDirectory(new File(fileImporter.getConfig()
 					.getRootDir()));
-			fc.setDialogTitle("moin");
+			fc.setDialogTitle("Root path selection");
 			fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 			fc.showOpenDialog(management.getFileSelectionView());
 			fileImporter.setRootDir(fc.getSelectedFile());
-			management.updateWurzelpfad();
+			management.updateRootPath();
 			management.getFileSelectionView().pack();
 		}
 	}
@@ -178,6 +178,11 @@ public class FileSelectionController extends JFrame {
 			fd.setDirectory(fileImporter.getConfig().getRootDir());
 			fd.setFile("*" + getFileExt());
 			fd.setVisible(true);
+			try {
+				fd.setIconImage(ImageIO.read(new File("res/icon.png")));
+			} catch (IOException ioe) {
+				ioe.printStackTrace();
+			}
 
 			// Die Dateien dem FileImporter uebergeben
 			selection = fd.getFiles();
@@ -204,7 +209,6 @@ public class FileSelectionController extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			// Datei(en) aus dem FileImporter loeschen
 			for (File f : getListSelection()) {
-				// System.out.println(f.getAbsolutePath());
 				fileImporter.deleteImport(f);
 				newSelection = true;
 			}
@@ -363,8 +367,8 @@ public class FileSelectionController extends JFrame {
 							.read(input, "Reading file...");
 					management.getFileView().getTextArea().setCaretPosition(0);
 
-					management.getFileView().getFrame().setTitle(fileName);
-					management.getFileView().getFrame().setVisible(true);
+					management.getFileView().setTitle(fileName);
+					management.getFileView().setVisible(true);
 
 				} catch (IOException e) {
 
