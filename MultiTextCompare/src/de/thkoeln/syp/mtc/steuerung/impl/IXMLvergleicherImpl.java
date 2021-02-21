@@ -254,7 +254,34 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 			 }catch(JDOMException jde) {	 
 				 jde.printStackTrace(); 
 			 }
-			 break;	 
+			 break;	
+			 
+		case 3:
+			// external XSD
+			 try{ 
+				//XSDFILE DUMMY xsdfile = iConfig.getValue();
+				 File xsdfile = new File(System.getProperty("user.dir")
+							+ File.separator + "/src/test/testFiles/XMLTestFiles/TestFileExternalXSD.xsd");
+				
+				 XMLReaderJDOMFactory schemafac = new XMLReaderXSDFactory(xsdfile);
+				 
+				 builder = new SAXBuilder(schemafac);
+				 doc = builder.build(file);
+			 } catch (FileNotFoundException e) {
+				 System.out.println("File < " + file.getName() + " > not found.");	 
+			 } catch (JDOMParseException jde){			
+
+				 parseError = new IXMLParseErrorImpl(file, jde.getMessage(), jde.getColumnNumber(), jde.getLineNumber());
+				 errorListe.add(parseError);
+				 parseErrorOccurred = true;
+				 builder = new SAXBuilder();
+				 
+			 } catch(IOException ioe) {
+				 ioe.printStackTrace();
+			 }catch(JDOMException jde) {	 
+				 jde.printStackTrace(); 
+			 }
+			 break;		 		
 		}
 		return parseErrorOccurred;
 		

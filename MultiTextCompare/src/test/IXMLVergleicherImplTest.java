@@ -210,8 +210,6 @@ public class IXMLVergleicherImplTest {
 			e.printStackTrace();
 		}
 
-		
-		
 		String ist = iXML.tagsOnly(xout.outputString(testdateiDoc));
 		String soll = iXML.xmlFileToString(erwartetesErgebniss);
 		assertEquals(soll, ist);
@@ -350,6 +348,47 @@ public class IXMLVergleicherImplTest {
 		assertNotNull(errorListe);
 		assertTrue(errorListe.size() >= 1);
 		
+	}
+	
+	@Test
+	public void test_parseFile_ExternalXSD_Successful() {
+		iXML.clearErrorList();
+		
+		try{
+			testdatei = new File(System.getProperty("user.dir")
+					+ File.separator + "/src/test/testFiles/XMLTestFiles/TestFileExternalXSD.xml");
+			
+		}catch(Exception e){
+			System.out.println("Fehler in beforeAllTests: Testdateien beschaedigt!");
+			e.printStackTrace();
+		}
+		
+		assertFalse( iXML.parseFile(testdatei, 3) );
+		List<IXMLParseError> errorListe = iXML.getErrorList();
+		
+		assertNotNull(errorListe);
+		assertEquals(0, errorListe.size());	
+	}
+	
+	@Test
+	public void test_parseFile_ExternalXSD_Unsuccessful() {
+		iXML.clearErrorList();
+		
+		try{
+			testdatei = new File(System.getProperty("user.dir")
+					+ File.separator + "/src/test/testFiles/XMLTestFiles/TestFileFaultyXML.xml");
+			
+		}catch(Exception e){
+			System.out.println("Fehler in beforeAllTests: Testdateien beschaedigt!");
+			e.printStackTrace();
+		}
+		
+		assertTrue(iXML.parseFile(testdatei, 3));
+		
+		List<IXMLParseError> errorListe = iXML.getErrorList();
+		
+		assertNotNull(errorListe);
+		assertEquals(1, errorListe.size());
 	}
 	
 	@Test
