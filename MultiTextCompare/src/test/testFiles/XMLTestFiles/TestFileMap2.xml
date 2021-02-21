@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <KUNDE>
-	<BESTELLUNG attr1="test" attr2="test">
-		<!-- comment2 -->
-		<BPOS>
-			<ARTIKEL>
-				<ARTBEZ>Orangen</ARTBEZ>
-				<ARTNR>1</ARTNR>
-				<KUEHL>NK</KUEHL>
-				<!-- comment4 -->
-				<MGE>Stueck</MGE>
-				<PREIS>1.49</PREIS>
-			</ARTIKEL>
-			<MENGE>2</MENGE>
-			<POSNR attr="2" />
-			<!-- comment3 -->
-			<WERT attr="testtesttesttesttest" bttr="testtest" cttr="testtesttest">5.78</WERT>
-		</BPOS>
-		<BSTNR>2</BSTNR>
-		<RSUM httr23="teststring" xttr="teststring" zttr="teststring">40.05</RSUM>
-		<STATUS attr1="test" attr2="test" />
-		<!-- comment5 -->
-	</BESTELLUNG>
-	<!-- comment1 -->
-	<KNAME attr4="test" battr="test" cattre="test">Mueller</KNAME>
-	<KNR>1</KNR>
-	<PLZ>50126</PLZ>
-	<STRASSE>Schoene Strasse 5</STRASSE>
-	<WORT>Bergheim</WORT>
+  <BESTELLUNG attr1="test" attr2="test">
+    <!-- comment2 -->
+    <BPOS>
+      <ARTIKEL>
+        <ARTBEZ>Orangen</ARTBEZ>
+        <ARTNR>1</ARTNR>
+        <KUEHL>NK</KUEHL>
+        <!-- comment4 -->
+        <MGE>Stueck</MGE>
+        <PREIS>1.49</PREIS>
+      </ARTIKEL>
+      <MENGE>2</MENGE>
+      <POSNR attr="2" />
+      <!-- comment3 -->
+      <WERT attr="testtesttesttesttest" bttr="testtest" cttr="testtesttest">5.78</WERT>
+    </BPOS>
+    <BSTNR>2</BSTNR>
+    <RSUM httr23="teststring" xttr="teststring" zttr="teststring">40.05</RSUM>
+    <STATUS attr1="test" attr2="test" />
+    <!-- comment5 -->
+  </BESTELLUNG>
+  <!-- comment1 -->
+  <KNAME attr4="test" battr="test" cattre="test">Mueller</KNAME>
+  <KNR>1</KNR>
+  <PLZ>50126</PLZ>
+  <STRASSE>Schoene Strasse 5</STRASSE>
+  <WORT>Bergheim</WORT>
 </KUNDE>

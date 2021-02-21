@@ -18,6 +18,8 @@ import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.JDOMParseException;
 import org.jdom2.input.SAXBuilder;
+import org.jdom2.input.sax.XMLReaderJDOMFactory;
+import org.jdom2.input.sax.XMLReaderXSDFactory;
 import org.jdom2.input.sax.XMLReaders;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
@@ -252,9 +254,12 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 			 }catch(JDOMException jde) {	 
 				 jde.printStackTrace(); 
 			 }
-			 break;
+			 break;	 
 		}
 		return parseErrorOccurred;
+		
+		
+		
 	
 	}
 	
