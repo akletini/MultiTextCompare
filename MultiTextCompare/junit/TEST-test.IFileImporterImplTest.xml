@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite errors="0" failures="0" hostname="DESKTOP-6F37MS8" name="test.IFileImporterImplTest" skipped="0" tests="11" time="0.062" timestamp="2021-02-03T19:30:05">
+<testsuite errors="0" failures="0" hostname="DESKTOP-6F37MS8" name="test.IFileImporterImplTest" skipped="0" tests="11" time="0.065" timestamp="2021-02-21T20:41:40">
   <properties>
     <property name="java.vendor" value="Oracle Corporation" />
     <property name="env.USERDOMAIN_ROAMINGPROFILE" value="DESKTOP-6F37MS8" />
@@ -52,10 +52,11 @@
     <property name="os.version" value="6.3" />
     <property name="env.ProgramW6432" value="C:\Program Files" />
     <property name="env.Java" value="C:\Program Files (x86)\Java\jdk1.7.0_75\jre\bin" />
+    <property name="env.RUBYOPT" value="-Eutf-8" />
     <property name="path.separator" value=";" />
     <property name="java.vm.version" value="24.75-b04" />
-    <property name="user.variant" value="" />
     <property name="env.USERPROFILE" value="C:\Users\allen" />
+    <property name="user.variant" value="" />
     <property name="ant.library.dir" value="F:\Eclipse\plugins\org.apache.ant_1.9.2.v201404171502\lib" />
     <property name="junit.output.dir" value="junit" />
     <property name="java.awt.printerjob" value="sun.awt.windows.WPrinterJob" />
@@ -70,26 +71,26 @@
     <property name="env.SESSIONNAME" value="Console" />
     <property name="env.ProgramFiles(x86)" value="C:\Program Files (x86)" />
     <property name="java.specification.vendor" value="Oracle Corporation" />
-    <property name="java.library.path" value="C:\Program Files (x86)\Java\jdk1.7.0_75\jre\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:/Program Files (x86)/Java/jre7/bin/client;C:/Program Files (x86)/Java/jre7/bin;C:/Program Files (x86)/Java/jre7/lib/i386;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\Git\cmd;C:\Users\allen\AppData\Local\Programs\Python\Python39\Scripts\;C:\Users\allen\AppData\Local\Programs\Python\Python39\;C:\Users\allen\AppData\Local\Microsoft\WindowsApps;C:\Users\allen\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files (x86)\Java\jdk1.7.0_75\jre\bin;C:\Program Files\Java\jdk1.7.0_75;;F:\Eclipse;;." />
-    <property name="env.NUMBER_OF_PROCESSORS" value="20" />
     <property name="java.vendor.url" value="http://java.oracle.com/" />
+    <property name="env.NUMBER_OF_PROCESSORS" value="20" />
+    <property name="java.library.path" value="C:\Program Files (x86)\Java\jdk1.7.0_75\jre\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:/Program Files (x86)/Java/jre7/bin/client;C:/Program Files (x86)/Java/jre7/bin;C:/Program Files (x86)/Java/jre7/lib/i386;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\Git\cmd;H:\Downloads\helm-v3.4.2-windows-amd64\windows-amd64;C:\Ruby27-x64\bin;C:\Users\allen\AppData\Local\Programs\Python\Python39\Scripts\;C:\Users\allen\AppData\Local\Programs\Python\Python39\;C:\Users\allen\AppData\Local\Microsoft\WindowsApps;C:\Users\allen\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files (x86)\Java\jdk1.7.0_75\jre\bin;C:\Program Files\Java\jdk1.7.0_75;H:\Downloads\helm-v3.4.2-windows-amd64\windows-amd64;F:\Eclipse;;." />
     <property name="java.vm.vendor" value="Oracle Corporation" />
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment" />
     <property name="ant.version" value="Apache Ant(TM) version 1.9.2 compiled on July 8 2013" />
-    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner test.IFileImporterImplTest filtertrace=true haltOnError=false haltOnFailure=false formatter=org.apache.tools.ant.taskdefs.optional.junit.OutErrSummaryJUnitResultFormatter showoutput=false outputtoformatters=true logfailedtests=true logtestlistenerevents=false formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,F:\Home\SYP2020\team06\MultiTextCompare\junit\TEST-test.IFileImporterImplTest.xml crashfile=F:\Home\SYP2020\team06\MultiTextCompare\junitvmwatcher5707129623178815552.properties propsfile=F:\Home\SYP2020\team06\MultiTextCompare\junit1173530116493224469.properties" />
-    <property name="java.class.path" value="F:\Home\SYP2020\team06\MultiTextCompare\bin;F:\Eclipse\plugins\org.junit_4.11.0.v201303080030\junit.jar;F:\Eclipse\plugins\org.hamcrest.core_1.3.0.v201303031735.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\diffutils-1.2.1-sources.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\diffutils-1.2.1.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\jdom-2.0.6.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\jdom-2.0.6-javadoc.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\jdom-2.0.6-sources.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\commons-io-2.6-javadoc.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\commons-io-2.6-sources.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\commons-io-2.6.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\commons-text-1.3-javadoc.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\commons-text-1.3-sources.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\commons-text-1.3.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\miglayout-swing.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\miglayout-core.jar;F:\Eclipse\plugins\org.apache.ant_1.9.2.v201404171502\lib\ant-launcher.jar;F:\Eclipse\plugins\org.apache.ant_1.9.2.v201404171502\lib\ant.jar;F:\Eclipse\plugins\org.apache.ant_1.9.2.v201404171502\lib\ant-junit.jar;F:\Eclipse\plugins\org.apache.ant_1.9.2.v201404171502\lib\ant-junit4.jar" />
+    <property name="java.class.path" value="F:\Home\SYP2020\team06\MultiTextCompare\bin;F:\Eclipse\plugins\org.junit_4.11.0.v201303080030\junit.jar;F:\Eclipse\plugins\org.hamcrest.core_1.3.0.v201303031735.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\diffutils-1.2.1-sources.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\diffutils-1.2.1.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\jdom-2.0.6.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\jdom-2.0.6-javadoc.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\jdom-2.0.6-sources.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\commons-io-2.6-javadoc.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\commons-io-2.6-sources.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\commons-io-2.6.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\commons-text-1.3-javadoc.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\commons-text-1.3-sources.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\commons-text-1.3.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\miglayout-swing.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\miglayout-core.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\jackson-annotations-2.12.1.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\jackson-core-2.12.1.jar;F:\Home\SYP2020\team06\MultiTextCompare\lib\jackson-databind-2.11.0.jar;F:\Eclipse\plugins\org.apache.ant_1.9.2.v201404171502\lib\ant-launcher.jar;F:\Eclipse\plugins\org.apache.ant_1.9.2.v201404171502\lib\ant.jar;F:\Eclipse\plugins\org.apache.ant_1.9.2.v201404171502\lib\ant-junit.jar;F:\Eclipse\plugins\org.apache.ant_1.9.2.v201404171502\lib\ant-junit4.jar" />
+    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner test.IFileImporterImplTest filtertrace=true haltOnError=false haltOnFailure=false formatter=org.apache.tools.ant.taskdefs.optional.junit.OutErrSummaryJUnitResultFormatter showoutput=false outputtoformatters=true logfailedtests=true logtestlistenerevents=false formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,F:\Home\SYP2020\team06\MultiTextCompare\junit\TEST-test.IFileImporterImplTest.xml crashfile=F:\Home\SYP2020\team06\MultiTextCompare\junitvmwatcher2881443476568809423.properties propsfile=F:\Home\SYP2020\team06\MultiTextCompare\junit5095298320906590704.properties" />
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification" />
-    <property name="env.LOGONSERVER" value="\\DESKTOP-6F37MS8" />
     <property name="env.windir" value="C:\Windows" />
-    <property name="java.vm.specification.version" value="1.7" />
+    <property name="env.LOGONSERVER" value="\\DESKTOP-6F37MS8" />
     <property name="env.PROCESSOR_ARCHITECTURE" value="x86" />
+    <property name="java.vm.specification.version" value="1.7" />
     <property name="sun.os.patch.level" value="" />
     <property name="sun.cpu.endian" value="little" />
     <property name="env.HOME" value="F:\\Home" />
-    <property name="debuglevel" value="source,lines,vars" />
     <property name="env.OneDrive" value="C:\Users\allen\OneDrive" />
-    <property name="env.ProgramFiles" value="C:\Program Files (x86)" />
+    <property name="debuglevel" value="source,lines,vars" />
     <property name="env.ANT_HOME" value="F:\Eclipse\plugins\org.apache.ant_1.9.2.v201404171502" />
+    <property name="env.ProgramFiles" value="C:\Program Files (x86)" />
     <property name="env.PROCESSOR_REVISION" value="a505" />
     <property name="java.io.tmpdir" value="C:\Users\allen\AppData\Local\Temp\" />
     <property name="env.CommonProgramFiles(x86)" value="C:\Program Files (x86)\Common Files" />
@@ -105,15 +106,15 @@
     <property name="user.dir" value="F:\Home\SYP2020\team06\MultiTextCompare" />
     <property name="line.separator" value="&#xd;&#xa;" />
     <property name="java.vm.name" value="Java HotSpot(TM) Client VM" />
-    <property name="env.PATHEXT" value=".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC" />
-    <property name="org.apache.tools.ant.taskdefs.optional.junit.AggregateTransformer0" value="C:\Users\allen\AppData\Local\Temp\null155335273" />
-    <property name="env.Path" value="C:/Program Files (x86)/Java/jre7/bin/client;C:/Program Files (x86)/Java/jre7/bin;C:/Program Files (x86)/Java/jre7/lib/i386;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\Git\cmd;C:\Users\allen\AppData\Local\Programs\Python\Python39\Scripts\;C:\Users\allen\AppData\Local\Programs\Python\Python39\;C:\Users\allen\AppData\Local\Microsoft\WindowsApps;C:\Users\allen\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files (x86)\Java\jdk1.7.0_75\jre\bin;C:\Program Files\Java\jdk1.7.0_75;;F:\Eclipse;" />
+    <property name="env.PATHEXT" value=".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.RB;.RBW" />
+    <property name="env.Path" value="C:/Program Files (x86)/Java/jre7/bin/client;C:/Program Files (x86)/Java/jre7/bin;C:/Program Files (x86)/Java/jre7/lib/i386;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\Git\cmd;H:\Downloads\helm-v3.4.2-windows-amd64\windows-amd64;C:\Ruby27-x64\bin;C:\Users\allen\AppData\Local\Programs\Python\Python39\Scripts\;C:\Users\allen\AppData\Local\Programs\Python\Python39\;C:\Users\allen\AppData\Local\Microsoft\WindowsApps;C:\Users\allen\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files (x86)\Java\jdk1.7.0_75\jre\bin;C:\Program Files\Java\jdk1.7.0_75;H:\Downloads\helm-v3.4.2-windows-amd64\windows-amd64;F:\Eclipse;" />
+    <property name="org.apache.tools.ant.taskdefs.optional.junit.AggregateTransformer0" value="C:\Users\allen\AppData\Local\Temp\null926352223" />
     <property name="basedir" value="F:\Home\SYP2020\team06\MultiTextCompare" />
     <property name="ant.java.version" value="1.7" />
     <property name="ant.core.lib" value="F:\Eclipse\plugins\org.apache.ant_1.9.2.v201404171502\lib\ant.jar" />
     <property name="env.USERNAME" value="allen" />
-    <property name="source" value="1.7" />
     <property name="env.SystemDrive" value="C:" />
+    <property name="source" value="1.7" />
     <property name="file.encoding" value="Cp1252" />
     <property name="env.USERDOMAIN" value="DESKTOP-6F37MS8" />
     <property name="java.specification.version" value="1.7" />
@@ -122,13 +123,13 @@
   </properties>
   <testcase classname="test.IFileImporterImplTest" name="test_deleteImport" time="0.001" />
   <testcase classname="test.IFileImporterImplTest" name="test_createTempFiles" time="0.002" />
-  <testcase classname="test.IFileImporterImplTest" name="test_normTempFiles" time="0.007" />
+  <testcase classname="test.IFileImporterImplTest" name="test_normTempFiles" time="0.008" />
+  <testcase classname="test.IFileImporterImplTest" name="test_createDiffTempFiles" time="0.006" />
   <testcase classname="test.IFileImporterImplTest" name="test_defaultConfig" time="0.0" />
   <testcase classname="test.IFileImporterImplTest" name="test_configPath" time="0.001" />
-  <testcase classname="test.IFileImporterImplTest" name="test_createXmlTempFiles" time="0.006" />
   <testcase classname="test.IFileImporterImplTest" name="test_deleteImports" time="0.0" />
-  <testcase classname="test.IFileImporterImplTest" name="test_configParameter" time="0.008" />
-  <testcase classname="test.IFileImporterImplTest" name="test_importRoot" time="0.002" />
+  <testcase classname="test.IFileImporterImplTest" name="test_configParameter" time="0.009" />
+  <testcase classname="test.IFileImporterImplTest" name="test_importRoot" time="0.003" />
   <testcase classname="test.IFileImporterImplTest" name="test_deleteTempFiles" time="0.003" />
   <testcase classname="test.IFileImporterImplTest" name="test_importTextdateien" time="0.0" />
   <system-out><![CDATA[]]></system-out>
