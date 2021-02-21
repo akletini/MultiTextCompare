@@ -535,7 +535,7 @@ public class IFileImporterImpl implements IFileImporter {
 				String line;
 				while ((line = reader.readLine()) != null) {
 					if (!iConfig.getKeepBlankLines())
-						if (line.isEmpty())
+						if (line.replaceAll("\\s", "").isEmpty())
 							continue;
 					if (!iConfig.getKeepCapitalization())
 						line = line.toLowerCase();
@@ -608,7 +608,7 @@ public class IFileImporterImpl implements IFileImporter {
 				String line;
 				while ((line = reader.readLine()) != null) {
 					if (!iConfig.getKeepBlankLines())
-						if (line.isEmpty())
+						if (line.replaceAll("\\s", "").isEmpty())
 							continue;
 					if (!iConfig.getKeepCapitalization())
 						line = line.toLowerCase();
