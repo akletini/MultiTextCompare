@@ -140,12 +140,16 @@ public class MainView extends JFrame {
 					public String getToolTipText(MouseEvent e) {
 						int index = columnModel
 								.getColumnIndexAtX(e.getPoint().x);
-						int realIndex = columnModel.getColumn(index)
-								.getModelIndex();
-						if (!management.getFileSelectionController()
-								.getNewSelection())
-							return management.getPaths()[realIndex];
-						management.appendToLog("It is not possible to display the file names after altering the file selection.");
+						if(index >= 0){
+							int realIndex = columnModel.getColumn(index)
+									.getModelIndex();
+							
+							if (!management.getFileSelectionController()
+									.getNewSelection())
+								return management.getPaths()[realIndex];
+						}
+						if(index != -1)
+							management.appendToLog("It is not possible to display the file names after altering the file selection.");
 						return null;
 					}
 				};
