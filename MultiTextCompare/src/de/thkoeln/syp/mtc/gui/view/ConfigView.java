@@ -2,7 +2,10 @@ package de.thkoeln.syp.mtc.gui.view;
 
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -197,6 +200,10 @@ public class ConfigView extends JFrame {
 		this.pack();
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
+		try {
+			this.setIconImage(ImageIO.read(new File("res/icon.png")));
+		} catch (IOException e) {
+		}
 
 		// Controller
 		management.setConfigController(new ConfigController(this));

@@ -1,7 +1,10 @@
 package de.thkoeln.syp.mtc.gui.view;
 
 import java.awt.Font;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -50,6 +53,10 @@ public class AboutView extends JFrame {
 		this.pack();
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
+		try {
+			this.setIconImage(ImageIO.read(new File("res/icon.png")));
+		} catch (IOException e) {
+		}
 
 	}
 }

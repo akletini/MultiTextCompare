@@ -34,7 +34,7 @@ public class ConfigController {
 			fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 			fc.showOpenDialog(configView);
 			management.getFileImporter().setRootDir(fc.getSelectedFile());
-			management.updateWurzelpfad();
+			management.updateRootPath();
 			configView.pack();
 		}
 	}

@@ -3,7 +3,10 @@ package de.thkoeln.syp.mtc.gui.view;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -35,6 +38,11 @@ public class PopupView extends JFrame {
 		this.setLocationRelativeTo(null);
 		this.getRootPane().setDefaultButton(btnOk);
 		this.setVisible(true);
+		try {
+			this.setIconImage(ImageIO.read(new File("res/icon.png")));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		popupController = new PopupController(this);
 	}
 

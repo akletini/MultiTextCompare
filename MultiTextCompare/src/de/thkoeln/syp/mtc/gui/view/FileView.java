@@ -3,23 +3,24 @@ package de.thkoeln.syp.mtc.gui.view;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Point;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 
-public class FileView {
-	private JFrame frame;
+public class FileView extends JFrame {
 	private JTextArea textArea;
 	private JScrollPane scroll;
 	
 	public FileView(){
-		frame = new JFrame();
 		textArea = new JTextArea();
 		scroll = new JScrollPane(textArea);
-		frame.dispose();
+		this.dispose();
 		
 		textArea.setBorder(new JTextField().getBorder());
 		textArea.setSelectionStart(0);
@@ -34,22 +35,17 @@ public class FileView {
 		scroll.getViewport().setViewPosition(new Point(0,0));
 		
 		
-		frame.add(scroll);
-	    frame.setSize(1280, 720);
-	    
-	    frame.setLocationRelativeTo(null);
-	    
-	    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.add(scroll);
+		this.setSize(1280, 720);
+		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		try {
+			this.setIconImage(ImageIO.read(new File("res/icon.png")));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public JFrame getFrame() {
-		return frame;
-	}
-
-	public void setFrame(JFrame frame) {
-		this.frame = frame;
-	}
-
 	public JTextArea getTextArea() {
 		return textArea;
 	}

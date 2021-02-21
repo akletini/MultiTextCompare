@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -178,9 +179,12 @@ public class ComparisonView extends JFrame {
 			this.setSize(1000, 500);
 			this.setVisible(true);
 			this.setLocationRelativeTo(null);
+			try {
+				this.setIconImage(ImageIO.read(new File("res/icon.png")));
+			} catch (IOException e) {
+			}
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

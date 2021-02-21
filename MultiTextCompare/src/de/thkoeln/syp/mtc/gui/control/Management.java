@@ -166,7 +166,7 @@ public class Management {
 	}
 
 	// Aktualisiert Wurzelpfad Anzeige in fileSelectionView & configView
-	public void updateWurzelpfad() {
+	public void updateRootPath() {
 		if (configView != null)
 			configView.getLblRootPath().setText(
 					fileImporter.getConfig().getRootDir());
