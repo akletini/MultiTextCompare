@@ -19,7 +19,16 @@ public class IXMLElementComparator implements Comparator<Element> {
 			}
 			else {
 				//Values gleich
-				compareAttributes(e1, e2);
+				int returnCompareAttributes;
+				if((returnCompareAttributes = compareAttributes(e1, e2)) != 0){
+					System.out.println(returnCompareAttributes);
+					return returnCompareAttributes;
+				}
+				else {
+					int returnRecursiveSearch = compareElementsForChildren(e1, e2);
+					System.out.println("REC " +returnRecursiveSearch);
+					return returnRecursiveSearch;
+				}
 			}
 		}
 		//return Tag-Vergleich
@@ -39,6 +48,51 @@ public class IXMLElementComparator implements Comparator<Element> {
 		}
 		else {
 			return 0;
+		}
+	}
+	
+	public int compareElementsForChildren(Element e1, Element e2){
+		List<Element> childrenE1 = e1.getChildren();
+		List<Element> childrenE2 = e2.getChildren();
+		if(!hasChildren(e1) || !hasChildren(e2)){
+			return 0;
+		}
+		
+		if(childrenE1.size() == childrenE2.size()){
+				Element left = childrenE1.get(0);
+				Element right = childrenE2.get(0);
+				System.out.println("Left " + left.getName() + " right " + right.getName());
+				if(hasChildren(left) || hasChildren(right)){
+					System.out.println("rekursion go yeet");
+					return compareElementsForChildren(left, right);
+				}
+				else {
+					
+					if(left.getValue().compareTo(right.getValue()) != 0) {
+						return left.getValue().compareTo(right.getValue());
+					}
+					else {
+						int returnCompareAttributes;
+						if((returnCompareAttributes = compareAttributes(left, right)) != 0){
+							System.out.println("compare " + returnCompareAttributes);
+							return returnCompareAttributes;
+						}
+						else {
+							return compareElementsForChildren(left, right);
+						}
+					}
+				}
+			}
+		
+		return 0;
+	}
+	
+	public boolean hasChildren(Element e){
+		if(e.getChildren().size() == 0){
+			return false;
+		}
+		else {
+			return true;
 		}
 	}
 
