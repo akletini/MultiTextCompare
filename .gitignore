@@ -100,4 +100,5 @@ MultiTextCompare/TempFiles/*
 MultiTextCompare/out/*
 MultiTextCompare/src/test/testFiles/config.properties
 MultiTextCompare/Beispiel/*
+MTC.jar
 
