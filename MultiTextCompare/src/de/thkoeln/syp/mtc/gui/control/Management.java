@@ -179,9 +179,14 @@ public class Management {
 	public void appendToLog(String s) {
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+		String text = sdf.format(cal.getTime())
+				+ " | " + s + "\n";
 		mainView.getTextArea().setText(
-				mainView.getTextArea().getText() + sdf.format(cal.getTime())
-						+ " | " + s + "\n");
+				mainView.getTextArea().getText() + text);
+	}
+	
+	public void clearLog(){
+		mainView.getTextArea().setText("");
 	}
 
 	// Gibt die Dateipfade aller Dateien im FileImporter wieder

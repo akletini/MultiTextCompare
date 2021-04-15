@@ -69,7 +69,7 @@ public class MainController {
 	class ZoomListener implements MouseWheelListener {
 		public void mouseWheelMoved(MouseWheelEvent e) {
 			int minimumHeight = 15;
-			int maximumHeight = 300;
+			int maximumHeight = 100;
 			int currentRowHeight = 0, updatedRowHeight = 0, currentColumnWidth, updatedColumnWidth;
 			JTable tableMatrix = Management.getInstance().getMainView()
 					.getTableMatrix();
@@ -80,7 +80,7 @@ public class MainController {
 
 					// Höhe berechnen
 					currentRowHeight = tableMatrix.getRowHeight();
-					updatedRowHeight = (int) ((double) currentRowHeight * 0.9);
+					updatedRowHeight = (int) ((double) currentRowHeight - 5);
 					if (updatedRowHeight >= minimumHeight) {
 						tableMatrix.setRowHeight(updatedRowHeight);
 
@@ -101,7 +101,7 @@ public class MainController {
 
 					// Höhe berechnen
 					currentRowHeight = tableMatrix.getRowHeight();
-					updatedRowHeight = (int) ((double) currentRowHeight * 1.1);
+					updatedRowHeight = (int) ((double) currentRowHeight + 5);
 					if (updatedRowHeight <= maximumHeight) {
 						tableMatrix.setRowHeight(updatedRowHeight);
 

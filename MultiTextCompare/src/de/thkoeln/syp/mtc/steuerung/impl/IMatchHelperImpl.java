@@ -30,7 +30,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 	// Anzahl der Zeilen, fuer die nach einer identischen Zeile gesucht wird
 	private final int LOOKAHEAD = 5;
 	// Aehnlichkeit ab der Zeilen gematcht werden (Wert von 0 bis 1)
-	private final double MATCH_AT = 0.6;
+	private final double MATCH_AT = 0.85;
 
 	private int leftSize = 0, rightSize = 0;
 

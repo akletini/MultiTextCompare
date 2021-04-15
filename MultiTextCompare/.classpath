@@ -26,6 +26,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/jackson-annotations-2.12.1.jar"/>
 	<classpathentry kind="lib" path="lib/jackson-core-2.12.1.jar" sourcepath="lib/jackson-annotations-2.12.1.jar"/>
-	<classpathentry kind="lib" path="lib/jackson-databind-2.11.0.jar"/>
+	<classpathentry kind="lib" path="lib/jackson-databind-2.11.0.jar" sourcepath="lib"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

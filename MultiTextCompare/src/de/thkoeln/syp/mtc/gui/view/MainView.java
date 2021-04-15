@@ -5,19 +5,21 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.List;
 import java.util.Locale;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
@@ -128,10 +130,24 @@ public class MainView extends JFrame {
 			public Component prepareRenderer(TableCellRenderer renderer,
 					int row, int col) {
 				Component comp = super.prepareRenderer(renderer, row, col);
-				Object value = getModel().getValueAt(row, col);
-				double wert = Double.valueOf(value.toString());
-				Color wertFarbe = getColor(wert);
-				comp.setBackground(wertFarbe);
+				if (getSelectionModel().isSelectionEmpty()) {
+					Object value = getModel().getValueAt(row, col);
+					double wert = Double.valueOf(value.toString());
+					Color wertFarbe = getColor(wert);
+					comp.setBackground(wertFarbe);
+				} else {
+					int indexCol = getSelectedColumn();
+					int indexRow = getSelectedRow();
+					comp.setBackground(Color.GRAY);
+
+					if (row == indexRow || col == indexCol) {
+						Object value = getModel().getValueAt(row, col);
+						double wert = Double.valueOf(value.toString());
+						Color wertFarbe = getColor(wert);
+						comp.setBackground(wertFarbe);
+					}
+
+				}
 				return comp;
 			}
 
@@ -140,16 +156,17 @@ public class MainView extends JFrame {
 					public String getToolTipText(MouseEvent e) {
 						int index = columnModel
 								.getColumnIndexAtX(e.getPoint().x);
-						if(index >= 0){
+						if (index >= 0) {
 							int realIndex = columnModel.getColumn(index)
 									.getModelIndex();
-							
+
 							if (!management.getFileSelectionController()
 									.getNewSelection())
 								return management.getPaths()[realIndex];
 						}
-						if(index != -1)
-							management.appendToLog("It is not possible to display the file names after altering the file selection.");
+						if (index != -1)
+							management
+									.appendToLog("It is not possible to display the file names after altering the file selection.");
 						return null;
 					}
 				};
@@ -166,6 +183,51 @@ public class MainView extends JFrame {
 		if (scrollPaneMatrix != null)
 			panel.remove(scrollPaneMatrix);
 		scrollPaneMatrix = new JScrollPane(tableMatrix);
+
+		scrollPaneMatrix.addMouseWheelListener(new MouseWheelListener() {
+			final JScrollBar verticalScrollBar = scrollPaneMatrix
+					.getVerticalScrollBar();
+			final JScrollBar horizontalScrollBar = scrollPaneMatrix
+					.getHorizontalScrollBar();
+			
+			//Horizontales Scrollen
+			@Override
+			public void mouseWheelMoved(MouseWheelEvent evt) {
+				if (evt.isControlDown() || evt.isShiftDown()) {
+					scrollPaneMatrix.setWheelScrollingEnabled(false);
+				} else {
+					scrollPaneMatrix.setWheelScrollingEnabled(true);
+				}
+				if (evt.isShiftDown()) {
+
+					if (evt.getWheelRotation() >= 1)// mouse wheel was rotated
+													// down/ towards the user
+					{
+						int iScrollAmount = evt.getScrollAmount();
+						int iNewValue = horizontalScrollBar.getValue()
+								+ horizontalScrollBar.getBlockIncrement()
+								* iScrollAmount
+								* Math.abs(evt.getWheelRotation());
+						if (iNewValue <= horizontalScrollBar.getMaximum()) {
+							horizontalScrollBar.setValue(iNewValue);
+						}
+					} else if (evt.getWheelRotation() <= -1)// mouse wheel was
+															// rotated up/away
+															// from the user
+					{
+						int iScrollAmount = evt.getScrollAmount();
+						int iNewValue = horizontalScrollBar.getValue()
+								- horizontalScrollBar.getBlockIncrement()
+								* iScrollAmount
+								* Math.abs(evt.getWheelRotation());
+						if (iNewValue >= 0) {
+							horizontalScrollBar.setValue(iNewValue);
+						}
+					}
+				}
+			}
+		});
+
 		panel.add(scrollPaneMatrix, "cell 0 1,grow");
 
 		// Zentrieren der Aehnlichkeitswerte
@@ -185,6 +247,7 @@ public class MainView extends JFrame {
 		MouseAdapterMatrix mouseAdapterMatrix = new MouseAdapterMatrix();
 		tableMatrix.addMouseListener(mouseAdapterMatrix);
 		tableMatrix.getTableHeader().addMouseListener(mouseAdapterMatrix);
+
 	}
 
 	// Generierung der Farbe passend zum Aehnlichkeitswert
@@ -205,6 +268,10 @@ public class MainView extends JFrame {
 		return tableMatrix;
 	}
 
+	public JScrollPane getMatrixScrollpane() {
+		return scrollPaneMatrix;
+	}
+
 	// -- Methoden um die Buttons auf den Controller zu verweisen --
 	public void addFileSelectionListener(ActionListener e) {
 		btnDateiauswahl.addActionListener(e);
@@ -221,4 +288,9 @@ public class MainView extends JFrame {
 	public void addAboutListener(ActionListener e) {
 		btnAbout.addActionListener(e);
 	}
+
+	public void addZoomListener(MouseWheelListener e) {
+		addMouseWheelListener(e);
+	}
+
 }

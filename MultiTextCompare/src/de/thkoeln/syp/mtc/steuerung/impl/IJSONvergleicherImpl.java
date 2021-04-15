@@ -10,10 +10,12 @@ import java.util.List;
 import java.util.Map;
 
 
+
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
@@ -256,6 +258,7 @@ public class IJSONvergleicherImpl extends JsonNodeFactory implements IJSONvergle
 			    .build();
 		
 		mapper.enable(SerializationFeature.INDENT_OUTPUT);
+		mapper.configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true);
 		
 		JsonNode root = null;
 		String sortedJSONString = "";

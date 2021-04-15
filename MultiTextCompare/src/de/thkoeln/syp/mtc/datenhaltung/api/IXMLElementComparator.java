@@ -21,12 +21,10 @@ public class IXMLElementComparator implements Comparator<Element> {
 				//Values gleich
 				int returnCompareAttributes;
 				if((returnCompareAttributes = compareAttributes(e1, e2)) != 0){
-					System.out.println(returnCompareAttributes);
 					return returnCompareAttributes;
 				}
 				else {
 					int returnRecursiveSearch = compareElementsForChildren(e1, e2);
-					System.out.println("REC " +returnRecursiveSearch);
 					return returnRecursiveSearch;
 				}
 			}
@@ -61,9 +59,9 @@ public class IXMLElementComparator implements Comparator<Element> {
 		if(childrenE1.size() == childrenE2.size()){
 				Element left = childrenE1.get(0);
 				Element right = childrenE2.get(0);
-				System.out.println("Left " + left.getName() + " right " + right.getName());
+//				System.out.println("Left " + left.getName() + " right " + right.getName());
 				if(hasChildren(left) || hasChildren(right)){
-					System.out.println("rekursion go yeet");
+//					System.out.println("rekursion go yeet");
 					return compareElementsForChildren(left, right);
 				}
 				else {
@@ -74,7 +72,7 @@ public class IXMLElementComparator implements Comparator<Element> {
 					else {
 						int returnCompareAttributes;
 						if((returnCompareAttributes = compareAttributes(left, right)) != 0){
-							System.out.println("compare " + returnCompareAttributes);
+//							System.out.println("compare " + returnCompareAttributes);
 							return returnCompareAttributes;
 						}
 						else {

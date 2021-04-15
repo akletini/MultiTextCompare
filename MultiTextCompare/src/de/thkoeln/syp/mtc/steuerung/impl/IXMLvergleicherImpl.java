@@ -326,11 +326,11 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 		
 		Comparator<Attribute> attributeComperator = new IXMLAttributeComparator();
 		
-	    List children = current.getChildren();
+	    List<Element> children = current.getChildren();
 	      
 	    for(int i=0; i<children.size(); i++){
 	    	
-	    	Element e = (Element)children.get(i);
+	    	Element e = children.get(i);
 	    	
 	    	if(e.hasAttributes() && e.getAttributes().size() > 1){
 	    		
