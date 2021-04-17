@@ -1,5 +1,6 @@
 package de.thkoeln.syp.mtc.gui.resources;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.beans.PropertyChangeEvent;
@@ -10,6 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JViewport;
 import javax.swing.UIManager;
+import javax.swing.border.MatteBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.TableModelEvent;
@@ -33,11 +35,13 @@ public class RowNumberTable extends JTable implements ChangeListener,
 		setSelectionModel(main.getSelectionModel());
 
 		TableColumn column = new TableColumn();
-		column.setHeaderValue(" ");
+		column.setHeaderValue("");
+		column.setHeaderRenderer(new DefaultTableHeaderCellRenderer());
+	    column.setResizable(false);
 		addColumn(column);
 		column.setCellRenderer(new RowNumberRenderer());
 
-		getColumnModel().getColumn(0).setPreferredWidth(50);
+		getColumnModel().getColumn(0).setPreferredWidth(30);
 		setPreferredScrollableViewportSize(getPreferredSize());
 	}
 
@@ -163,7 +167,7 @@ public class RowNumberTable extends JTable implements ChangeListener,
 
 				if (header != null) {
 					setForeground(header.getForeground());
-					setBackground(header.getBackground());
+					setBackground(Color.white);
 					setFont(header.getFont());
 				}
 			}
@@ -173,7 +177,10 @@ public class RowNumberTable extends JTable implements ChangeListener,
 			}
 
 			setText((value == null) ? "" : value.toString());
-			setBorder(UIManager.getBorder("TableHeader.cellBorder"));
+			Color color = UIManager.getColor("Table.gridColor");;
+		    MatteBorder border = new MatteBorder(1, 0, 0, 0, color);
+		    setBorder(border);
+//			setBorder(UIManager.getBorder("TableHeader.cellBorder"));
 
 			return this;
 		}

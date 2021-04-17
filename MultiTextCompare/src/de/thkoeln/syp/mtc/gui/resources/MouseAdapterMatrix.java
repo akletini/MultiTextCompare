@@ -41,8 +41,6 @@ public class MouseAdapterMatrix extends MouseAdapter {
 	public void mousePressed(MouseEvent e) {
 		kreuzKlick = false;
 		int rowIndex = 0, columnIndex = 0;
-		JTable matrix = management.getMainView().getTableMatrix();
-
 		// Abbruch falls die FileSelection geaendert wurde
 		if (management.getFileSelectionController().getNewSelection())
 			management
@@ -55,8 +53,6 @@ public class MouseAdapterMatrix extends MouseAdapter {
 				rowIndex = table.rowAtPoint(e.getPoint());
 				columnIndex = table.columnAtPoint(e.getPoint());
 				kreuzKlick = true;
-
-				
 
 				// Tempfiles werden durchsucht
 				for (Map.Entry<File, File> entry : tempFiles) {
@@ -73,24 +69,6 @@ public class MouseAdapterMatrix extends MouseAdapter {
 							&& !fileIndices.contains(rowIndex)) {
 						selectedFiles.add(entry.getValue());
 						fileIndices.add(rowIndex);
-					}
-				}
-				
-				// Logik fürs Ausgrauen
-				if (e.getClickCount() == 1) {
-					// Zelle zum ersten Mal geklickt
-					if (rowIndex != selectedRow
-							|| columnIndex != selectedColumn) {
-						greyOutMatrix(true);
-						selectedRow = rowIndex;
-						selectedColumn = columnIndex;
-					}
-					// beim zweiten Klick wieder alle Farben anzeigen
-					else {
-						greyOutMatrix(false);
-						selectedRow = -1;
-						selectedColumn = -1;
-						
 					}
 				}
 
@@ -158,12 +136,8 @@ public class MouseAdapterMatrix extends MouseAdapter {
 				kreuzKlick = false;
 
 				// ComparisonView wird geoeffnet
-			}
-			if (selectedFiles.size() == 2 && kreuzKlick == true
-					&& e.getClickCount() == 2) {
-
-				greyOutMatrix(true);
-				
+			} else if ((selectedFiles.size() == 2 && kreuzKlick == true)
+					|| selectedFiles.size() == 3) {
 				//Klick ueber und unter der Hauptdiagonale spiegeln
 				if(rowIndex < columnIndex){
 				management.setComparisonView(new ComparisonView(selectedFiles,
@@ -175,31 +149,15 @@ public class MouseAdapterMatrix extends MouseAdapter {
 					management.setComparisonView(new ComparisonView(selectedFiles,
 							fileIndices));
 				}
-				
 				management.appendToLog("Comparison is now visible");
 				selectedFiles.clear();
 				fileIndices.clear();
 				kreuzKlick = false;
-
 			}
-			if (selectedFiles.size() == 2 && kreuzKlick == true
-					&& e.getClickCount() == 1) {
-				cachedFiles.addAll(selectedFiles);
-
-				// Matrix ausgrauen
-			}
-			if (selectedFiles.size() == 3 && e.isControlDown()) {
-				System.out.println("3er Auswahl");
-				management.setComparisonView(new ComparisonView(selectedFiles,
-						fileIndices));
-				
-				selectedFiles.clear();
-				fileIndices.clear();
-				greyOutMatrix(true);
-			}
-
 		}
 	}
+
+	
 
 	public void greyOutMatrix(boolean doIt) {
 		JTable matrix = management.getMainView().getTableMatrix();
@@ -209,7 +167,7 @@ public class MouseAdapterMatrix extends MouseAdapter {
 		} else {
 			greyOut = false;
 			matrix.getSelectionModel().clearSelection();
-//			matrix.repaint();
+			matrix.repaint(); //war ausgegraut
 		}
 	}
 

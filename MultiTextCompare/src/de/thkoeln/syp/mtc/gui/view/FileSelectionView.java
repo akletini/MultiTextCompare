@@ -1,5 +1,6 @@
 package de.thkoeln.syp.mtc.gui.view;
 
+import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.io.File;
@@ -42,7 +43,7 @@ public class FileSelectionView extends JFrame {
 		// Panel
 		panel = new JPanel();
 		panel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		panel.setLayout(new MigLayout("", "[][100px,grow,center][]",
+		panel.setLayout(new MigLayout("", "[][100px,grow,center]",
 				"[][][][10px][5][grow][][][][][][][10][]"));
 
 		// Label, Eingabefeld Buttons, Radiobuttons
@@ -121,6 +122,7 @@ public class FileSelectionView extends JFrame {
 		this.setContentPane(panel);
 		this.setTitle("File selection");
 		this.setBounds(100, 100, 750, 500);
+		this.setMinimumSize(new Dimension(750,500));
 		this.getRootPane().setDefaultButton(btnSearch);
 		this.pack();
 		this.setLocationRelativeTo(null);

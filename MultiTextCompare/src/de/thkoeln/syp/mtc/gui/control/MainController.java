@@ -27,6 +27,13 @@ public class MainController {
 		mainView.addHelpListener(new HelpListener());
 		mainView.addAboutListener(new AboutListener());
 		mainView.addZoomListener(new ZoomListener());
+		mainView.addMenuFileSelection(new MenuFileSelectionListener());
+		mainView.addLogClearListener(new LogClearListener());
+		mainView.addMenuAboutListener(new MenuAboutListener());
+		mainView.addMenuHelpListener(new MenuHelpListener());
+		mainView.addToolbarLogClearListener(new ToolbarLogClearListener());
+		mainView.addToolbarZoomInListener(new ToolbarZoomInListener());
+		mainView.addToolbarZoomOutListener(new ToolbarZoomOutListener());
 	}
 
 	class FileSelectionListener implements ActionListener {
@@ -66,13 +73,105 @@ public class MainController {
 		}
 	}
 
+	class ToolbarLogClearListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			management.clearLog();
+		}
+	}
+
+	class ToolbarZoomInListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			JTable tableMatrix = management.getMainView().getTableMatrix();
+			if (tableMatrix != null) {
+				int maximumHeight = 100;
+				int currentRowHeight = 0, updatedRowHeight = 0;
+				// Höhe berechnen
+				currentRowHeight = tableMatrix.getRowHeight();
+				updatedRowHeight = (int) ((double) currentRowHeight + 5);
+				if (updatedRowHeight <= maximumHeight) {
+					tableMatrix.setRowHeight(updatedRowHeight);
+
+					// Breite berechnen
+					int numberOfColumns = tableMatrix.getColumnCount();
+					for (int i = 0; i < numberOfColumns; i++) {
+						tableMatrix
+								.getColumnModel()
+								.getColumn(i)
+								.setPreferredWidth(
+										(int) (updatedRowHeight * 1.25));
+					}
+					tableMatrix.repaint();
+				}
+			}
+		}
+	}
+	class ToolbarZoomOutListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			JTable tableMatrix = management.getMainView().getTableMatrix();
+			if (tableMatrix != null) {
+				int minimumHeight = 15;
+				int currentRowHeight = 0, updatedRowHeight = 0;
+				
+				currentRowHeight = tableMatrix.getRowHeight();
+				updatedRowHeight = (int) ((double) currentRowHeight - 5);
+				if (updatedRowHeight >= minimumHeight) {
+					tableMatrix.setRowHeight(updatedRowHeight);
+					
+					// Breite berechnen
+					int numberOfColumns = tableMatrix.getColumnCount();
+					for (int i = 0; i < numberOfColumns; i++) {
+						tableMatrix
+						.getColumnModel()
+						.getColumn(i)
+						.setPreferredWidth(
+								(int) (updatedRowHeight * 1.25));
+					}
+					tableMatrix.repaint();
+				}
+			}
+		}
+	}
+
+	class MenuFileSelectionListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+
+			if (Management.getInstance().getFileSelectionView() == null)
+				management.setFileSelectionView((new FileSelectionView()));
+			management.getFileSelectionView().setVisible(true);
+			management.getFileSelectionView().toFront();
+		}
+	}
+
+	class MenuAboutListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			if (Management.getInstance().getAboutView() == null)
+				management.setAboutView(new AboutView());
+			management.getAboutView().setVisible(true);
+			management.getAboutView().toFront();
+		}
+	}
+
+	class MenuHelpListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			if (Management.getInstance().getHelpView() == null)
+				management.setHelpView(new HelpView());
+			management.setHelpView(null);
+			management.appendToLog("Opening help file...");
+		}
+	}
+
+	class LogClearListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			management.clearLog();
+		}
+	}
+
 	class ZoomListener implements MouseWheelListener {
 		public void mouseWheelMoved(MouseWheelEvent e) {
 			int minimumHeight = 15;
 			int maximumHeight = 100;
-			int currentRowHeight = 0, updatedRowHeight = 0, currentColumnWidth, updatedColumnWidth;
-			JTable tableMatrix = Management.getInstance().getMainView()
-					.getTableMatrix();
+			int currentRowHeight = 0, updatedRowHeight = 0;
+			JTable tableMatrix = management.getMainView().getTableMatrix();
 
 			if (e.isControlDown()) {
 				// Kleiner machen
@@ -92,8 +191,8 @@ public class MainController {
 									.getColumn(i)
 									.setPreferredWidth(
 											(int) (updatedRowHeight * 1.25));
-
 						}
+						tableMatrix.repaint();
 					}
 				}
 				// Groesser machen
@@ -114,6 +213,7 @@ public class MainController {
 									.setPreferredWidth(
 											(int) (updatedRowHeight * 1.25));
 						}
+						tableMatrix.repaint();
 					}
 				}
 			} else {
@@ -122,6 +222,5 @@ public class MainController {
 			}
 		}
 	}
-	
-	
+
 }

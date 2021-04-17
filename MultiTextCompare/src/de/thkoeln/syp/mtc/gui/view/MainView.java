@@ -2,6 +2,7 @@ package de.thkoeln.syp.mtc.gui.view;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -15,19 +16,29 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.imageio.ImageIO;
+import javax.naming.ldap.SortKey;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JToolBar;
+import javax.swing.RowSorter;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
@@ -37,39 +48,144 @@ import de.thkoeln.syp.mtc.datenhaltung.api.IMatrix;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IAehnlichkeitImpl;
 import de.thkoeln.syp.mtc.gui.control.MainController;
 import de.thkoeln.syp.mtc.gui.control.Management;
+import de.thkoeln.syp.mtc.gui.resources.DefaultTableHeaderCellRenderer;
 import de.thkoeln.syp.mtc.gui.resources.MouseAdapterMatrix;
 import de.thkoeln.syp.mtc.gui.resources.RowNumberTable;
 
 public class MainView extends JFrame {
 	private Management management;
+	private JLabel quickAccess;
 	private JPanel panel;
 	private JTable tableMatrix;
 	private JToolBar toolBar;
-	private JButton btnDateiauswahl, btnKonfig, btnHilfe, btnAbout;
+	private JButton btnDateiauswahl, btnKonfig, btnDeleteLog, btnZoomIn, btnZoomOut, btnHilfe, btnAbout;
 	private JScrollPane scrollPaneMatrix, scrollPaneFiles;
 	private RowNumberTable rowTable;
 	private JTextArea textArea;
+	private JMenuBar menuBar;
+	private JMenu menuFile, menuConfig, menuLogging, menuHelp;
+	private JMenuItem fileSelection, saveComparison, saveComparisonAs, loadComparison;
+	private JMenuItem saveConfig, saveConfigAs, loadConfig, settings;
+	private JMenuItem clearLog, showLog;
+	private JCheckBoxMenuItem info, warning, error;
+	private JMenuItem about, tutorial;
 
 	public MainView() {
 		management = Management.getInstance();
-
+		
+		// Icons
+		Icon iconCompare = null, iconConfig = null, iconQuestion = null, iconInfo = null, iconSave = null, iconImport = null, iconDelete = null, iconPlus = null, iconMinus = null ;
+		try {
+			iconCompare = new ImageIcon(ImageIO.read(new File("res/fileIconSmall.png")));
+			iconConfig = new ImageIcon(ImageIO.read(new File("res/settingsSmall.png")));
+			iconQuestion = new ImageIcon(ImageIO.read(new File("res/questionSmall.png")));
+			iconInfo = new ImageIcon(ImageIO.read(new File("res/infoSmall.png")));
+			iconSave = new ImageIcon(ImageIO.read(new File("res/saveSmall.png")));
+			iconImport = new ImageIcon(ImageIO.read(new File("res/importSmall.png")));
+			iconDelete = new ImageIcon(ImageIO.read(new File("res/deleteSmall.png")));
+			iconPlus = new ImageIcon(ImageIO.read(new File("res/plus.png")));
+			iconMinus = new ImageIcon(ImageIO.read(new File("res/minus.png")));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
 		// Panel
 		panel = new JPanel();
 		panel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		panel.setLayout(new MigLayout("", "[grow]",
 				"[30px:n:100px,top][grow,center][80px:n:160px,grow,bottom]"));
+		
+		//Menu-Bar
+		menuBar = new JMenuBar();
+		
+		//Menus
+		menuFile = new JMenu("    File    ");	
+		fileSelection = new JMenuItem("New Comparison", iconCompare);
+		saveComparison = new JMenuItem("Save Comparison", iconSave);
+		saveComparisonAs = new JMenuItem("Save Comparison As");
+		loadComparison = new JMenuItem("Load Comparison", iconImport);
+		menuBar.add(menuFile);
+		
+		menuConfig = new JMenu("    Configuration    ");
+		saveConfig = new JMenuItem("Save Configuration", iconSave);
+		saveConfigAs = new JMenuItem("Save Configuration As");
+		loadConfig = new JMenuItem("Load Configuration", iconImport);
+		settings = new JMenuItem("Settings", iconConfig);
+		menuBar.add(menuConfig);
+		
+		menuLogging = new JMenu("    Log    ");
+		clearLog = new JMenuItem("Clear");
+		info = new JCheckBoxMenuItem("Show Infos");
+		warning = new JCheckBoxMenuItem("Show Warning");
+		error = new JCheckBoxMenuItem("Show Errors");
+		showLog = new JMenuItem("Show Log");
+		menuBar.add(menuLogging);
+		
+		menuHelp = new JMenu("    Help    ");
+		about = new JMenuItem("About", iconInfo);
+		tutorial = new JMenuItem("Open Instruction File", iconQuestion);
+		menuBar.add(menuHelp);
+		
+		//Add submenus
+		//File
+		menuFile.add(fileSelection);
+		menuFile.addSeparator();
+		menuFile.add(saveComparison);
+		menuFile.add(saveComparisonAs);
+		menuFile.add(loadComparison);
+		
+		//Config
+		menuConfig.add(saveConfig);
+		menuConfig.add(saveConfigAs);
+		menuConfig.add(loadConfig);
+		menuConfig.addSeparator();
+		menuConfig.add(settings);
+		
+		//Log
+		menuLogging.add(clearLog);
+		menuLogging.addSeparator();
+		menuLogging.add(info);
+		menuLogging.add(warning);
+		menuLogging.add(error);
+		menuLogging.addSeparator();
+		menuLogging.add(showLog);
+		
+		//Help
+		menuHelp.add(about);
+		menuHelp.add(tutorial);
 
 		// Toolbar inkl. Buttons
 		toolBar = new JToolBar();
+		quickAccess = new JLabel("Quick Access: ");
 		toolBar.setFloatable(false);
-		panel.add(toolBar, "flowx,cell 0 0,alignx center");
-		btnDateiauswahl = new JButton("File selection");
+		toolBar.add(quickAccess);
+	
+		panel.add(toolBar, "flowx,cell 0 0,alignx left");
+		btnDateiauswahl = new JButton(iconCompare);
+		btnDateiauswahl.setToolTipText("Open file selection");
 		toolBar.add(btnDateiauswahl);
-		btnKonfig = new JButton("Configuration");
+		toolBar.addSeparator();
+		btnKonfig = new JButton(iconConfig);
+		btnKonfig.setToolTipText("Open settings");
 		toolBar.add(btnKonfig);
-		btnHilfe = new JButton("Help");
+		toolBar.addSeparator();
+		btnZoomIn = new JButton(iconPlus);
+		btnZoomIn.setToolTipText("Zoom in on matrix");
+		toolBar.add(btnZoomIn);
+		btnZoomOut = new JButton(iconMinus);
+		btnZoomOut.setToolTipText("Zoom out of matrix");
+		toolBar.add(btnZoomOut);
+		toolBar.addSeparator();
+		btnDeleteLog = new JButton(iconDelete);
+		btnDeleteLog.setToolTipText("Clear output log");
+		toolBar.add(btnDeleteLog);
+		toolBar.addSeparator();		
+		btnHilfe = new JButton(iconQuestion);
+		btnHilfe.setToolTipText("Open help document");
 		toolBar.add(btnHilfe);
-		btnAbout = new JButton("About");
+		toolBar.addSeparator();
+		btnAbout = new JButton(iconInfo);
+		btnAbout.setToolTipText("More on MultiTextCompare");
 		toolBar.add(btnAbout);
 
 		// TextArea (Ausgabe)
@@ -85,13 +201,16 @@ public class MainView extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBounds(100, 100, 960, 540);
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		this.setMinimumSize(new Dimension(800,600));
 		this.setTitle("MultiTextCompare");
 		this.setContentPane(panel);
+		this.setJMenuBar(menuBar);
 		try {
 			this.setIconImage(ImageIO.read(new File("res/icon.png")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		this.setFocusable(false);
 
 		Management.getInstance().setMainController(new MainController(this));
 	}
@@ -99,7 +218,6 @@ public class MainView extends JFrame {
 	// Erstellen der Matrix
 	public void updateMatrix(IMatrix matrix, int anzahlDateien,
 			String[] nameDateien) {
-
 		List<IAehnlichkeitImpl> listMatrix = management.getTextvergleicher()
 				.getMatrix().getInhalt(); // Aehnlichkeitswerte
 		String[][] data = new String[anzahlDateien][anzahlDateien]; // String
@@ -126,6 +244,7 @@ public class MainView extends JFrame {
 
 		// Matrix wird erstellt
 		tableMatrix = new JTable(data, nameDateien) {
+			
 			@Override
 			public Component prepareRenderer(TableCellRenderer renderer,
 					int row, int col) {
@@ -135,6 +254,7 @@ public class MainView extends JFrame {
 					double wert = Double.valueOf(value.toString());
 					Color wertFarbe = getColor(wert);
 					comp.setBackground(wertFarbe);
+					comp.setForeground(Color.BLACK);
 				} else {
 					int indexCol = getSelectedColumn();
 					int indexRow = getSelectedRow();
@@ -145,14 +265,16 @@ public class MainView extends JFrame {
 						double wert = Double.valueOf(value.toString());
 						Color wertFarbe = getColor(wert);
 						comp.setBackground(wertFarbe);
+						comp.setForeground(Color.BLACK);
 					}
-
+					repaint();
 				}
 				return comp;
 			}
 
 			protected JTableHeader createDefaultTableHeader() {
 				return new JTableHeader(columnModel) {
+					
 					public String getToolTipText(MouseEvent e) {
 						int index = columnModel
 								.getColumnIndexAtX(e.getPoint().x);
@@ -172,12 +294,19 @@ public class MainView extends JFrame {
 				};
 			}
 		};
+		
 
 		// Matrix Parameter
+		JTableHeader header = tableMatrix.getTableHeader();
+		header.setDefaultRenderer(new DefaultTableHeaderCellRenderer());
+		header.setResizingAllowed(false);
+		header.setPreferredSize(new Dimension(header.getWidth(), 30));
+		
 		tableMatrix.getTableHeader().setReorderingAllowed(false);
 		tableMatrix.setRowHeight(60);
 		tableMatrix.setDefaultEditor(Object.class, null);
 		tableMatrix.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		
 
 		// Wenn noetig alte MatrixPane loeschen und Neue auf das Panel legen
 		if (scrollPaneMatrix != null)
@@ -234,6 +363,7 @@ public class MainView extends JFrame {
 		DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) tableMatrix
 				.getDefaultRenderer(Object.class);
 		renderer.setHorizontalAlignment(SwingConstants.CENTER);
+		
 
 		// Modifikation der Matrix fuer Zeilenbenennung
 		rowTable = new RowNumberTable(tableMatrix);
@@ -288,9 +418,34 @@ public class MainView extends JFrame {
 	public void addAboutListener(ActionListener e) {
 		btnAbout.addActionListener(e);
 	}
+	public void addToolbarLogClearListener(ActionListener e){
+		btnDeleteLog.addActionListener(e);
+	}
+	public void addToolbarZoomInListener(ActionListener e){
+		btnZoomIn.addActionListener(e);
+	}
+	public void addToolbarZoomOutListener(ActionListener e){
+		btnZoomOut.addActionListener(e);
+	}
 
 	public void addZoomListener(MouseWheelListener e) {
 		addMouseWheelListener(e);
 	}
+	public void addMenuFileSelection(ActionListener e){
+		fileSelection.addActionListener(e);
+	}
+	public void addMenuAboutListener(ActionListener e){
+		about.addActionListener(e);
+	}
+	public void addMenuHelpListener(ActionListener e){
+		tutorial.addActionListener(e);
+	}
+	public void addLogClearListener(ActionListener e){
+		clearLog.addActionListener(e);
+	}
+
+	
+	
+	
 
 }
