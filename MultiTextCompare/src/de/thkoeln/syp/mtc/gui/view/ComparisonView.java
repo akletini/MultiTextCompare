@@ -125,6 +125,7 @@ public class ComparisonView extends JFrame {
 
 		try {
 			selectedTempFiles = selection.toArray(new File[selection.size()]);
+			matchHelper.setMATCH_AT(management.getFileImporter().getConfig().getMatchAt() /100.0);
 			matchedDiffFiles = matchHelper.createMatchFiles(selectedTempFiles);
 			
 			// Falls Line Match aktiviert

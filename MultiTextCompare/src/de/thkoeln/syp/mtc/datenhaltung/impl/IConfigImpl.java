@@ -8,7 +8,10 @@ public class IConfigImpl implements IConfig {
 			compareLines, keepBlankLines, lineMatch;
 
 	private String rootDir, path, filename, filetype;
-
+	
+	private int matchingLookahead;
+	private double matchAt;
+	
 	// XML spezifische Parameter
 	private boolean xmlSortElements, xmlSortAttributes, xmlDeleteAttributes,
 			xmlDeleteComments, xmlOnlyTags;
@@ -206,4 +209,21 @@ public class IConfigImpl implements IConfig {
 	public int getXmlPrint() {
 		return xmlPrint;
 	}
+	@Override
+	public int getMatchingLookahead() {
+		return matchingLookahead;
+	}
+	@Override
+	public double getMatchAt() {
+		return matchAt;
+	}
+	@Override
+	public void setMatchingLookahead(int matchingLookahead) {
+		this.matchingLookahead = matchingLookahead;
+	}
+	@Override
+	public void setMatchAt(double matchAt) {
+		this.matchAt = matchAt;
+	}
+	
 }

@@ -28,9 +28,9 @@ public class IMatchHelperImpl implements IMatchHelper {
 	public String[] leftFileLines, rightFileLines;
 
 	// Anzahl der Zeilen, fuer die nach einer identischen Zeile gesucht wird
-	private final int LOOKAHEAD = 5;
+	private int LOOKAHEAD = 5;
 	// Aehnlichkeit ab der Zeilen gematcht werden (Wert von 0 bis 1)
-	private final double MATCH_AT = 0.85;
+	private double MATCH_AT = 0.85;
 
 	private int leftSize = 0, rightSize = 0;
 
@@ -469,6 +469,26 @@ public class IMatchHelperImpl implements IMatchHelper {
 	@Override
 	public List<IMatch> getMatches() {
 		return matches;
+	}
+	
+	@Override
+	public int getLOOKAHEAD() {
+		return LOOKAHEAD;
+	}
+	
+	@Override
+	public double getMATCH_AT() {
+		return MATCH_AT;
+	}
+
+	@Override
+	public void setLOOKAHEAD(int lOOKAHEAD) {
+		LOOKAHEAD = lOOKAHEAD;
+	}
+
+	@Override
+	public void setMATCH_AT(double mATCH_AT) {
+		MATCH_AT = mATCH_AT;
 	}
 
 	

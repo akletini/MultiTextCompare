@@ -455,7 +455,9 @@ public class MainView extends JFrame {
 	public void addLogClearListener(ActionListener e){
 		clearLog.addActionListener(e);
 	}
-
+	public void addMenuSettingsListener(ActionListener e){
+		settings.addActionListener(e);
+	}
 	
 	
 	

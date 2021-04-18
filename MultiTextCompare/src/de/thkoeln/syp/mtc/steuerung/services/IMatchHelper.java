@@ -14,4 +14,12 @@ public interface IMatchHelper {
 
 	List<IMatch> getMatches();
 
+	int getLOOKAHEAD();
+
+	double getMATCH_AT();
+
+	void setLOOKAHEAD(int lOOKAHEAD);
+
+	void setMATCH_AT(double mATCH_AT);
+
 }

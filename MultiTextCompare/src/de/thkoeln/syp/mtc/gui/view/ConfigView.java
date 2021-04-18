@@ -1,18 +1,28 @@
 package de.thkoeln.syp.mtc.gui.view;
 
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.Hashtable;
 
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSlider;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import net.miginfocom.swing.MigLayout;
 import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
@@ -20,273 +30,633 @@ import de.thkoeln.syp.mtc.gui.control.ConfigController;
 import de.thkoeln.syp.mtc.gui.control.Management;
 
 public class ConfigView extends JFrame {
-	private Management management;
-	private JPanel panel;
-	private JLabel lblRootPath, lblGeneral, lblXml, lblJson, lblWhitespaces,
-			lblBlankLines, lblPunctuation, lblCaps, lblSelectedPath,
-			lblCompareLines, lblLineMatch, lblXmlValidation, lblXmlPrint,
-			lblXmlSortElements, lblXmlSortAttributes, lblXmlDeleteAttributes,
-			lblXmlDeleteComments, lblXmlOnlyTags, lblJsonSortKeys,
-			lblJsonDeleteValues;
-	private String[] comboBoxXmlValidationStrings, comboBoxXmlPrintStrings;
-	private JComboBox<String> comboBoxXmlValidation, comboBoxXmlPrint;
-	private JCheckBox checkBoxWhitespaces, checkBoxBlankLines, checkBoxCaps,
-			checkBoxPunctuation, checkBoxCompareLines, checkBoxLineMatch,
-			checkBoxXmlSortElements, checkBoxXmlSortAttributes,
-			checkBoxXmlDeleteAttributes, checkBoxXmlDeleteComments,
-			checkBoxXmlOnlyTags, checkBoxJsonSortKeys,
-			checkBoxJsonDeleteValues;
-	private JButton btnSetRoot, btnDefault, btnSave;
-	private IConfig config;
 
+	private Management management;
+	private IConfig config;
+	private int matchAtSimilarity;
+	private JPanel panel, panelGeneral, panelXML, panelDiff, panelJSON;
+	private JScrollPane scrollGeneral, scrollDiff, scrollXML, scrollJSON;
+	private JCheckBox whitespaceCheck;
+	private JLabel labelBlankLines;
+	private JCheckBox blanklinesCheck;
+	private JCheckBox checkBoxKeepPunctuation;
+	private JCheckBox checkBoxKeepCapitalization;
+	private JLabel lblKeepPunctuation;
+	private JLabel lblKeepCapitalization;
+	private JComboBox comboBoxComparisonModes;
+	private JLabel comparisonModeLabel;
+	private JButton btnResetToDefault;
+	private JLabel lblRootPath;
+	private JLabel lblComparisonParameters;
+	private JComboBox comboBoxXMLValidation;
+	private JLabel lblValidation;
+	private JLabel lblPrint;
+	private JComboBox comboBoxXMLPrint;
+	private JLabel lblSortElements;
+	private JLabel lblSortAttributes;
+	private JLabel lblDeleteAttributes;
+	private JLabel lblDeleteComments;
+	private JLabel lblOnlyTags;
+	private JCheckBox checkBoxSortElements;
+	private JCheckBox checkBoxSortAttibutes;
+	private JCheckBox checkBoxDeleteAttributes;
+	private JCheckBox checkBoxDeleteComments;
+	private JCheckBox checkBoxOnlyTags;
+	private JLabel lblMatching;
+	private JCheckBox checkBoxMatchLines;
+	private JLabel lblMatchLines;
+	private JCheckBox checkBoxBestMatch;
+	private JLabel lblLookForBest;
+	private JSlider matchAtSlider;
+	private JLabel lblMatchAt;
+	private JButton btnSetRootPath;
+	private JCheckBox checkBoxSortKeys;
+	private JLabel lblSortKeys;
+	private JCheckBox checkBoxDeleteValues;
+	private JLabel lblDeleteValues;
+	private JButton btnOk;
+	private JButton btnCancel;
+	private JLabel lblXmlParameters;
+	private JLabel lblJsonParameters;
+	private JTextField textFieldLookahead;
+	private JLabel lblLookahead;
+
+
+	/**
+	 * Create the frame.
+	 */
 	public ConfigView() {
 		management = Management.getInstance();
 		config = management.getFileImporter().getConfig();
-
-		// Panel
+		
+		Color white = Color.WHITE;
 		panel = new JPanel();
-		panel.setBorder(BorderFactory.createEmptyBorder(20, 60, 20, 60));
-		panel.setLayout(new MigLayout("",
-				"[120][60][60][120][60][60][120][60][60]",
-				"[][][][][][][][][][][][]"));
-
-		// Labels (Wurzelverzeichnis)
-		lblSelectedPath = new JLabel("Root path ");
-		lblSelectedPath.setFont(new Font("Tahoma", Font.BOLD, 12));
-		panel.add(lblSelectedPath, "cell 0 1,grow");
-		lblRootPath = new JLabel(config.getRootDir());
-		panel.add(lblRootPath, "cell 1 1 6 1,grow");
-
-		// Buttons
-		btnSetRoot = new JButton("Select");
-		panel.add(btnSetRoot, "cell 7 1,grow");
-		btnDefault = new JButton("Reset");
-		panel.add(btnDefault, "cell 3 11,grow");
-		btnSave = new JButton("Save");
-		panel.add(btnSave, "cell 4 11 2 1,grow");
-
+		panelGeneral = new JPanel();
+		panelDiff = new JPanel();
+		panelXML = new JPanel();
+		panelJSON = new JPanel();
 		
-		// * Allgemein *
-		lblGeneral = new JLabel("General");
-		lblGeneral.setFont(new Font("Tahoma", Font.BOLD, 12));
-		panel.add(lblGeneral, "cell 0 3");
-
-		// Leerzeichen
-		lblWhitespaces = new JLabel("Keep whitespaces");
-		panel.add(lblWhitespaces, "cell 0 4");
-		checkBoxWhitespaces = new JCheckBox();
-		checkBoxWhitespaces.setSelected(config.getKeepWhitespaces());
-		panel.add(checkBoxWhitespaces, "cell 1 4,alignx center");
-
-		// Leerzeilen
-		lblBlankLines = new JLabel("Keep blank lines");
-		panel.add(lblBlankLines, "cell 0 5");
-		checkBoxBlankLines = new JCheckBox();
-		checkBoxBlankLines.setSelected(config.getKeepBlankLines());
-		panel.add(checkBoxBlankLines, "cell 1 5,alignx center");
-
-		// Satzzeichen
-		lblPunctuation = new JLabel("Keep punctuation marks");
-		panel.add(lblPunctuation, "cell 0 6");
-		checkBoxPunctuation = new JCheckBox();
-		checkBoxPunctuation.setSelected(config.getKeepPuctuation());
-		panel.add(checkBoxPunctuation, "cell 1 6,alignx center");
-
-		// Grossschreibung
-		lblCaps = new JLabel("Keep capitalization");
-		panel.add(lblCaps, "cell 0 7");
-		checkBoxCaps = new JCheckBox();
-		panel.add(checkBoxCaps, "cell 1 7,alignx center");
-		checkBoxCaps.setSelected(config.getKeepCapitalization());
-
-		// Zeilenweiser Vergleich
-		lblCompareLines = new JLabel("Compare lines");
-		panel.add(lblCompareLines, "cell 0 9");
-		checkBoxCompareLines = new JCheckBox();
-		panel.add(checkBoxCompareLines, "cell 1 9,alignx center");
-		checkBoxCompareLines.setSelected(config.getCompareLines());
-
-		// Zeilen zuordnen
-		lblLineMatch = new JLabel("Match lines");
-		panel.add(lblLineMatch, "cell 0 10");
-		checkBoxLineMatch = new JCheckBox();
-		panel.add(checkBoxLineMatch, "cell 1 10,alignx center");
-		checkBoxLineMatch.setSelected(config.getLineMatch());
-
+		scrollGeneral = new JScrollPane();
+		scrollDiff = new JScrollPane();
+		scrollXML = new JScrollPane();
+		scrollJSON = new JScrollPane();
 		
-		// * XML *
-		lblXml = new JLabel("XML");
-		lblXml.setFont(new Font("Tahoma", Font.BOLD, 12));
-		panel.add(lblXml, "cell 3 3");
-
-		// Validation
-		lblXmlValidation = new JLabel("Validation");
-		panel.add(lblXmlValidation, "cell 3 4");
-		comboBoxXmlValidationStrings = new String[] { "None", "Internal XSD",
-				"DTD" };
-		comboBoxXmlValidation = new JComboBox<String>(
-				comboBoxXmlValidationStrings);
-		comboBoxXmlValidation.setSelectedIndex(config.getXmlValidation());
-		panel.add(comboBoxXmlValidation, "cell 4 4,alignx center, grow");
-
-		// Print
-		lblXmlPrint = new JLabel("Print");
-		panel.add(lblXmlPrint, "cell 3 5");
-		comboBoxXmlPrintStrings = new String[] { "Pretty", "Raw", "Compact" };
-		comboBoxXmlPrint = new JComboBox<String>(comboBoxXmlPrintStrings);
-		comboBoxXmlPrint.setSelectedIndex(config.getXmlPrint());
-		panel.add(comboBoxXmlPrint, "cell 4 5,alignx center, grow");
-
-		// Sortierte Elemente
-		lblXmlSortElements = new JLabel("Sort elements");
-		panel.add(lblXmlSortElements, "cell 3 6");
-		checkBoxXmlSortElements = new JCheckBox();
-		checkBoxXmlSortElements.setSelected(config.getXmlSortElements());
-		panel.add(checkBoxXmlSortElements, "cell 4 6,alignx center");
-
-		// Sortierte Attribute
-		lblXmlSortAttributes = new JLabel("Sort attributes");
-		panel.add(lblXmlSortAttributes, "cell 3 7");
-		checkBoxXmlSortAttributes = new JCheckBox();
-		checkBoxXmlSortAttributes.setSelected(config.getXmlDeleteAttributes());
-		panel.add(checkBoxXmlSortAttributes, "cell 4 7,alignx center");
-
-		// Loesche Attribute
-		lblXmlDeleteAttributes = new JLabel("Delete attributes");
-		panel.add(lblXmlDeleteAttributes, "cell 3 8");
-		checkBoxXmlDeleteAttributes = new JCheckBox();
-		checkBoxXmlDeleteAttributes
-				.setSelected(config.getXmlDeleteAttributes());
-		panel.add(checkBoxXmlDeleteAttributes, "cell 4 8,alignx center");
-
-		// Loesche Kommentare
-		lblXmlDeleteComments = new JLabel("Delete comments");
-		panel.add(lblXmlDeleteComments, "cell 3 9");
-		checkBoxXmlDeleteComments = new JCheckBox();
-		checkBoxXmlDeleteComments.setSelected(config.getXmlDeleteComments());
-		panel.add(checkBoxXmlDeleteComments, "cell 4 9,alignx center");
-
-		// Nur Tags
-		lblXmlOnlyTags = new JLabel("Only tags");
-		panel.add(lblXmlOnlyTags, "cell 3 10");
-		checkBoxXmlOnlyTags = new JCheckBox();
-		checkBoxXmlOnlyTags.setSelected(config.getXmlOnlyTags());
-		panel.add(checkBoxXmlOnlyTags, "cell 4 10,alignx center");
-
+		scrollGeneral.setViewportView(panelGeneral);
+		scrollDiff.setViewportView(panelDiff);
+		scrollXML.setViewportView(panelXML);
+		scrollJSON.setViewportView(panelJSON);
 		
-		// * JSON *
-		lblJson = new JLabel("JSON");
-		lblJson.setFont(new Font("Tahoma", Font.BOLD, 12));
-		panel.add(lblJson, "cell 6 3");
-
-		// Nach Keys Sortieren
-		lblJsonSortKeys = new JLabel("Sort keys");
-		panel.add(lblJsonSortKeys, "cell 6 4");
-		checkBoxJsonSortKeys = new JCheckBox();
-		checkBoxJsonSortKeys.setSelected(config.getJsonSortKeys());
-		panel.add(checkBoxJsonSortKeys, "cell 7 4,alignx center");
-
-		// Werte loeschen
-		lblJsonDeleteValues = new JLabel("Delete values");
-		panel.add(lblJsonDeleteValues, "cell 6 5");
-		checkBoxJsonDeleteValues = new JCheckBox();
-		checkBoxJsonDeleteValues.setSelected(config.getJsonDeleteValues());
-		panel.add(checkBoxJsonDeleteValues, "cell 7 5,alignx center");
+		panel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		panel.setLayout(new MigLayout("", "[grow]", "[25px][grow,fill][]"));
 		
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setBounds(panel.getBounds());
+		
+		////////////////////////GENERAL/////////////////////////////////
+		panelGeneral.setLayout(new MigLayout("", "[][164.00][][][31.00][grow,fill]", "[][20.00px][10px:10px:10px][][][][][][][][][77.00]"));
+								
+		lblComparisonParameters = new JLabel("Comparison parameters");
+		lblComparisonParameters.setFont(new Font("Tahoma", Font.BOLD, 13));
+		panelGeneral.add(lblComparisonParameters, "cell 1 1");
+		
+		whitespaceCheck = new JCheckBox("");
+		whitespaceCheck.setBackground(white);
+		whitespaceCheck.setSelected(config.getKeepWhitespaces());
+		panelGeneral.add(whitespaceCheck, "cell 1 3,alignx left,aligny top");
 
-		// Frame
-		this.getContentPane().add(panel);
-		this.setTitle("Configuration");
-		this.pack();
-		this.setLocationRelativeTo(null);
-		this.setResizable(false);
+		JLabel labelWhitespace = new JLabel("Keep whitespaces");
+		panelGeneral.add(labelWhitespace, "cell 5 3,alignx left,aligny center");
+		
+		blanklinesCheck = new JCheckBox("");
+		blanklinesCheck.setBackground(white);
+		blanklinesCheck.setSelected(config.getKeepBlankLines());
+		panelGeneral.add(blanklinesCheck, "cell 1 4");
+		
+		labelBlankLines = new JLabel("Keep blank lines");
+		panelGeneral.add(labelBlankLines, "cell 5 4,alignx left");
+		
+		checkBoxKeepPunctuation = new JCheckBox("");
+		checkBoxKeepPunctuation.setBackground(white);
+		checkBoxKeepPunctuation.setSelected(config.getKeepPuctuation());
+		panelGeneral.add(checkBoxKeepPunctuation, "cell 1 5");
+		
+		lblKeepPunctuation = new JLabel("Keep punctuation");
+		panelGeneral.add(lblKeepPunctuation, "cell 5 5,alignx left");
+		
+		checkBoxKeepCapitalization = new JCheckBox("");
+		checkBoxKeepCapitalization.setBackground(white);
+		checkBoxKeepCapitalization.setSelected(config.getKeepCapitalization());
+		panelGeneral.add(checkBoxKeepCapitalization, "cell 1 6");
+		
+		lblKeepCapitalization = new JLabel("Keep capitalization");
+		lblKeepCapitalization.setHorizontalAlignment(SwingConstants.LEFT);
+		panelGeneral.add(lblKeepCapitalization, "cell 5 6,alignx left");
+		
+		String[] comparisonModes = {"Compare characters", "Compare lines"};
+		comboBoxComparisonModes = new JComboBox(comparisonModes);
+		comboBoxComparisonModes.setSelectedItem(config.getCompareLines());
+		
+		panelGeneral.add(comboBoxComparisonModes, "cell 1 8,alignx left");
+		
+		comparisonModeLabel = new JLabel("Comparison mode");
+		comparisonModeLabel.setHorizontalAlignment(SwingConstants.LEFT);
+		panelGeneral.add(comparisonModeLabel, "cell 5 8,alignx left");
+		
+		btnSetRootPath = new JButton();
+		if(config.getRootDir() != null){
+			btnSetRootPath.setText(config.getRootDir());
+		}
+		panelGeneral.add(btnSetRootPath, "cell 5 10,alignx left");
+		
+		//////////////////////////XML//////////////////////////////
+		panelXML.setLayout(new MigLayout("", "[][164.00px][][][31.00][grow,fill]", "[][20.00px][10px:10px:10px][][][][][][][][][77.00]"));
+		
+		String[] validations = {"None", "Internal XSD", "External XSD", "DTD"};
+		
+		lblXmlParameters = new JLabel("XML parameters");
+		lblXmlParameters.setFont(new Font("Tahoma", Font.BOLD, 13));
+		panelXML.add(lblXmlParameters, "cell 1 1");
+		comboBoxXMLValidation = new JComboBox(validations);
+		comboBoxXMLValidation.setSelectedItem(config.getXmlValidation());
+		panelXML.add(comboBoxXMLValidation, "cell 1 3,alignx left, grow");
+		
+		lblValidation = new JLabel("Validation");
+		panelXML.add(lblValidation, "cell 5 3");
+		
+		String[] prints = {"Pretty", "Raw", "Compact"};
+		comboBoxXMLPrint = new JComboBox(prints);
+		comboBoxXMLPrint.setSelectedItem(config.getXmlPrint());
+		panelXML.add(comboBoxXMLPrint, "cell 1 4,alignx left, grow");
+		
+		lblPrint = new JLabel("Print");
+		panelXML.add(lblPrint, "cell 5 4");
+		
+		checkBoxSortElements = new JCheckBox("");
+		checkBoxSortElements.setBackground(white);
+		checkBoxSortElements.setSelected(config.getXmlSortElements());
+		panelXML.add(checkBoxSortElements, "cell 1 5");
+		
+		lblSortElements = new JLabel("Sort elements");
+		panelXML.add(lblSortElements, "cell 5 5");
+		
+		checkBoxSortAttibutes = new JCheckBox("");
+		checkBoxSortAttibutes.setBackground(white);
+		checkBoxSortAttibutes.setSelected(config.getXmlSortAttributes());
+		panelXML.add(checkBoxSortAttibutes, "cell 1 6");
+		
+		lblSortAttributes = new JLabel("Sort attributes");
+		panelXML.add(lblSortAttributes, "cell 5 6");
+		
+		checkBoxDeleteAttributes = new JCheckBox("");
+		checkBoxDeleteAttributes.setBackground(white);
+		checkBoxDeleteAttributes.setSelected(config.getXmlDeleteAttributes());
+		panelXML.add(checkBoxDeleteAttributes, "cell 1 7");
+		
+		lblDeleteAttributes = new JLabel("Delete attributes");
+		panelXML.add(lblDeleteAttributes, "cell 5 7");
+		
+		checkBoxDeleteComments = new JCheckBox("");
+		checkBoxDeleteComments.setBackground(white);
+		checkBoxDeleteComments.setSelected(config.getXmlDeleteComments());
+		panelXML.add(checkBoxDeleteComments, "cell 1 8");
+		
+		lblDeleteComments = new JLabel("Delete comments");
+		panelXML.add(lblDeleteComments, "cell 5 8");
+		
+		checkBoxOnlyTags = new JCheckBox("");
+		checkBoxOnlyTags.setBackground(white);
+		checkBoxOnlyTags.setSelected(config.getXmlOnlyTags());
+		panelXML.add(checkBoxOnlyTags, "cell 1 9");
+		
+		lblOnlyTags = new JLabel("Only Tags");
+		panelXML.add(lblOnlyTags, "cell 5 9");
+		
+		lblRootPath = new JLabel("Root search path");
+		lblRootPath.setFont(new Font("Tahoma", Font.BOLD, 13));
+		panelGeneral.add(lblRootPath, "cell 1 10");
+		
+		//////////////////////////Diff//////////////////////////////
+		panelDiff.setLayout(new MigLayout("", "[][164.00][][][31.00][grow,fill]", "[][20.00px][10px:10px:10px][][][][][][][][][77.00]"));
+		
+		lblMatching = new JLabel("Matching");
+		lblMatching.setFont(new Font("Tahoma", Font.BOLD, 13));
+		panelDiff.add(lblMatching, "cell 1 1");
+		
+		checkBoxMatchLines = new JCheckBox("");
+		checkBoxMatchLines.setBackground(white);
+		checkBoxMatchLines.setSelected(config.getLineMatch());
+		panelDiff.add(checkBoxMatchLines, "cell 1 3");
+		
+		lblMatchLines = new JLabel("Match lines");
+		panelDiff.add(lblMatchLines, "cell 5 3");
+		
+		checkBoxBestMatch = new JCheckBox("");
+		checkBoxBestMatch.setBackground(white);
+//		checkBoxBestMatch.setSelected(config.getBestMatch());
+		panelDiff.add(checkBoxBestMatch, "cell 1 4");
+
+		lblLookForBest = new JLabel("Look for best match");
+		panelDiff.add(lblLookForBest, "cell 5 4");
+		
+		matchAtSlider = new JSlider(JSlider.HORIZONTAL,0,100,85);
+		matchAtSlider.setBackground(white);
+		matchAtSlider.setMinorTickSpacing(5);
+		matchAtSlider.setMajorTickSpacing(25);
+		matchAtSlider.setPaintTicks(true);
+		matchAtSlider.setPaintLabels(true);
+		matchAtSlider.setSnapToTicks(true);
+		
+		Hashtable<Integer, JLabel> labelTable = new Hashtable<Integer, JLabel>();
+		labelTable.put(0, new JLabel("0"));
+		labelTable.put(25, new JLabel("25"));
+		labelTable.put(50, new JLabel("50"));
+		labelTable.put(75, new JLabel("75"));
+		labelTable.put(100, new JLabel("100"));
+		matchAtSlider.setLabelTable(labelTable);
+//		matchAtSlider.setValue(config.getMatchAt());
+		panelDiff.add(matchAtSlider, "cell 1 5,alignx center,aligny center");
+		
+		lblMatchAt = new JLabel("Match lines at " + config.getMatchAt() + "% similarity");
+		panelDiff.add(lblMatchAt, "cell 5 5");
+		
+		matchAtSlider.addChangeListener(new ChangeListener() {
+			
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				JSlider source = (JSlider)e.getSource();
+				matchAtSimilarity = source.getValue();
+				lblMatchAt.setText("Match lines at " + matchAtSimilarity + "% similarity");
+			}
+		});
+		
+		textFieldLookahead = new JTextField();
+		textFieldLookahead.setText("" + config.getMatchingLookahead());
+		panelDiff.add(textFieldLookahead, "cell 1 6,alignx center,aligny center, grow");
+		
+		lblLookahead = new JLabel("Matching lookahead ");
+		lblLookahead.setToolTipText("<html>Number of lines that will be checked to write similar text on the same line.<br> Setting it to 0 will cause the matcher to search through the whole document</html>");
+		panelDiff.add(lblLookahead, "cell 5 6");
+		
+		/////////////////////////JSON//////////////////////////
+		panelJSON.setLayout(new MigLayout("", "[][164.00][][][31.00][grow,fill]", "[][20.00px][10px:10px:10px][][][][][][][][][77.00]"));
+		
+		lblJsonParameters = new JLabel("JSON parameters");
+		lblJsonParameters.setFont(new Font("Tahoma", Font.BOLD, 13));
+		panelJSON.add(lblJsonParameters, "cell 1 1");
+		
+		checkBoxSortKeys = new JCheckBox("");
+		checkBoxSortKeys.setBackground(white);
+		checkBoxSortKeys.setSelected(config.getJsonSortKeys());
+		panelJSON.add(checkBoxSortKeys, "cell 1 3");
+		
+		lblSortKeys = new JLabel("Sort keys");
+		panelJSON.add(lblSortKeys, "cell 5 3");
+		
+		checkBoxDeleteValues = new JCheckBox("");
+		checkBoxDeleteValues.setBackground(white);
+		checkBoxDeleteValues.setSelected(config.getJsonDeleteValues());
+		panelJSON.add(checkBoxDeleteValues, "cell 1 4");
+		
+		lblDeleteValues = new JLabel("Delete values");
+		panelJSON.add(lblDeleteValues, "cell 5 4");
+		
+		////////////////////////////////////////////////////////////////
+		tabbedPane.add(scrollGeneral, "    General    ");
+		tabbedPane.add(scrollDiff, "    Diff    ");
+		tabbedPane.add(scrollXML, "    XML    ");
+		tabbedPane.add(scrollJSON, "    JSON    ");
+		
+		tabbedPane.setBackground(white);
+		panelGeneral.setBackground(white);
+		panelDiff.setBackground(white);
+		panelXML.setBackground(white);
+		panelJSON.setBackground(white);
+			
+		panel.add(tabbedPane, "cell 0 0 1 2,grow");
+		setContentPane(panel);
+		
+		btnOk = new JButton("OK");
+		panel.add(btnOk, "cell 0 2,alignx trailing,growy");
+		
+		btnResetToDefault = new JButton("Defaults");
+		panel.add(btnResetToDefault, "cell 0 2,alignx center,aligny top");
+		
+		btnCancel = new JButton("Cancel");
+		panel.add(btnCancel, "cell 0 2");
+		setVisible(true);
+		
+		setTitle("Settings");
+		setResizable(true);
+		setMinimumSize(new Dimension(560,400));
+		setSize(800, 500);
+		setLocationRelativeTo(null);
 		try {
 			this.setIconImage(ImageIO.read(new File("res/icon.png")));
 		} catch (IOException e) {
 		}
-
-		// Controller
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
+		
 		management.setConfigController(new ConfigController(this));
 	}
 
-	// -- Getter --
+	public void setLookaheadText(){
+		try {
+			Integer lookahead = config.getMatchingLookahead();
+			String lookeheadText = lookahead.toString();
+			textFieldLookahead.setText(lookeheadText);
+			
+		}catch(NumberFormatException e){
+			e.printStackTrace();
+		}
+	}
 	
-	public JCheckBox getCheckBoxWhitespaces() {
-		return checkBoxWhitespaces;
-	}
-
-	public JCheckBox getCheckBoxBlankLines() {
-		return checkBoxBlankLines;
-	}
-
-	public JCheckBox getCheckBoxPunctuation() {
-		return checkBoxPunctuation;
-	}
-
-	public JCheckBox getCheckBoxCaps() {
-		return checkBoxCaps;
-	}
-
-	public JCheckBox getCheckBoxCompareLines() {
-		return checkBoxCompareLines;
-	}
-
-	public JCheckBox getCheckBoxLineMatch() {
-		return checkBoxLineMatch;
-	}
-
-	public JComboBox<String> getComboBoxXmlValidation() {
-		return comboBoxXmlValidation;
-	}
-
-	public JComboBox<String> getComboBoxXmlPrint() {
-		return comboBoxXmlPrint;
-	}
-
-	public JCheckBox getCheckBoxXmlSortElements() {
-		return checkBoxXmlSortElements;
-	}
-
-	public JCheckBox getCheckBoxXmlSortAttributes() {
-		return checkBoxXmlSortAttributes;
-	}
-
-	public JCheckBox getCheckBoxXmlDeleteAttribute() {
-		return checkBoxXmlDeleteAttributes;
-	}
-
-	public JCheckBox getCheckBoxXmlDeleteComments() {
-		return checkBoxXmlDeleteComments;
-	}
-
-	public JCheckBox getCheckBoxXmlOnlyTags() {
-		return checkBoxXmlOnlyTags;
-	}
-
-	public JCheckBox getCheckBoxJsonSortKeys() {
-		return checkBoxJsonSortKeys;
-	}
-
-	public JCheckBox getCheckBoxJsonDeleteValues() {
-		return checkBoxJsonDeleteValues;
-	}
-
 	public JLabel getLblRootPath() {
 		return lblRootPath;
 	}
-
-	// -- Methoden um die Buttons auf den Controller zu verweisen --
 	
+	
+	public Management getManagement() {
+		return management;
+	}
+
+
+	public IConfig getConfig() {
+		return config;
+	}
+
+
+	public JPanel getPanel() {
+		return panel;
+	}
+
+
+	public JPanel getPanelGeneral() {
+		return panelGeneral;
+	}
+
+
+	public JPanel getPanelXML() {
+		return panelXML;
+	}
+
+
+	public JPanel getPanelDiff() {
+		return panelDiff;
+	}
+
+
+	public JPanel getPanelJSON() {
+		return panelJSON;
+	}
+
+
+	public JScrollPane getScrollGeneral() {
+		return scrollGeneral;
+	}
+
+
+	public JScrollPane getScrollDiff() {
+		return scrollDiff;
+	}
+
+
+	public JScrollPane getScrollXML() {
+		return scrollXML;
+	}
+
+
+	public JScrollPane getScrollJSON() {
+		return scrollJSON;
+	}
+
+
+	public JCheckBox getCheckBoxWhitespaces() {
+		return whitespaceCheck;
+	}
+
+
+	public JLabel getLabelBlankLines() {
+		return labelBlankLines;
+	}
+
+
+	public JCheckBox getCheckBoxBlankLines() {
+		return blanklinesCheck;
+	}
+
+
+	public JCheckBox getCheckBoxPunctuation() {
+		return checkBoxKeepPunctuation;
+	}
+
+
+	public JCheckBox getCheckBoxCaps() {
+		return checkBoxKeepCapitalization;
+	}
+
+
+	public JLabel getLblKeepPunctuation() {
+		return lblKeepPunctuation;
+	}
+
+
+	public JLabel getLblKeepCapitalization() {
+		return lblKeepCapitalization;
+	}
+
+
+	public JComboBox getComboBoxComparisonModes() {
+		return comboBoxComparisonModes;
+	}
+
+
+	public JLabel getComparisonModeLabel() {
+		return comparisonModeLabel;
+	}
+
+
+	public JButton getBtnResetToDefault() {
+		return btnResetToDefault;
+	}
+
+
+	public JLabel getLblComparisonParameters() {
+		return lblComparisonParameters;
+	}
+
+
+	public JComboBox getComboBoxXmlValidation() {
+		return comboBoxXMLValidation;
+	}
+
+
+	public JLabel getLblValidation() {
+		return lblValidation;
+	}
+
+
+	public JLabel getLblPrint() {
+		return lblPrint;
+	}
+
+
+	public JComboBox getComboBoxXmlPrint() {
+		return comboBoxXMLPrint;
+	}
+
+
+	public JLabel getLblSortElements() {
+		return lblSortElements;
+	}
+
+
+	public JLabel getLblSortAttributes() {
+		return lblSortAttributes;
+	}
+
+
+	public JLabel getLblDeleteAttributes() {
+		return lblDeleteAttributes;
+	}
+
+
+	public JLabel getLblDeleteComments() {
+		return lblDeleteComments;
+	}
+
+
+	public JLabel getLblOnlyTags() {
+		return lblOnlyTags;
+	}
+
+
+	public JCheckBox getCheckBoxXmlSortElements() {
+		return checkBoxSortElements;
+	}
+
+
+	public JCheckBox getCheckBoxXmlSortAttributes() {
+		return checkBoxSortAttibutes;
+	}
+
+
+	public JCheckBox getCheckBoxXmlDeleteAttribute() {
+		return checkBoxDeleteAttributes;
+	}
+
+
+	public JCheckBox getCheckBoxXmlDeleteComments() {
+		return checkBoxDeleteComments;
+	}
+
+
+	public JCheckBox getCheckBoxXmlOnlyTags() {
+		return checkBoxOnlyTags;
+	}
+
+
+	public JLabel getLblMatching() {
+		return lblMatching;
+	}
+
+
+	public JCheckBox getCheckBoxLineMatch() {
+		return checkBoxMatchLines;
+	}
+
+
+	public JLabel getLblMatchLines() {
+		return lblMatchLines;
+	}
+
+
+	public JCheckBox getCheckBoxBestMatch() {
+		return checkBoxBestMatch;
+	}
+
+
+	public JLabel getLblLookForBest() {
+		return lblLookForBest;
+	}
+
+
+	public JSlider getMatchAtSlider() {
+		return matchAtSlider;
+	}
+
+
+	public JLabel getLblMatchAt() {
+		return lblMatchAt;
+	}
+
+
+	public JButton getBtnSetRootPath() {
+		return btnSetRootPath;
+	}
+
+
+	public JCheckBox getCheckBoxJsonSortKeys() {
+		return checkBoxSortKeys;
+	}
+
+
+	public JLabel getLblSortKeys() {
+		return lblSortKeys;
+	}
+
+
+	public JCheckBox getCheckBoxJsonDeleteValues() {
+		return checkBoxDeleteValues;
+	}
+
+
+	public JLabel getLblDeleteValues() {
+		return lblDeleteValues;
+	}
+
+
+	public JButton getBtnOk() {
+		return btnOk;
+	}
+
+
+	public JButton getBtnCancel() {
+		return btnCancel;
+	}
+
+
+	public JLabel getLblXmlParameters() {
+		return lblXmlParameters;
+	}
+
+
+	public JLabel getLblJsonParameters() {
+		return lblJsonParameters;
+	}
+	
+	public int getTextFieldLookahead() {
+		return Integer.parseInt(textFieldLookahead.getText());
+	}
+	
+	// Button listeners
+
 	public void addSetRootListener(ActionListener e) {
-		btnSetRoot.addActionListener(e);
+		btnSetRootPath.addActionListener(e);
 	}
 
 	public void addDefaultListener(ActionListener e) {
-		btnDefault.addActionListener(e);
+		btnResetToDefault.addActionListener(e);
 	}
 
 	public void addSaveListener(ActionListener e) {
-		btnSave.addActionListener(e);
+		btnOk.addActionListener(e);
 	}
+
+	public void addCancelistener(ActionListener e) {
+		btnCancel.addActionListener(e);
+	}
+
+	
 
 }

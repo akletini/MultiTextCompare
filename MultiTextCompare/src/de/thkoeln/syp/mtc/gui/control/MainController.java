@@ -1,14 +1,10 @@
 package de.thkoeln.syp.mtc.gui.control;
 
-import java.awt.Adjustable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
@@ -32,6 +28,7 @@ public class MainController {
 		mainView.addZoomListener(new ZoomListener());
 		mainView.addMenuFileSelection(new MenuFileSelectionListener());
 		mainView.addLogClearListener(new LogClearListener());
+		mainView.addMenuSettingsListener(new MenuSettingsListener());
 		mainView.addMenuAboutListener(new MenuAboutListener());
 		mainView.addMenuHelpListener(new MenuHelpListener());
 		mainView.addToolbarLogClearListener(new ToolbarLogClearListener());
@@ -146,6 +143,16 @@ public class MainController {
 				management.setFileSelectionView((new FileSelectionView()));
 			management.getFileSelectionView().setVisible(true);
 			management.getFileSelectionView().toFront();
+		}
+	}
+	
+	class MenuSettingsListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+
+			if (Management.getInstance().getConfigView() == null)
+				management.setConfigView((new ConfigView()));
+			management.getConfigView().setVisible(true);
+			management.getConfigView().toFront();
 		}
 	}
 

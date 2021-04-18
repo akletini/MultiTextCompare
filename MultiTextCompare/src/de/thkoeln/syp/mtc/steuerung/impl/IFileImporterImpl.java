@@ -48,6 +48,8 @@ public class IFileImporterImpl implements IFileImporter {
 		prop.setProperty(PROP_CAPITALIZATION, "true");
 		prop.setProperty(PROP_COMPARELINES, "true");
 		prop.setProperty(PROP_LINEMATCH, "true");
+		prop.setProperty(PROP_MATCHAT, "0.85");
+		prop.setProperty(PROP_MATCHINGLOOKAHEAD, "50");
 
 		prop.setProperty(PROP_XMLVALIDATION, "0");
 		prop.setProperty(PROP_XMLPRINT, "0");
@@ -172,6 +174,8 @@ public class IFileImporterImpl implements IFileImporter {
 				.getProperty(PROP_COMPARELINES)));
 		iConfig.setLineMatch(Boolean.parseBoolean(prop
 				.getProperty(PROP_LINEMATCH)));
+		iConfig.setMatchAt(Double.parseDouble(prop.getProperty(PROP_MATCHAT)));
+		iConfig.setMatchingLookahead(Integer.parseInt(prop.getProperty(PROP_MATCHINGLOOKAHEAD)));
 
 		iConfig.setXmlValidation(Integer.parseInt(prop
 				.getProperty(PROP_XMLVALIDATION)));
@@ -284,6 +288,8 @@ public class IFileImporterImpl implements IFileImporter {
 					Boolean.toString(iConfig.getCompareLines()));
 			prop.setProperty(PROP_LINEMATCH,
 					Boolean.toString(iConfig.getLineMatch()));
+			prop.setProperty(PROP_MATCHAT, Double.toString(iConfig.getMatchAt()));
+			prop.setProperty(PROP_MATCHINGLOOKAHEAD, Integer.toString(iConfig.getMatchingLookahead()));
 
 			prop.setProperty(PROP_XMLVALIDATION,
 					Integer.toString(iConfig.getXmlValidation()));

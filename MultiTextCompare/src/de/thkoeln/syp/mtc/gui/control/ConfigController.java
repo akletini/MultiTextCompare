@@ -22,6 +22,7 @@ public class ConfigController {
 				.addSetRootListener(new SetRootListener());
 		this.configView.addDefaultListener(new DefaultListener());
 		this.configView.addSaveListener(new SaveListener());
+		this.configView.addCancelistener(new CancelListener());
 	}
 
 	// Select Button: Auswahl des Wurzelverzeichnisses
@@ -46,7 +47,7 @@ public class ConfigController {
 			configView.getCheckBoxBlankLines().setSelected(false);
 			configView.getCheckBoxPunctuation().setSelected(false);
 			configView.getCheckBoxCaps().setSelected(false);
-			configView.getCheckBoxCompareLines().setSelected(false);
+			configView.getComboBoxComparisonModes().setSelectedIndex(0);
 			configView.getCheckBoxLineMatch().setSelected(false);
 			configView.getComboBoxXmlValidation().setSelectedIndex(0);
 			configView.getComboBoxXmlPrint().setSelectedIndex(0);
@@ -73,8 +74,9 @@ public class ConfigController {
 					.getCheckBoxCaps().isSelected());
 			config.setKeepPuctuation(configView.getCheckBoxPunctuation()
 					.isSelected());
-			config.setCompareLines(configView.getCheckBoxCompareLines().isSelected());
 			config.setLineMatch(configView.getCheckBoxLineMatch().isSelected());
+			config.setMatchAt(configView.getMatchAtSlider().getValue()); //erlaubt nur integer types
+			config.setMatchingLookahead(configView.getTextFieldLookahead());
 
 			config.setXmlSortElements(configView.getCheckBoxXmlSortElements()
 					.isSelected());
@@ -88,6 +90,18 @@ public class ConfigController {
 			
 			config.setJsonSortKeys(configView.getCheckBoxJsonSortKeys().isSelected());
 			config.setJsonDeleteValues(configView.getCheckBoxJsonDeleteValues().isSelected());
+			
+			switch(configView.getComboBoxComparisonModes().getSelectedItem().toString()){
+			case "Compare characters":
+				config.setCompareLines(false);
+				break;
+			case "Compare lines":
+				config.setCompareLines(true);
+				break;
+			default:
+				config.setCompareLines(false);
+				break;
+			}
 			
 			switch (configView.getComboBoxXmlValidation().getSelectedItem()
 					.toString()) {
@@ -121,6 +135,13 @@ public class ConfigController {
 			management.appendToLog("Configuration has been saved");
 			configView.dispatchEvent(new WindowEvent(configView,
 					WindowEvent.WINDOW_CLOSING));
+		}
+	}
+	
+	class CancelListener implements ActionListener {
+		
+		public void actionPerformed(ActionEvent e) {
+			configView.dispatchEvent(new WindowEvent(configView, WindowEvent.WINDOW_CLOSING));
 		}
 	}
 }

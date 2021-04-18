@@ -40,6 +40,14 @@ public interface IConfig {
 	boolean getKeepBlankLines();
 
 	boolean getLineMatch();
+	
+	int getMatchingLookahead();
+
+	double getMatchAt();
+
+	void setMatchingLookahead(int matchingLookahead);
+
+	void setMatchAt(double matchAt);
 
 	// XML spezifische Parameter
 	void setXmlSortElements(boolean xmlSortElements);
@@ -78,4 +86,6 @@ public interface IConfig {
 	boolean getJsonSortKeys();
 
 	boolean getJsonDeleteValues();
+
+	
 }
