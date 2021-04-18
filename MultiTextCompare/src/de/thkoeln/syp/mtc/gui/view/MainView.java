@@ -267,7 +267,7 @@ public class MainView extends JFrame {
 						comp.setBackground(wertFarbe);
 						comp.setForeground(Color.BLACK);
 					}
-					repaint();
+
 				}
 				return comp;
 			}
@@ -300,7 +300,14 @@ public class MainView extends JFrame {
 		JTableHeader header = tableMatrix.getTableHeader();
 		header.setDefaultRenderer(new DefaultTableHeaderCellRenderer());
 		header.setResizingAllowed(false);
-		header.setPreferredSize(new Dimension(header.getWidth(), 30));
+		tableMatrix.setTableHeader(new JTableHeader(tableMatrix.getColumnModel()) {
+			@Override
+			public Dimension getPreferredSize() {
+				Dimension d = super.getPreferredSize();
+				d.height = 30;
+				return d;
+			}
+		});
 		
 		tableMatrix.getTableHeader().setReorderingAllowed(false);
 		tableMatrix.setRowHeight(60);
