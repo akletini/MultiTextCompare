@@ -61,11 +61,11 @@ public class DefaultTableHeaderCellRenderer extends DefaultTableCellRenderer {
 		JTableHeader tableHeader = table.getTableHeader();
 		if (tableHeader != null) {
 			setForeground(tableHeader.getForeground());
+			tableHeader.setResizingAllowed(false);
 		}
 		setIcon(getIcon(table, column));
 		Color color = UIManager.getColor("Table.gridColor");
-		;
-		MatteBorder border = new MatteBorder(0, 0, 0, 1, color);
+		MatteBorder border = new MatteBorder(0, 0, 1, 1, color);
 		setBorder(border);
 		return this;
 	}

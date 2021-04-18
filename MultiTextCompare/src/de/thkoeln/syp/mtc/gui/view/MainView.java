@@ -295,11 +295,6 @@ public class MainView extends JFrame {
 			}
 		};
 		
-
-		// Matrix Parameter
-		JTableHeader header = tableMatrix.getTableHeader();
-		header.setDefaultRenderer(new DefaultTableHeaderCellRenderer());
-		header.setResizingAllowed(false);
 		tableMatrix.setTableHeader(new JTableHeader(tableMatrix.getColumnModel()) {
 			@Override
 			public Dimension getPreferredSize() {
@@ -308,7 +303,11 @@ public class MainView extends JFrame {
 				return d;
 			}
 		});
+		// Matrix Parameter
+		JTableHeader header = tableMatrix.getTableHeader();
+		header.setDefaultRenderer(new DefaultTableHeaderCellRenderer());
 		
+		header.setResizingAllowed(false);
 		tableMatrix.getTableHeader().setReorderingAllowed(false);
 		tableMatrix.setRowHeight(60);
 		tableMatrix.setDefaultEditor(Object.class, null);
@@ -319,7 +318,7 @@ public class MainView extends JFrame {
 		if (scrollPaneMatrix != null)
 			panel.remove(scrollPaneMatrix);
 		scrollPaneMatrix = new JScrollPane(tableMatrix);
-
+		
 		scrollPaneMatrix.addMouseWheelListener(new MouseWheelListener() {
 			final JScrollBar verticalScrollBar = scrollPaneMatrix
 					.getVerticalScrollBar();
@@ -375,9 +374,10 @@ public class MainView extends JFrame {
 		// Modifikation der Matrix fuer Zeilenbenennung
 		rowTable = new RowNumberTable(tableMatrix);
 		rowTable.setFilenames(nameDateien);
-		scrollPaneMatrix.setRowHeaderView(rowTable);
+		scrollPaneMatrix.setRowHeaderView(rowTable); // ab hier geht das zoomen kaputt
 		scrollPaneMatrix.setCorner(JScrollPane.UPPER_LEFT_CORNER,
 				rowTable.getTableHeader());
+	
 		SwingUtilities.updateComponentTreeUI(this);
 
 		// MouseAdapter um Matrix klickbar zu machen
@@ -407,6 +407,11 @@ public class MainView extends JFrame {
 
 	public JScrollPane getMatrixScrollpane() {
 		return scrollPaneMatrix;
+	}
+
+	
+	public RowNumberTable getRowNumberTable(){
+		return rowTable;
 	}
 
 	// -- Methoden um die Buttons auf den Controller zu verweisen --

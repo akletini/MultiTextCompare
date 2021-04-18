@@ -1,15 +1,18 @@
 package de.thkoeln.syp.mtc.gui.control;
 
-import java.awt.Color;
-import java.awt.Component;
+import java.awt.Adjustable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.table.TableCellRenderer;
 
+import de.thkoeln.syp.mtc.gui.resources.RowNumberTable;
 import de.thkoeln.syp.mtc.gui.view.AboutView;
 import de.thkoeln.syp.mtc.gui.view.ConfigView;
 import de.thkoeln.syp.mtc.gui.view.FileSelectionView;
@@ -82,6 +85,7 @@ public class MainController {
 	class ToolbarZoomInListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			JTable tableMatrix = management.getMainView().getTableMatrix();
+			JTable rowNumb = management.getMainView().getRowNumberTable();
 			if (tableMatrix != null) {
 				int maximumHeight = 100;
 				int currentRowHeight = 0, updatedRowHeight = 0;
@@ -90,7 +94,7 @@ public class MainController {
 				updatedRowHeight = (int) ((double) currentRowHeight + 5);
 				if (updatedRowHeight <= maximumHeight) {
 					tableMatrix.setRowHeight(updatedRowHeight);
-
+					rowNumb.setRowHeight(updatedRowHeight);
 					// Breite berechnen
 					int numberOfColumns = tableMatrix.getColumnCount();
 					for (int i = 0; i < numberOfColumns; i++) {
@@ -101,30 +105,33 @@ public class MainController {
 										(int) (updatedRowHeight * 1.25));
 					}
 					tableMatrix.repaint();
+
 				}
 			}
 		}
 	}
+
 	class ToolbarZoomOutListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			JTable tableMatrix = management.getMainView().getTableMatrix();
+			JTable rowNumb = management.getMainView().getRowNumberTable();
 			if (tableMatrix != null) {
 				int minimumHeight = 15;
 				int currentRowHeight = 0, updatedRowHeight = 0;
-				
+
 				currentRowHeight = tableMatrix.getRowHeight();
 				updatedRowHeight = (int) ((double) currentRowHeight - 5);
 				if (updatedRowHeight >= minimumHeight) {
 					tableMatrix.setRowHeight(updatedRowHeight);
-					
+					rowNumb.setRowHeight(updatedRowHeight);
 					// Breite berechnen
 					int numberOfColumns = tableMatrix.getColumnCount();
 					for (int i = 0; i < numberOfColumns; i++) {
 						tableMatrix
-						.getColumnModel()
-						.getColumn(i)
-						.setPreferredWidth(
-								(int) (updatedRowHeight * 1.25));
+								.getColumnModel()
+								.getColumn(i)
+								.setPreferredWidth(
+										(int) (updatedRowHeight * 1.25));
 					}
 					tableMatrix.repaint();
 				}
@@ -172,16 +179,20 @@ public class MainController {
 			int maximumHeight = 100;
 			int currentRowHeight = 0, updatedRowHeight = 0;
 			JTable tableMatrix = management.getMainView().getTableMatrix();
-
+			JScrollPane matrixScroll = management.getMainView()
+					.getMatrixScrollpane();
+			RowNumberTable rowNumb = management.getMainView()
+					.getRowNumberTable();
 			if (e.isControlDown()) {
 				// Kleiner machen
-				if (e.getWheelRotation() < 0) {
+				if (e.getWheelRotation() > 0) {
 
 					// Höhe berechnen
 					currentRowHeight = tableMatrix.getRowHeight();
 					updatedRowHeight = (int) ((double) currentRowHeight - 5);
 					if (updatedRowHeight >= minimumHeight) {
 						tableMatrix.setRowHeight(updatedRowHeight);
+						rowNumb.setRowHeight(updatedRowHeight);
 
 						// Breite berechnen
 						int numberOfColumns = tableMatrix.getColumnCount();
@@ -203,16 +214,15 @@ public class MainController {
 					updatedRowHeight = (int) ((double) currentRowHeight + 5);
 					if (updatedRowHeight <= maximumHeight) {
 						tableMatrix.setRowHeight(updatedRowHeight);
-
+						rowNumb.setRowHeight(updatedRowHeight);
 						// Breite berechnen
 						int numberOfColumns = tableMatrix.getColumnCount();
 						for (int i = 0; i < numberOfColumns; i++) {
-							tableMatrix
-									.getColumnModel()
-									.getColumn(i)
-									.setPreferredWidth(
-											(int) (updatedRowHeight * 1.25));
+							int rowHeight = (int) (updatedRowHeight * 1.25);
+							tableMatrix.getColumnModel().getColumn(i)
+									.setPreferredWidth(rowHeight);
 						}
+
 						tableMatrix.repaint();
 					}
 				}
@@ -222,5 +232,4 @@ public class MainController {
 			}
 		}
 	}
-
 }

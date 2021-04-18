@@ -20,12 +20,15 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 
+import de.thkoeln.syp.mtc.gui.control.Management;
+
 public class RowNumberTable extends JTable implements ChangeListener,
 		PropertyChangeListener, TableModelListener {
 	private JTable main;
 	private String[] filenames;
 
 	public RowNumberTable(JTable table) {
+		
 		main = table;
 		main.addPropertyChangeListener(this);
 		main.getModel().addTableModelListener(this);
@@ -112,15 +115,14 @@ public class RowNumberTable extends JTable implements ChangeListener,
 	}
 
 	//
-	// Implement the ChangeListener
+	// Implement the ChangeListener Hier gehts kaputt
 	//
+	@Override
 	public void stateChanged(ChangeEvent e) {
 		// Keep the scrolling of the row table in sync with main table
-
 		JViewport viewport = (JViewport) e.getSource();
-		JScrollPane scrollPane = (JScrollPane) viewport.getParent();
-		scrollPane.getVerticalScrollBar()
-				.setValue(viewport.getViewPosition().y);
+		JScrollPane scrollPane = (JScrollPane)viewport.getParent();
+		scrollPane.getVerticalScrollBar().setValue(viewport.getViewPosition().y);
 	}
 
 	//
@@ -148,6 +150,7 @@ public class RowNumberTable extends JTable implements ChangeListener,
 	//
 	@Override
 	public void tableChanged(TableModelEvent e) {
+		repaint();
 		revalidate();
 	}
 
@@ -180,7 +183,6 @@ public class RowNumberTable extends JTable implements ChangeListener,
 			Color color = UIManager.getColor("Table.gridColor");;
 		    MatteBorder border = new MatteBorder(1, 0, 0, 0, color);
 		    setBorder(border);
-//			setBorder(UIManager.getBorder("TableHeader.cellBorder"));
 
 			return this;
 		}
