@@ -33,6 +33,7 @@ public class Management {
 	private FileSelectionController fileSelectionController;
 	private ConfigController configController;
 	private MainController mainController;
+	private Logger logger;
 
 	private IFileImporter fileImporter;
 	private ITextvergleicher textvergleicher;
@@ -164,6 +165,14 @@ public class Management {
 	public void setJsonvergleicher(IJSONvergleicher jsonVergleicher) {
 		this.jsonvergleicher = jsonVergleicher;
 	}
+	
+	public Logger getLogger() {
+		return logger;
+	}
+
+	public void setLogger(Logger logger) {
+		this.logger = logger;
+	}
 
 	// Aktualisiert Wurzelpfad Anzeige in fileSelectionView & configView
 	public void updateRootPath() {
@@ -175,15 +184,7 @@ public class Management {
 					fileImporter.getConfig().getRootDir());
 	}
 
-	// Schreibt eine Zeile in den Log
-	public void appendToLog(String s) {
-		Calendar cal = Calendar.getInstance();
-		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-		String text = sdf.format(cal.getTime())
-				+ " | " + s + "\n";
-		mainView.getTextArea().setText(
-				mainView.getTextArea().getText() + text);
-	}
+
 	
 	public void clearLog(){
 		mainView.getTextArea().setText("");

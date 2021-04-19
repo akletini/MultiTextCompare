@@ -12,11 +12,12 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 import javax.imageio.ImageIO;
-import javax.naming.ldap.SortKey;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -30,22 +31,21 @@ import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 import javax.swing.JToolBar;
-import javax.swing.RowSorter;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 
 import net.miginfocom.swing.MigLayout;
+import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
 import de.thkoeln.syp.mtc.datenhaltung.api.IMatrix;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IAehnlichkeitImpl;
+import de.thkoeln.syp.mtc.gui.control.Logger;
 import de.thkoeln.syp.mtc.gui.control.MainController;
 import de.thkoeln.syp.mtc.gui.control.Management;
 import de.thkoeln.syp.mtc.gui.resources.DefaultTableHeaderCellRenderer;
@@ -61,7 +61,7 @@ public class MainView extends JFrame {
 	private JButton btnDateiauswahl, btnKonfig, btnDeleteLog, btnZoomIn, btnZoomOut, btnHilfe, btnAbout;
 	private JScrollPane scrollPaneMatrix, scrollPaneFiles;
 	private RowNumberTable rowTable;
-	private JTextArea textArea;
+	private JTextPane textArea;
 	private JMenuBar menuBar;
 	private JMenu menuFile, menuConfig, menuLogging, menuHelp;
 	private JMenuItem fileSelection, saveComparison, saveComparisonAs, loadComparison;
@@ -69,10 +69,18 @@ public class MainView extends JFrame {
 	private JMenuItem clearLog, showLog;
 	private JCheckBoxMenuItem info, warning, error;
 	private JMenuItem about, tutorial;
+	private Logger logger;
+	private IConfig config;
 
 	public MainView() {
 		management = Management.getInstance();
-		
+		config = management.getFileImporter().getConfig();
+		//Initialize logging
+		management.setLogger(new Logger());
+		logger = management.getLogger();
+		SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");  
+	    Date date = new Date();  
+		logger.writeToLogFile("Open Application MultiTextCompare (" + formatter.format(date) + ")", true);
 		// Icons
 		Icon iconCompare = null, iconConfig = null, iconQuestion = null, iconInfo = null, iconSave = null, iconImport = null, iconDelete = null, iconPlus = null, iconMinus = null ;
 		try {
@@ -116,8 +124,11 @@ public class MainView extends JFrame {
 		menuLogging = new JMenu("    Log    ");
 		clearLog = new JMenuItem("Clear");
 		info = new JCheckBoxMenuItem("Show Infos");
-		warning = new JCheckBoxMenuItem("Show Warning");
+		info.setState(config.getShowInfos());
+		warning = new JCheckBoxMenuItem("Show Warnings");
+		warning.setState(config.getShowWarnings());
 		error = new JCheckBoxMenuItem("Show Errors");
+		error.setState(config.getShowErrors());
 		showLog = new JMenuItem("Show Log");
 		menuBar.add(menuLogging);
 		
@@ -189,7 +200,7 @@ public class MainView extends JFrame {
 		toolBar.add(btnAbout);
 
 		// TextArea (Ausgabe)
-		textArea = new JTextArea();
+		textArea = new JTextPane();
 		textArea.setFont(new Font("Monospaced", Font.PLAIN, 14));
 		textArea.setEditable(false);
 		scrollPaneFiles = new JScrollPane(textArea);
@@ -287,8 +298,8 @@ public class MainView extends JFrame {
 								return management.getPaths()[realIndex];
 						}
 						if (index != -1)
-							management
-									.appendToLog("It is not possible to display the file names after altering the file selection.");
+							logger
+									.setMessage("It is not possible to display the file names after altering the file selection.", logger.LEVEL_WARNING);
 						return null;
 					}
 				};
@@ -397,7 +408,7 @@ public class MainView extends JFrame {
 	}
 
 	// -- Getter --
-	public JTextArea getTextArea() {
+	public JTextPane getTextArea() {
 		return textArea;
 	}
 
@@ -413,6 +424,19 @@ public class MainView extends JFrame {
 	public RowNumberTable getRowNumberTable(){
 		return rowTable;
 	}
+
+	public JCheckBoxMenuItem getInfo() {
+		return info;
+	}
+
+	public JCheckBoxMenuItem getWarning() {
+		return warning;
+	}
+
+	public JCheckBoxMenuItem getError() {
+		return error;
+	}
+	
 
 	// -- Methoden um die Buttons auf den Controller zu verweisen --
 	public void addFileSelectionListener(ActionListener e) {
@@ -458,7 +482,15 @@ public class MainView extends JFrame {
 	public void addMenuSettingsListener(ActionListener e){
 		settings.addActionListener(e);
 	}
-	
+	public void addMenuShowInfosListener(ActionListener e){
+		info.addActionListener(e);
+	}
+	public void addMenuShowWarningsListener(ActionListener e){
+		warning.addActionListener(e);
+	}
+	public void addMenuShowErrorsListener(ActionListener e){
+		error.addActionListener(e);
+	}
 	
 	
 

@@ -86,6 +86,20 @@ public interface IConfig {
 	boolean getJsonSortKeys();
 
 	boolean getJsonDeleteValues();
+	
+	//Log parameters
+
+	boolean getShowInfos();
+
+	boolean getShowWarnings();
+
+	boolean getShowErrors();
+
+	void setShowInfos(boolean showInfos);
+
+	void setShowWarnings(boolean showWarnings);
+
+	void setShowErrors(boolean showErrors);
 
 	
 }

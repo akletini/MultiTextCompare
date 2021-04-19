@@ -14,6 +14,7 @@ public class ConfigController {
 	private Management management;
 	private ConfigView configView;
 	private JFileChooser fc;
+	private Logger logger;
 
 	public ConfigController(ConfigView configView) {
 		management = Management.getInstance();
@@ -23,6 +24,7 @@ public class ConfigController {
 		this.configView.addDefaultListener(new DefaultListener());
 		this.configView.addSaveListener(new SaveListener());
 		this.configView.addCancelistener(new CancelListener());
+		logger = management.getLogger();
 	}
 
 	// Select Button: Auswahl des Wurzelverzeichnisses
@@ -132,7 +134,7 @@ public class ConfigController {
 			}
 			
 			management.getFileImporter().exportConfigdatei();
-			management.appendToLog("Configuration has been saved");
+			logger.setMessage("Configuration has been saved", logger.LEVEL_INFO);
 			configView.dispatchEvent(new WindowEvent(configView,
 					WindowEvent.WINDOW_CLOSING));
 		}

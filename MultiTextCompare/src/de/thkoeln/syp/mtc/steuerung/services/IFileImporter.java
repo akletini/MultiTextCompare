@@ -16,6 +16,7 @@ public interface IFileImporter {
 	final String PROP_PUNCTUATION = "punctuation";
 	final String PROP_CAPITALIZATION = "capitalization";
 	final String PROP_COMPARELINES = "compareLines";
+	
 	final String PROP_LINEMATCH = "lineMatch";
 	final String PROP_MATCHAT = "matchAt";
 	final String PROP_MATCHINGLOOKAHEAD = "machingLookahead";
@@ -30,6 +31,10 @@ public interface IFileImporter {
 
 	final String PROP_JSONSORTKEYS = "jsonSortKeys";
 	final String PROP_JSONDELETEVALUES = "jsonDeleteValues";
+	
+	final String PROP_SHOWINFOS = "showInfos";
+	final String PROP_SHOWWARNINGS = "showWarnings";
+	final String PROP_SHOWERRORS = "showErrors";
 
 	final File DEFAULT_CONFIG = new File(System.getProperty("user.dir")
 			+ File.separator + "config.properties");

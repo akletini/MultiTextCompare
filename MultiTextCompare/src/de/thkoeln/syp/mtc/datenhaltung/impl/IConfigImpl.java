@@ -5,10 +5,15 @@ import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
 public class IConfigImpl implements IConfig {
 
 	private boolean keepWhitespaces, keepPunctuation, keepCapitalizazion,
-			compareLines, keepBlankLines, lineMatch;
+			compareLines, keepBlankLines;
 
 	private String rootDir, path, filename, filetype;
 	
+	//Log parameters
+	private boolean showInfos, showWarnings, showErrors;
+	
+	// Matching parameter
+	private boolean lineMatch;
 	private int matchingLookahead;
 	private double matchAt;
 	
@@ -225,5 +230,30 @@ public class IConfigImpl implements IConfig {
 	public void setMatchAt(double matchAt) {
 		this.matchAt = matchAt;
 	}
+	@Override
+	public boolean getShowInfos() {
+		return showInfos;
+	}
+	@Override
+	public boolean getShowWarnings() {
+		return showWarnings;
+	}
+	@Override
+	public boolean getShowErrors() {
+		return showErrors;
+	}
+	@Override
+	public void setShowInfos(boolean showInfos) {
+		this.showInfos = showInfos;
+	}
+	@Override
+	public void setShowWarnings(boolean showWarnings) {
+		this.showWarnings = showWarnings;
+	}
+	@Override
+	public void setShowErrors(boolean showErrors) {
+		this.showErrors = showErrors;
+	}
+	
 	
 }

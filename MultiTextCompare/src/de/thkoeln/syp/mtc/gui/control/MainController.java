@@ -17,6 +17,7 @@ import de.thkoeln.syp.mtc.gui.view.MainView;
 
 public class MainController {
 	private Management management;
+	private Logger logger;
 
 	public MainController(MainView mainView) {
 		management = Management.getInstance();
@@ -31,9 +32,13 @@ public class MainController {
 		mainView.addMenuSettingsListener(new MenuSettingsListener());
 		mainView.addMenuAboutListener(new MenuAboutListener());
 		mainView.addMenuHelpListener(new MenuHelpListener());
+		mainView.addMenuShowInfosListener(new MenuShowInfosListener());
+		mainView.addMenuShowWarningsListener(new MenuShowWarningsListener());
+		mainView.addMenuShowErrorsListener(new MenuShowErrorsListener());
 		mainView.addToolbarLogClearListener(new ToolbarLogClearListener());
 		mainView.addToolbarZoomInListener(new ToolbarZoomInListener());
 		mainView.addToolbarZoomOutListener(new ToolbarZoomOutListener());
+		logger = management.getLogger();
 	}
 
 	class FileSelectionListener implements ActionListener {
@@ -60,7 +65,7 @@ public class MainController {
 			if (Management.getInstance().getHelpView() == null)
 				management.setHelpView(new HelpView());
 			management.setHelpView(null);
-			management.appendToLog("Opening help file...");
+			logger.setMessage("Opening help file...", logger.LEVEL_INFO);
 		}
 	}
 
@@ -145,7 +150,7 @@ public class MainController {
 			management.getFileSelectionView().toFront();
 		}
 	}
-	
+
 	class MenuSettingsListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 
@@ -170,7 +175,26 @@ public class MainController {
 			if (Management.getInstance().getHelpView() == null)
 				management.setHelpView(new HelpView());
 			management.setHelpView(null);
-			management.appendToLog("Opening help file...");
+			logger.setMessage("Opening help file...", logger.LEVEL_INFO);
+		}
+	}
+
+	class MenuShowInfosListener implements ActionListener {
+		public void actionPerformed(ActionEvent e){
+			management.getFileImporter().getConfig().setShowInfos(management.getMainView().getInfo().getState());
+			management.getFileImporter().exportConfigdatei();
+		}
+	}
+	class MenuShowWarningsListener implements ActionListener {
+		public void actionPerformed(ActionEvent e){
+			management.getFileImporter().getConfig().setShowWarnings(management.getMainView().getWarning().getState());
+			management.getFileImporter().exportConfigdatei();
+		}
+	}
+	class MenuShowErrorsListener implements ActionListener {
+		public void actionPerformed(ActionEvent e){
+			management.getFileImporter().getConfig().setShowErrors(management.getMainView().getError().getState());
+			management.getFileImporter().exportConfigdatei();
 		}
 	}
 
@@ -239,4 +263,5 @@ public class MainController {
 			}
 		}
 	}
+
 }

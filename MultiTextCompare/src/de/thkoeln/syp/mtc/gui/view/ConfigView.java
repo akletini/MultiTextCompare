@@ -273,10 +273,9 @@ public class ConfigView extends JFrame {
 		labelTable.put(75, new JLabel("75"));
 		labelTable.put(100, new JLabel("100"));
 		matchAtSlider.setLabelTable(labelTable);
-//		matchAtSlider.setValue(config.getMatchAt());
 		panelDiff.add(matchAtSlider, "cell 1 5,alignx center,aligny center");
 		
-		lblMatchAt = new JLabel("Match lines at " + config.getMatchAt() + "% similarity");
+		lblMatchAt = new JLabel("Match lines at " + (int) config.getMatchAt() + "% similarity");
 		panelDiff.add(lblMatchAt, "cell 5 5");
 		
 		matchAtSlider.addChangeListener(new ChangeListener() {
@@ -285,7 +284,7 @@ public class ConfigView extends JFrame {
 			public void stateChanged(ChangeEvent e) {
 				JSlider source = (JSlider)e.getSource();
 				matchAtSimilarity = source.getValue();
-				lblMatchAt.setText("Match lines at " + matchAtSimilarity + "% similarity");
+				lblMatchAt.setText("Match lines at " + (int) matchAtSimilarity + "% similarity");
 			}
 		});
 		

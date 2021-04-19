@@ -47,6 +47,7 @@ public class IFileImporterImpl implements IFileImporter {
 		prop.setProperty(PROP_PUNCTUATION, "true");
 		prop.setProperty(PROP_CAPITALIZATION, "true");
 		prop.setProperty(PROP_COMPARELINES, "true");
+
 		prop.setProperty(PROP_LINEMATCH, "true");
 		prop.setProperty(PROP_MATCHAT, "0.85");
 		prop.setProperty(PROP_MATCHINGLOOKAHEAD, "50");
@@ -61,6 +62,10 @@ public class IFileImporterImpl implements IFileImporter {
 
 		prop.setProperty(PROP_JSONSORTKEYS, "true");
 		prop.setProperty(PROP_JSONDELETEVALUES, "false");
+
+		prop.setProperty(PROP_SHOWINFOS, "true");
+		prop.setProperty(PROP_SHOWWARNINGS, "true");
+		prop.setProperty(PROP_SHOWERRORS, "true");
 
 		importConfigdatei(DEFAULT_CONFIG);
 	}
@@ -172,10 +177,12 @@ public class IFileImporterImpl implements IFileImporter {
 				.getProperty(PROP_CAPITALIZATION)));
 		iConfig.setCompareLines(Boolean.parseBoolean(prop
 				.getProperty(PROP_COMPARELINES)));
+
 		iConfig.setLineMatch(Boolean.parseBoolean(prop
 				.getProperty(PROP_LINEMATCH)));
 		iConfig.setMatchAt(Double.parseDouble(prop.getProperty(PROP_MATCHAT)));
-		iConfig.setMatchingLookahead(Integer.parseInt(prop.getProperty(PROP_MATCHINGLOOKAHEAD)));
+		iConfig.setMatchingLookahead(Integer.parseInt(prop
+				.getProperty(PROP_MATCHINGLOOKAHEAD)));
 
 		iConfig.setXmlValidation(Integer.parseInt(prop
 				.getProperty(PROP_XMLVALIDATION)));
@@ -195,6 +202,13 @@ public class IFileImporterImpl implements IFileImporter {
 				.getProperty(PROP_JSONSORTKEYS)));
 		iConfig.setJsonDeleteValues(Boolean.parseBoolean(prop
 				.getProperty(PROP_JSONDELETEVALUES)));
+
+		iConfig.setShowInfos(Boolean.parseBoolean(prop
+				.getProperty(PROP_SHOWINFOS)));
+		iConfig.setShowWarnings(Boolean.parseBoolean(prop
+				.getProperty(PROP_SHOWWARNINGS)));
+		iConfig.setShowErrors(Boolean.parseBoolean(prop
+				.getProperty(PROP_SHOWERRORS)));
 
 		return true;
 	}
@@ -286,10 +300,13 @@ public class IFileImporterImpl implements IFileImporter {
 					Boolean.toString(iConfig.getKeepCapitalization()));
 			prop.setProperty(PROP_COMPARELINES,
 					Boolean.toString(iConfig.getCompareLines()));
+
 			prop.setProperty(PROP_LINEMATCH,
 					Boolean.toString(iConfig.getLineMatch()));
-			prop.setProperty(PROP_MATCHAT, Double.toString(iConfig.getMatchAt()));
-			prop.setProperty(PROP_MATCHINGLOOKAHEAD, Integer.toString(iConfig.getMatchingLookahead()));
+			prop.setProperty(PROP_MATCHAT,
+					Double.toString(iConfig.getMatchAt()));
+			prop.setProperty(PROP_MATCHINGLOOKAHEAD,
+					Integer.toString(iConfig.getMatchingLookahead()));
 
 			prop.setProperty(PROP_XMLVALIDATION,
 					Integer.toString(iConfig.getXmlValidation()));
@@ -310,6 +327,10 @@ public class IFileImporterImpl implements IFileImporter {
 					Boolean.toString(iConfig.getJsonSortKeys()));
 			prop.setProperty(PROP_JSONDELETEVALUES,
 					Boolean.toString(iConfig.getJsonDeleteValues()));
+			
+			prop.setProperty(PROP_SHOWINFOS, Boolean.toString(iConfig.getShowInfos()));
+			prop.setProperty(PROP_SHOWWARNINGS, Boolean.toString(iConfig.getShowWarnings()));
+			prop.setProperty(PROP_SHOWERRORS, Boolean.toString(iConfig.getShowErrors()));			
 
 			prop.store(outputStream, null);
 

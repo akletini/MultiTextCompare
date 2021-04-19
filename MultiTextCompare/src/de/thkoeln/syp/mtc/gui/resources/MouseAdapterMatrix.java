@@ -1,7 +1,5 @@
 package de.thkoeln.syp.mtc.gui.resources;
 
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -13,9 +11,8 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.swing.JTable;
-import javax.swing.SwingUtilities;
-import javax.swing.table.TableCellRenderer;
 
+import de.thkoeln.syp.mtc.gui.control.Logger;
 import de.thkoeln.syp.mtc.gui.control.Management;
 import de.thkoeln.syp.mtc.gui.view.ComparisonView;
 
@@ -28,9 +25,11 @@ public class MouseAdapterMatrix extends MouseAdapter {
 	boolean kreuzKlick;
 	private boolean greyOut = false;
 	private int selectedRow = -1, selectedColumn = -1;
+	private Logger logger;
 
 	public MouseAdapterMatrix() {
 		management = Management.getInstance();
+		logger = management.getLogger();
 		tempFiles = management.getFileImporter().getTempFilesMap().entrySet();
 		selectedFiles = new ArrayList<File>();
 		fileIndices = new ArrayList<Integer>();
@@ -43,8 +42,7 @@ public class MouseAdapterMatrix extends MouseAdapter {
 		int rowIndex = 0, columnIndex = 0;
 		// Abbruch falls die FileSelection geaendert wurde
 		if (management.getFileSelectionController().getNewSelection())
-			management
-					.appendToLog("It is not possible to show side-by-side comparisons after altering the file selection. Please generate a new matrix.");
+			logger.setMessage("It is not possible to show side-by-side comparisons after altering the file selection. Please generate a new matrix.", logger.LEVEL_WARNING);
 		else {
 
 			// Klick in der Matrix (Kreuzung)
@@ -74,17 +72,16 @@ public class MouseAdapterMatrix extends MouseAdapter {
 
 				// Logausgabe bei Klick auf Diagonale
 				if (columnIndex == rowIndex) {
-					management.appendToLog(management.getFileSelectionView()
+					logger.setMessage(management.getFileSelectionView()
 							.getModel()
 							.get(fileIndices.get(selectedFiles.size() - 1))
 							.split("\\|")[0].trim()
 							+ " has been selected. Total: "
-							+ (selectedFiles.size()));
+							+ (selectedFiles.size()), logger.LEVEL_INFO);
 
 					// Sonstige Logausgabe
 				} else {
-					management
-							.appendToLog(management
+					logger.setMessage(management
 									.getFileSelectionView()
 									.getModel()
 									.get(fileIndices.get(selectedFiles.size() - 2))
@@ -96,7 +93,7 @@ public class MouseAdapterMatrix extends MouseAdapter {
 											.get(fileIndices.get(selectedFiles
 													.size() - 1)).split("\\|")[0]
 									+ " have been selected. Total: "
-									+ (selectedFiles.size()));
+									+ (selectedFiles.size()), logger.LEVEL_INFO);
 				}
 
 			}
@@ -117,20 +114,19 @@ public class MouseAdapterMatrix extends MouseAdapter {
 						}
 
 						// Logausgabe
-						management.appendToLog(management
+						logger.setMessage(management
 								.getFileSelectionView().getModel()
 								.get(fileIndices.get(selectedFiles.size() - 1))
 								.split("\\|")[0].trim()
 								+ " has been selected. Total: "
-								+ (selectedFiles.size()));
+								+ (selectedFiles.size()), logger.LEVEL_INFO);
 					}
 				}
 			}
 
 			// Falls 4 Dateien ausgewaehlt wurden
 			if (selectedFiles.size() > 3) {
-				management
-						.appendToLog("Error! Only 2 or 3 files can be compared at once.");
+				logger.setMessage("Error! Only 2 or 3 files can be compared at once.", logger.LEVEL_WARNING);
 				selectedFiles.clear();
 				fileIndices.clear();
 				kreuzKlick = false;
@@ -149,7 +145,7 @@ public class MouseAdapterMatrix extends MouseAdapter {
 					management.setComparisonView(new ComparisonView(selectedFiles,
 							fileIndices));
 				}
-				management.appendToLog("Comparison is now visible");
+				logger.setMessage("Comparison is now visible", logger.LEVEL_INFO);
 				selectedFiles.clear();
 				fileIndices.clear();
 				kreuzKlick = false;
