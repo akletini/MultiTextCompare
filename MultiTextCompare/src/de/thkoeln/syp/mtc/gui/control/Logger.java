@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.JTextPane;
 import javax.swing.text.AttributeSet;
@@ -42,71 +43,95 @@ public class Logger {
 
 	private void createLogFile() {
 		try {
-			File logFile = new File("log.txt");
-			logFile.createNewFile();
+			File logDir = new File(System.getProperty("user.dir")
+					+ File.separator + "logs");
+			logDir.mkdir();
+			File logFile = new File(System.getProperty("user.dir")
+					+ File.separator + "logs" + File.separator + "log " + getCurrentDate() + ".txt");
+			if (!logFile.exists()) {
+				logFile.createNewFile();
+			}
 		} catch (IOException e) {
 			setMessage(exceptionToString(e), LEVEL_ERROR);
 		}
 
 	}
-	
-	public void writeToLogFile(String message, boolean addDate){
+
+	private String getCurrentDate() {
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+		Date date = new Date();
+		return formatter.format(date);
+	}
+
+	public void writeToLogFile(String message, boolean addDate) {
 		try {
-			BufferedWriter writer = new BufferedWriter(new FileWriter("log.txt", true));
-			if(addDate){
+			BufferedWriter writer = new BufferedWriter(new FileWriter(getCurrentLogFile(), true));
+			if (addDate) {
 				Calendar cal = Calendar.getInstance();
 				SimpleDateFormat timestamp = new SimpleDateFormat("HH:mm:ss");
-				message = timestamp.format(cal.getTime()) + " | " + message + "\n";
+				message = timestamp.format(cal.getTime()) + " | " + message
+						+ "\n";
 			}
-		    writer.append(message);
-		    writer.close();
-		    } catch (IOException e) {
-		    	setMessage(exceptionToString(e), LEVEL_ERROR);
-		    }
+			writer.append(message);
+			writer.close();
+		} catch (IOException e) {
+			setMessage(exceptionToString(e), LEVEL_ERROR);
+		}
 	}
-	
-	public String exceptionToString(Throwable e){
+
+	public String exceptionToString(Throwable e) {
 		StringWriter sw = new StringWriter();
 		PrintWriter pw = new PrintWriter(sw);
 		e.printStackTrace(pw);
 		return sw.toString();
 	}
-	
+
 	// Schreibt eine Zeile in den Log
 	public void appendToLog(String s, int level) {
 		MainView mainView = management.getMainView();
 		String text = s;
 		switch (level) {
-			case 0:
-				if(mainView.getInfo().isSelected()){
-					appendToPane(mainView.getTextArea(), s, Color.black, Color.white);
-				}
-				break;
-			case 1:
-				if(mainView.getWarning().isSelected()){
-					appendToPane(mainView.getTextArea(), s, Color.red, Color.yellow);
-				}
-				break;
-			case 2:
-				if(mainView.getError().isSelected()){
-					appendToPane(mainView.getTextArea(), s, Color.white, Color.red);
-				}
-				break;
-			default:
-				appendToPane(mainView.getTextArea(), s + " | internal error", Color.white, Color.red);
-				break;
+		case 0:
+			if (mainView.getInfo().isSelected()) {
+				appendToPane(mainView.getTextArea(), s, Color.black,
+						Color.white);
+			}
+			break;
+		case 1:
+			if (mainView.getWarning().isSelected()) {
+				appendToPane(mainView.getTextArea(), s, Color.red, Color.yellow);
+			}
+			break;
+		case 2:
+			if (mainView.getError().isSelected()) {
+				appendToPane(mainView.getTextArea(), s, Color.white, Color.red);
+			}
+			break;
+		default:
+			appendToPane(mainView.getTextArea(), s + " | internal error",
+					Color.white, Color.red);
+			break;
 		}
 	}
 	
-	private void appendToPane(JTextPane textPane, String msg, Color foreground, Color background) {
+	private File getCurrentLogFile(){
+		String date = getCurrentDate();
+		File currentFile = new File(System.getProperty("user.dir")
+				+ File.separator + "logs" + File.separator + "log " + date + ".txt");
+		if(!currentFile.exists()){
+			createLogFile();
+		}
+		return currentFile;
+	}
+
+	private void appendToPane(JTextPane textPane, String msg, Color foreground,
+			Color background) {
 		textPane.setEditable(true);
 		StyleContext sc = StyleContext.getDefaultStyleContext();
 		AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY,
 				StyleConstants.Foreground, foreground);
 
-		aset = sc.addAttribute(aset, StyleConstants.Background,
-				background);
-
+		aset = sc.addAttribute(aset, StyleConstants.Background, background);
 
 		int len = textPane.getDocument().getLength();
 		textPane.setCaretPosition(len);
