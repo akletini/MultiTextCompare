@@ -33,6 +33,7 @@ public class Management {
 	private FileSelectionController fileSelectionController;
 	private ConfigController configController;
 	private MainController mainController;
+	private ComparisonController comparisonController;
 	private Logger logger;
 
 	private IFileImporter fileImporter;
@@ -172,6 +173,14 @@ public class Management {
 
 	public void setLogger(Logger logger) {
 		this.logger = logger;
+	}
+
+	public ComparisonController getComparisonController() {
+		return comparisonController;
+	}
+
+	public void setComparisonController(ComparisonController comparisonController) {
+		this.comparisonController = comparisonController;
 	}
 
 	// Aktualisiert Wurzelpfad Anzeige in fileSelectionView & configView

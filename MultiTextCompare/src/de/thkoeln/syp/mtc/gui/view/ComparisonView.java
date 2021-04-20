@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,6 +27,8 @@ import javax.swing.text.StyleContext;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IDiffChar;
 import de.thkoeln.syp.mtc.datenhaltung.api.IDiffLine;
+import de.thkoeln.syp.mtc.gui.control.ComparisonController;
+import de.thkoeln.syp.mtc.gui.control.MainController;
 import de.thkoeln.syp.mtc.gui.control.Management;
 import de.thkoeln.syp.mtc.gui.resources.NoWrapJTextPane;
 import de.thkoeln.syp.mtc.gui.resources.ScrollBarSynchronizer;
@@ -77,6 +81,8 @@ public class ComparisonView extends JFrame {
 		scrollPaneRight = new JScrollPane(tPaneRight);
 		panel = new JPanel();
 		scrollPaneMain = new JScrollPane(panel);
+		
+		
 
 		// Textpane Parameter
 		setupTextPane(tPaneLeft);
@@ -88,11 +94,13 @@ public class ComparisonView extends JFrame {
 				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 		scrollPaneLeft
 				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scrollPaneLeft.setWheelScrollingEnabled(false);
 
 		scrollPaneMid
 				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 		scrollPaneMid
 				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scrollPaneMid.setWheelScrollingEnabled(false);
 
 		scrollPaneRight
 				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -104,6 +112,7 @@ public class ComparisonView extends JFrame {
 				scrollPaneMid.getVerticalScrollBar(),
 				scrollPaneRight.getVerticalScrollBar());
 
+	
 		// Panel Parameter
 		panel.setPreferredSize(new Dimension(200, 200));
 
@@ -196,6 +205,8 @@ public class ComparisonView extends JFrame {
 				this.setIconImage(ImageIO.read(new File("res/icon.png")));
 			} catch (IOException e) {
 			}
+			
+			Management.getInstance().setComparisonController(new ComparisonController(this));
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -270,4 +281,31 @@ public class ComparisonView extends JFrame {
 		match.matchEqualLines(files[1], files[2]);
 
 	}
+	
+	public void addMouseWheelListenerLeft(MouseWheelListener e){
+		scrollPaneLeft.addMouseWheelListener(e);
+	}
+	public void addMouseWheelListenerMiddle(MouseWheelListener e){
+		scrollPaneMid.addMouseWheelListener(e);
+	}
+
+	public JScrollPane getScrollPaneLeft() {
+		return scrollPaneLeft;
+	}
+
+	public JScrollPane getScrollPaneMid() {
+		return scrollPaneMid;
+	}
+
+	public JScrollPane getScrollPaneRight() {
+		return scrollPaneRight;
+	}
+
+	public JScrollPane getScrollPaneMain() {
+		return scrollPaneMain;
+	}
+	
+	
 }
+
+
