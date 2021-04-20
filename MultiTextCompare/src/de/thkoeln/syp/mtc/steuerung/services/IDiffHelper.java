@@ -7,7 +7,7 @@ import java.util.List;
 import de.thkoeln.syp.mtc.datenhaltung.api.IDiffLine;
 
 public interface IDiffHelper {
-	void computeDisplayDiff(File[] files) throws IOException;
+	void computeDisplayDiff(File[] files, int maxLength) throws IOException;
 
 	List<IDiffLine> getLeftLines();
 

@@ -16,6 +16,7 @@ import de.thkoeln.syp.mtc.datenhaltung.api.IDiffLine;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IDiffCharImpl;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IDiffLineImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IDiffHelper;
+import difflib.StringUtills;
 
 public class IDiffHelperImpl implements IDiffHelper {
 
@@ -41,7 +42,7 @@ public class IDiffHelperImpl implements IDiffHelper {
 	 * 
 	 */
 	@Override
-	public void computeDisplayDiff(File[] files) throws IOException {
+	public void computeDisplayDiff(File[] files, int maxLength) throws IOException {
 		// Read both files with line iterator.
 		if (files.length == 2) {
 			LineIterator file1 = FileUtils.lineIterator(files[0], "UTF-8");
@@ -60,6 +61,11 @@ public class IDiffHelperImpl implements IDiffHelper {
 				 * line comparison moves to next line.
 				 */
 				lineNum++;
+				int numofSpaces = numberOfSpaces(lineNum, maxLength);
+				String spaces = "";
+				for(int i = 0; i < numofSpaces + 1; i++){
+					spaces += " ";
+				}
 
 				String left = (file1.hasNext() ? file1.nextLine() : "") + "\n";
 				String right = (file2.hasNext() ? file2.nextLine() : "") + "\n";
@@ -75,8 +81,9 @@ public class IDiffHelperImpl implements IDiffHelper {
 					 * compare with each other so that they are aligned with
 					 * each other in final diff.
 					 */
-					left = lineNum + "  " + left;
-					right = lineNum + "  " + right;
+					
+					left = lineNum + spaces + left;
+					right = lineNum + spaces + right;
 					comparator = new StringsComparator(left, right);
 					comparator.getScript().visit(fileCommandVisitor);
 				} else {
@@ -86,8 +93,8 @@ public class IDiffHelperImpl implements IDiffHelper {
 					 * other in final diff instead they show up on separate
 					 * lines.
 					 */
-					left = lineNum + "  " + left;
-					right = lineNum + "  " + right;
+					left = lineNum + spaces + left;
+					right = lineNum + spaces + right;
 					StringsComparator leftComparator = new StringsComparator(
 							left, "");
 					leftComparator.getScript().visit(fileCommandVisitor);
@@ -110,6 +117,7 @@ public class IDiffHelperImpl implements IDiffHelper {
 			// Initialize visitor.
 			FileCommandVisitor fileCommandVisitor = new FileCommandVisitor();
 			int lineNum = 0;
+			
 
 			// Read file line by line so that comparison can be done line by
 			// line.
@@ -120,6 +128,11 @@ public class IDiffHelperImpl implements IDiffHelper {
 				 * line comparison moves to next line.
 				 */
 				lineNum++;
+				int numofSpaces = numberOfSpaces(lineNum, maxLength);
+				String spaces = "";
+				for(int i = 0; i < numofSpaces + 1; i++){
+					spaces += " ";
+				}
 
 				String left = (file1.hasNext() ? file1.nextLine() : "") + "\n";
 				String middle = (file2.hasNext() ? file2.nextLine() : "")
@@ -139,8 +152,8 @@ public class IDiffHelperImpl implements IDiffHelper {
 					 * compare with each other so that they are aligned with
 					 * each other in final diff.
 					 */
-					left = lineNum + "  " + left;
-					middle = lineNum + "  " + middle;
+					left = lineNum + spaces + left;
+					middle = lineNum + spaces + middle;
 
 					comparator1 = new StringsComparator(left, middle);
 					comparator1.getScript().visit(fileCommandVisitor);
@@ -152,8 +165,8 @@ public class IDiffHelperImpl implements IDiffHelper {
 					 * other in final diff instead they show up on separate
 					 * lines.
 					 */
-					left = lineNum + "  " + left;
-					middle = lineNum + "  " + middle;
+					left = lineNum + spaces + left;
+					middle = lineNum + spaces + middle;
 
 					StringsComparator leftComparator = new StringsComparator(
 							left, "");
@@ -171,7 +184,7 @@ public class IDiffHelperImpl implements IDiffHelper {
 					 * compare with each other so that they are aligned with
 					 * each other in final diff.
 					 */
-					right = lineNum + "  " + right;
+					right = lineNum + spaces + right;
 
 					comparator2 = new StringsComparator(left, right);
 					comparator2.getScript().visit(fileCommandVisitor);
@@ -182,7 +195,7 @@ public class IDiffHelperImpl implements IDiffHelper {
 					 * other in final diff instead they show up on separate
 					 * lines.
 					 */
-					right = lineNum + "  " + right;
+					right = lineNum + spaces + right;
 
 					StringsComparator leftComparator = new StringsComparator(
 							left, "");
@@ -196,7 +209,7 @@ public class IDiffHelperImpl implements IDiffHelper {
 
 			fileCommandVisitor.generatePrimaryDiff(3);
 			fileCommandVisitor.setDurchgang(2);
-			generateOuterDiff(files, fileCommandVisitor);
+			generateOuterDiff(files, maxLength ,fileCommandVisitor);
 			fileCommandVisitor.generateFinalDiff();
 
 			leftLines = fileCommandVisitor.getLeftLines();
@@ -215,14 +228,14 @@ public class IDiffHelperImpl implements IDiffHelper {
 	 *            Diff gebildet wurde
 	 * @throws IOException
 	 */
-	private void generateOuterDiff(File[] files,
+	private void generateOuterDiff(File[] files, int maxLength,
 			FileCommandVisitor fileCommandVisitor) throws IOException {
 		LineIterator file1 = FileUtils.lineIterator(files[1], "UTF-8");
 		LineIterator file2 = FileUtils.lineIterator(files[2], "UTF-8");
 
 		// Initialize visitor.
 		int lineNum = 0;
-
+		
 		// Read file line by line so that comparison can be done line by
 		// line.
 		while (file1.hasNext() || file2.hasNext()
@@ -233,7 +246,11 @@ public class IDiffHelperImpl implements IDiffHelper {
 			 * comparison moves to next line.
 			 */
 			lineNum++;
-
+			int numofSpaces = numberOfSpaces(lineNum, maxLength);
+			String spaces = "";
+			for(int i = 0; i < numofSpaces + 1; i++){
+				spaces += " ";
+			}
 			String middle = (file1.hasNext() ? file1.nextLine() : "") + "\n";
 			String right = (file2.hasNext() ? file2.nextLine() : "") + "\n";
 
@@ -247,8 +264,8 @@ public class IDiffHelperImpl implements IDiffHelper {
 				 * with each other so that they are aligned with each other in
 				 * final diff.
 				 */
-				right = lineNum + "  " + right;
-				middle = lineNum + "  " + middle;
+				right = lineNum + spaces + right;
+				middle = lineNum + spaces + middle;
 				comparator = new StringsComparator(middle, right);
 				comparator.getScript().visit(fileCommandVisitor);
 			} else {
@@ -257,8 +274,8 @@ public class IDiffHelperImpl implements IDiffHelper {
 				 * with empty line so that they are not aligned to each other in
 				 * final diff instead they show up on separate lines.
 				 */
-				right = lineNum + "  " + right;
-				middle = lineNum + "  " + middle;
+				right = lineNum + spaces + right;
+				middle = lineNum + spaces + middle;
 				StringsComparator leftComparator = new StringsComparator(
 						middle, "");
 				leftComparator.getScript().visit(fileCommandVisitor);
@@ -268,6 +285,13 @@ public class IDiffHelperImpl implements IDiffHelper {
 			}
 		}
 
+	}
+	
+	private int numberOfSpaces(int current, int max){
+		int numOfDigitsCurrent = String.valueOf(current).length();
+		int numOfDigitsMax = String.valueOf(max).length();
+		
+		return numOfDigitsMax - numOfDigitsCurrent;
 	}
 
 	@Override
