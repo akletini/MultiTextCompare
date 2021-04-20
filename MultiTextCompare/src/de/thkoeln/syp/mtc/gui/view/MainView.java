@@ -286,6 +286,13 @@ public class MainView extends JFrame {
 			protected JTableHeader createDefaultTableHeader() {
 				return new JTableHeader(columnModel) {
 					
+					@Override
+					public Dimension getPreferredSize() {
+						Dimension d = super.getPreferredSize();
+						d.height = 30;
+						return d;
+					}
+					
 					public String getToolTipText(MouseEvent e) {
 						int index = columnModel
 								.getColumnIndexAtX(e.getPoint().x);
@@ -306,14 +313,6 @@ public class MainView extends JFrame {
 			}
 		};
 		
-		tableMatrix.setTableHeader(new JTableHeader(tableMatrix.getColumnModel()) {
-			@Override
-			public Dimension getPreferredSize() {
-				Dimension d = super.getPreferredSize();
-				d.height = 30;
-				return d;
-			}
-		});
 		// Matrix Parameter
 		JTableHeader header = tableMatrix.getTableHeader();
 		header.setDefaultRenderer(new DefaultTableHeaderCellRenderer());
