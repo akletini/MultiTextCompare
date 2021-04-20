@@ -50,6 +50,7 @@ public class MouseAdapterMatrix extends MouseAdapter {
 				JTable table = (JTable) e.getSource();
 				rowIndex = table.rowAtPoint(e.getPoint());
 				columnIndex = table.columnAtPoint(e.getPoint());
+				System.out.println("row " + rowIndex + " col " + columnIndex);
 				kreuzKlick = true;
 
 				// Tempfiles werden durchsucht
@@ -72,26 +73,20 @@ public class MouseAdapterMatrix extends MouseAdapter {
 
 				// Logausgabe bei Klick auf Diagonale
 				if (columnIndex == rowIndex) {
-					logger.setMessage(management.getFileSelectionView()
-							.getModel()
-							.get(fileIndices.get(selectedFiles.size() - 1))
+					logger.setMessage(management.getCurrentFileSelection()
+							.get(rowIndex)
 							.split("\\|")[0].trim()
 							+ " has been selected. Total: "
 							+ (selectedFiles.size()), logger.LEVEL_INFO);
 
 					// Sonstige Logausgabe
 				} else {
-					logger.setMessage(management
-									.getFileSelectionView()
-									.getModel()
-									.get(fileIndices.get(selectedFiles.size() - 2))
+					logger.setMessage(management.getCurrentFileSelection()
+									.get(rowIndex)
 									.split("\\|")[0].trim()
 									+ " & "
-									+ management
-											.getFileSelectionView()
-											.getModel()
-											.get(fileIndices.get(selectedFiles
-													.size() - 1)).split("\\|")[0]
+									+ management.getCurrentFileSelection()
+											.get(columnIndex).split("\\|")[0]
 									+ " have been selected. Total: "
 									+ (selectedFiles.size()), logger.LEVEL_INFO);
 				}
@@ -114,9 +109,8 @@ public class MouseAdapterMatrix extends MouseAdapter {
 						}
 
 						// Logausgabe
-						logger.setMessage(management
-								.getFileSelectionView().getModel()
-								.get(fileIndices.get(selectedFiles.size() - 1))
+						logger.setMessage(management.getCurrentFileSelection()
+								.get(columnIndex)
 								.split("\\|")[0].trim()
 								+ " has been selected. Total: "
 								+ (selectedFiles.size()), logger.LEVEL_INFO);

@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
-import javax.swing.Action;
+import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JList;
@@ -241,9 +241,12 @@ public class FileSelectionController extends JFrame {
 			class CompareThread extends SwingWorker<Void, Object> {
 				int anzDateien;
 				long start_time;
+				Management management;
 
 				@Override
 				protected Void doInBackground() throws Exception {
+					management = Management.getInstance();
+					management.setCurrentFileSelection(management.getFileSelectionView().getModel());
 
 					anzDateien = fileImporter.getTextdateien().size();
 					if (anzDateien < 2) {

@@ -231,6 +231,7 @@ public class MainView extends JFrame {
 			String[] nameDateien) {
 		List<IAehnlichkeitImpl> listMatrix = management.getTextvergleicher()
 				.getMatrix().getInhalt(); // Aehnlichkeitswerte
+		management.getComparisons().addAll(listMatrix);
 		String[][] data = new String[anzahlDateien][anzahlDateien]; // String
 																	// Array zum
 																	// befuellen

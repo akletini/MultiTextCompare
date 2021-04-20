@@ -1,8 +1,17 @@
 package de.thkoeln.syp.mtc.gui.control;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
+import javax.swing.DefaultListModel;
+
+import de.thkoeln.syp.mtc.datenhaltung.impl.IAehnlichkeitImpl;
 import de.thkoeln.syp.mtc.gui.view.AboutView;
 import de.thkoeln.syp.mtc.gui.view.ComparisonView;
 import de.thkoeln.syp.mtc.gui.view.ConfigView;
@@ -35,6 +44,9 @@ public class Management {
 	private MainController mainController;
 	private ComparisonController comparisonController;
 	private Logger logger;
+	
+	private DefaultListModel<String> currentFileSelection;
+	private List<IAehnlichkeitImpl> comparisons;
 
 	private IFileImporter fileImporter;
 	private ITextvergleicher textvergleicher;
@@ -46,6 +58,8 @@ public class Management {
 		textvergleicher = new ITextvergleicherImpl();
 		xmlvergleicher = new IXMLvergleicherImpl(fileImporter);
 		jsonvergleicher = new IJSONvergleicherImpl(fileImporter);
+		
+		comparisons = new ArrayList<IAehnlichkeitImpl>();
 	}
 
 	public static Management getInstance() {
@@ -181,6 +195,25 @@ public class Management {
 
 	public void setComparisonController(ComparisonController comparisonController) {
 		this.comparisonController = comparisonController;
+	}
+
+	public DefaultListModel<String> getCurrentFileSelection() {
+		return currentFileSelection;
+	}
+
+	public void setCurrentFileSelection(DefaultListModel<String> currentFileSelection) {
+		this.currentFileSelection = new DefaultListModel<String>();
+		for(int i = 0; i < currentFileSelection.size(); i++){
+			this.currentFileSelection.add(i, currentFileSelection.elementAt(i));
+		}
+	}
+
+	public List<IAehnlichkeitImpl> getComparisons() {
+		return comparisons;
+	}
+
+	public void setComparisons(List<IAehnlichkeitImpl> comparisons) {
+		this.comparisons = comparisons;
 	}
 
 	// Aktualisiert Wurzelpfad Anzeige in fileSelectionView & configView

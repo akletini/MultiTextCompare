@@ -170,7 +170,7 @@ public class ComparisonView extends JFrame {
 			// -- Fuer 3 Dateien --
 			if (selection.size() == 3) {
 				fileName3 = " <-> "
-						+ management.getFileSelectionView().getModel()
+						+ management.getCurrentFileSelection()
 								.get(fileIndices.get(2)).split("\\|")[0];
 				
 				splitLeft = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scrollPaneLeft, scrollPaneMid);
