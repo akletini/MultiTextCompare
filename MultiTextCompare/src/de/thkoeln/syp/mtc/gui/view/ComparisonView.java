@@ -14,6 +14,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTextPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
@@ -37,6 +38,7 @@ public class ComparisonView extends JFrame {
 	private File[] selectedTempFiles, matchedDiffFiles;
 	private String fileName1, fileName2, fileName3;
 	private JTextPane tPaneLeft, tPaneMid, tPaneRight;
+	private JSplitPane splitLeft, splitRight;
 	private JScrollPane scrollPaneLeft, scrollPaneMid, scrollPaneRight,
 			scrollPaneMain;
 	private JPanel panel;
@@ -50,6 +52,7 @@ public class ComparisonView extends JFrame {
 		management = Management.getInstance();
 		if (management.getComparisonView() != null)
 			management.getComparisonView().dispose();
+		this.setSize(1000, 500);
 
 		// Variablen fuer den Vergleich
 		diffHelper = new IDiffHelperImpl();
@@ -142,12 +145,14 @@ public class ComparisonView extends JFrame {
 
 			// -- Fuer 2 Dateien --
 			if (selection.size() == 2) {
-				panel.setLayout(new GridLayout(0, 2));
-				panel.add(scrollPaneLeft);
-				panel.add(scrollPaneRight);
-
+				splitLeft = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scrollPaneLeft, scrollPaneRight);
+				panel.setLayout(new GridLayout(0 , 1));
+				panel.add(splitLeft);
 				diffWriter(diffHelper.getLeftLines(), tPaneLeft);
 				diffWriter(diffHelper.getRightLines(), tPaneRight);
+				
+				splitLeft.setDividerLocation(getWidth()/2);
+				splitLeft.setResizeWeight(0.5);
 
 				tPaneLeft.setCaretPosition(0);
 				tPaneRight.setCaretPosition(0);
@@ -158,11 +163,18 @@ public class ComparisonView extends JFrame {
 				fileName3 = " <-> "
 						+ management.getFileSelectionView().getModel()
 								.get(fileIndices.get(2)).split("\\|")[0];
+				
+				splitLeft = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scrollPaneLeft, scrollPaneMid);
+				splitRight  = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitLeft, scrollPaneRight);
+				
+				splitLeft.setDividerLocation(getWidth()/3);
+				splitRight.setDividerLocation((getWidth()/3) * 2);
+				
+				splitLeft.setResizeWeight(0.5);
+				splitRight.setResizeWeight(0.66);
 
-				panel.setLayout(new GridLayout(0, 3));
-				panel.add(scrollPaneLeft);
-				panel.add(scrollPaneMid);
-				panel.add(scrollPaneRight);
+				panel.setLayout(new GridLayout(0, 1));
+				panel.add(splitRight);
 
 				diffWriter(diffHelper.getLeftLines(), tPaneLeft);
 				diffWriter(diffHelper.getMiddleLines(), tPaneMid);
@@ -177,7 +189,7 @@ public class ComparisonView extends JFrame {
 			this.add(scrollPaneMain);
 			this.setTitle("Selected:     " + fileName1 + " <-> " + fileName2
 					+ fileName3);
-			this.setSize(1000, 500);
+			
 			this.setVisible(true);
 			this.setLocationRelativeTo(null);
 			try {
