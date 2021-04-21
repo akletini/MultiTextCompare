@@ -28,9 +28,9 @@ public class IMatchHelperImpl implements IMatchHelper {
 	public String[] leftFileLines, rightFileLines;
 
 	// Anzahl der Zeilen, fuer die nach einer identischen Zeile gesucht wird
-	private int LOOKAHEAD = 5;
+	private int LOOKAHEAD = 0;
 	// Aehnlichkeit ab der Zeilen gematcht werden (Wert von 0 bis 1)
-	private double MATCH_AT = 0.85;
+	private double MATCH_AT = 0.6;
 
 	private int leftSize = 0, rightSize = 0;
 
@@ -74,20 +74,63 @@ public class IMatchHelperImpl implements IMatchHelper {
 		// Schaue f�r jede Zeile der linken Datei
 		for (int i = 0; i < lineCountLeft; i++) {
 			reference = leftFile.get(i);
-			// ob es in der rechten Datei ein Match gibt
-			for (int j = 0; j < lineCountRight; j++) {
-				comp = rightFile.get(j);
-				// matches(reference, rightFile.get(j))
-				if (matches(reference, rightFile.get(j))
-						&& j >= lastMatchedIndex && notMatchedYet(i, j)) {
-					IMatch match1 = new IMatchImpl(i, j, reference, comp);
-					IMatch match2 = new IMatchImpl(i, j, reference, comp);
-					lastMatchedIndex = j;
-					matches.add(match1);
-					oldIndeces.add(match2);
-					break;
-				}
 
+			// ob es in der rechten Datei ein Match gibt
+			int maxSearchIndex = i + LOOKAHEAD;
+			
+			if (LOOKAHEAD != 0) {
+				if (maxSearchIndex < lineCountRight) {
+
+					for (int j = 0; j < maxSearchIndex; j++) {
+						comp = rightFile.get(j);
+
+						if (matches(reference, rightFile.get(j))
+								&& j >= lastMatchedIndex && notMatchedYet(i, j)) {
+							IMatch match1 = new IMatchImpl(i, j, reference,
+									comp);
+							IMatch match2 = new IMatchImpl(i, j, reference,
+									comp);
+							lastMatchedIndex = j;
+							matches.add(match1);
+							oldIndeces.add(match2);
+							break;
+						}
+
+					}
+				} else {
+					for (int j = 0; j < lineCountRight; j++) {
+						comp = rightFile.get(j);
+
+						if (matches(reference, rightFile.get(j))
+								&& j >= lastMatchedIndex && notMatchedYet(i, j)) {
+							IMatch match1 = new IMatchImpl(i, j, reference,
+									comp);
+							IMatch match2 = new IMatchImpl(i, j, reference,
+									comp);
+							lastMatchedIndex = j;
+							matches.add(match1);
+							oldIndeces.add(match2);
+							break;
+						}
+
+					}
+				}
+			}
+		else {
+				for (int j = 0; j < lineCountRight; j++) {
+					comp = rightFile.get(j);
+
+					if (matches(reference, rightFile.get(j))
+							&& j >= lastMatchedIndex && notMatchedYet(i, j)) {
+						IMatch match1 = new IMatchImpl(i, j, reference, comp);
+						IMatch match2 = new IMatchImpl(i, j, reference, comp);
+						lastMatchedIndex = j;
+						matches.add(match1);
+						oldIndeces.add(match2);
+						break;
+					}
+
+				}
 			}
 		}
 
@@ -115,7 +158,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 	 * @return true wenn noch kein Match existiert, sonst false
 	 */
 	private boolean notMatchedYet(Integer left, Integer right) {
-		
+
 		List<Integer> leftIndeces = new LinkedList<Integer>(), rightIndeces = new LinkedList<Integer>();
 		for (IMatch match : matches) {
 			leftIndeces.add(match.getLeftRow());
@@ -384,11 +427,14 @@ public class IMatchHelperImpl implements IMatchHelper {
 			}
 		}
 	}
-	
+
 	/**
 	 * Prueft ob ref und comp sich aehnlich sind
-	 * @param ref Referenz-String
-	 * @param comp String mit dem verglichen wird
+	 * 
+	 * @param ref
+	 *            Referenz-String
+	 * @param comp
+	 *            String mit dem verglichen wird
 	 * @return true wenn sich die Strings aehnlich sind, sonst false
 	 */
 	private boolean matches(String ref, String comp) {
@@ -399,7 +445,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * erstellt temporaere Dateien auf denen das Matching stattfindet
 	 */
@@ -440,11 +486,15 @@ public class IMatchHelperImpl implements IMatchHelper {
 		return matchFiles.toArray(new File[files.length]);
 
 	}
-	
+
 	/**
-	 * schreibt angepasste/gematchte Eintraege der jeweiligen Zeilenarrays in a und b
-	 * @param a file mit Zeilen der linken Ursprungsdatei
-	 * @param b file mit Zeilen der rechten Ursprungsdatei
+	 * schreibt angepasste/gematchte Eintraege der jeweiligen Zeilenarrays in a
+	 * und b
+	 * 
+	 * @param a
+	 *            file mit Zeilen der linken Ursprungsdatei
+	 * @param b
+	 *            file mit Zeilen der rechten Ursprungsdatei
 	 * @throws IOException
 	 */
 	private void writeArrayToFile(File a, File b) throws IOException {
@@ -470,12 +520,12 @@ public class IMatchHelperImpl implements IMatchHelper {
 	public List<IMatch> getMatches() {
 		return matches;
 	}
-	
+
 	@Override
 	public int getLOOKAHEAD() {
 		return LOOKAHEAD;
 	}
-	
+
 	@Override
 	public double getMATCH_AT() {
 		return MATCH_AT;
@@ -490,7 +540,5 @@ public class IMatchHelperImpl implements IMatchHelper {
 	public void setMATCH_AT(double mATCH_AT) {
 		MATCH_AT = mATCH_AT;
 	}
-
-	
 
 }

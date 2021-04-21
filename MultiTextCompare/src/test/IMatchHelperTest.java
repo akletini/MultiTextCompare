@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IMatch;
@@ -25,6 +26,8 @@ public class IMatchHelperTest {
 	public static void beforeClass() throws IOException {
 
 		iMatch = new IMatchHelperImpl();
+		iMatch.setMATCH_AT(0.6);
+		iMatch.setLOOKAHEAD(0);
 
 		equalA = new File(System.getProperty("user.dir") + File.separator
 				+ "src" + File.separator + "test" + File.separator
@@ -72,13 +75,13 @@ public class IMatchHelperTest {
 		temp_similar_A.deleteOnExit();
 		temp_similar_B.deleteOnExit();
 	}
-
+	
 	@Test
 	public void test_MatchCountEqual() throws IOException {
 		iMatch.matchEqualLines(temp_equal_A, temp_equal_B);
 		assertEquals(19, iMatch.getMatches().size());
 	}
-
+	
 	@Test
 	public void test_MatchEqualLines() throws IOException {
 		iMatch.matchEqualLines(temp_equal_A, temp_equal_B);
@@ -86,7 +89,7 @@ public class IMatchHelperTest {
 			assertEquals(match.getValueLeft(), match.getValueRight());
 		}
 	}
-
+	
 	@Test
 	public void test_MatchCountSimilar() throws IOException {
 		iMatch.matchEqualLines(temp_similar_A, temp_similar_B);
