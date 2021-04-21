@@ -37,7 +37,8 @@ public interface IFileImporter {
 	final String PROP_SHOWERRORS = "showErrors";
 
 	final File DEFAULT_CONFIG = new File(System.getProperty("user.dir")
-			+ File.separator + "config.properties");
+			+ File.separator + "configs" + File.separator + "config.properties");
+	final String PATH_CURRENT_CONFIG = "pathCurrentConfig";
 
 	IConfig getConfig();
 

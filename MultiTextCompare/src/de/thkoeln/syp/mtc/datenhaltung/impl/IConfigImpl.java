@@ -7,7 +7,7 @@ public class IConfigImpl implements IConfig {
 	private boolean keepWhitespaces, keepPunctuation, keepCapitalizazion,
 			compareLines, keepBlankLines;
 
-	private String rootDir, path, filename, filetype;
+	private String rootDir, path, filename, filetype, pathCurrent;
 	
 	//Log parameters
 	private boolean showInfos, showWarnings, showErrors;
@@ -254,6 +254,15 @@ public class IConfigImpl implements IConfig {
 	public void setShowErrors(boolean showErrors) {
 		this.showErrors = showErrors;
 	}
+	@Override
+	public String getPathCurrent() {
+		return pathCurrent;
+	}
+	@Override
+	public void setPathCurrent(String pathCurrent) {
+		this.pathCurrent = pathCurrent;
+	}
+	
 	
 	
 }

@@ -437,6 +437,19 @@ public class MainView extends JFrame {
 		return error;
 	}
 	
+	// Setter
+
+	public void setInfo(JCheckBoxMenuItem info) {
+		this.info = info;
+	}
+
+	public void setWarning(JCheckBoxMenuItem warning) {
+		this.warning = warning;
+	}
+
+	public void setError(JCheckBoxMenuItem error) {
+		this.error = error;
+	}
 
 	// -- Methoden um die Buttons auf den Controller zu verweisen --
 	public void addFileSelectionListener(ActionListener e) {
@@ -490,6 +503,10 @@ public class MainView extends JFrame {
 	}
 	public void addMenuShowErrorsListener(ActionListener e){
 		error.addActionListener(e);
+	}
+	
+	public void addMenuImportConfigListener(ActionListener e){
+		loadConfig.addActionListener(e);
 	}
 	
 	

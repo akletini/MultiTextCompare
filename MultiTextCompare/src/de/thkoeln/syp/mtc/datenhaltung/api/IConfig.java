@@ -101,5 +101,9 @@ public interface IConfig {
 
 	void setShowErrors(boolean showErrors);
 
+	String getPathCurrent();
+
+	void setPathCurrent(String pathCurrent);
+
 	
 }

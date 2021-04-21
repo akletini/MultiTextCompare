@@ -60,6 +60,8 @@ public class ConfigController {
 			configView.getCheckBoxXmlOnlyTags().setSelected(false);
 			configView.getCheckBoxJsonSortKeys().setSelected(false);
 			configView.getCheckBoxJsonDeleteValues().setSelected(false);
+			configView.getCheckBoxBestMatch().setSelected(false);
+			configView.getComboBoxComparisonModes().setSelectedIndex(0);
 		}
 	}
 
@@ -77,8 +79,8 @@ public class ConfigController {
 			config.setKeepPuctuation(configView.getCheckBoxPunctuation()
 					.isSelected());
 			config.setLineMatch(configView.getCheckBoxLineMatch().isSelected());
-			config.setMatchAt(configView.getMatchAtSlider().getValue()); //erlaubt nur integer types
-			config.setMatchingLookahead(configView.getTextFieldLookahead());
+			config.setMatchAt(((double)configView.getMatchAtSlider().getValue()) / 100); 
+			config.setMatchingLookahead(configView.getTextFieldLookaheadValue());
 
 			config.setXmlSortElements(configView.getCheckBoxXmlSortElements()
 					.isSelected());
@@ -94,9 +96,6 @@ public class ConfigController {
 			config.setJsonDeleteValues(configView.getCheckBoxJsonDeleteValues().isSelected());
 			
 			switch(configView.getComboBoxComparisonModes().getSelectedItem().toString()){
-			case "Compare characters":
-				config.setCompareLines(false);
-				break;
 			case "Compare lines":
 				config.setCompareLines(true);
 				break;

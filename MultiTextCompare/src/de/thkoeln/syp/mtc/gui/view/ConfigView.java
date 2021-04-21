@@ -154,7 +154,7 @@ public class ConfigView extends JFrame {
 		
 		String[] comparisonModes = {"Compare characters", "Compare lines"};
 		comboBoxComparisonModes = new JComboBox(comparisonModes);
-		comboBoxComparisonModes.setSelectedItem(config.getCompareLines());
+		comboBoxComparisonModes.setSelectedIndex(config.getCompareLines() ? 1 : 0);
 		
 		panelGeneral.add(comboBoxComparisonModes, "cell 1 8,alignx left");
 		
@@ -257,8 +257,7 @@ public class ConfigView extends JFrame {
 
 		lblLookForBest = new JLabel("Look for best match");
 		panelDiff.add(lblLookForBest, "cell 5 4");
-		
-		matchAtSlider = new JSlider(JSlider.HORIZONTAL,0,100,85);
+		matchAtSlider = new JSlider(JSlider.HORIZONTAL,0,100, (int) (config.getMatchAt()*100));
 		matchAtSlider.setBackground(white);
 		matchAtSlider.setMinorTickSpacing(5);
 		matchAtSlider.setMajorTickSpacing(25);
@@ -273,9 +272,10 @@ public class ConfigView extends JFrame {
 		labelTable.put(75, new JLabel("75"));
 		labelTable.put(100, new JLabel("100"));
 		matchAtSlider.setLabelTable(labelTable);
+		
 		panelDiff.add(matchAtSlider, "cell 1 5,alignx center,aligny center");
 		
-		lblMatchAt = new JLabel("Match lines at " + (int) config.getMatchAt() + "% similarity");
+		lblMatchAt = new JLabel("Match lines at " + (int) (config.getMatchAt()*100) + "% similarity");
 		panelDiff.add(lblMatchAt, "cell 5 5");
 		
 		matchAtSlider.addChangeListener(new ChangeListener() {
@@ -342,7 +342,7 @@ public class ConfigView extends JFrame {
 		
 		btnCancel = new JButton("Cancel");
 		panel.add(btnCancel, "cell 0 2");
-		setVisible(true);
+
 		
 		setTitle("Settings");
 		setResizable(true);
@@ -634,8 +634,12 @@ public class ConfigView extends JFrame {
 		return lblJsonParameters;
 	}
 	
-	public int getTextFieldLookahead() {
+	public int getTextFieldLookaheadValue() {
 		return Integer.parseInt(textFieldLookahead.getText());
+	}
+	
+	public JTextField getTextFieldLookahead(){
+		return textFieldLookahead;
 	}
 	
 	// Button listeners

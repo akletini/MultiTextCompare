@@ -46,7 +46,7 @@ public class IFileImporterImpl implements IFileImporter {
 		prop.setProperty(PROP_BLANKLINES, "true");
 		prop.setProperty(PROP_PUNCTUATION, "true");
 		prop.setProperty(PROP_CAPITALIZATION, "true");
-		prop.setProperty(PROP_COMPARELINES, "true");
+		prop.setProperty(PROP_COMPARELINES, "false");
 
 		prop.setProperty(PROP_LINEMATCH, "true");
 		prop.setProperty(PROP_MATCHAT, "0.85");
@@ -66,8 +66,17 @@ public class IFileImporterImpl implements IFileImporter {
 		prop.setProperty(PROP_SHOWINFOS, "true");
 		prop.setProperty(PROP_SHOWWARNINGS, "true");
 		prop.setProperty(PROP_SHOWERRORS, "true");
+		prop.setProperty(PATH_CURRENT_CONFIG, DEFAULT_CONFIG.getAbsolutePath());
 
 		importConfigdatei(DEFAULT_CONFIG);
+		File importedConfig = new File(prop.getProperty(PATH_CURRENT_CONFIG));
+		if(!importedConfig.getAbsolutePath().equals(DEFAULT_CONFIG.getAbsolutePath()) && importedConfig.exists()){
+			importConfigdatei(importedConfig);
+		}
+		else {
+			iConfig.setPathCurrent(DEFAULT_CONFIG.getAbsolutePath());
+			exportConfigdatei();
+		}
 	}
 
 	@Override
@@ -118,26 +127,32 @@ public class IFileImporterImpl implements IFileImporter {
 			return false;
 
 		if (!config.exists()) {
+			//übergebene Datei existiert nicht im Dateisystem
+			//Default config existiert nicht
 			if (!DEFAULT_CONFIG.exists()) {
 				try {
+					new File(System.getProperty("user.dir") + File.separator
+									+ "configs").mkdir();
 					outputStream = new FileOutputStream(
 							System.getProperty("user.dir") + File.separator
-									+ "config.properties");
+									+ "configs" + File.separator + "config.properties");
 
 					prop.store(outputStream, null);
 
 					iConfig.setPath(System.getProperty("user.dir")
-							+ File.separator + "config.properties");
+							+ File.separator + "configs" + File.separator + "config.properties");
 
 					outputStream.close();
 				} catch (IOException e) {
 					e.printStackTrace();
 					return false;
 				}
-			} else {
+			}
+			//übergebene Datei existiert nicht und Default existiert
+			else {
 				try {
 					inputStream = new FileInputStream(DEFAULT_CONFIG);
-
+					
 					prop.load(inputStream);
 
 					iConfig.setPath(DEFAULT_CONFIG.getAbsolutePath());
@@ -148,14 +163,16 @@ public class IFileImporterImpl implements IFileImporter {
 					return false;
 				}
 			}
-		} else {
+		} 
+		//Datei existiert bereits
+		else {
 			try {
 				inputStream = new FileInputStream(config);
-
+				
 				prop.load(inputStream);
 
 				iConfig.setPath(config.getAbsolutePath());
-
+				
 				inputStream.close();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -166,6 +183,7 @@ public class IFileImporterImpl implements IFileImporter {
 		iConfig.setRootDir(prop.getProperty(PROP_ROOT));
 		iConfig.setFilename(prop.getProperty(PROP_FILENAME));
 		iConfig.setFiletype(prop.getProperty(PROP_FILETYPE));
+		iConfig.setPathCurrent(prop.getProperty(PATH_CURRENT_CONFIG));
 
 		iConfig.setKeepWhitespaces(Boolean.parseBoolean(prop
 				.getProperty(PROP_WHITESPACES)));
@@ -289,6 +307,7 @@ public class IFileImporterImpl implements IFileImporter {
 			prop.setProperty(PROP_ROOT, iConfig.getRootDir());
 			prop.setProperty(PROP_FILENAME, iConfig.getFilename());
 			prop.setProperty(PROP_FILETYPE, iConfig.getFiletype());
+			prop.setProperty(PATH_CURRENT_CONFIG, iConfig.getPathCurrent());
 
 			prop.setProperty(PROP_WHITESPACES,
 					Boolean.toString(iConfig.getKeepWhitespaces()));
