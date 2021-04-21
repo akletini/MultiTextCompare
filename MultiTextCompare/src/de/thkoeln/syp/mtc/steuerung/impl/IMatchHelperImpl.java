@@ -48,6 +48,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 	 */
 	@Override
 	public void matchEqualLines(File a, File b) throws IOException {
+		MATCH_AT *= 100;
 		String reference = "", comp = "";
 		int lineCountLeft = 0, lineCountRight = 0;
 
