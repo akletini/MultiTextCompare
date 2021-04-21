@@ -66,74 +66,9 @@ public class ConfigController {
 	}
 
 	// Save Button: Speichert die Konfiguration in der config Datei
-	class SaveListener implements ActionListener {
+	public class SaveListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			IConfig config = management.getFileImporter().getConfig();
-
-			config.setKeepWhitespaces(configView.getCheckBoxWhitespaces()
-					.isSelected());
-			config.setKeepBlankLines(configView.getCheckBoxBlankLines()
-					.isSelected());
-			config.setKeepCapitalization(configView
-					.getCheckBoxCaps().isSelected());
-			config.setKeepPuctuation(configView.getCheckBoxPunctuation()
-					.isSelected());
-			config.setLineMatch(configView.getCheckBoxLineMatch().isSelected());
-			config.setMatchAt(((double)configView.getMatchAtSlider().getValue()) / 100); 
-			config.setMatchingLookahead(configView.getTextFieldLookaheadValue());
-
-			config.setXmlSortElements(configView.getCheckBoxXmlSortElements()
-					.isSelected());
-			config.setXmlSortAttributes((configView
-					.getCheckBoxXmlSortAttributes().isSelected()));
-			config.setXmlDeleteAttributes(configView.getCheckBoxXmlDeleteAttribute()
-					.isSelected());
-			config.setXmlDeleteComments(configView
-					.getCheckBoxXmlDeleteComments().isSelected());
-			config.setXmlOnlyTags(configView.getCheckBoxXmlOnlyTags().isSelected());
-			
-			config.setJsonSortKeys(configView.getCheckBoxJsonSortKeys().isSelected());
-			config.setJsonDeleteValues(configView.getCheckBoxJsonDeleteValues().isSelected());
-			
-			switch(configView.getComboBoxComparisonModes().getSelectedItem().toString()){
-			case "Compare lines":
-				config.setCompareLines(true);
-				break;
-			default:
-				config.setCompareLines(false);
-				break;
-			}
-			
-			switch (configView.getComboBoxXmlValidation().getSelectedItem()
-					.toString()) {
-			case "Internal XSD":
-				config.setXmlValidation(1);
-				break;
-			case "External XSD":
-				config.setXmlValidation(2);
-				break;
-			case "DTD":
-				config.setXmlValidation(3);
-				break;
-			default:
-				config.setXmlValidation(0);
-				break;
-			}
-			
-			switch (configView.getComboBoxXmlPrint().getSelectedItem().toString()) {
-			case "Raw":
-				config.setXmlPrint(1);
-				break;
-			case "Compact":
-				config.setXmlPrint(2);
-				break;
-			default:
-				config.setXmlPrint(0);
-				break;
-			}
-			
-			management.getFileImporter().exportConfigdatei();
-			logger.setMessage("Configuration has been saved", logger.LEVEL_INFO);
+			management.saveConfig(e);
 			configView.dispatchEvent(new WindowEvent(configView,
 					WindowEvent.WINDOW_CLOSING));
 		}

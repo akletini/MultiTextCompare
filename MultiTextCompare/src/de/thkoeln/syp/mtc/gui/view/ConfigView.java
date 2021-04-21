@@ -344,7 +344,7 @@ public class ConfigView extends JFrame {
 		panel.add(btnCancel, "cell 0 2");
 
 		
-		setTitle("Settings");
+		setTitle("Settings" + " using " + config.getPath());
 		setResizable(true);
 		setMinimumSize(new Dimension(560,400));
 		setSize(800, 500);

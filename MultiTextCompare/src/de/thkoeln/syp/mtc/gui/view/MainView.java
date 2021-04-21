@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Desktop.Action;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
@@ -507,6 +508,12 @@ public class MainView extends JFrame {
 	
 	public void addMenuImportConfigListener(ActionListener e){
 		loadConfig.addActionListener(e);
+	}
+	public void addMenuSaveConfigAsListener(ActionListener e){
+		saveConfigAs.addActionListener(e);
+	}
+	public void addMenuSaveConfigListener(ActionListener e){
+		saveConfig.addActionListener(e);
 	}
 	
 	

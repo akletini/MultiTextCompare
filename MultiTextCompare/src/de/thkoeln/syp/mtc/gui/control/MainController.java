@@ -5,8 +5,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
+import java.rmi.server.ExportException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JScrollPane;
@@ -24,10 +26,13 @@ import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
 public class MainController {
 	private Management management;
 	private Logger logger;
+	private ConfigView configView;
 
 	public MainController(MainView mainView) {
 		management = Management.getInstance();
 		management.setMainController(this);
+		configView = management.getConfigView();
+		logger = management.getLogger();
 		mainView.addFileSelectionListener(new FileSelectionListener());
 		mainView.addConfigListener(new ConfigListener());
 		mainView.addHelpListener(new HelpListener());
@@ -37,6 +42,8 @@ public class MainController {
 		mainView.addLogClearListener(new LogClearListener());
 		mainView.addMenuSettingsListener(new MenuSettingsListener());
 		mainView.addMenuImportConfigListener(new MenuLoadConfigListener());
+		mainView.addMenuSaveConfigAsListener(new MenuSaveConfigAsListener());
+		mainView.addMenuSaveConfigListener(new MenuSaveConfigListener());
 		mainView.addMenuAboutListener(new MenuAboutListener());
 		mainView.addMenuHelpListener(new MenuHelpListener());
 		mainView.addMenuShowInfosListener(new MenuShowInfosListener());
@@ -45,7 +52,6 @@ public class MainController {
 		mainView.addToolbarLogClearListener(new ToolbarLogClearListener());
 		mainView.addToolbarZoomInListener(new ToolbarZoomInListener());
 		mainView.addToolbarZoomOutListener(new ToolbarZoomOutListener());
-		logger = management.getLogger();
 	}
 
 	class FileSelectionListener implements ActionListener {
@@ -217,6 +223,12 @@ public class MainController {
 			management.getFileImporter().exportConfigdatei();
 		}
 	}
+	
+	class MenuSaveConfigListener implements ActionListener {
+		public void actionPerformed(ActionEvent e){
+			management.saveConfig(e);
+		}
+	}
 
 	class MenuLoadConfigListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
@@ -242,11 +254,16 @@ public class MainController {
 						logger.LEVEL_ERROR);
 			}
 			if (fd.getFiles().length == 1) {
+				//neue config ziehen
 				File newConfig = fd.getFiles()[0];
+				
+				//neue config in default config referenzieren
 				fileImporter.importConfigdatei(IFileImporter.DEFAULT_CONFIG);
 				IConfig config = fileImporter.getConfig();
 				config.setPathCurrent(newConfig.getAbsolutePath());
 				fileImporter.exportConfigdatei();
+				
+				//neue config aktivieren
 				fileImporter.importConfigdatei(newConfig);
 				config = fileImporter.getConfig();
 
@@ -290,7 +307,60 @@ public class MainController {
 				mainView.getWarning().setState(config.getShowWarnings());
 				mainView.getError().setState(config.getShowErrors());
 
+				configView.setTitle("Settings using " + config.getPath());
 				configView.repaint();
+			}
+		}
+	}
+
+	class MenuSaveConfigAsListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			if (Management.getInstance().getConfigView() == null) {
+				management.setConfigView(new ConfigView());
+			}
+			String configDir = System.getProperty("user.dir") + File.separator
+					+ "configs";
+			ConfigView configView = management.getConfigView();
+			IFileImporter fileImporter = management.getFileImporter();
+			FileDialog fd = new FileDialog(management.getMainView(),
+					"Save config as", FileDialog.SAVE);
+			fd.setLocationRelativeTo(null);
+			fd.setMultipleMode(false);
+			fd.setDirectory(configDir);
+			fd.setVisible(true);
+			try {
+				fd.setIconImage(ImageIO.read(new File("res/icon.png")));
+			} catch (IOException ioe) {
+				logger.setMessage(logger.exceptionToString(ioe),
+						logger.LEVEL_ERROR);
+			}
+			File newConfig = new File(fd.getFiles()[0].getAbsolutePath());
+			if (fd.getFiles().length == 1) {
+				try {
+					//aktuelle config in neue config kopieren
+					IConfig config = fileImporter.getConfig();
+					if(!newConfig.exists()){
+						newConfig = new File(newConfig.getAbsolutePath() + ".properties");
+					}
+					newConfig.createNewFile();
+					config.setPath(newConfig.getAbsolutePath());
+					fileImporter.exportConfigdatei();
+					
+					//neue config in default config referenzieren
+					fileImporter.importConfigdatei(IFileImporter.DEFAULT_CONFIG);
+					config = fileImporter.getConfig();
+					config.setPathCurrent(newConfig.getAbsolutePath());
+					fileImporter.exportConfigdatei();
+					//neue config aktivieren
+					fileImporter.importConfigdatei(newConfig);
+					management.saveConfig(e);
+					config = fileImporter.getConfig();
+					
+					configView.setTitle("Settings using " + config.getPath());
+					configView.repaint();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 			}
 		}
 	}

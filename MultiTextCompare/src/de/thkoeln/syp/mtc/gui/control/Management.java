@@ -1,16 +1,13 @@
 package de.thkoeln.syp.mtc.gui.control;
 
-import java.io.File;
+import java.awt.event.ActionEvent;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
 import javax.swing.DefaultListModel;
 
+import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IAehnlichkeitImpl;
 import de.thkoeln.syp.mtc.gui.view.AboutView;
 import de.thkoeln.syp.mtc.gui.view.ComparisonView;
@@ -240,5 +237,74 @@ public class Management {
 					.getAbsolutePath();
 		}
 		return pathArray;
+	}
+	
+	public void saveConfig(ActionEvent e){
+		IConfig config = fileImporter.getConfig();
+
+		config.setKeepWhitespaces(configView.getCheckBoxWhitespaces()
+				.isSelected());
+		config.setKeepBlankLines(configView.getCheckBoxBlankLines()
+				.isSelected());
+		config.setKeepCapitalization(configView
+				.getCheckBoxCaps().isSelected());
+		config.setKeepPuctuation(configView.getCheckBoxPunctuation()
+				.isSelected());
+		config.setLineMatch(configView.getCheckBoxLineMatch().isSelected());
+		config.setMatchAt(((double)configView.getMatchAtSlider().getValue()) / 100); 
+		config.setMatchingLookahead(configView.getTextFieldLookaheadValue());
+
+		config.setXmlSortElements(configView.getCheckBoxXmlSortElements()
+				.isSelected());
+		config.setXmlSortAttributes((configView
+				.getCheckBoxXmlSortAttributes().isSelected()));
+		config.setXmlDeleteAttributes(configView.getCheckBoxXmlDeleteAttribute()
+				.isSelected());
+		config.setXmlDeleteComments(configView
+				.getCheckBoxXmlDeleteComments().isSelected());
+		config.setXmlOnlyTags(configView.getCheckBoxXmlOnlyTags().isSelected());
+		
+		config.setJsonSortKeys(configView.getCheckBoxJsonSortKeys().isSelected());
+		config.setJsonDeleteValues(configView.getCheckBoxJsonDeleteValues().isSelected());
+		
+		switch(configView.getComboBoxComparisonModes().getSelectedItem().toString()){
+		case "Compare lines":
+			config.setCompareLines(true);
+			break;
+		default:
+			config.setCompareLines(false);
+			break;
+		}
+		
+		switch (configView.getComboBoxXmlValidation().getSelectedItem()
+				.toString()) {
+		case "Internal XSD":
+			config.setXmlValidation(1);
+			break;
+		case "External XSD":
+			config.setXmlValidation(2);
+			break;
+		case "DTD":
+			config.setXmlValidation(3);
+			break;
+		default:
+			config.setXmlValidation(0);
+			break;
+		}
+		
+		switch (configView.getComboBoxXmlPrint().getSelectedItem().toString()) {
+		case "Raw":
+			config.setXmlPrint(1);
+			break;
+		case "Compact":
+			config.setXmlPrint(2);
+			break;
+		default:
+			config.setXmlPrint(0);
+			break;
+		}
+		
+		fileImporter.exportConfigdatei();
+		logger.setMessage("Configuration has been saved", logger.LEVEL_INFO);
 	}
 }
