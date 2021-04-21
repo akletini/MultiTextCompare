@@ -1,10 +1,14 @@
 package de.thkoeln.syp.mtc.gui.control;
 
+import java.awt.FileDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
@@ -306,5 +310,56 @@ public class Management {
 		
 		fileImporter.exportConfigdatei();
 		logger.setMessage("Configuration has been saved", logger.LEVEL_INFO);
+	}
+	
+	public void saveConfigAs(ActionEvent e){
+		if (Management.getInstance().getConfigView() == null) {
+			setConfigView(new ConfigView());
+		}
+		String configDir = System.getProperty("user.dir") + File.separator
+				+ "configs";
+		ConfigView configView = getConfigView();
+		IFileImporter fileImporter = getFileImporter();
+		FileDialog fd = new FileDialog(getMainView(),
+				"Save config as", FileDialog.SAVE);
+		fd.setLocationRelativeTo(null);
+		fd.setMultipleMode(false);
+		fd.setDirectory(configDir);
+		fd.setVisible(true);
+		try {
+			fd.setIconImage(ImageIO.read(new File("res/icon.png")));
+		} catch (IOException ioe) {
+			logger.setMessage(logger.exceptionToString(ioe),
+					logger.LEVEL_ERROR);
+		}
+		
+		if (fd.getFiles().length == 1) {
+			try {
+				File newConfig = new File(fd.getFiles()[0].getAbsolutePath());
+				//aktuelle config in neue config kopieren
+				IConfig config = fileImporter.getConfig();
+				if(!newConfig.exists()){
+					newConfig = new File(newConfig.getAbsolutePath() + ".properties");
+				}
+				newConfig.createNewFile();
+				config.setPath(newConfig.getAbsolutePath());
+				fileImporter.exportConfigdatei();
+				
+				//neue config in default config referenzieren
+				fileImporter.importConfigdatei(IFileImporter.DEFAULT_CONFIG);
+				config = fileImporter.getConfig();
+				config.setPathCurrent(newConfig.getAbsolutePath());
+				fileImporter.exportConfigdatei();
+				//neue config aktivieren
+				fileImporter.importConfigdatei(newConfig);
+				saveConfig(e);
+				config = fileImporter.getConfig();
+				
+				configView.setTitle("Settings using " + config.getPath());
+				configView.repaint();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		}
 	}
 }

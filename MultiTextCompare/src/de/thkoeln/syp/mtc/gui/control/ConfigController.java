@@ -24,6 +24,7 @@ public class ConfigController {
 		this.configView.addDefaultListener(new DefaultListener());
 		this.configView.addSaveListener(new SaveListener());
 		this.configView.addCancelistener(new CancelListener());
+		configView.addSaveAsListener(new SaveAsListener());
 		logger = management.getLogger();
 	}
 
@@ -73,6 +74,15 @@ public class ConfigController {
 					WindowEvent.WINDOW_CLOSING));
 		}
 	}
+	
+	// Save Button: Speichert die Konfiguration in der config Datei
+		public class SaveAsListener implements ActionListener {
+			public void actionPerformed(ActionEvent e) {
+				management.saveConfigAs(e);
+				configView.dispatchEvent(new WindowEvent(configView,
+						WindowEvent.WINDOW_CLOSING));
+			}
+		}
 	
 	class CancelListener implements ActionListener {
 		

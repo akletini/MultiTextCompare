@@ -315,53 +315,7 @@ public class MainController {
 
 	class MenuSaveConfigAsListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			if (Management.getInstance().getConfigView() == null) {
-				management.setConfigView(new ConfigView());
-			}
-			String configDir = System.getProperty("user.dir") + File.separator
-					+ "configs";
-			ConfigView configView = management.getConfigView();
-			IFileImporter fileImporter = management.getFileImporter();
-			FileDialog fd = new FileDialog(management.getMainView(),
-					"Save config as", FileDialog.SAVE);
-			fd.setLocationRelativeTo(null);
-			fd.setMultipleMode(false);
-			fd.setDirectory(configDir);
-			fd.setVisible(true);
-			try {
-				fd.setIconImage(ImageIO.read(new File("res/icon.png")));
-			} catch (IOException ioe) {
-				logger.setMessage(logger.exceptionToString(ioe),
-						logger.LEVEL_ERROR);
-			}
-			File newConfig = new File(fd.getFiles()[0].getAbsolutePath());
-			if (fd.getFiles().length == 1) {
-				try {
-					//aktuelle config in neue config kopieren
-					IConfig config = fileImporter.getConfig();
-					if(!newConfig.exists()){
-						newConfig = new File(newConfig.getAbsolutePath() + ".properties");
-					}
-					newConfig.createNewFile();
-					config.setPath(newConfig.getAbsolutePath());
-					fileImporter.exportConfigdatei();
-					
-					//neue config in default config referenzieren
-					fileImporter.importConfigdatei(IFileImporter.DEFAULT_CONFIG);
-					config = fileImporter.getConfig();
-					config.setPathCurrent(newConfig.getAbsolutePath());
-					fileImporter.exportConfigdatei();
-					//neue config aktivieren
-					fileImporter.importConfigdatei(newConfig);
-					management.saveConfig(e);
-					config = fileImporter.getConfig();
-					
-					configView.setTitle("Settings using " + config.getPath());
-					configView.repaint();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-			}
+			management.saveConfigAs(e);
 		}
 	}
 
