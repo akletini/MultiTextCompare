@@ -19,13 +19,14 @@ import de.thkoeln.syp.mtc.gui.view.ComparisonView;
 // Extra Klasse fuer die Klickbarkeit der Matrix
 public class MouseAdapterMatrix extends MouseAdapter {
 	private Management management;
-	private List<File> selectedFiles, cachedFiles;
+	private List<File> selectedFiles, referenceFiles;
 	private List<Integer> fileIndices;
 	private Set<Entry<File, File>> tempFiles;
 	boolean kreuzKlick;
-	private boolean greyOut = false;
+	private boolean controlMode;
 	private int selectedRow = -1, selectedColumn = -1;
 	private Logger logger;
+	private ReferenceCell referenceCell;
 
 	public MouseAdapterMatrix() {
 		management = Management.getInstance();
@@ -33,7 +34,8 @@ public class MouseAdapterMatrix extends MouseAdapter {
 		tempFiles = management.getFileImporter().getTempFilesMap().entrySet();
 		selectedFiles = new ArrayList<File>();
 		fileIndices = new ArrayList<Integer>();
-		cachedFiles = new ArrayList<File>();
+		referenceFiles = new ArrayList<File>();
+		controlMode = false;
 	}
 
 	@Override
@@ -52,71 +54,66 @@ public class MouseAdapterMatrix extends MouseAdapter {
 				columnIndex = table.columnAtPoint(e.getPoint());
 				System.out.println("row " + rowIndex + " col " + columnIndex);
 				kreuzKlick = true;
-
-				// Tempfiles werden durchsucht
-				for (Map.Entry<File, File> entry : tempFiles) {
-					// Spalte
-					if (entry.getValue().getName()
-							.equals("temp_" + (columnIndex + 1))
-							&& !fileIndices.contains(columnIndex)) {
-						selectedFiles.add(entry.getValue());
-						fileIndices.add(columnIndex);
-					}
-					// Zeile
-					if (entry.getValue().getName()
-							.equals("temp_" + (rowIndex + 1))
-							&& !fileIndices.contains(rowIndex)) {
-						selectedFiles.add(entry.getValue());
-						fileIndices.add(rowIndex);
+				
+				//Einzelner Klick ohne STRG => mache gar nichts
+				if(isSingleClick(e) && !e.isControlDown() && !controlMode){
+					//Tu nichts
+					e.consume();
+					System.out.println("gar nichts");
+				}
+				//Doppelklick ohne STRG => öffnet 2er Diff
+				else if(isDoubleClick(e) && !e.isControlDown() && !controlMode){
+					System.out.println("hallo");
+					fetchFilesFromCellClick(rowIndex, columnIndex);
+					logClickInCell(rowIndex, columnIndex);
+				}
+				//gehe in STRG-Mode
+				else if(isSingleClick(e) && e.isControlDown()){
+					controlMode = true;
+					greyOutMatrix(true);
+					fetchFilesFromCellClick(rowIndex, columnIndex);
+					referenceCell = new ReferenceCell(selectedFiles.get(1), selectedFiles.get(0), rowIndex, columnIndex);
+					selectedFiles.clear();
+				}
+				
+				if(controlMode){
+					if(rowIndex == referenceCell.row || columnIndex == referenceCell.col){
+						selectedFiles.add(referenceCell.fileRow);
+						selectedFiles.add(referenceCell.fileCol);
 					}
 				}
+		
 
-				// Logausgabe bei Klick auf Diagonale
-				if (columnIndex == rowIndex) {
-					logger.setMessage(management.getCurrentFileSelection()
-							.get(rowIndex)
-							.split("\\|")[0].trim()
-							+ " has been selected. Total: "
-							+ (selectedFiles.size()), logger.LEVEL_INFO);
+				
 
-					// Sonstige Logausgabe
-				} else {
-					logger.setMessage(management.getCurrentFileSelection()
-									.get(rowIndex)
-									.split("\\|")[0].trim()
-									+ " & "
-									+ management.getCurrentFileSelection()
-											.get(columnIndex).split("\\|")[0]
-									+ " have been selected. Total: "
-									+ (selectedFiles.size()), logger.LEVEL_INFO);
-				}
+				
 
 			}
 
-			// Klick auf Spaltenkopf
-			else if (management.getMainView().getTableMatrix().getTableHeader()
-					.equals(e.getSource())) {
-				columnIndex = management.getMainView().getTableMatrix()
-						.columnAtPoint(e.getPoint());
-
-				// Tempfiles werden durchsucht
-				for (Map.Entry<File, File> entry : tempFiles) {
-					if (entry.getValue().getName()
-							.equals("temp_" + (columnIndex + 1))) {
-						if (!fileIndices.contains(columnIndex)) {
-							selectedFiles.add(entry.getValue());
-							fileIndices.add(columnIndex);
-						}
-
-						// Logausgabe
-						logger.setMessage(management.getCurrentFileSelection()
-								.get(columnIndex)
-								.split("\\|")[0].trim()
-								+ " has been selected. Total: "
-								+ (selectedFiles.size()), logger.LEVEL_INFO);
-					}
-				}
-			}
+//			// Klick auf Spaltenkopf
+//			else if (management.getMainView().getTableMatrix().getTableHeader()
+//					.equals(e.getSource())) {
+//				columnIndex = management.getMainView().getTableMatrix()
+//						.columnAtPoint(e.getPoint());
+//
+//				// Tempfiles werden durchsucht
+//				for (Map.Entry<File, File> entry : tempFiles) {
+//					if (entry.getValue().getName()
+//							.equals("temp_" + (columnIndex + 1))) {
+//						if (!fileIndices.contains(columnIndex)) {
+//							selectedFiles.add(entry.getValue());
+//							fileIndices.add(columnIndex);
+//						}
+//
+//						// Logausgabe
+//						logger.setMessage(management.getCurrentFileSelection()
+//								.get(columnIndex)
+//								.split("\\|")[0].trim()
+//								+ " has been selected. Total: "
+//								+ (selectedFiles.size()), logger.LEVEL_INFO);
+//					}
+//				}
+//			}
 
 			// Falls 4 Dateien ausgewaehlt wurden
 			if (selectedFiles.size() > 3) {
@@ -152,13 +149,77 @@ public class MouseAdapterMatrix extends MouseAdapter {
 	public void greyOutMatrix(boolean doIt) {
 		JTable matrix = management.getMainView().getTableMatrix();
 		if (doIt) {
-			greyOut = true;
+			management.setGreyOutMatrix(doIt);
 			matrix.repaint();
 		} else {
-			greyOut = false;
 			matrix.getSelectionModel().clearSelection();
 			matrix.repaint(); //war ausgegraut
 		}
 	}
+	
+	public void fetchFilesFromCellClick(int rowIndex, int columnIndex){
+		// Tempfiles werden durchsucht
+		for (Map.Entry<File, File> entry : tempFiles) {
+			// Spalte
+			if (entry.getValue().getName()
+					.equals("temp_" + (columnIndex + 1))
+					) {
+				selectedFiles.add(entry.getValue());
+				fileIndices.add(columnIndex);
+			}
+			// Zeile
+			if (entry.getValue().getName()
+					.equals("temp_" + (rowIndex + 1))
+				) {
+				selectedFiles.add(entry.getValue());
+				fileIndices.add(rowIndex);
+			}
+		}
+	}
+	
+	public void logClickInCell(int rowIndex, int columnIndex){
+		// Logausgabe bei Klick auf Diagonale
+		if (columnIndex == rowIndex) {
+			logger.setMessage(management.getCurrentFileSelection()
+					.get(rowIndex)
+					.split("\\|")[0].trim()
+					+ " has been selected. Total: "
+					+ (selectedFiles.size()), logger.LEVEL_INFO);
 
+			// Sonstige Logausgabe
+		} else {
+			logger.setMessage(management.getCurrentFileSelection()
+							.get(rowIndex)
+							.split("\\|")[0].trim()
+							+ " & "
+							+ management.getCurrentFileSelection()
+									.get(columnIndex).split("\\|")[0]
+							+ " have been selected. Total: "
+							+ (selectedFiles.size()), logger.LEVEL_INFO);
+		}
+	}
+	
+	public boolean isSingleClick(MouseEvent e){
+		return e.getClickCount() == 1;
+	}
+	public boolean isDoubleClick(MouseEvent e){
+		return e.getClickCount() == 2;
+	}
+	
+	
+
+}
+
+class ReferenceCell {
+	File fileRow, fileCol;
+	int row, col;
+	
+	public ReferenceCell(File fileRow, File fileCol, int row, int col) {
+		this.fileRow = fileRow;
+		this.fileCol = fileCol;
+		this.row = row;
+		this.col = col;
+	}
+	
+	
 }

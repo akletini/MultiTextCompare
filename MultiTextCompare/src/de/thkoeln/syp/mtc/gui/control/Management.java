@@ -48,6 +48,7 @@ public class Management {
 	
 	private DefaultListModel<String> currentFileSelection;
 	private List<IAehnlichkeitImpl> comparisons;
+	private boolean greyOutMatrix;
 
 	private IFileImporter fileImporter;
 	private ITextvergleicher textvergleicher;
@@ -61,6 +62,7 @@ public class Management {
 		jsonvergleicher = new IJSONvergleicherImpl(fileImporter);
 		
 		comparisons = new ArrayList<IAehnlichkeitImpl>();
+		greyOutMatrix = false;
 	}
 
 	public static Management getInstance() {
@@ -215,6 +217,15 @@ public class Management {
 
 	public void setComparisons(List<IAehnlichkeitImpl> comparisons) {
 		this.comparisons = comparisons;
+	}
+	
+
+	public boolean getGreyOutMatrix() {
+		return greyOutMatrix;
+	}
+
+	public void setGreyOutMatrix(boolean greyOutMatrix) {
+		this.greyOutMatrix = greyOutMatrix;
 	}
 
 	// Aktualisiert Wurzelpfad Anzeige in fileSelectionView & configView

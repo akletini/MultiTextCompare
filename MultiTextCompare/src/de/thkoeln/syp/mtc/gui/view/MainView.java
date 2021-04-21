@@ -262,7 +262,7 @@ public class MainView extends JFrame {
 			public Component prepareRenderer(TableCellRenderer renderer,
 					int row, int col) {
 				Component comp = super.prepareRenderer(renderer, row, col);
-				if (getSelectionModel().isSelectionEmpty()) {
+				if (!management.getGreyOutMatrix()) {
 					Object value = getModel().getValueAt(row, col);
 					double wert = Double.valueOf(value.toString());
 					Color wertFarbe = getColor(wert);
