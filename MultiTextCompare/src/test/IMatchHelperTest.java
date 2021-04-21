@@ -78,13 +78,13 @@ public class IMatchHelperTest {
 	
 	@Test
 	public void test_MatchCountEqual() throws IOException {
-		iMatch.matchEqualLines(temp_equal_A, temp_equal_B);
+		iMatch.matchLines(temp_equal_A, temp_equal_B);
 		assertEquals(19, iMatch.getMatches().size());
 	}
 	
 	@Test
 	public void test_MatchEqualLines() throws IOException {
-		iMatch.matchEqualLines(temp_equal_A, temp_equal_B);
+		iMatch.matchLines(temp_equal_A, temp_equal_B);
 		for (IMatch match : iMatch.getMatches()) {
 			assertEquals(match.getValueLeft(), match.getValueRight());
 		}
@@ -92,13 +92,13 @@ public class IMatchHelperTest {
 	
 	@Test
 	public void test_MatchCountSimilar() throws IOException {
-		iMatch.matchEqualLines(temp_similar_A, temp_similar_B);
+		iMatch.matchLines(temp_similar_A, temp_similar_B);
 		assertEquals(5, iMatch.getMatches().size());
 	}
 
 	@Test
 	public void test_MatchSimilarLines() throws IOException {
-		iMatch.matchEqualLines(temp_similar_A, temp_similar_B);
+		iMatch.matchLines(temp_similar_A, temp_similar_B);
 		List<IMatch> matches = iMatch.getMatches();
 
 		for (int i = 0; i < matches.size(); i++) {

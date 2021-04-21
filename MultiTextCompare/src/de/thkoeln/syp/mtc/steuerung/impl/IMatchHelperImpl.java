@@ -32,7 +32,9 @@ public class IMatchHelperImpl implements IMatchHelper {
 	// Aehnlichkeit ab der Zeilen gematcht werden (Wert von 0 bis 1)
 	private double MATCH_AT = 0.6;
 
-	private int leftSize = 0, rightSize = 0;
+	private boolean searchBestMatch = false;
+
+	private int leftSize = 0, rightSize = 0, bestLCS;
 
 	public IMatchHelperImpl() {
 	}
@@ -47,8 +49,93 @@ public class IMatchHelperImpl implements IMatchHelper {
 	 *            Vergleichsdatei
 	 */
 	@Override
-	public void matchEqualLines(File a, File b) throws IOException {
+	public void matchLines(File a, File b) throws IOException {
 		MATCH_AT *= 100;
+		String reference = "", comp = "";
+		int lineCountLeft = 0, lineCountRight = 0;
+
+		if (searchBestMatch) {
+			matchBestLines(a, b);
+		} else {
+
+			oldIndeces = new ArrayList<IMatch>();
+			matches = new ArrayList<IMatch>();
+
+			leftFile = new ArrayList<String>();
+			rightFile = new ArrayList<String>();
+
+			lineCountLeft = getLineCounts(a, leftFile);
+			lineCountRight = getLineCounts(b, rightFile);
+
+			if (lineCountLeft == 0 || lineCountRight == 0) {
+				return;
+			}
+
+			if (lineCountLeft == Math.min(lineCountLeft, lineCountRight)) {
+				reference = leftFile.get(0);
+			} else {
+				reference = rightFile.get(0);
+			}
+
+			int lastMatchedIndex = 0;
+			// Schaue f�r jede Zeile der linken Datei
+			for (int i = 0; i < lineCountLeft; i++) {
+				reference = leftFile.get(i);
+
+				// ob es in der rechten Datei ein Match gibt
+				int maxSearchIndex = i + LOOKAHEAD + 1;
+
+				if (LOOKAHEAD != 0) {
+					if (maxSearchIndex < lineCountRight) {
+
+						for (int j = 0; j < maxSearchIndex; j++) {
+							comp = rightFile.get(j);
+
+							if(checkRightFile(reference, comp, maxSearchIndex, j, lastMatchedIndex)){
+								break;
+							}
+							
+
+						}
+					} else {
+						for (int j = 0; j < lineCountRight; j++) {
+							comp = rightFile.get(j);
+
+							if(checkRightFile(reference, comp, maxSearchIndex, j, lastMatchedIndex)){
+								break;
+							}
+
+						}
+					}
+				} else {
+					for (int j = 0; j < lineCountRight; j++) {
+						comp = rightFile.get(j);
+
+						if(checkRightFile(reference, comp, maxSearchIndex, j, lastMatchedIndex)){
+							break;
+						}
+
+					}
+				}
+			}
+
+			if (matches.size() > 0) {
+				leftSize = lineCountLeft + getMaxDistance(matches);
+				rightSize = lineCountRight + getMaxDistance(matches);
+
+				alignMatches(matches);
+				fillInMatches(a, b);
+				fillInBetweenMatches(oldIndeces);
+				writeArrayToFile(a, b);
+			} else {
+				return;
+			}
+		}
+
+	}
+
+	public void matchBestLines(File a, File b) throws IOException {
+
 		String reference = "", comp = "";
 		int lineCountLeft = 0, lineCountRight = 0;
 
@@ -71,14 +158,14 @@ public class IMatchHelperImpl implements IMatchHelper {
 			reference = rightFile.get(0);
 		}
 
-		int lastMatchedIndex = 0;
+		int lastMatchedIndex = 0, bestMatchIndex = 0;
 		// Schaue f�r jede Zeile der linken Datei
 		for (int i = 0; i < lineCountLeft; i++) {
 			reference = leftFile.get(i);
 
 			// ob es in der rechten Datei ein Match gibt
-			int maxSearchIndex = i + LOOKAHEAD;
-			
+			int maxSearchIndex = i + LOOKAHEAD + 1;
+
 			if (LOOKAHEAD != 0) {
 				if (maxSearchIndex < lineCountRight) {
 
@@ -87,14 +174,16 @@ public class IMatchHelperImpl implements IMatchHelper {
 
 						if (matches(reference, rightFile.get(j))
 								&& j >= lastMatchedIndex && notMatchedYet(i, j)) {
-							IMatch match1 = new IMatchImpl(i, j, reference,
-									comp);
-							IMatch match2 = new IMatchImpl(i, j, reference,
-									comp);
-							lastMatchedIndex = j;
-							matches.add(match1);
-							oldIndeces.add(match2);
-							break;
+							if(isBestMatch()){
+								IMatch match1 = new IMatchImpl(i, j, reference,
+										comp);
+								IMatch match2 = new IMatchImpl(i, j, reference,
+										comp);
+								lastMatchedIndex = j;
+								matches.add(match1);
+								oldIndeces.add(match2);
+								break;
+							}
 						}
 
 					}
@@ -116,8 +205,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 
 					}
 				}
-			}
-		else {
+			} else {
 				for (int j = 0; j < lineCountRight; j++) {
 					comp = rightFile.get(j);
 
@@ -147,6 +235,27 @@ public class IMatchHelperImpl implements IMatchHelper {
 			return;
 		}
 
+	}
+	
+	public boolean checkRightFile(String reference, String comp, int i, int j, int lastMatchedIndex){
+		boolean matchFound = false;
+		if (matches(reference, rightFile.get(j))
+				&& j >= lastMatchedIndex && notMatchedYet(i, j)) {
+			IMatch match1 = new IMatchImpl(i, j, reference,
+					comp);
+			IMatch match2 = new IMatchImpl(i, j, reference,
+					comp);
+			lastMatchedIndex = j;
+			matches.add(match1);
+			oldIndeces.add(match2);
+			matchFound = true;
+		}
+		return matchFound;
+	}
+
+	private boolean isBestMatch() {
+		
+		return false;
 	}
 
 	/**
@@ -439,12 +548,24 @@ public class IMatchHelperImpl implements IMatchHelper {
 	 * @return true wenn sich die Strings aehnlich sind, sonst false
 	 */
 	private boolean matches(String ref, String comp) {
-		StringsComparator comparator = new StringsComparator(ref, comp);
-		if (comparator.getScript().getLCSLength() >= (Math.max(ref.length(),
-				comp.length()) * MATCH_AT)) {
+		int lcsLength = getLCSLengthFromComparison(ref, comp);
+		if (lcsLength >= (Math.max(ref.length(), comp.length()) * MATCH_AT)) {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Berechnet LCS fuer ref und comp
+	 * 
+	 * @param ref
+	 *            Referenz-String
+	 * @param comp
+	 *            String mit dem verglichen wird
+	 * @return LCS der beiden Strings
+	 */
+	private int getLCSLengthFromComparison(String ref, String comp) {
+		return new StringsComparator(ref, comp).getScript().getLCSLength();
 	}
 
 	/**

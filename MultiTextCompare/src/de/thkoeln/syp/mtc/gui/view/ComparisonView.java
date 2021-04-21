@@ -138,12 +138,13 @@ public class ComparisonView extends JFrame {
 		try {
 			selectedTempFiles = selection.toArray(new File[selection.size()]);
 			matchHelper.setMATCH_AT(management.getFileImporter().getConfig().getMatchAt() /100.0);
+			matchHelper.setLOOKAHEAD(management.getFileImporter().getConfig().getMatchingLookahead());
 			matchedDiffFiles = matchHelper.createMatchFiles(selectedTempFiles);
 			
 			// Falls Line Match aktiviert
 			if (management.getFileImporter().getConfig().getLineMatch()) {
 				if (selection.size() == 2) {
-					matchHelper.matchEqualLines(matchedDiffFiles[0],
+					matchHelper.matchLines(matchedDiffFiles[0],
 							matchedDiffFiles[1]);
 				} else if (selection.size() == 3) {
 					matchUntilFilesUnchanged(matchHelper, matchedDiffFiles);
@@ -276,9 +277,9 @@ public class ComparisonView extends JFrame {
 	// Fuer das Matchen der Lines
 	private void matchUntilFilesUnchanged(IMatchHelper match, File[] files)
 			throws IOException {
-		match.matchEqualLines(files[0], files[1]);
-		match.matchEqualLines(files[0], files[2]);
-		match.matchEqualLines(files[1], files[2]);
+		match.matchLines(files[0], files[1]);
+		match.matchLines(files[0], files[2]);
+		match.matchLines(files[1], files[2]);
 
 	}
 	
