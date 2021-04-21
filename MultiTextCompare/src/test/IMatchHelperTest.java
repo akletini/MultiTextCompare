@@ -1,6 +1,7 @@
 package test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,8 +11,8 @@ import java.nio.channels.FileChannel;
 import java.util.List;
 
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IMatch;
@@ -26,7 +27,6 @@ public class IMatchHelperTest {
 	public static void beforeClass() throws IOException {
 
 		iMatch = new IMatchHelperImpl();
-		iMatch.setMATCH_AT(0.6);
 		iMatch.setLOOKAHEAD(0);
 
 		equalA = new File(System.getProperty("user.dir") + File.separator
@@ -56,6 +56,12 @@ public class IMatchHelperTest {
 		createTempFiles(similarA, temp_similar_A);
 		createTempFiles(similarB, temp_similar_B);
 
+	}
+	
+	@Before
+	public void before(){
+		iMatch.setMATCH_AT(0);
+		iMatch.setMATCH_AT(0.6 / 100);
 	}
 
 	public static void createTempFiles(File ref, File temp) throws IOException {

@@ -91,7 +91,15 @@ public class IMatchHelperImpl implements IMatchHelper {
 						for (int j = 0; j < maxSearchIndex; j++) {
 							comp = rightFile.get(j);
 
-							if(checkRightFile(reference, comp, maxSearchIndex, j, lastMatchedIndex)){
+							if (matches(reference, rightFile.get(j))
+									&& j >= lastMatchedIndex && notMatchedYet(i, j)) {
+								IMatch match1 = new IMatchImpl(i, j, reference,
+										comp);
+								IMatch match2 = new IMatchImpl(i, j, reference,
+										comp);
+								lastMatchedIndex = j;
+								matches.add(match1);
+								oldIndeces.add(match2);
 								break;
 							}
 							
@@ -101,7 +109,15 @@ public class IMatchHelperImpl implements IMatchHelper {
 						for (int j = 0; j < lineCountRight; j++) {
 							comp = rightFile.get(j);
 
-							if(checkRightFile(reference, comp, maxSearchIndex, j, lastMatchedIndex)){
+							if (matches(reference, rightFile.get(j))
+									&& j >= lastMatchedIndex && notMatchedYet(i, j)) {
+								IMatch match1 = new IMatchImpl(i, j, reference,
+										comp);
+								IMatch match2 = new IMatchImpl(i, j, reference,
+										comp);
+								lastMatchedIndex = j;
+								matches.add(match1);
+								oldIndeces.add(match2);
 								break;
 							}
 
@@ -111,7 +127,15 @@ public class IMatchHelperImpl implements IMatchHelper {
 					for (int j = 0; j < lineCountRight; j++) {
 						comp = rightFile.get(j);
 
-						if(checkRightFile(reference, comp, maxSearchIndex, j, lastMatchedIndex)){
+						if (matches(reference, rightFile.get(j))
+								&& j >= lastMatchedIndex && notMatchedYet(i, j)) {
+							IMatch match1 = new IMatchImpl(i, j, reference,
+									comp);
+							IMatch match2 = new IMatchImpl(i, j, reference,
+									comp);
+							lastMatchedIndex = j;
+							matches.add(match1);
+							oldIndeces.add(match2);
 							break;
 						}
 
