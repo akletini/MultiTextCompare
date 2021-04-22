@@ -6,8 +6,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.event.WindowEvent;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.rmi.server.ExportException;
 
 import javax.imageio.ImageIO;
@@ -19,6 +22,7 @@ import de.thkoeln.syp.mtc.gui.resources.RowNumberTable;
 import de.thkoeln.syp.mtc.gui.view.AboutView;
 import de.thkoeln.syp.mtc.gui.view.ConfigView;
 import de.thkoeln.syp.mtc.gui.view.FileSelectionView;
+import de.thkoeln.syp.mtc.gui.view.FileView;
 import de.thkoeln.syp.mtc.gui.view.HelpView;
 import de.thkoeln.syp.mtc.gui.view.MainView;
 import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
@@ -49,6 +53,7 @@ public class MainController {
 		mainView.addMenuShowInfosListener(new MenuShowInfosListener());
 		mainView.addMenuShowWarningsListener(new MenuShowWarningsListener());
 		mainView.addMenuShowErrorsListener(new MenuShowErrorsListener());
+		mainView.addMenuShowLogListener(new MenuShowLogListener());
 		mainView.addToolbarLogClearListener(new ToolbarLogClearListener());
 		mainView.addToolbarZoomInListener(new ToolbarZoomInListener());
 		mainView.addToolbarZoomOutListener(new ToolbarZoomOutListener());
@@ -223,9 +228,9 @@ public class MainController {
 			management.getFileImporter().exportConfigdatei();
 		}
 	}
-	
+
 	class MenuSaveConfigListener implements ActionListener {
-		public void actionPerformed(ActionEvent e){
+		public void actionPerformed(ActionEvent e) {
 			management.saveConfig(e);
 		}
 	}
@@ -254,16 +259,16 @@ public class MainController {
 						logger.LEVEL_ERROR);
 			}
 			if (fd.getFiles().length == 1) {
-				//neue config ziehen
+				// neue config ziehen
 				File newConfig = fd.getFiles()[0];
-				
-				//neue config in default config referenzieren
+
+				// neue config in default config referenzieren
 				fileImporter.importConfigdatei(IFileImporter.DEFAULT_CONFIG);
 				IConfig config = fileImporter.getConfig();
 				config.setPathCurrent(newConfig.getAbsolutePath());
 				fileImporter.exportConfigdatei();
-				
-				//neue config aktivieren
+
+				// neue config aktivieren
 				fileImporter.importConfigdatei(newConfig);
 				config = fileImporter.getConfig();
 
@@ -297,7 +302,8 @@ public class MainController {
 						config.getJsonSortKeys());
 				configView.getCheckBoxJsonDeleteValues().setSelected(
 						config.getJsonDeleteValues());
-				configView.getCheckBoxBestMatch().setSelected(config.getBestMatch());
+				configView.getCheckBoxBestMatch().setSelected(
+						config.getBestMatch());
 				configView.getMatchAtSlider().setValue(
 						(int) (config.getMatchAt() * 100));
 				configView.getTextFieldLookahead().setText(
@@ -322,6 +328,30 @@ public class MainController {
 	class LogClearListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			management.clearLog();
+		}
+	}
+
+	class MenuShowLogListener implements ActionListener {
+		public void actionPerformed(ActionEvent e){
+			if (Management.getInstance().getFileView() == null) {
+				management.setFileView(new FileView());
+			}
+			FileView fileView = management.getFileView();
+			Logger logger = management.getLogger();
+			try {
+			File logFile = logger.getCurrentLogFile();
+			BufferedReader input = new BufferedReader(
+					new InputStreamReader(new FileInputStream(
+							logFile), "UTF-8"));
+			fileView.getTextArea().read(input, "Reading log...");
+			management.getFileView().getTextArea().setCaretPosition(0);
+
+			fileView.setTitle(logFile.getName());
+			management.getFileView().setVisible(true);
+			}
+			catch(IOException ioe){
+				logger.setMessage(logger.exceptionToString(ioe) , logger.LEVEL_ERROR);
+			}
 		}
 	}
 

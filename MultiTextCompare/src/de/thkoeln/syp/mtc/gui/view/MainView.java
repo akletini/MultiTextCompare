@@ -505,6 +505,9 @@ public class MainView extends JFrame {
 	public void addMenuShowErrorsListener(ActionListener e){
 		error.addActionListener(e);
 	}
+	public void addMenuShowLogListener(ActionListener e){
+		showLog.addActionListener(e);
+	}
 	
 	public void addMenuImportConfigListener(ActionListener e){
 		loadConfig.addActionListener(e);

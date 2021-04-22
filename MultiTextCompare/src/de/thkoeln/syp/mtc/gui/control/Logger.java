@@ -114,7 +114,7 @@ public class Logger {
 		}
 	}
 	
-	private File getCurrentLogFile(){
+	public File getCurrentLogFile(){
 		String date = getCurrentDate();
 		File currentFile = new File(System.getProperty("user.dir")
 				+ File.separator + "logs" + File.separator + "log " + date + ".txt");
