@@ -13,7 +13,7 @@ public class IConfigImpl implements IConfig {
 	private boolean showInfos, showWarnings, showErrors;
 	
 	// Matching parameter
-	private boolean lineMatch;
+	private boolean lineMatch, bestMatch;
 	private int matchingLookahead;
 	private double matchAt;
 	
@@ -203,6 +203,15 @@ public class IConfigImpl implements IConfig {
 	@Override
 	public boolean getLineMatch() {
 		return lineMatch;
+	}
+	
+	@Override
+	public boolean getBestMatch() {
+		return bestMatch;
+	}
+	@Override
+	public void setBestMatch(boolean bestMatch) {
+		this.bestMatch = bestMatch;
 	}
 
 	@Override

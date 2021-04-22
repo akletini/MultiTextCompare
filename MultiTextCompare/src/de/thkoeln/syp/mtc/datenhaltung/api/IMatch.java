@@ -19,4 +19,8 @@ public interface IMatch {
 
 	void setValueRight(String valueRight);
 
+	int getMatchLCS();
+
+	void setMatchLCS(int matchLCS);
+
 }

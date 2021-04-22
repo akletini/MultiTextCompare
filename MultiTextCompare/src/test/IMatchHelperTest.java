@@ -62,6 +62,7 @@ public class IMatchHelperTest {
 	public void before(){
 		iMatch.setMATCH_AT(0);
 		iMatch.setMATCH_AT(0.6 / 100);
+		iMatch.setSearchBestMatch(true);
 	}
 
 	public static void createTempFiles(File ref, File temp) throws IOException {
@@ -81,6 +82,7 @@ public class IMatchHelperTest {
 		temp_similar_A.deleteOnExit();
 		temp_similar_B.deleteOnExit();
 	}
+	
 	
 	@Test
 	public void test_MatchCountEqual() throws IOException {

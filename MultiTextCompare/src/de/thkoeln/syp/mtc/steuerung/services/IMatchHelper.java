@@ -22,4 +22,8 @@ public interface IMatchHelper {
 
 	void setMATCH_AT(double mATCH_AT);
 
+	boolean getSearchBestMatch();
+
+	void setSearchBestMatch(boolean searchBestMatch);
+
 }

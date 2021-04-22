@@ -105,5 +105,9 @@ public interface IConfig {
 
 	void setPathCurrent(String pathCurrent);
 
+	boolean getBestMatch();
+
+	void setBestMatch(boolean bestMatch);
+
 	
 }

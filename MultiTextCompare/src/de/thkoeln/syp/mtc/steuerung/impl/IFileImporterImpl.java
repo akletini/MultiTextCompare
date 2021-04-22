@@ -51,6 +51,7 @@ public class IFileImporterImpl implements IFileImporter {
 		prop.setProperty(PROP_LINEMATCH, "true");
 		prop.setProperty(PROP_MATCHAT, "0.85");
 		prop.setProperty(PROP_MATCHINGLOOKAHEAD, "50");
+		prop.setProperty(PROP_BESTMATCH, "false");
 
 		prop.setProperty(PROP_XMLVALIDATION, "0");
 		prop.setProperty(PROP_XMLPRINT, "0");
@@ -70,10 +71,11 @@ public class IFileImporterImpl implements IFileImporter {
 
 		importConfigdatei(DEFAULT_CONFIG);
 		File importedConfig = new File(prop.getProperty(PATH_CURRENT_CONFIG));
-		if(!importedConfig.getAbsolutePath().equals(DEFAULT_CONFIG.getAbsolutePath()) && importedConfig.exists()){
+		if (!importedConfig.getAbsolutePath().equals(
+				DEFAULT_CONFIG.getAbsolutePath())
+				&& importedConfig.exists()) {
 			importConfigdatei(importedConfig);
-		}
-		else {
+		} else {
 			iConfig.setPathCurrent(DEFAULT_CONFIG.getAbsolutePath());
 			exportConfigdatei();
 		}
@@ -127,20 +129,22 @@ public class IFileImporterImpl implements IFileImporter {
 			return false;
 
 		if (!config.exists()) {
-			//übergebene Datei existiert nicht im Dateisystem
-			//Default config existiert nicht
+			// übergebene Datei existiert nicht im Dateisystem
+			// Default config existiert nicht
 			if (!DEFAULT_CONFIG.exists()) {
 				try {
 					new File(System.getProperty("user.dir") + File.separator
-									+ "configs").mkdir();
+							+ "configs").mkdir();
 					outputStream = new FileOutputStream(
 							System.getProperty("user.dir") + File.separator
-									+ "configs" + File.separator + "config.properties");
+									+ "configs" + File.separator
+									+ "config.properties");
 
 					prop.store(outputStream, null);
 
 					iConfig.setPath(System.getProperty("user.dir")
-							+ File.separator + "configs" + File.separator + "config.properties");
+							+ File.separator + "configs" + File.separator
+							+ "config.properties");
 
 					outputStream.close();
 				} catch (IOException e) {
@@ -148,11 +152,11 @@ public class IFileImporterImpl implements IFileImporter {
 					return false;
 				}
 			}
-			//übergebene Datei existiert nicht und Default existiert
+			// übergebene Datei existiert nicht und Default existiert
 			else {
 				try {
 					inputStream = new FileInputStream(DEFAULT_CONFIG);
-					
+
 					prop.load(inputStream);
 
 					iConfig.setPath(DEFAULT_CONFIG.getAbsolutePath());
@@ -163,16 +167,16 @@ public class IFileImporterImpl implements IFileImporter {
 					return false;
 				}
 			}
-		} 
-		//Datei existiert bereits
+		}
+		// Datei existiert bereits
 		else {
 			try {
 				inputStream = new FileInputStream(config);
-				
+
 				prop.load(inputStream);
 
 				iConfig.setPath(config.getAbsolutePath());
-				
+
 				inputStream.close();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -201,6 +205,8 @@ public class IFileImporterImpl implements IFileImporter {
 		iConfig.setMatchAt(Double.parseDouble(prop.getProperty(PROP_MATCHAT)));
 		iConfig.setMatchingLookahead(Integer.parseInt(prop
 				.getProperty(PROP_MATCHINGLOOKAHEAD)));
+		iConfig.setBestMatch(Boolean.parseBoolean(prop
+				.getProperty(PROP_BESTMATCH)));
 
 		iConfig.setXmlValidation(Integer.parseInt(prop
 				.getProperty(PROP_XMLVALIDATION)));
@@ -326,6 +332,8 @@ public class IFileImporterImpl implements IFileImporter {
 					Double.toString(iConfig.getMatchAt()));
 			prop.setProperty(PROP_MATCHINGLOOKAHEAD,
 					Integer.toString(iConfig.getMatchingLookahead()));
+			prop.setProperty(PROP_BESTMATCH,
+					Boolean.toString(iConfig.getBestMatch()));
 
 			prop.setProperty(PROP_XMLVALIDATION,
 					Integer.toString(iConfig.getXmlValidation()));
@@ -346,10 +354,13 @@ public class IFileImporterImpl implements IFileImporter {
 					Boolean.toString(iConfig.getJsonSortKeys()));
 			prop.setProperty(PROP_JSONDELETEVALUES,
 					Boolean.toString(iConfig.getJsonDeleteValues()));
-			
-			prop.setProperty(PROP_SHOWINFOS, Boolean.toString(iConfig.getShowInfos()));
-			prop.setProperty(PROP_SHOWWARNINGS, Boolean.toString(iConfig.getShowWarnings()));
-			prop.setProperty(PROP_SHOWERRORS, Boolean.toString(iConfig.getShowErrors()));			
+
+			prop.setProperty(PROP_SHOWINFOS,
+					Boolean.toString(iConfig.getShowInfos()));
+			prop.setProperty(PROP_SHOWWARNINGS,
+					Boolean.toString(iConfig.getShowWarnings()));
+			prop.setProperty(PROP_SHOWERRORS,
+					Boolean.toString(iConfig.getShowErrors()));
 
 			prop.store(outputStream, null);
 

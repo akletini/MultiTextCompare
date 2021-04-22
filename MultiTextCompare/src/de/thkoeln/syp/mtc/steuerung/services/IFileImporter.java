@@ -20,6 +20,7 @@ public interface IFileImporter {
 	final String PROP_LINEMATCH = "lineMatch";
 	final String PROP_MATCHAT = "matchAt";
 	final String PROP_MATCHINGLOOKAHEAD = "machingLookahead";
+	final String PROP_BESTMATCH = "bestMatch";
 
 	final String PROP_XMLVALIDATION = "xmlValidation";
 	final String PROP_XMLPRINT = "xmlPrint";

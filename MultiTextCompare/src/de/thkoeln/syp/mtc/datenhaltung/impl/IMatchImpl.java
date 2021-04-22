@@ -1,5 +1,7 @@
 package de.thkoeln.syp.mtc.datenhaltung.impl;
 
+import java.util.Comparator;
+
 import de.thkoeln.syp.mtc.datenhaltung.api.IMatch;
 
 public class IMatchImpl implements IMatch{
@@ -7,6 +9,7 @@ public class IMatchImpl implements IMatch{
 	private int rightRow;
 	private String valueLeft;
 	private String valueRight;
+	private int matchLCS;
 	
 	public IMatchImpl(){
 		
@@ -50,11 +53,19 @@ public class IMatchImpl implements IMatch{
 	public void setValueRight(String valueRight) {
 		this.valueRight = valueRight;
 	}
+	@Override
+	public int getMatchLCS() {
+		return matchLCS;
+	}
+	@Override
+	public void setMatchLCS(int matchLCS) {
+		this.matchLCS = matchLCS;
+	}
 	
 	@Override
 	public String toString(){
 		return "Match: \"" + this.valueLeft + "\"\t mit: \t\"" + this.valueRight + "\"\t Zeilen: (" + this.leftRow + " | " + this.rightRow + ")";
 	}
 	
-	
+
 }

@@ -231,7 +231,7 @@ public class ConfigView extends JFrame {
 
 		checkBoxBestMatch = new JCheckBox("");
 		checkBoxBestMatch.setBackground(white);
-		// checkBoxBestMatch.setSelected(config.getBestMatch());
+		checkBoxBestMatch.setSelected(config.getBestMatch());
 		panelDiff.add(checkBoxBestMatch, "cell 1 4");
 
 		lblLookForBest = new JLabel("Look for best match");

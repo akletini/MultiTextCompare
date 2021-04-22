@@ -297,7 +297,7 @@ public class MainController {
 						config.getJsonSortKeys());
 				configView.getCheckBoxJsonDeleteValues().setSelected(
 						config.getJsonDeleteValues());
-				configView.getCheckBoxBestMatch().setSelected(false);
+				configView.getCheckBoxBestMatch().setSelected(config.getBestMatch());
 				configView.getMatchAtSlider().setValue(
 						(int) (config.getMatchAt() * 100));
 				configView.getTextFieldLookahead().setText(
