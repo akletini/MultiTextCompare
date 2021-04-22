@@ -15,4 +15,12 @@ public interface IAehnlichkeit {
 
 	double getWert();
 	
+	public int getWeight();
+
+	void setWeight(int weight);
+
+	int getId();
+
+	void setId(int id);
+	
 }

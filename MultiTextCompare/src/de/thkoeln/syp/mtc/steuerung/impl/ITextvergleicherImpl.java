@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,8 @@ import difflib.Patch;
 public class ITextvergleicherImpl implements ITextvergleicher {
 
 	private IMatrix iMatrixImpl;
+	private List<IMatrixImpl> batches;
+
 	private List<IAehnlichkeitImpl> paarungen;
 	private List<File> tempFiles;
 	private List<String> referenzZeilen;
@@ -47,8 +50,8 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	 * Ansonsten werden ge‰nderte Zeilen einzeln ausgewertet und gewichtet.
 	 */
 	@Override
-	public void vergleicheZeilenweise() {
-		for (IAehnlichkeit a : paarungen) {
+	public void vergleicheZeilenweise(List<IAehnlichkeitImpl> batch) {
+		for (IAehnlichkeit a : batch) {
 			ref = a.getVon();
 			vgl = a.getZu();
 			double gewicht = 0, aehnlichkeit = 0;
@@ -109,7 +112,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 				e.printStackTrace();
 			}
 		}
-		fillMatrix();
+		
 	}
 
 	/**
@@ -118,10 +121,11 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	 * Reihenfolge der Woerter keine groﬂe Rolle spielt.
 	 */
 	@Override
-	public void vergleicheUeberGanzesDokument() {
-		for (IAehnlichkeitImpl a : paarungen) {
+	public void vergleicheUeberGanzesDokument(List<IAehnlichkeitImpl> batch) {
+		for (IAehnlichkeitImpl a : batch) {
 			ref = a.getVon();
 			vgl = a.getZu();
+			System.out.println(a.getId() + " in Thread " + Thread.currentThread().getName() + " mit Prio "+ Thread.currentThread().getPriority() + " | Aktiv: " + Thread.activeCount());
 
 			try {
 				List<String> refList = fileToLines(a.getVon());
@@ -136,13 +140,12 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 				}
 				char[] referenzArray = referenzString.toCharArray();
 				char[] vergleichsArray = vergleichsString.toCharArray();
-				
+
 				Arrays.sort(referenzArray);
 				Arrays.sort(vergleichsArray);
 
 				double levenshtein = (double) berechneLevenshteinDistanz(
-						referenzArray,
-						vergleichsArray);
+						referenzArray, vergleichsArray);
 
 				double maxSize;
 				if (referenzString.length() > vergleichsString.length()) {
@@ -159,7 +162,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 			}
 
 		}
-		fillMatrix();
+		
 	}
 
 	/**
@@ -285,7 +288,8 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		return listOfChanges;
 	}
 
-	private void fillMatrix() {
+	@Override
+	public void fillMatrix() {
 		iMatrixImpl = new IMatrixImpl();
 		iMatrixImpl.setInhalt(paarungen);
 	}
@@ -362,13 +366,13 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 			} else {
 				laengsterString = vgl.length;
 			}
-			
+
 			Arrays.sort(ref);
 			Arrays.sort(vgl);
 
 			double laengeDesLaengsten = (double) laengsterString;
-			double levenshteinDist = (double) berechneLevenshteinDistanz(
-					ref, vgl);
+			double levenshteinDist = (double) berechneLevenshteinDistanz(ref,
+					vgl);
 			if (laengeDesLaengsten != 0) {
 				metrikProZeile[i] = gewicht
 						* (double) ((laengeDesLaengsten - levenshteinDist) / laengeDesLaengsten);
@@ -417,17 +421,80 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	 */
 	public List<IAehnlichkeitImpl> getVergleiche(List<File> files) {
 		paarungen = new ArrayList<IAehnlichkeitImpl>();
+		int id = 0;
 		IAehnlichkeit vergleich = new IAehnlichkeitImpl();
 		for (int i = 0; i < files.size(); i++) {
 			for (int j = i + 1; j < files.size(); j++) {
+				id++;
 				vergleich = new IAehnlichkeitImpl();
 				vergleich.setVon(files.get(i));
 				vergleich.setZu(files.get(j));
+				vergleich.setId(id);
+				try {
+					vergleich.setWeight(getWeightFromComparison(files.get(i),
+							files.get(j)));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 				paarungen.add((IAehnlichkeitImpl) vergleich);
 			}
 		}
 
 		return paarungen;
+	}
+
+	private int getWeightFromComparison(File ref, File comp) throws IOException {
+		String line = "";
+		int weight = 0;
+		BufferedReader in = new BufferedReader(new FileReader(ref));
+		while ((line = in.readLine()) != null) {
+			weight += line.length();
+		}
+		in.close();
+		in = new BufferedReader(new FileReader(comp));
+		while ((line = in.readLine()) != null) {
+			weight += line.length();
+		}
+		in.close();
+		return weight;
+	}
+
+	@Override
+	public void createBatches() {
+		batches = new ArrayList<IMatrixImpl>();
+		int numThreads = Runtime.getRuntime().availableProcessors();
+		Collections.sort(paarungen, new SortIAehnlichkeitByID());
+		batches = partition(paarungen, numThreads);
+
+
+	}
+
+	@Override
+	public void mergeBatches(){
+		paarungen.clear();
+		for(int i = 0; i < batches.size(); i++){
+			List<IAehnlichkeitImpl> currentBatch = batches.get(i).getInhalt();
+			for(int j = 0; j < currentBatch.size(); j++){
+				IAehnlichkeit currentComparison = currentBatch.get(j);
+				paarungen.add(new IAehnlichkeitImpl(currentComparison.getVon(),
+						currentComparison.getZu(), currentComparison.getWeight(), currentComparison.getId(), currentComparison.getWert()));
+			}
+		}
+		Collections.sort(paarungen, new SortIAehnlichkeitByID());
+	}
+
+	public List<IMatrixImpl> partition(List<IAehnlichkeitImpl> iterable,
+			int partitions) {
+		batches = new ArrayList<>(partitions);
+		for (int i = 0; i < partitions; i++)
+			batches.add(new IMatrixImpl());
+
+		Iterator<IAehnlichkeitImpl> iterator = iterable.iterator();
+		for (int i = 0; iterator.hasNext(); i++)
+			batches.get(i % partitions).getInhalt()
+					.add((IAehnlichkeitImpl) iterator.next());
+
+		return batches;
 	}
 
 	/**
@@ -505,6 +572,29 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	@Override
 	public IMatrixImpl getMatrix() {
 		return (IMatrixImpl) iMatrixImpl;
+	}
+	
+	@Override
+	public List<IMatrixImpl> getBatches() {
+		return batches;
+	}
+
+	class SortIAehnlichkeitByID implements Comparator<IAehnlichkeit> {
+
+		@Override
+		public int compare(IAehnlichkeit o1, IAehnlichkeit o2) {
+			return o1.getId() - o2.getId();
+		}
+
+	}
+
+	class SortIAehnlichkeitByWeight implements Comparator<IAehnlichkeit> {
+
+		@Override
+		public int compare(IAehnlichkeit o1, IAehnlichkeit o2) {
+			return o2.getWeight() - o1.getWeight();
+		}
+
 	}
 
 }

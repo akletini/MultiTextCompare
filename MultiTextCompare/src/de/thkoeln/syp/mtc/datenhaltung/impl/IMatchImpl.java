@@ -1,7 +1,5 @@
 package de.thkoeln.syp.mtc.datenhaltung.impl;
 
-import java.util.Comparator;
-
 import de.thkoeln.syp.mtc.datenhaltung.api.IMatch;
 
 public class IMatchImpl implements IMatch{

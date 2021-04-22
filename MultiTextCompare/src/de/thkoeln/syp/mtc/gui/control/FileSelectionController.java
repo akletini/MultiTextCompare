@@ -10,13 +10,17 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.BigInteger;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
-import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JList;
@@ -26,6 +30,7 @@ import javax.swing.SwingWorker;
 import de.thkoeln.syp.mtc.datenhaltung.api.IJSONParseError;
 import de.thkoeln.syp.mtc.datenhaltung.api.IMatrix;
 import de.thkoeln.syp.mtc.datenhaltung.api.IXMLParseError;
+import de.thkoeln.syp.mtc.datenhaltung.impl.IAehnlichkeitImpl;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IMatrixImpl;
 import de.thkoeln.syp.mtc.gui.view.FileSelectionView;
 import de.thkoeln.syp.mtc.gui.view.FileView;
@@ -134,7 +139,8 @@ public class FileSelectionController extends JFrame {
 					// gefunden wurden
 					if (fileImporter.getTextdateien().equals(reference)) {
 						new PopupView("Attention", "No more files found");
-						logger.setMessage("No more files found \n", logger.LEVEL_INFO);
+						logger.setMessage("No more files found \n",
+								logger.LEVEL_INFO);
 						return;
 					}
 
@@ -236,8 +242,19 @@ public class FileSelectionController extends JFrame {
 	}
 
 	class CompareListener implements ActionListener {
+		
+		int n1=0,n2=1,n3=0; 
+		 void printFibonacci(int count){    
+			    if(count>0){    
+			         n3 = n1 + n2;    
+			         n1 = n2;    
+			         n2 = n3;    
+			         System.out.print(" "+n3);   
+			         printFibonacci(count-1);    
+			     }
+		 }
 		public void actionPerformed(ActionEvent e) {
-
+			System.out.println(Thread.currentThread().getName());
 			class CompareThread extends SwingWorker<Void, Object> {
 				int anzDateien;
 				long start_time;
@@ -245,8 +262,10 @@ public class FileSelectionController extends JFrame {
 
 				@Override
 				protected Void doInBackground() throws Exception {
+					
 					management = Management.getInstance();
-					management.setCurrentFileSelection(management.getFileSelectionView().getModel());
+					management.setCurrentFileSelection(management
+							.getFileSelectionView().getModel());
 
 					anzDateien = fileImporter.getTextdateien().size();
 					if (anzDateien < 2) {
@@ -254,6 +273,7 @@ public class FileSelectionController extends JFrame {
 					}
 
 					fileImporter.deleteTempFiles();
+					System.out.println("Create temp files");
 					fileImporter.createTempFiles();
 					xmlvergleicher.clearErrorList();
 					logger.setMessage("Start comparing...", logger.LEVEL_INFO);
@@ -265,7 +285,8 @@ public class FileSelectionController extends JFrame {
 								.xmlPrepare(fileImporter.getTempFilesMap()));
 						for (IXMLParseError error : xmlvergleicher
 								.getErrorList())
-							logger.setMessage(error.getMessage(), logger.LEVEL_WARNING);
+							logger.setMessage(error.getMessage(),
+									logger.LEVEL_WARNING);
 					}
 
 					// JSON Vergleich
@@ -274,7 +295,8 @@ public class FileSelectionController extends JFrame {
 								.jsonPrepare(fileImporter.getTempFilesMap()));
 						for (IJSONParseError error : jsonvergleicher
 								.getErrorList())
-							logger.setMessage(error.getMessage() + "\n", logger.LEVEL_WARNING);
+							logger.setMessage(error.getMessage() + "\n",
+									logger.LEVEL_WARNING);
 
 					}
 					// Standard Vergleich
@@ -284,16 +306,49 @@ public class FileSelectionController extends JFrame {
 					}
 
 					// Vergleich
-					fileImporter.normTempFiles();
+					System.out.println("norm temp files");
+//					fileImporter.normTempFiles();
 					textvergleicher.getTempfilesFromHashMap(management
 							.getFileImporter().getTempFilesMap());
+					System.out.println("get vergleiche temp files");
 					textvergleicher.getVergleiche(textvergleicher
 							.getTempFiles());
+					System.out.println("Create batches");
+					textvergleicher.createBatches();
 
 					if (fileImporter.getConfig().getCompareLines() == false) {
-						textvergleicher.vergleicheUeberGanzesDokument();
+
+						ExecutorService es = Executors.newFixedThreadPool(20);
+					
+						for (int i = 0; i < textvergleicher.getBatches().size(); i++) {
+							final List<IAehnlichkeitImpl> currentBatch = textvergleicher
+									.getBatches().get(i).getInhalt();
+							final int count = 100000000;
+							es.submit(new Runnable() {
+
+								@Override
+								public void run() {
+									Thread.currentThread().setPriority(Thread.NORM_PRIORITY);
+									textvergleicher
+											.vergleicheUeberGanzesDokument(currentBatch);
+									    
+
+								}
+
+							});
+
+						}
+						
+						es.shutdown();
+						boolean finished = es.awaitTermination(30, TimeUnit.MINUTES);
+						System.out.println(finished);
+
 					} else {
-						textvergleicher.vergleicheZeilenweise();
+						for (int i = 0; i < textvergleicher.getBatches().size(); i++) {
+							List<IAehnlichkeitImpl> currentBatch = textvergleicher
+									.getBatches().get(i).getInhalt();
+							textvergleicher.vergleicheZeilenweise(currentBatch);
+						}
 					}
 
 					newSelection = false;
@@ -308,6 +363,8 @@ public class FileSelectionController extends JFrame {
 								"Please select at least two files for comparison");
 						return;
 					}
+					textvergleicher.mergeBatches();
+					textvergleicher.fillMatrix();
 
 					management.getMainView().updateMatrix(
 							textvergleicher.getMatrix(), anzDateien,
@@ -329,11 +386,13 @@ public class FileSelectionController extends JFrame {
 								+ "ms)";
 					}
 					if (!xmlvergleicher.getErrorList().isEmpty()) {
-						logger.setMessage("A matrix with "
+						logger.setMessage(
+								"A matrix with "
 										+ anzDateien
 										+ " files has been created, but the file selection contained "
 										+ xmlvergleicher.getErrorList().size()
-										+ " XML errors." + timeDiffAsString, logger.LEVEL_INFO);
+										+ " XML errors." + timeDiffAsString,
+								logger.LEVEL_INFO);
 					}
 
 					else {
@@ -346,6 +405,8 @@ public class FileSelectionController extends JFrame {
 
 			new CompareThread().execute();
 		}
+		
+		
 	}
 
 	class FileViewListener extends MouseAdapter {
@@ -467,6 +528,12 @@ public class FileSelectionController extends JFrame {
 			selectedFiles.add(path.toFile());
 		}
 		return selectedFiles;
+	}
+
+	private void compareOverDocument(int indexBatch) {
+		List<IAehnlichkeitImpl> currentBatch = textvergleicher.getBatches()
+				.get(indexBatch).getInhalt();
+		textvergleicher.vergleicheUeberGanzesDokument(currentBatch);
 	}
 
 	// - Getter -

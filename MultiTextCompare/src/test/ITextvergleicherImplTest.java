@@ -46,7 +46,7 @@ public class ITextvergleicherImplTest {
 	public void test_vergleichWortFuerWort() {
 		paarungen = iText.getVergleiche(textdateien);
 		double[] aehnlichkeit = new double[paarungen.size()];
-		iText.vergleicheZeilenweise();
+		iText.vergleicheZeilenweise(paarungen);
 
 		for (int i = 0; i < paarungen.size(); i++) {
 			aehnlichkeit[i] = paarungen.get(i).getWert();
@@ -58,7 +58,7 @@ public class ITextvergleicherImplTest {
 	public void test_vergleichZeichenmenge() {
 		paarungen = iText.getVergleiche(textdateien);
 		double[] aehnlichkeit = new double[paarungen.size()];
-		iText.vergleicheUeberGanzesDokument();
+		iText.vergleicheUeberGanzesDokument(paarungen);
 		for (int i = 0; i < paarungen.size(); i++) {
 			aehnlichkeit[i] = paarungen.get(i).getWert();
 		}
