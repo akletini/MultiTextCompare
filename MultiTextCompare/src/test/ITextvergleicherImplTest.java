@@ -10,7 +10,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.thkoeln.syp.mtc.datenhaltung.impl.IAehnlichkeitImpl;
+import de.thkoeln.syp.mtc.steuerung.impl.IFileImporterImpl;
 import de.thkoeln.syp.mtc.steuerung.impl.ITextvergleicherImpl;
+import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
 import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
 
 public class ITextvergleicherImplTest {
@@ -32,8 +34,14 @@ public class ITextvergleicherImplTest {
 				+ File.separator + "/src/test/testFiles/FileD.txt"));
 		textdateien.add(new File(System.getProperty("user.dir")
 				+ File.separator + "/src/test/testFiles/FileE.txt"));
+		
+		IFileImporter fileImporter = new IFileImporterImpl();
+		fileImporter.getConfig().setBestMatch(false);
+		fileImporter.getConfig().setMatchAt(0.6 );
+		fileImporter.getConfig().setMatchingLookahead(0);
 
 		iText = new ITextvergleicherImpl();
+		iText.setFileImporter(fileImporter);
 	}
 
 	@Test

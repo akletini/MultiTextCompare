@@ -25,6 +25,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 
+import de.thkoeln.syp.mtc.datenhaltung.api.IAehnlichkeit;
 import de.thkoeln.syp.mtc.datenhaltung.api.IJSONParseError;
 import de.thkoeln.syp.mtc.datenhaltung.api.IMatrix;
 import de.thkoeln.syp.mtc.datenhaltung.api.IXMLParseError;
@@ -249,7 +250,7 @@ public class FileSelectionController extends JFrame {
 
 				@Override
 				protected Void doInBackground() throws Exception {
-					
+
 					management = Management.getInstance();
 					management.setCurrentFileSelection(management
 							.getFileSelectionView().getModel());
@@ -293,64 +294,67 @@ public class FileSelectionController extends JFrame {
 					}
 
 					// Vergleich
-					System.out.println("norm temp files");
-//					fileImporter.normTempFiles();
+					textvergleicher.setFileImporter(fileImporter);
+					fileImporter.normTempFiles();
 					textvergleicher.getTempfilesFromHashMap(management
 							.getFileImporter().getTempFilesMap());
-					System.out.println("get vergleiche temp files");
 					textvergleicher.getVergleiche(textvergleicher
 							.getTempFiles());
-					System.out.println("Create batches");
 					textvergleicher.createBatches();
-					try{
-					ExecutorService es = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-					if (fileImporter.getConfig().getCompareLines() == false) {
+
+				
+						ExecutorService es1 = Executors
+								.newFixedThreadPool(Runtime.getRuntime()
+										.availableProcessors());
+						ExecutorService es2 = Executors
+								.newFixedThreadPool(Runtime.getRuntime()
+										.availableProcessors());
+						if (fileImporter.getConfig().getCompareLines() == false) {
+
+							for (int i = 0; i < textvergleicher.getBatches()
+									.size(); i++) {
+								final List<IAehnlichkeitImpl> currentBatch = textvergleicher
+										.getBatches().get(i).getInhalt();
+								es1.execute(new Runnable() {
+
+									@Override
+									public void run() {
+										textvergleicher
+												.vergleicheUeberGanzesDokument(currentBatch);
+
+									}
+
+								});
+
+							}
+
+							es1.shutdown();
+							boolean finished = es1.awaitTermination(30,
+									TimeUnit.MINUTES);
+
+						} else {
+							for (int i = 0; i < textvergleicher.getBatches()
+									.size(); i++) {
+								final List<IAehnlichkeitImpl> currentBatch = textvergleicher
+										.getBatches().get(i).getInhalt();
+								es2.execute(new Runnable() {
+
+									@Override
+									public void run() {
+
+										textvergleicher
+												.vergleicheZeilenweise(currentBatch);
+
+									}
+
+								});
+
+							}
+							es2.shutdown();
+							boolean finished = es2.awaitTermination(30,
+									TimeUnit.MINUTES);
+						}
 					
-						for (int i = 0; i < textvergleicher.getBatches().size(); i++) {
-							final List<IAehnlichkeitImpl> currentBatch = textvergleicher
-									.getBatches().get(i).getInhalt();
-							es.execute(new Runnable() {
-
-								@Override
-								public void run() {
-									Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
-									textvergleicher
-											.vergleicheUeberGanzesDokument(currentBatch);
-
-								}
-
-							});
-
-						}
-						
-						es.shutdown();
-						boolean finished = es.awaitTermination(30, TimeUnit.MINUTES);
-						System.out.println(finished);
-
-					} else {
-						for (int i = 0; i < textvergleicher.getBatches().size(); i++) {
-							final List<IAehnlichkeitImpl> currentBatch = textvergleicher
-									.getBatches().get(i).getInhalt();
-							es.execute(new Runnable() {
-
-								@Override
-								public void run() {
-									Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
-									textvergleicher
-											.vergleicheZeilenweise(currentBatch);
-
-								}
-
-							});
-
-						}
-						es.shutdown();
-						boolean finished = es.awaitTermination(30, TimeUnit.MINUTES);
-						
-					}
-					}catch(InterruptedException e){
-						e.printStackTrace();
-					}
 
 					newSelection = false;
 					return null;
@@ -365,6 +369,7 @@ public class FileSelectionController extends JFrame {
 						return;
 					}
 					textvergleicher.mergeBatches();
+
 					textvergleicher.fillMatrix();
 
 					management.getMainView().updateMatrix(

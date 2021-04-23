@@ -600,8 +600,6 @@ public class IFileImporterImpl implements IFileImporter {
 						line = line.replaceAll("\\p{Punct}", "");
 					if (!iConfig.getKeepWhitespaces())
 						line = line.replaceAll("\\s", "\n");
-					else
-						line = line.replaceAll(" ", " \n");
 
 					text += line + "\n";
 				}

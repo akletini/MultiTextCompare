@@ -1,9 +1,14 @@
 package de.thkoeln.syp.mtc.steuerung.impl;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -13,35 +18,31 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IAehnlichkeit;
 import de.thkoeln.syp.mtc.datenhaltung.api.IMatrix;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IAehnlichkeitImpl;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IMatrixImpl;
+import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
+import de.thkoeln.syp.mtc.steuerung.services.IMatchHelper;
 import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
-import difflib.Chunk;
-import difflib.Delta;
-import difflib.DiffUtils;
-import difflib.Patch;
 
 public class ITextvergleicherImpl implements ITextvergleicher {
-
+	
+	private IFileImporter fileImporter;
+	
 	private IMatrix iMatrixImpl;
 	private List<IMatrixImpl> batches;
 
 	private List<IAehnlichkeitImpl> paarungen;
 	private List<File> tempFiles;
-	private List<String> referenzZeilen;
-	private List<String> vergleichsZeilen;
-	private File ref, vgl;
 
-	public ITextvergleicherImpl(File ref, File vgl) {
-		this.ref = ref;
-		this.vgl = vgl;
 
-	}
+
 
 	public ITextvergleicherImpl() {
+
 	}
 
 	/**
@@ -51,66 +52,42 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	 */
 	@Override
 	public void vergleicheZeilenweise(List<IAehnlichkeitImpl> batch) {
-		for (IAehnlichkeit a : batch) {
+		List<String> referenceLines = null;
+		List<String> comparisonLines = null;
+		final int MATCHING_LOOKAHEAD = fileImporter.getConfig().getMatchingLookahead();
+		final double MATCH_AT_VALUE = fileImporter.getConfig().getMatchAt() / 100;
+		final boolean SEARCH_BEST_MATCH = fileImporter.getConfig().getBestMatch();
+		for (IAehnlichkeitImpl a : batch) {
+			File ref, comp;
 			ref = a.getVon();
-			vgl = a.getZu();
-			double gewicht = 0, aehnlichkeit = 0;
-			ITextvergleicherImpl comp = new ITextvergleicherImpl(a.getVon(),
-					a.getZu());
-			System.out.println(a.getId() + " in Thread " + Thread.currentThread().getName() + " mit Prio "+ Thread.currentThread().getPriority() + " | Aktiv: " + Thread.activeCount() + " difficulty " + a.getWeight());
-
+			comp = a.getZu();
+			
 			try {
-				List<String> refList = fileToLines(a.getVon());
-				List<String> vglList = fileToLines(a.getZu());
+				IMatchHelper matchHelper = 	new IMatchHelperImpl();
+				File[] original = new File[] {ref, comp};
+				File[] matchedFiles = createCompareMatchFiles(original);
+				ref = matchedFiles[0];
+				comp = matchedFiles[1];
+				matchHelper.setMATCH_AT(MATCH_AT_VALUE);
+				matchHelper.setLOOKAHEAD(MATCHING_LOOKAHEAD);
+				matchHelper.setSearchBestMatch(SEARCH_BEST_MATCH);
 
-				gewicht = 1 / ermittleGewicht(refList.size(), vglList.size());
-
-				List<Chunk> changedChunks = comp.getChangesFromOriginal();
-
-				List<Chunk> deletedChunks = comp.getDeletesInReference();
-
-				List<Chunk> unchangedChunks = comp.getChangesInReference();
-
-				int anzahlGleicherZeilen = 0, anzahlGeloeschterZeilen = 0, anzahlGeaenderterZeilen = 0;
-				for (int i = 0; i < deletedChunks.size(); i++) {
-					anzahlGeloeschterZeilen += deletedChunks.get(i).getLines()
-							.size();
-
-				}
-
-				for (int i = 0; i < unchangedChunks.size(); i++) {
-					anzahlGeaenderterZeilen += unchangedChunks.get(i)
-							.getLines().size();
-				}
-
-				anzahlGleicherZeilen = refList.size() - anzahlGeloeschterZeilen
-						- anzahlGeaenderterZeilen;
-
-				if (changedChunks.size() == 0) {
-					aehnlichkeit = anzahlGleicherZeilen * gewicht;
-					a.setWert(aehnlichkeit);
-
-				} else {
-
-					referenzZeilen = new ArrayList<String>();
-					vergleichsZeilen = new ArrayList<String>();
-
-					changedChunkListToStringList(unchangedChunks,
-							referenzZeilen);
-					changedChunkListToStringList(changedChunks,
-							vergleichsZeilen);
-
-					double[] metrikProZeile = berechneMetrik(gewicht,
-							referenzZeilen, vergleichsZeilen);
-					for (int i = 0; i < metrikProZeile.length; i++) {
-						aehnlichkeit += metrikProZeile[i];
-					}
-					aehnlichkeit += anzahlGleicherZeilen * gewicht;
-					a.setWert(aehnlichkeit);
-
-				}
-
+				matchHelper.matchLines(ref, comp);
+				
+				referenceLines = fileToLines(ref);
+				comparisonLines = fileToLines(comp);
+				
+				double maxFileSize = calculateLineWeight(referenceLines.size(), comparisonLines.size());
+				double weightPerLine = 1 / maxFileSize;
+				double similarity = 0;
+				
+				similarity = calculateSimilarityMetric(weightPerLine, referenceLines, comparisonLines);
+				ref.delete();
+				comp.delete();
+				a.setWert(similarity);
+				
 			} catch (IOException e) {
+				
 				e.printStackTrace();
 			}
 		}
@@ -125,8 +102,6 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	@Override
 	public void vergleicheUeberGanzesDokument(List<IAehnlichkeitImpl> batch) {
 		for (IAehnlichkeitImpl a : batch) {
-			ref = a.getVon();
-			vgl = a.getZu();
 
 			try {
 				List<String> refList = fileToLines(a.getVon());
@@ -145,7 +120,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 				Arrays.sort(referenzArray);
 				Arrays.sort(vergleichsArray);
 
-				double levenshtein = (double) berechneLevenshteinDistanz(
+				double levenshtein = (double) calculateLevenshteinDist(
 						referenzArray, vergleichsArray);
 
 				double maxSize;
@@ -164,6 +139,41 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 
 		}
 		
+	}
+	
+	private File[] createCompareMatchFiles(File[] files) throws IOException {
+		BufferedReader reader;
+		BufferedWriter writer;
+		List<File> matchFiles = new ArrayList<File>();
+		for (File f : files) {
+			String path = System.getProperty("user.dir") + File.separator
+					+ "TempFiles" + File.separator + "temp_match_"
+					+ UUID.randomUUID().toString();
+			File temp = new File(path);
+
+			if (temp.exists()) {
+				temp.delete();
+			}
+			temp.createNewFile();
+
+			reader = new BufferedReader(new InputStreamReader(
+					new FileInputStream(f), "UTF-8"));
+			writer = new BufferedWriter(new OutputStreamWriter(
+					new FileOutputStream(temp), "UTF-8"));
+
+			String line;
+			while ((line = reader.readLine()) != null) {
+				writer.write(line + "\n");
+			}
+			matchFiles.add(temp);
+
+
+			reader.close();
+			writer.close();
+
+		}
+		return matchFiles.toArray(new File[files.length]);
+
 	}
 
 	/**
@@ -220,36 +230,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 
 	}
 
-	/**
-	 * @param type
-	 *            entscheidet ob Unterschied in die Liste fuer INSERT,DELETE
-	 *            oder CHANGE geschrieben wird
-	 * @return listOfChanges je nach Typ eine Liste mit neuen,geloeschten oder
-	 *         geaenderten Zeilen
-	 */
-	private List<Chunk> getChunksByType(Delta.TYPE type) throws IOException {
-		final List<Chunk> listOfChanges = new ArrayList<Chunk>();
-		final List<Delta> deltas = getDeltas();
-		for (Delta delta : deltas) {
-			if (delta.getType() == type) {
-				listOfChanges.add(delta.getRevised());
-			}
-		}
-		return listOfChanges;
-	}
 
-	/**
-	 * @return patch.getDeltas Gibt deltas der beiden verglichenen Files zurueck
-	 */
-	private List<Delta> getDeltas() throws IOException {
-
-		final List<String> originalFileLines = fileToLines(ref);
-		final List<String> revisedFileLines = fileToLines(vgl);
-
-		final Patch patch = DiffUtils.diff(originalFileLines, revisedFileLines);
-
-		return patch.getDeltas();
-	}
 
 	/**
 	 * Liest Datei zeilenweise aus und speichert die Zeilen in lines
@@ -269,25 +250,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		return lines;
 	}
 
-	/**
-	 * Gibt Chunks die aus der Referenzdatei geaendert wurden als Liste zurueck
-	 * 
-	 * @param type
-	 *            INSERT, DELETION, CHANGE
-	 * @return listOfChanges eine Liste der geänderten Chunks
-	 * @throws IOException
-	 */
-	private List<Chunk> getUnchangedChunksByType(Delta.TYPE type)
-			throws IOException {
-		final List<Chunk> listOfChanges = new ArrayList<Chunk>();
-		final List<Delta> deltas = getDeltas();
-		for (Delta delta : deltas) {
-			if (delta.getType() == type) {
-				listOfChanges.add(delta.getOriginal());
-			}
-		}
-		return listOfChanges;
-	}
+	
 
 	@Override
 	public void fillMatrix() {
@@ -305,105 +268,86 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	 *            Liste mit einzelnen Zeilen der Vergleichsdatei
 	 * @return die groesste Zahl zwischen den beiden Parametern
 	 */
-	private double ermittleGewicht(int refSize, int vglSize) {
-		double gewicht = 0;
-		if (refSize > vglSize) {
-			gewicht = refSize;
-		} else if (refSize <= vglSize) {
-			gewicht = vglSize;
-		}
-		return gewicht;
+	private int calculateLineWeight(int refSize, int vglSize) {
+		return Math.max(refSize, vglSize);
 	}
 
-	/**
-	 * Konvertiert Listen des Typs Chunk zu String Listen
-	 * 
-	 * @param chunkList
-	 *            Zu konvertierende Liste
-	 * @param stringList
-	 *            Liste der die Eintraege angehaengt werden sollen
-	 */
-	private void changedChunkListToStringList(List<Chunk> chunkList,
-			List<String> stringList) {
-		for (Chunk c : chunkList) {
-			for (int i = 0; i < c.getLines().size(); i++) {
-				stringList.add((String) c.getLines().get(i));
-			}
-			if (c.getLines().size() == 0)
-				stringList.add("");
-		}
-	}
+
 
 	/**
 	 * Berechnet die Aehnlichkeitsmetrix fuer geaenderte Zeilen
 	 * 
-	 * @param gewicht
+	 * @param weight
 	 *            die Gewichtung einer einzigen Zeile := 1/max. Anzahl der
 	 *            Zeilen innerhalb der verglichenen Dateien
 	 * @param refList
 	 *            eine Liste mit allen Zeilen aus der Referenzdatei
-	 * @param vglList
+	 * @param compList
 	 *            eine Liste mit allen Zeilen aus der Vergleichsdatei
 	 * @return Array mit den berechneten Metriken
 	 */
-	private double[] berechneMetrik(double gewicht, List<String> refList,
-			List<String> vglList) {
-		int norm = normalizeStringLists(refList, vglList);
+	private double calculateSimilarityMetric(double weight, List<String> refList,
+			List<String> compList) {
+		int norm = normalizeStringLists(refList, compList);
 		int max = refList.size();
 		if (norm == 0) {
 			max = refList.size();
 		} else if (norm == 1) {
-			max = vglList.size();
+			max = compList.size();
 		}
 
-		double[] metrikProZeile = new double[max];
+		double[] metricPerLine = new double[max];
 		for (int i = 0; i < max; i++) {
 			char[] ref = refList.get(i).toCharArray();
-			char[] vgl = vglList.get(i).toCharArray();
-			int laengsterString;
+			char[] comp = compList.get(i).toCharArray();
+			int longestString;
 
-			if (ref.length >= vgl.length) {
-				laengsterString = ref.length;
+			if (ref.length >= comp.length) {
+				longestString = ref.length;
 			} else {
-				laengsterString = vgl.length;
+				longestString = comp.length;
 			}
 
 			Arrays.sort(ref);
-			Arrays.sort(vgl);
+			Arrays.sort(comp);
 
-			double laengeDesLaengsten = (double) laengsterString;
-			double levenshteinDist = (double) berechneLevenshteinDistanz(ref,
-					vgl);
-			if (laengeDesLaengsten != 0) {
-				metrikProZeile[i] = gewicht
-						* (double) ((laengeDesLaengsten - levenshteinDist) / laengeDesLaengsten);
+			double lengthOfLongestString = (double) longestString;
+			double levenshteinDist = (double) calculateLevenshteinDist(ref,
+					comp);
+			if (lengthOfLongestString != 0) {
+				metricPerLine[i] = weight
+						* (double) ((lengthOfLongestString - levenshteinDist) / lengthOfLongestString);
 			} else {
-				metrikProZeile[i] = gewicht * 1.0;
+				metricPerLine[i] = weight * 1.0;
 			}
 
 		}
-		return metrikProZeile;
+		double similarity = 0;
+		for(int i = 0; i < metricPerLine.length; i++){
+			similarity += metricPerLine[i];
+		}
+		return similarity;
 	}
 
 	/**
 	 * 
 	 * @param refList
 	 *            Liste mit Zeilen der Referenzdatei
-	 * @param vglList
+	 * @param compList
 	 *            Liste mit Zahlen der Vergleichsdatei
 	 * @return 0 wenn refList groeßer ist, 1 wenn vglList groeßer ist und 2 wenn
 	 *         beide gleich groß sind
 	 */
-	private int normalizeStringLists(List<String> refList, List<String> vglList) {
+	private int normalizeStringLists(List<String> refList, List<String> compList) {
 		int refListSize = refList.size();
-		int vglListSize = vglList.size();
-		int diff = Math.abs(refListSize - vglListSize);
-		if (refListSize > vglListSize) {
+		int compListSize = compList.size();
+		int diff = Math.abs(refListSize - compListSize);
+		if (refListSize > compListSize) {
 			for (int i = 0; i < diff; i++) {
-				vglList.add("");
+				compList.add("");
 			}
 			return 0;
-		} else if (refListSize < vglListSize) {
+		} else if (refListSize < compListSize) {
 			for (int i = 0; i < diff; i++) {
 				refList.add("");
 			}
@@ -465,7 +409,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		batches = new ArrayList<IMatrixImpl>();
 		int numThreads = Runtime.getRuntime().availableProcessors();
 		Collections.sort(paarungen, new SortIAehnlichkeitByID());
-		batches = partition(paarungen, numThreads);
+		batches = distributeBatches(paarungen, numThreads);
 
 
 	}
@@ -484,7 +428,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		Collections.sort(paarungen, new SortIAehnlichkeitByID());
 	}
 
-	public List<IMatrixImpl> partition(List<IAehnlichkeitImpl> iterable,
+	public List<IMatrixImpl> distributeBatches(List<IAehnlichkeitImpl> iterable,
 			int partitions) {
 		batches = new ArrayList<>(partitions);
 		for (int i = 0; i < partitions; i++)
@@ -507,7 +451,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	 *            Vergleichs-String
 	 * @return die LevenShtein Distanz zwischen s1 und s2
 	 */
-	private int berechneLevenshteinDistanz(char[] s1, char[] s2) {
+	private int calculateLevenshteinDist(char[] s1, char[] s2) {
 
 		// memoize only previous line of distance matrix
 		int[] prev = new int[s2.length + 1];
@@ -538,27 +482,6 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		return prev[s2.length];
 	}
 
-	private List<Chunk> getChangesFromOriginal() throws IOException {
-		return getChunksByType(Delta.TYPE.CHANGE);
-	}
-
-	private List<Chunk> getChangesInReference() throws IOException {
-		return getUnchangedChunksByType(Delta.TYPE.CHANGE);
-	}
-
-	private List<Chunk> getDeletesInReference() throws IOException {
-		return getUnchangedChunksByType(Delta.TYPE.DELETE);
-	}
-
-	@Override
-	public void setRef(File ref) {
-		this.ref = ref;
-	}
-
-	@Override
-	public void setVgl(File vgl) {
-		this.vgl = vgl;
-	}
 
 	@Override
 	public List<IAehnlichkeitImpl> getPaarungen() {
@@ -578,6 +501,11 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	@Override
 	public List<IMatrixImpl> getBatches() {
 		return batches;
+	}
+
+	@Override
+	public void setFileImporter(IFileImporter fileImporter) {
+		this.fileImporter = fileImporter;
 	}
 
 	class SortIAehnlichkeitByID implements Comparator<IAehnlichkeit> {

@@ -16,10 +16,6 @@ public interface ITextvergleicher {
 	
 	void vergleicheZeilenweise(List<IAehnlichkeitImpl> batch);
 
-	void setRef(File von);
-
-	void setVgl(File vgl);
-
 	List<IAehnlichkeitImpl> getPaarungen();
 
 	List<File> getTempFiles();
@@ -35,6 +31,8 @@ public interface ITextvergleicher {
 	List<IMatrixImpl> getBatches();
 
 	void fillMatrix();
+
+	void setFileImporter(IFileImporter fileImporter);
 
 	
 	
