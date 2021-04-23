@@ -152,7 +152,7 @@ public class ComparisonView extends JFrame {
 				}
 			}
 
-			diffHelper.computeDisplayDiff(matchedDiffFiles, 100);
+			diffHelper.computeDisplayDiff(matchedDiffFiles);
 
 			// -- Fuer 2 Dateien --
 			if (selection.size() == 2) {

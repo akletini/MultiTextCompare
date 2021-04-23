@@ -40,14 +40,14 @@ public class IDiffHelperImplTest {
 
 	@Test
 	public void test_diffListNotEmptyTwoFiles() throws IOException {
-		iDiff.computeDisplayDiff(twoFiles, 1000);
+		iDiff.computeDisplayDiff(twoFiles);
 		assertNotNull(iDiff.getLeftLines());
 		assertNotNull(iDiff.getRightLines());
 	}
 
 	@Test
 	public void test_diffListNotEmptyThreeFiles() throws IOException {
-		iDiff.computeDisplayDiff(threeFiles, 1000);
+		iDiff.computeDisplayDiff(threeFiles);
 		assertNotNull(iDiff.getLeftLines());
 		assertNotNull(iDiff.getMiddleLines());
 		assertNotNull(iDiff.getRightLines());
@@ -59,7 +59,7 @@ public class IDiffHelperImplTest {
 	 */
 	@Test
 	public void test_detectChangeInAllFiles() throws IOException {
-		iDiff.computeDisplayDiff(threeFiles, 1000);
+		iDiff.computeDisplayDiff(threeFiles);
 		List<IDiffLine> links = iDiff.getLeftLines();
 		List<IDiffLine> mitte = iDiff.getMiddleLines();
 		List<IDiffLine> rechts = iDiff.getRightLines();
@@ -75,7 +75,7 @@ public class IDiffHelperImplTest {
 	 */
 	@Test
 	public void test_detectUnchangedChar() throws IOException {
-		iDiff.computeDisplayDiff(threeFiles, 1000);
+		iDiff.computeDisplayDiff(threeFiles);
 		List<IDiffLine> links = iDiff.getLeftLines();
 		List<IDiffLine> mitte = iDiff.getMiddleLines();
 		List<IDiffLine> rechts = iDiff.getRightLines();
@@ -95,7 +95,7 @@ public class IDiffHelperImplTest {
 	 */
 	@Test
 	public void test_detectChangeInLeftFile() throws IOException {
-		iDiff.computeDisplayDiff(threeFiles,1000);
+		iDiff.computeDisplayDiff(threeFiles);
 		List<IDiffLine> mitte = iDiff.getMiddleLines();
 		List<IDiffLine> rechts = iDiff.getRightLines();
 		assertEquals(mitte.get(1).getDiffedLine().get(25).getCharColor(),
@@ -112,7 +112,7 @@ public class IDiffHelperImplTest {
 	 */
 	@Test
 	public void test_detectChangeInMiddleFile() throws IOException {
-		iDiff.computeDisplayDiff(threeFiles,1000);
+		iDiff.computeDisplayDiff(threeFiles);
 		List<IDiffLine> links = iDiff.getLeftLines();
 		List<IDiffLine> rechts = iDiff.getRightLines();
 		assertEquals(links.get(0).getDiffedLine().get(25).getCharColor(),

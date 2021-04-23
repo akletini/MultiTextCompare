@@ -2,7 +2,13 @@ package de.thkoeln.syp.mtc.steuerung.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -42,7 +48,8 @@ public class IDiffHelperImpl implements IDiffHelper {
 	 * 
 	 */
 	@Override
-	public void computeDisplayDiff(File[] files, int maxLength) throws IOException {
+	public void computeDisplayDiff(File[] files) throws IOException {
+		int maxLength = getMaxLengthOfFiles(files);
 		// Read both files with line iterator.
 		if (files.length == 2) {
 			LineIterator file1 = FileUtils.lineIterator(files[0], "UTF-8");
@@ -285,6 +292,23 @@ public class IDiffHelperImpl implements IDiffHelper {
 			}
 		}
 
+	}
+	
+	private int getMaxLengthOfFiles(File[] files){
+		Integer[] fileSizes = new Integer[files.length];
+		
+		for(int i = 0; i < files.length; i++){
+			 List<String> fileStream;
+			try {
+				fileStream = Files.readAllLines(Paths.get(files[i].getAbsolutePath()), StandardCharsets.UTF_8);
+				fileSizes[i] = fileStream.size();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			    
+		}
+		return Collections.max(Arrays.asList(fileSizes));
 	}
 	
 	private int numberOfSpaces(int current, int max){
