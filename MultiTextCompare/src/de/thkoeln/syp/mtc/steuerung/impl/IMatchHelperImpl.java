@@ -88,7 +88,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 				if (LOOKAHEAD != 0) {
 					if (maxSearchIndex < lineCountRight) {
 
-						for (int j = 0; j < maxSearchIndex; j++) {
+						for (int j = lastMatchedIndex; j < maxSearchIndex; j++) {
 							comp = rightFile.get(j);
 							int LCS = getLCSLengthFromComparison(reference,
 									rightFile.get(j));
@@ -105,7 +105,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 
 						}
 					} else {
-						for (int j = 0; j < lineCountRight; j++) {
+						for (int j = lastMatchedIndex; j < lineCountRight; j++) {
 							comp = rightFile.get(j);
 							int LCS = getLCSLengthFromComparison(reference,
 									rightFile.get(j));
@@ -123,7 +123,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 						}
 					}
 				} else {
-					for (int j = 0; j < lineCountRight; j++) {
+					for (int j = lastMatchedIndex; j < lineCountRight; j++) {
 						comp = rightFile.get(j);
 						int LCS = getLCSLengthFromComparison(reference,
 								rightFile.get(j));
