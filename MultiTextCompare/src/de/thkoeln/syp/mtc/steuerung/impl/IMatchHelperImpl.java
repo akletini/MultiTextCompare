@@ -71,12 +71,6 @@ public class IMatchHelperImpl implements IMatchHelper {
 				return;
 			}
 
-			if (lineCountLeft == Math.min(lineCountLeft, lineCountRight)) {
-				reference = leftFile.get(0);
-			} else {
-				reference = rightFile.get(0);
-			}
-
 			int lastMatchedIndex = 0;
 			// Schaue f�r jede Zeile der linken Datei
 			for (int i = 0; i < lineCountLeft; i++) {
@@ -174,11 +168,6 @@ public class IMatchHelperImpl implements IMatchHelper {
 			return;
 		}
 
-		if (lineCountLeft == Math.min(lineCountLeft, lineCountRight)) {
-			reference = leftFile.get(0);
-		} else {
-			reference = rightFile.get(0);
-		}
 
 		int lastMatchedIndex = 0;
 		// Schaue f�r jede Zeile der linken Datei
@@ -191,7 +180,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 			if (LOOKAHEAD != 0) {
 				if (maxSearchIndex < lineCountRight) {
 
-					for (int j = 0; j < maxSearchIndex; j++) {
+					for (int j = lastMatchedIndex; j < maxSearchIndex; j++) {
 						comp = rightFile.get(j);
 						int LCS = getLCSLengthFromComparison(reference,
 								rightFile.get(j));
@@ -219,7 +208,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 					}
 
 				} else {
-					for (int j = 0; j < lineCountRight; j++) {
+					for (int j = lastMatchedIndex; j < lineCountRight; j++) {
 						comp = rightFile.get(j);
 						int LCS = getLCSLengthFromComparison(reference,
 								rightFile.get(j));
@@ -247,7 +236,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 					}
 				}
 			} else {
-				for (int j = 0; j < lineCountRight; j++) {
+				for (int j = lastMatchedIndex; j < lineCountRight; j++) {
 					comp = rightFile.get(j);
 					int LCS = getLCSLengthFromComparison(reference,
 							rightFile.get(j));
