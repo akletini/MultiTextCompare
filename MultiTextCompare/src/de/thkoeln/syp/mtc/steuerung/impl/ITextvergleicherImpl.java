@@ -57,6 +57,8 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 			double gewicht = 0, aehnlichkeit = 0;
 			ITextvergleicherImpl comp = new ITextvergleicherImpl(a.getVon(),
 					a.getZu());
+			System.out.println(a.getId() + " in Thread " + Thread.currentThread().getName() + " mit Prio "+ Thread.currentThread().getPriority() + " | Aktiv: " + Thread.activeCount() + " difficulty " + a.getWeight());
+
 			try {
 				List<String> refList = fileToLines(a.getVon());
 				List<String> vglList = fileToLines(a.getZu());
@@ -125,7 +127,6 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		for (IAehnlichkeitImpl a : batch) {
 			ref = a.getVon();
 			vgl = a.getZu();
-			System.out.println(a.getId() + " in Thread " + Thread.currentThread().getName() + " mit Prio "+ Thread.currentThread().getPriority() + " | Aktiv: " + Thread.activeCount());
 
 			try {
 				List<String> refList = fileToLines(a.getVon());

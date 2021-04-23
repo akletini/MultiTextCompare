@@ -10,12 +10,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.math.BigInteger;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -242,17 +240,6 @@ public class FileSelectionController extends JFrame {
 	}
 
 	class CompareListener implements ActionListener {
-		
-		int n1=0,n2=1,n3=0; 
-		 void printFibonacci(int count){    
-			    if(count>0){    
-			         n3 = n1 + n2;    
-			         n1 = n2;    
-			         n2 = n3;    
-			         System.out.print(" "+n3);   
-			         printFibonacci(count-1);    
-			     }
-		 }
 		public void actionPerformed(ActionEvent e) {
 			System.out.println(Thread.currentThread().getName());
 			class CompareThread extends SwingWorker<Void, Object> {
@@ -315,23 +302,20 @@ public class FileSelectionController extends JFrame {
 							.getTempFiles());
 					System.out.println("Create batches");
 					textvergleicher.createBatches();
-
+					try{
+					ExecutorService es = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 					if (fileImporter.getConfig().getCompareLines() == false) {
-
-						ExecutorService es = Executors.newFixedThreadPool(20);
 					
 						for (int i = 0; i < textvergleicher.getBatches().size(); i++) {
 							final List<IAehnlichkeitImpl> currentBatch = textvergleicher
 									.getBatches().get(i).getInhalt();
-							final int count = 100000000;
-							es.submit(new Runnable() {
+							es.execute(new Runnable() {
 
 								@Override
 								public void run() {
-									Thread.currentThread().setPriority(Thread.NORM_PRIORITY);
+									Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
 									textvergleicher
 											.vergleicheUeberGanzesDokument(currentBatch);
-									    
 
 								}
 
@@ -345,10 +329,27 @@ public class FileSelectionController extends JFrame {
 
 					} else {
 						for (int i = 0; i < textvergleicher.getBatches().size(); i++) {
-							List<IAehnlichkeitImpl> currentBatch = textvergleicher
+							final List<IAehnlichkeitImpl> currentBatch = textvergleicher
 									.getBatches().get(i).getInhalt();
-							textvergleicher.vergleicheZeilenweise(currentBatch);
+							es.execute(new Runnable() {
+
+								@Override
+								public void run() {
+									Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
+									textvergleicher
+											.vergleicheZeilenweise(currentBatch);
+
+								}
+
+							});
+
 						}
+						es.shutdown();
+						boolean finished = es.awaitTermination(30, TimeUnit.MINUTES);
+						
+					}
+					}catch(InterruptedException e){
+						e.printStackTrace();
 					}
 
 					newSelection = false;
@@ -405,8 +406,6 @@ public class FileSelectionController extends JFrame {
 
 			new CompareThread().execute();
 		}
-		
-		
 	}
 
 	class FileViewListener extends MouseAdapter {
