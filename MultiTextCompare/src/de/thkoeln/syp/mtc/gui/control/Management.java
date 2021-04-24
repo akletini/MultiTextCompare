@@ -267,6 +267,7 @@ public class Management {
 				.isSelected());
 		config.setLineMatch(configView.getCheckBoxLineMatch().isSelected());
 		config.setMatchAt(((double)configView.getMatchAtSlider().getValue()) / 100); 
+		
 		config.setMatchingLookahead(configView.getTextFieldLookaheadValue());
 		config.setBestMatch(configView.getCheckBoxBestMatch().isSelected());
 

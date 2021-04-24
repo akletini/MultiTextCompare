@@ -49,8 +49,10 @@ public class ConfigView extends JFrame {
 			lblMatchLines, lblLookForBest, lblMatchAt, lblSortKeys,
 			lblDeleteValues, lblXmlParameters, lblJsonParameters, lblLookahead;
 
-	private JComboBox comboBoxComparisonModes, comboBoxXMLValidation, comboBoxXMLPrint;
-	private JButton btnResetToDefault, btnSetRootPath, btnOk, btnCancel, btnSaveAs;
+	private JComboBox comboBoxComparisonModes, comboBoxXMLValidation,
+			comboBoxXMLPrint;
+	private JButton btnResetToDefault, btnSetRootPath, btnOk, btnCancel,
+			btnSaveAs;
 	private JSlider matchAtSlider;
 	private JTextField textFieldLookahead;
 
@@ -322,7 +324,7 @@ public class ConfigView extends JFrame {
 
 		btnOk = new JButton("OK");
 		panel.add(btnOk, "cell 0 2, trailing,growy");
-		
+
 		btnSaveAs = new JButton("Save as");
 		panel.add(btnSaveAs, "cell 0 2");
 
@@ -571,7 +573,20 @@ public class ConfigView extends JFrame {
 	}
 
 	public int getTextFieldLookaheadValue() {
-		return Integer.parseInt(textFieldLookahead.getText());
+		int configLookahead = management.getFileImporter().getConfig()
+				.getMatchingLookahead();
+		try {
+			
+			int inputLookahead = Integer.parseInt(textFieldLookahead.getText());
+			if (inputLookahead < 0) {
+				textFieldLookahead.setText("" +configLookahead);
+				return configLookahead;
+			}
+			return inputLookahead;
+		} catch (NumberFormatException e) {
+			textFieldLookahead.setText("" +configLookahead);
+		}
+		return configLookahead;
 	}
 
 	public JTextField getTextFieldLookahead() {
@@ -595,10 +610,9 @@ public class ConfigView extends JFrame {
 	public void addCancelistener(ActionListener e) {
 		btnCancel.addActionListener(e);
 	}
+
 	public void addSaveAsListener(ActionListener e) {
 		btnSaveAs.addActionListener(e);
 	}
-	
-	
 
 }
