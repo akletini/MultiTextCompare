@@ -126,7 +126,7 @@ public class ComparisonView extends JFrame {
 		}
 
 		for (File f : selection) {
-			temp.add(management.getFileImporter().getDiffTempFilesMap().get(f));
+			temp.add(management.getFileImporter().getTempFilesMap().get(f));
 		}
 
 		selection.clear();

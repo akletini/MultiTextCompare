@@ -25,6 +25,7 @@ public class IFileImporterImpl implements IFileImporter {
 	private IConfig iConfig;
 	private List<File> textdateien;
 	private Map<File, File> tempFiles, diffTempFiles;
+	
 	private Properties prop;
 	private Thread rootImporter;
 
@@ -95,6 +96,12 @@ public class IFileImporterImpl implements IFileImporter {
 	public Map<File, File> getTempFilesMap() {
 		return tempFiles;
 	}
+	
+	@Override
+	public void setTempFiles(Map<File, File> tempFiles) {
+		this.tempFiles = tempFiles;
+	}
+
 
 	@Override
 	public Map<File, File> getDiffTempFilesMap() {
@@ -620,6 +627,7 @@ public class IFileImporterImpl implements IFileImporter {
 	}
 
 	/**
+	 * @deprecated
 	 * Erstellt aus den manipulierten Dateien temporaere Dateien im Ordner
 	 * 'TempFiles'. Die temporaeren Dateien werden in einer HashMap gespeichert
 	 * um von diesen auch wieder auf die originalen Dateien schliessen zu

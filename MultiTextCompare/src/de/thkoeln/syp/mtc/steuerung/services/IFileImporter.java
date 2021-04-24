@@ -74,4 +74,6 @@ public interface IFileImporter {
 	boolean createDiffTempFiles(Map<File, File> xmlFileMap);
 
 	boolean deleteTempFiles();
+
+	void setTempFiles(Map<File, File> tempFiles);
 }
