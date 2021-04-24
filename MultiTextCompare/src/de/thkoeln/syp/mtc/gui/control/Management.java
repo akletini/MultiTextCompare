@@ -48,7 +48,7 @@ public class Management {
 	
 	private DefaultListModel<String> currentFileSelection;
 	private List<IAehnlichkeitImpl> comparisons;
-	private boolean greyOutMatrix;
+	private boolean isMatrixGreyedOut, isReferenceSet;
 
 	private IFileImporter fileImporter;
 	private ITextvergleicher textvergleicher;
@@ -64,7 +64,7 @@ public class Management {
 		jsonvergleicher = new IJSONvergleicherImpl(fileImporter);
 		
 		comparisons = new ArrayList<IAehnlichkeitImpl>();
-		greyOutMatrix = false;
+		isMatrixGreyedOut = false;
 	}
 
 	public static Management getInstance() {
@@ -229,12 +229,12 @@ public class Management {
 		this.compareThread = compareThread;
 	}
 
-	public boolean getGreyOutMatrix() {
-		return greyOutMatrix;
+	public boolean isMatrixGreyedOut() {
+		return isMatrixGreyedOut;
 	}
 
-	public void setGreyOutMatrix(boolean greyOutMatrix) {
-		this.greyOutMatrix = greyOutMatrix;
+	public void setIsMatrixGreyedOut(boolean greyOutMatrix) {
+		this.isMatrixGreyedOut = greyOutMatrix;
 	}
 
 	// Aktualisiert Wurzelpfad Anzeige in fileSelectionView & configView
@@ -383,6 +383,14 @@ public class Management {
 				e1.printStackTrace();
 			}
 		}
+	}
+
+	public boolean isReferenceSet() {
+		return isReferenceSet;
+	}
+
+	public void setReferenceSet(boolean isReferenceSet) {
+		this.isReferenceSet = isReferenceSet;
 	}
 
 

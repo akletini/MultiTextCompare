@@ -34,6 +34,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextPane;
 import javax.swing.JToolBar;
+import javax.swing.JViewport;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -59,13 +60,15 @@ public class MainView extends JFrame {
 	private JPanel panel;
 	private JTable tableMatrix;
 	private JToolBar toolBar;
-	private JButton btnDateiauswahl, btnKonfig, btnDeleteLog, btnZoomIn, btnZoomOut, btnHilfe, btnAbout;
+	private JButton btnDateiauswahl, btnKonfig, btnDeleteLog, btnZoomIn,
+			btnZoomOut, btnHilfe, btnAbout;
 	private JScrollPane scrollPaneMatrix, scrollPaneFiles;
 	private RowNumberTable rowTable;
 	private JTextPane textArea;
 	private JMenuBar menuBar;
 	private JMenu menuFile, menuConfig, menuLogging, menuHelp;
-	private JMenuItem fileSelection, saveComparison, saveComparisonAs, loadComparison;
+	private JMenuItem fileSelection, saveComparison, saveComparisonAs,
+			loadComparison;
 	private JMenuItem saveConfig, saveConfigAs, loadConfig, settings;
 	private JMenuItem clearLog, showLog;
 	private JCheckBoxMenuItem info, warning, error;
@@ -76,52 +79,60 @@ public class MainView extends JFrame {
 	public MainView() {
 		management = Management.getInstance();
 		config = management.getFileImporter().getConfig();
-		//Initialize logging
+		// Initialize logging
 		management.setLogger(new Logger());
 		logger = management.getLogger();
-		SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");  
-	    Date date = new Date();  
-		logger.writeToLogFile("Open Application MultiTextCompare (" + formatter.format(date) + ")", true);
+		SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+		Date date = new Date();
+		logger.writeToLogFile(
+				"Open Application MultiTextCompare (" + formatter.format(date)
+						+ ")", true);
 		// Icons
-		Icon iconCompare = null, iconConfig = null, iconQuestion = null, iconInfo = null, iconSave = null, iconImport = null, iconDelete = null, iconPlus = null, iconMinus = null ;
+		Icon iconCompare = null, iconConfig = null, iconQuestion = null, iconInfo = null, iconSave = null, iconImport = null, iconDelete = null, iconPlus = null, iconMinus = null;
 		try {
-			iconCompare = new ImageIcon(ImageIO.read(new File("res/fileIconSmall.png")));
-			iconConfig = new ImageIcon(ImageIO.read(new File("res/settingsSmall.png")));
-			iconQuestion = new ImageIcon(ImageIO.read(new File("res/questionSmall.png")));
-			iconInfo = new ImageIcon(ImageIO.read(new File("res/infoSmall.png")));
-			iconSave = new ImageIcon(ImageIO.read(new File("res/saveSmall.png")));
-			iconImport = new ImageIcon(ImageIO.read(new File("res/importSmall.png")));
-			iconDelete = new ImageIcon(ImageIO.read(new File("res/deleteSmall.png")));
+			iconCompare = new ImageIcon(ImageIO.read(new File(
+					"res/fileIconSmall.png")));
+			iconConfig = new ImageIcon(ImageIO.read(new File(
+					"res/settingsSmall.png")));
+			iconQuestion = new ImageIcon(ImageIO.read(new File(
+					"res/questionSmall.png")));
+			iconInfo = new ImageIcon(
+					ImageIO.read(new File("res/infoSmall.png")));
+			iconSave = new ImageIcon(
+					ImageIO.read(new File("res/saveSmall.png")));
+			iconImport = new ImageIcon(ImageIO.read(new File(
+					"res/importSmall.png")));
+			iconDelete = new ImageIcon(ImageIO.read(new File(
+					"res/deleteSmall.png")));
 			iconPlus = new ImageIcon(ImageIO.read(new File("res/plus.png")));
 			iconMinus = new ImageIcon(ImageIO.read(new File("res/minus.png")));
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		
+
 		// Panel
 		panel = new JPanel();
 		panel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		panel.setLayout(new MigLayout("", "[grow]",
 				"[30px:n:100px,top][grow,center][80px:n:160px,grow,bottom]"));
-		
-		//Menu-Bar
+		// Menu-Bar
 		menuBar = new JMenuBar();
-		
-		//Menus
-		menuFile = new JMenu("    File    ");	
+
+		// Menus
+		menuFile = new JMenu("    File    ");
 		fileSelection = new JMenuItem("New Comparison", iconCompare);
 		saveComparison = new JMenuItem("Save Comparison", iconSave);
 		saveComparisonAs = new JMenuItem("Save Comparison As");
 		loadComparison = new JMenuItem("Load Comparison", iconImport);
 		menuBar.add(menuFile);
-		
+
 		menuConfig = new JMenu("    Configuration    ");
 		saveConfig = new JMenuItem("Save Configuration", iconSave);
 		saveConfigAs = new JMenuItem("Save Configuration As");
 		loadConfig = new JMenuItem("Load Configuration", iconImport);
 		settings = new JMenuItem("Settings", iconConfig);
 		menuBar.add(menuConfig);
-		
+
 		menuLogging = new JMenu("    Log    ");
 		clearLog = new JMenuItem("Clear");
 		info = new JCheckBoxMenuItem("Show Infos");
@@ -132,28 +143,28 @@ public class MainView extends JFrame {
 		error.setState(config.getShowErrors());
 		showLog = new JMenuItem("Show Log");
 		menuBar.add(menuLogging);
-		
+
 		menuHelp = new JMenu("    Help    ");
 		about = new JMenuItem("About", iconInfo);
 		tutorial = new JMenuItem("Open Instruction File", iconQuestion);
 		menuBar.add(menuHelp);
-		
-		//Add submenus
-		//File
+
+		// Add submenus
+		// File
 		menuFile.add(fileSelection);
 		menuFile.addSeparator();
 		menuFile.add(saveComparison);
 		menuFile.add(saveComparisonAs);
 		menuFile.add(loadComparison);
-		
-		//Config
+
+		// Config
 		menuConfig.add(saveConfig);
 		menuConfig.add(saveConfigAs);
 		menuConfig.add(loadConfig);
 		menuConfig.addSeparator();
 		menuConfig.add(settings);
-		
-		//Log
+
+		// Log
 		menuLogging.add(clearLog);
 		menuLogging.addSeparator();
 		menuLogging.add(info);
@@ -161,8 +172,8 @@ public class MainView extends JFrame {
 		menuLogging.add(error);
 		menuLogging.addSeparator();
 		menuLogging.add(showLog);
-		
-		//Help
+
+		// Help
 		menuHelp.add(about);
 		menuHelp.add(tutorial);
 
@@ -171,7 +182,7 @@ public class MainView extends JFrame {
 		quickAccess = new JLabel("Quick Access: ");
 		toolBar.setFloatable(false);
 		toolBar.add(quickAccess);
-	
+
 		panel.add(toolBar, "flowx,cell 0 0,alignx left");
 		btnDateiauswahl = new JButton(iconCompare);
 		btnDateiauswahl.setToolTipText("Open file selection");
@@ -191,7 +202,7 @@ public class MainView extends JFrame {
 		btnDeleteLog = new JButton(iconDelete);
 		btnDeleteLog.setToolTipText("Clear output log");
 		toolBar.add(btnDeleteLog);
-		toolBar.addSeparator();		
+		toolBar.addSeparator();
 		btnHilfe = new JButton(iconQuestion);
 		btnHilfe.setToolTipText("Open help document");
 		toolBar.add(btnHilfe);
@@ -213,7 +224,7 @@ public class MainView extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBounds(100, 100, 960, 540);
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		this.setMinimumSize(new Dimension(800,600));
+		this.setMinimumSize(new Dimension(800, 600));
 		this.setTitle("MultiTextCompare");
 		this.setContentPane(panel);
 		this.setJMenuBar(menuBar);
@@ -257,29 +268,37 @@ public class MainView extends JFrame {
 
 		// Matrix wird erstellt
 		tableMatrix = new JTable(data, nameDateien) {
-			
+
 			@Override
 			public Component prepareRenderer(TableCellRenderer renderer,
 					int row, int col) {
 				Component comp = super.prepareRenderer(renderer, row, col);
-				if (!management.getGreyOutMatrix()) {
+				this.setOpaque(true);
+				// normal paint
+				if (!management.isMatrixGreyedOut()) {
 					Object value = getModel().getValueAt(row, col);
 					double wert = Double.valueOf(value.toString());
 					Color wertFarbe = getColor(wert);
 					comp.setBackground(wertFarbe);
 					comp.setForeground(Color.BLACK);
-				} else {
-					int indexCol = getSelectedColumn();
-					int indexRow = getSelectedRow();
-					comp.setBackground(Color.GRAY);
-
-					if (row == indexRow || col == indexCol) {
-						Object value = getModel().getValueAt(row, col);
-						double wert = Double.valueOf(value.toString());
-						Color wertFarbe = getColor(wert);
-						comp.setBackground(wertFarbe);
+				}
+				// repaint cells in grey and leave relevant cells colored
+				else {
+//					if (!management.isReferenceSet()) {
+						int indexCol = getSelectedColumn();
+						int indexRow = getSelectedRow();
+						comp.setBackground(Color.GRAY);
 						comp.setForeground(Color.BLACK);
-					}
+						
+						if ((row == indexRow || col == indexCol)
+								&& !(row == col)) {
+							Object value = getModel().getValueAt(row, col);
+							double wert = Double.valueOf(value.toString());
+							Color wertFarbe = getColor(wert);
+							comp.setBackground(wertFarbe);
+							comp.setForeground(Color.BLACK);
+						}
+//					}
 
 				}
 				return comp;
@@ -287,14 +306,14 @@ public class MainView extends JFrame {
 
 			protected JTableHeader createDefaultTableHeader() {
 				return new JTableHeader(columnModel) {
-					
+
 					@Override
 					public Dimension getPreferredSize() {
 						Dimension d = super.getPreferredSize();
 						d.height = 30;
 						return d;
 					}
-					
+
 					public String getToolTipText(MouseEvent e) {
 						int index = columnModel
 								.getColumnIndexAtX(e.getPoint().x);
@@ -307,37 +326,37 @@ public class MainView extends JFrame {
 								return management.getPaths()[realIndex];
 						}
 						if (index != -1)
-							logger
-									.setMessage("It is not possible to display the file names after altering the file selection.", logger.LEVEL_WARNING);
+							logger.setMessage(
+									"It is not possible to display the file names after altering the file selection.",
+									logger.LEVEL_WARNING);
 						return null;
 					}
 				};
 			}
 		};
-		
+
 		// Matrix Parameter
 		JTableHeader header = tableMatrix.getTableHeader();
 		header.setDefaultRenderer(new DefaultTableHeaderCellRenderer());
-		
+
 		header.setResizingAllowed(false);
 		tableMatrix.getTableHeader().setReorderingAllowed(false);
 		tableMatrix.setRowHeight(60);
 		tableMatrix.setDefaultEditor(Object.class, null);
 		tableMatrix.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		
 
 		// Wenn noetig alte MatrixPane loeschen und Neue auf das Panel legen
 		if (scrollPaneMatrix != null)
 			panel.remove(scrollPaneMatrix);
 		scrollPaneMatrix = new JScrollPane(tableMatrix);
-		
+
 		scrollPaneMatrix.addMouseWheelListener(new MouseWheelListener() {
 			final JScrollBar verticalScrollBar = scrollPaneMatrix
 					.getVerticalScrollBar();
 			final JScrollBar horizontalScrollBar = scrollPaneMatrix
 					.getHorizontalScrollBar();
-			
-			//Horizontales Scrollen
+
+			// Horizontales Scrollen
 			@Override
 			public void mouseWheelMoved(MouseWheelEvent evt) {
 				if (evt.isControlDown() || evt.isShiftDown()) {
@@ -381,15 +400,16 @@ public class MainView extends JFrame {
 		DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) tableMatrix
 				.getDefaultRenderer(Object.class);
 		renderer.setHorizontalAlignment(SwingConstants.CENTER);
-		
 
 		// Modifikation der Matrix fuer Zeilenbenennung
 		rowTable = new RowNumberTable(tableMatrix);
 		rowTable.setFilenames(nameDateien);
-		scrollPaneMatrix.setRowHeaderView(rowTable); // ab hier geht das zoomen kaputt
+		scrollPaneMatrix.setRowHeaderView(rowTable); 
+														
 		scrollPaneMatrix.setCorner(JScrollPane.UPPER_LEFT_CORNER,
 				rowTable.getTableHeader());
-	
+		scrollPaneMatrix.getViewport().setScrollMode(JViewport.BACKINGSTORE_SCROLL_MODE);
+
 		SwingUtilities.updateComponentTreeUI(this);
 
 		// MouseAdapter um Matrix klickbar zu machen
@@ -421,8 +441,7 @@ public class MainView extends JFrame {
 		return scrollPaneMatrix;
 	}
 
-	
-	public RowNumberTable getRowNumberTable(){
+	public RowNumberTable getRowNumberTable() {
 		return rowTable;
 	}
 
@@ -437,7 +456,7 @@ public class MainView extends JFrame {
 	public JCheckBoxMenuItem getError() {
 		return error;
 	}
-	
+
 	// Setter
 
 	public void setInfo(JCheckBoxMenuItem info) {
@@ -468,57 +487,69 @@ public class MainView extends JFrame {
 	public void addAboutListener(ActionListener e) {
 		btnAbout.addActionListener(e);
 	}
-	public void addToolbarLogClearListener(ActionListener e){
+
+	public void addToolbarLogClearListener(ActionListener e) {
 		btnDeleteLog.addActionListener(e);
 	}
-	public void addToolbarZoomInListener(ActionListener e){
+
+	public void addToolbarZoomInListener(ActionListener e) {
 		btnZoomIn.addActionListener(e);
 	}
-	public void addToolbarZoomOutListener(ActionListener e){
+
+	public void addToolbarZoomOutListener(ActionListener e) {
 		btnZoomOut.addActionListener(e);
 	}
 
 	public void addZoomListener(MouseWheelListener e) {
 		addMouseWheelListener(e);
 	}
-	public void addMenuFileSelection(ActionListener e){
+
+	public void addMenuFileSelection(ActionListener e) {
 		fileSelection.addActionListener(e);
 	}
-	public void addMenuAboutListener(ActionListener e){
+
+	public void addMenuAboutListener(ActionListener e) {
 		about.addActionListener(e);
 	}
-	public void addMenuHelpListener(ActionListener e){
+
+	public void addMenuHelpListener(ActionListener e) {
 		tutorial.addActionListener(e);
 	}
-	public void addLogClearListener(ActionListener e){
+
+	public void addLogClearListener(ActionListener e) {
 		clearLog.addActionListener(e);
 	}
-	public void addMenuSettingsListener(ActionListener e){
+
+	public void addMenuSettingsListener(ActionListener e) {
 		settings.addActionListener(e);
 	}
-	public void addMenuShowInfosListener(ActionListener e){
+
+	public void addMenuShowInfosListener(ActionListener e) {
 		info.addActionListener(e);
 	}
-	public void addMenuShowWarningsListener(ActionListener e){
+
+	public void addMenuShowWarningsListener(ActionListener e) {
 		warning.addActionListener(e);
 	}
-	public void addMenuShowErrorsListener(ActionListener e){
+
+	public void addMenuShowErrorsListener(ActionListener e) {
 		error.addActionListener(e);
 	}
-	public void addMenuShowLogListener(ActionListener e){
+
+	public void addMenuShowLogListener(ActionListener e) {
 		showLog.addActionListener(e);
 	}
-	
-	public void addMenuImportConfigListener(ActionListener e){
+
+	public void addMenuImportConfigListener(ActionListener e) {
 		loadConfig.addActionListener(e);
 	}
-	public void addMenuSaveConfigAsListener(ActionListener e){
+
+	public void addMenuSaveConfigAsListener(ActionListener e) {
 		saveConfigAs.addActionListener(e);
 	}
-	public void addMenuSaveConfigListener(ActionListener e){
+
+	public void addMenuSaveConfigListener(ActionListener e) {
 		saveConfig.addActionListener(e);
 	}
-	
-	
 
 }

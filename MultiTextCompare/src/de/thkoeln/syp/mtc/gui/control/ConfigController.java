@@ -75,7 +75,7 @@ public class ConfigController {
 		}
 	}
 	
-	// Save Button: Speichert die Konfiguration in der config Datei
+	// Save As Button: Speichert die Konfiguration in der config Datei
 		public class SaveAsListener implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				management.saveConfigAs(e);

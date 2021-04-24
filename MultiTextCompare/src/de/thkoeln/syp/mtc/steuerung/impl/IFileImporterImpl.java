@@ -47,7 +47,7 @@ public class IFileImporterImpl implements IFileImporter {
 		prop.setProperty(PROP_BLANKLINES, "true");
 		prop.setProperty(PROP_PUNCTUATION, "true");
 		prop.setProperty(PROP_CAPITALIZATION, "true");
-		prop.setProperty(PROP_COMPARELINES, "false");
+		prop.setProperty(PROP_COMPARELINES, "true");
 
 		prop.setProperty(PROP_LINEMATCH, "true");
 		prop.setProperty(PROP_MATCHAT, "0.85");
