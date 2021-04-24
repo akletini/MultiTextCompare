@@ -161,20 +161,24 @@ public class MouseAdapterMatrix extends MouseAdapter {
 						if (rowIndex < columnIndex) {
 							management.setComparisonView(new ComparisonView(
 									selectedFiles, fileIndices));
+							selectedFiles.remove(selectedFiles.size() - 1);
+							fileIndices.remove(fileIndices.size() - 1);
 						} else {
 							Collections.reverse(selectedFiles);
 							Collections.reverse(fileIndices);
 							management.setComparisonView(new ComparisonView(
 									selectedFiles, fileIndices));
+							selectedFiles.remove(0);
+							fileIndices.remove(0);
 						}
 						logger.setMessage("Comparison is now visible",
 								logger.LEVEL_INFO);
-						selectedFiles.remove(selectedFiles.size() - 1);
-						fileIndices.remove(fileIndices.size() - 1);
+
 						kreuzKlick = false;
 					}
 				
 				}
+				// Control mode end
 				
 				
 			}
@@ -250,6 +254,8 @@ public class MouseAdapterMatrix extends MouseAdapter {
 	}
 
 	public void fetchFilesFromCellClick(int rowIndex, int columnIndex) {
+		selectedFiles.clear();
+		fileIndices.clear();
 		// Tempfiles werden durchsucht
 		for (Map.Entry<File, File> entry : tempFiles) {
 			// Spalte
