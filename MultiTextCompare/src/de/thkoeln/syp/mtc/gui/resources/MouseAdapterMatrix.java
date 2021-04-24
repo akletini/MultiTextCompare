@@ -140,7 +140,7 @@ public class MouseAdapterMatrix extends MouseAdapter {
 						for (Map.Entry<File, File> entry : tempFiles) {
 							if (entry.getValue().getName()
 									.equals("temp_" + (rowIndex + 1))) {
-								if (!fileIndices.contains(columnIndex)) {
+								if (!fileIndices.contains(rowIndex)) {
 									selectedFiles.add(entry.getValue());
 									fileIndices.add(rowIndex);
 								}
