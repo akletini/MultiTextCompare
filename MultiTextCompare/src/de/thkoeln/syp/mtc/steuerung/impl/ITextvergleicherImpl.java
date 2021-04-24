@@ -308,9 +308,6 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 				longestString = comp.length;
 			}
 
-			Arrays.sort(ref);
-			Arrays.sort(comp);
-
 			double lengthOfLongestString = (double) longestString;
 			double levenshteinDist = (double) calculateLevenshteinDist(ref,
 					comp);

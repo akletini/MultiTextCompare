@@ -25,7 +25,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 
-import de.thkoeln.syp.mtc.datenhaltung.api.IAehnlichkeit;
+import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
 import de.thkoeln.syp.mtc.datenhaltung.api.IJSONParseError;
 import de.thkoeln.syp.mtc.datenhaltung.api.IMatrix;
 import de.thkoeln.syp.mtc.datenhaltung.api.IXMLParseError;
@@ -242,7 +242,6 @@ public class FileSelectionController extends JFrame {
 
 	class CompareListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			System.out.println(Thread.currentThread().getName());
 			class CompareThread extends SwingWorker<Void, Object> {
 				int anzDateien;
 				long start_time;
@@ -254,6 +253,7 @@ public class FileSelectionController extends JFrame {
 					management = Management.getInstance();
 					management.setCurrentFileSelection(management
 							.getFileSelectionView().getModel());
+					management.getFileSelectionView().getBtnCompare().setEnabled(false);
 
 					anzDateien = fileImporter.getTextdateien().size();
 					if (anzDateien < 2) {
@@ -261,7 +261,6 @@ public class FileSelectionController extends JFrame {
 					}
 
 					fileImporter.deleteTempFiles();
-					System.out.println("Create temp files");
 					fileImporter.createTempFiles();
 					xmlvergleicher.clearErrorList();
 					logger.setMessage("Start comparing...", logger.LEVEL_INFO);
@@ -269,8 +268,8 @@ public class FileSelectionController extends JFrame {
 
 					// XML Vergleich
 					if (mode == 1) {
-						fileImporter.createDiffTempFiles(xmlvergleicher
-								.xmlPrepare(fileImporter.getTempFilesMap()));
+						fileImporter.setTempFiles((xmlvergleicher
+								.xmlPrepare(fileImporter.getTempFilesMap())));
 						for (IXMLParseError error : xmlvergleicher
 								.getErrorList())
 							logger.setMessage(error.getMessage(),
@@ -279,34 +278,32 @@ public class FileSelectionController extends JFrame {
 
 					// JSON Vergleich
 					else if (mode == 2) {
-						fileImporter.createDiffTempFiles(jsonvergleicher
-								.jsonPrepare(fileImporter.getTempFilesMap()));
+						fileImporter.setTempFiles((jsonvergleicher
+								.jsonPrepare(fileImporter.getTempFilesMap())));
 						for (IJSONParseError error : jsonvergleicher
 								.getErrorList())
 							logger.setMessage(error.getMessage() + "\n",
 									logger.LEVEL_WARNING);
 
 					}
-					// Standard Vergleich
-					else {
-						fileImporter.createDiffTempFiles(fileImporter
-								.getTempFilesMap());
-					}
+
 
 					// Vergleich
 					textvergleicher.setFileImporter(fileImporter);
-					fileImporter.normTempFiles();
+					IConfig currentConfig = fileImporter.getConfig();
+					if(!(currentConfig.getKeepBlankLines() 
+							&& currentConfig.getKeepCapitalization()
+							&& currentConfig.getKeepPuctuation()
+							&& currentConfig.getKeepWhitespaces())){
+						fileImporter.normTempFiles();
+					}
 					textvergleicher.getTempfilesFromHashMap(management
 							.getFileImporter().getTempFilesMap());
 					textvergleicher.getVergleiche(textvergleicher
 							.getTempFiles());
 					textvergleicher.createBatches();
-
 				
-						ExecutorService es1 = Executors
-								.newFixedThreadPool(Runtime.getRuntime()
-										.availableProcessors());
-						ExecutorService es2 = Executors
+						ExecutorService es = Executors
 								.newFixedThreadPool(Runtime.getRuntime()
 										.availableProcessors());
 						if (fileImporter.getConfig().getCompareLines() == false) {
@@ -315,7 +312,7 @@ public class FileSelectionController extends JFrame {
 									.size(); i++) {
 								final List<IAehnlichkeitImpl> currentBatch = textvergleicher
 										.getBatches().get(i).getInhalt();
-								es1.execute(new Runnable() {
+								es.execute(new Runnable() {
 
 									@Override
 									public void run() {
@@ -328,8 +325,8 @@ public class FileSelectionController extends JFrame {
 
 							}
 
-							es1.shutdown();
-							boolean finished = es1.awaitTermination(30,
+							es.shutdown();
+							boolean finished = es.awaitTermination(30,
 									TimeUnit.MINUTES);
 
 						} else {
@@ -337,7 +334,7 @@ public class FileSelectionController extends JFrame {
 									.size(); i++) {
 								final List<IAehnlichkeitImpl> currentBatch = textvergleicher
 										.getBatches().get(i).getInhalt();
-								es2.execute(new Runnable() {
+								es.execute(new Runnable() {
 
 									@Override
 									public void run() {
@@ -350,8 +347,8 @@ public class FileSelectionController extends JFrame {
 								});
 
 							}
-							es2.shutdown();
-							boolean finished = es2.awaitTermination(30,
+							es.shutdown();
+							boolean finished = es.awaitTermination(30,
 									TimeUnit.MINUTES);
 						}
 					
@@ -406,6 +403,7 @@ public class FileSelectionController extends JFrame {
 								+ " files has been created successfully!"
 								+ timeDiffAsString, logger.LEVEL_INFO);
 					}
+					management.getFileSelectionView().getBtnCompare().setEnabled(true);
 				}
 			}
 

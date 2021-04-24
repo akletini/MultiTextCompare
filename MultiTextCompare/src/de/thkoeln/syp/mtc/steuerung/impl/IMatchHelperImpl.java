@@ -80,14 +80,14 @@ public class IMatchHelperImpl implements IMatchHelper {
 				int maxSearchIndex = i + LOOKAHEAD + 1;
 
 				if (LOOKAHEAD != 0) {
-					if (maxSearchIndex < lineCountRight) {
-
+					if (maxSearchIndex >= lineCountRight) {
+						maxSearchIndex = lineCountRight;
+					}
 						for (int j = lastMatchedIndex; j < maxSearchIndex; j++) {
 							comp = rightFile.get(j);
 							int LCS = getLCSLengthFromComparison(reference,
 									rightFile.get(j));
 							if (matches(LCS, reference, rightFile.get(j))
-									&& j >= lastMatchedIndex
 									&& notMatchedYet(i, j)) {
 								lastMatchedIndex = j;
 								matches.add(new IMatchImpl(i, j, reference,
@@ -98,31 +98,14 @@ public class IMatchHelperImpl implements IMatchHelper {
 							}
 
 						}
-					} else {
-						for (int j = lastMatchedIndex; j < lineCountRight; j++) {
-							comp = rightFile.get(j);
-							int LCS = getLCSLengthFromComparison(reference,
-									rightFile.get(j));
-							if (matches(LCS, reference, rightFile.get(j))
-									&& j >= lastMatchedIndex
-									&& notMatchedYet(i, j)) {
-								lastMatchedIndex = j;
-								matches.add(new IMatchImpl(i, j, reference,
-										comp));
-								oldIndeces.add(new IMatchImpl(i, j, reference,
-										comp));
-								break;
-							}
-
-						}
-					}
+					
 				} else {
 					for (int j = lastMatchedIndex; j < lineCountRight; j++) {
 						comp = rightFile.get(j);
 						int LCS = getLCSLengthFromComparison(reference,
 								rightFile.get(j));
 						if (matches(LCS, reference, rightFile.get(j))
-								&& j >= lastMatchedIndex && notMatchedYet(i, j)) {
+								&& notMatchedYet(i, j)) {
 							lastMatchedIndex = j;
 							matches.add(new IMatchImpl(i, j, reference, comp));
 							oldIndeces
@@ -178,14 +161,15 @@ public class IMatchHelperImpl implements IMatchHelper {
 			int maxSearchIndex = i + LOOKAHEAD + 1;
 
 			if (LOOKAHEAD != 0) {
-				if (maxSearchIndex < lineCountRight) {
-
+				if (maxSearchIndex >= lineCountRight) {
+					maxSearchIndex = lineCountRight;
+				}
 					for (int j = lastMatchedIndex; j < maxSearchIndex; j++) {
 						comp = rightFile.get(j);
 						int LCS = getLCSLengthFromComparison(reference,
 								rightFile.get(j));
 						if (matches(LCS, reference, rightFile.get(j))
-								&& j >= lastMatchedIndex && notMatchedYet(i, j)) {
+								&& notMatchedYet(i, j)) {
 							IMatch matchCandidate = new IMatchImpl(i, j,
 									reference, comp);
 							matchCandidate.setMatchLCS(LCS);
@@ -207,41 +191,13 @@ public class IMatchHelperImpl implements IMatchHelper {
 						potentialMatches.clear();
 					}
 
-				} else {
-					for (int j = lastMatchedIndex; j < lineCountRight; j++) {
-						comp = rightFile.get(j);
-						int LCS = getLCSLengthFromComparison(reference,
-								rightFile.get(j));
-						if (matches(LCS, reference, rightFile.get(j))
-								&& j >= lastMatchedIndex && notMatchedYet(i, j)) {
-							IMatch matchCandidate = new IMatchImpl(i, j,
-									reference, comp);
-							matchCandidate.setMatchLCS(LCS);
-							potentialMatches.add(matchCandidate);
-						}
-
-					}
-					IMatch bestMatch = getBestMatch();
-					if (bestMatch != null) {
-						lastMatchedIndex = bestMatch.getRightRow();
-						matches.add(new IMatchImpl(bestMatch.getLeftRow(),
-								bestMatch.getRightRow(), bestMatch
-										.getValueLeft(), bestMatch
-										.getValueRight()));
-						oldIndeces.add(new IMatchImpl(bestMatch.getLeftRow(),
-								bestMatch.getRightRow(), bestMatch
-										.getValueLeft(), bestMatch
-										.getValueRight()));
-						potentialMatches.clear();
-					}
-				}
 			} else {
 				for (int j = lastMatchedIndex; j < lineCountRight; j++) {
 					comp = rightFile.get(j);
 					int LCS = getLCSLengthFromComparison(reference,
 							rightFile.get(j));
 					if (matches(LCS, reference, rightFile.get(j))
-							&& j >= lastMatchedIndex && notMatchedYet(i, j)) {
+							&& notMatchedYet(i, j)) {
 						IMatch matchCandidate = new IMatchImpl(i, j, reference,
 								comp);
 						matchCandidate.setMatchLCS(LCS);
