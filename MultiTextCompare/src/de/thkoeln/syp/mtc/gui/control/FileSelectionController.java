@@ -229,13 +229,20 @@ public class FileSelectionController extends JFrame {
 	}
 
 	class ResetListener implements ActionListener {
+		@SuppressWarnings("deprecation")
 		public void actionPerformed(ActionEvent e) {
 			// Zueruecksetzen der Auswahl im FileImporter & der Anzeige
 			fileImporter.deleteImports();
-			fileImporter.deleteTempFiles();
 			management.getFileSelectionView().getModel().clear();
 			management.getFileSelectionView().getLblFileCount().setText("0");
 			setRdbtn(true);
+			try {
+			management.getCompareThread().stop();
+			}
+			catch(Exception ex){
+				
+			}
+			management.getFileSelectionView().getBtnCompare().setVisible(true);
 			newSelection = true;
 		}
 	}
@@ -251,6 +258,7 @@ public class FileSelectionController extends JFrame {
 				protected Void doInBackground() throws Exception {
 
 					management = Management.getInstance();
+					management.setCompareThread(Thread.currentThread());
 					management.setCurrentFileSelection(management
 							.getFileSelectionView().getModel());
 					management.getFileSelectionView().getBtnCompare().setEnabled(false);

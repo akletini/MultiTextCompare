@@ -54,6 +54,8 @@ public class Management {
 	private ITextvergleicher textvergleicher;
 	private IXMLvergleicher xmlvergleicher;
 	private IJSONvergleicher jsonvergleicher;
+	
+	private Thread compareThread;
 
 	private Management() {
 		fileImporter = new IFileImporterImpl();
@@ -219,6 +221,13 @@ public class Management {
 		this.comparisons = comparisons;
 	}
 	
+	public Thread getCompareThread() {
+		return compareThread;
+	}
+
+	public void setCompareThread(Thread compareThread) {
+		this.compareThread = compareThread;
+	}
 
 	public boolean getGreyOutMatrix() {
 		return greyOutMatrix;
@@ -375,4 +384,6 @@ public class Management {
 			}
 		}
 	}
+
+
 }
