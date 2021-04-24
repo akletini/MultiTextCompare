@@ -55,7 +55,6 @@ public class MouseAdapterMatrix extends MouseAdapter {
 				JTable table = (JTable) e.getSource();
 				rowIndex = table.rowAtPoint(e.getPoint());
 				columnIndex = table.columnAtPoint(e.getPoint());
-//				System.out.println("row " + rowIndex + " col " + columnIndex);
 				kreuzKlick = true;
 				
 				//wieder farbig machen
@@ -105,7 +104,9 @@ public class MouseAdapterMatrix extends MouseAdapter {
 					fetchFilesFromCellClick(rowIndex, columnIndex);
 					referenceCell = new ReferenceCell(selectedFiles.get(1),
 							selectedFiles.get(0), rowIndex, columnIndex);
-//					management.setReferenceSet(true);
+					management.setReferenceRow(rowIndex);
+					management.setReferenceCol(columnIndex);
+
 				}
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				if (controlMode) {

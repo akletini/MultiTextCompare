@@ -49,6 +49,7 @@ public class Management {
 	private DefaultListModel<String> currentFileSelection;
 	private List<IAehnlichkeitImpl> comparisons;
 	private boolean isMatrixGreyedOut, isReferenceSet;
+	private int referenceRow, referenceCol;
 
 	private IFileImporter fileImporter;
 	private ITextvergleicher textvergleicher;
@@ -391,6 +392,22 @@ public class Management {
 
 	public void setReferenceSet(boolean isReferenceSet) {
 		this.isReferenceSet = isReferenceSet;
+	}
+
+	public int getReferenceRow() {
+		return referenceRow;
+	}
+
+	public void setReferenceRow(int referenceRow) {
+		this.referenceRow = referenceRow;
+	}
+
+	public int getReferenceCol() {
+		return referenceCol;
+	}
+
+	public void setReferenceCol(int referenceCol) {
+		this.referenceCol = referenceCol;
 	}
 
 

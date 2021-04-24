@@ -284,9 +284,9 @@ public class MainView extends JFrame {
 				}
 				// repaint cells in grey and leave relevant cells colored
 				else {
-//					if (!management.isReferenceSet()) {
-						int indexCol = getSelectedColumn();
-						int indexRow = getSelectedRow();
+
+						int indexCol = management.getReferenceCol();
+						int indexRow = management.getReferenceRow();
 						comp.setBackground(Color.GRAY);
 						comp.setForeground(Color.BLACK);
 						
@@ -298,7 +298,6 @@ public class MainView extends JFrame {
 							comp.setBackground(wertFarbe);
 							comp.setForeground(Color.BLACK);
 						}
-//					}
 
 				}
 				return comp;
