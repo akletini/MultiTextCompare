@@ -4,10 +4,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Desktop.Action;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.io.File;
@@ -56,6 +54,10 @@ import de.thkoeln.syp.mtc.gui.resources.MouseAdapterMatrix;
 import de.thkoeln.syp.mtc.gui.resources.RowNumberTable;
 
 public class MainView extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8634086168819911638L;
 	private Management management;
 	private JLabel quickAccess;
 	private JPanel panel;
@@ -108,7 +110,7 @@ public class MainView extends JFrame {
 			iconPlus = new ImageIcon(ImageIO.read(new File("res/plus.png")));
 			iconMinus = new ImageIcon(ImageIO.read(new File("res/minus.png")));
 		} catch (IOException e1) {
-			e1.printStackTrace();
+			logger.setMessage(e1.toString(), logger.LEVEL_ERROR);
 		}
 
 		// Panel
@@ -232,7 +234,7 @@ public class MainView extends JFrame {
 		try {
 			this.setIconImage(ImageIO.read(new File("res/icon.png")));
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.setMessage(e.toString(), logger.LEVEL_ERROR);
 		}
 		this.setFocusable(false);
 
@@ -270,6 +272,11 @@ public class MainView extends JFrame {
 		// Matrix wird erstellt
 		tableMatrix = new JTable(data, nameDateien) {
 
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -7131793748431267699L;
+
 			@Override
 			public Component prepareRenderer(TableCellRenderer renderer,
 					int row, int col) {
@@ -306,6 +313,11 @@ public class MainView extends JFrame {
 
 			protected JTableHeader createDefaultTableHeader() {
 				return new JTableHeader(columnModel) {
+
+					/**
+					 * 
+					 */
+					private static final long serialVersionUID = 7949169729076337028L;
 
 					@Override
 					public Dimension getPreferredSize() {

@@ -3,21 +3,13 @@ package de.thkoeln.syp.mtc.gui.control;
 import java.awt.FileDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.rmi.server.ExportException;
-import java.util.Map;
-import java.util.Set;
-import java.util.Map.Entry;
 
 import javax.imageio.ImageIO;
 import javax.swing.JScrollPane;
@@ -262,7 +254,7 @@ public class MainController {
 			try {
 				fd.setIconImage(ImageIO.read(new File("res/icon.png")));
 			} catch (IOException ioe) {
-				logger.setMessage(logger.exceptionToString(ioe),
+				logger.setMessage(ioe.toString(),
 						logger.LEVEL_ERROR);
 			}
 			if (fd.getFiles().length == 1) {
@@ -356,7 +348,7 @@ public class MainController {
 				fileView.setTitle(logFile.getName());
 				management.getFileView().setVisible(true);
 			} catch (IOException ioe) {
-				logger.setMessage(logger.exceptionToString(ioe),
+				logger.setMessage(ioe.toString(),
 						logger.LEVEL_ERROR);
 			}
 		}

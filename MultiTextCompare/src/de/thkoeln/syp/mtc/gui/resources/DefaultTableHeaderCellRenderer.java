@@ -2,7 +2,6 @@ package de.thkoeln.syp.mtc.gui.resources;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.util.List;
 
 import javax.swing.Icon;
@@ -15,6 +14,11 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 
 public class DefaultTableHeaderCellRenderer extends DefaultTableCellRenderer {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7247618592855493650L;
 
 	/**
 	 * Constructs a <code>DefaultTableHeaderCellRenderer</code>.
@@ -80,6 +84,7 @@ public class DefaultTableHeaderCellRenderer extends DefaultTableCellRenderer {
 	 *            the column index.
 	 * @return the sort icon, or null if the column is unsorted.
 	 */
+	@SuppressWarnings("incomplete-switch")
 	protected Icon getIcon(JTable table, int column) {
 		SortKey sortKey = getSortKey(table, column);
 		if (sortKey != null
@@ -104,12 +109,12 @@ public class DefaultTableHeaderCellRenderer extends DefaultTableCellRenderer {
 	 * @return the SortKey, or null if the column is unsorted
 	 */
 	protected SortKey getSortKey(JTable table, int column) {
-		RowSorter rowSorter = table.getRowSorter();
+		RowSorter<?> rowSorter = table.getRowSorter();
 		if (rowSorter == null) {
 			return null;
 		}
 
-		List sortedColumns = rowSorter.getSortKeys();
+		List<?> sortedColumns = rowSorter.getSortKeys();
 		if (sortedColumns.size() > 0) {
 			return (SortKey) sortedColumns.get(0);
 		}

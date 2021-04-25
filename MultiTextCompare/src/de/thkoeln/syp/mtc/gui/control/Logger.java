@@ -5,8 +5,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -21,7 +19,6 @@ import de.thkoeln.syp.mtc.gui.view.MainView;
 
 public class Logger {
 	private Management management;
-	private int level;
 	public final int LEVEL_INFO = 0;
 	public final int LEVEL_WARNING = 1;
 	public final int LEVEL_ERROR = 2;
@@ -32,7 +29,6 @@ public class Logger {
 	}
 
 	public void setMessage(String message, int level) {
-		this.level = level;
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat timestamp = new SimpleDateFormat("HH:mm:ss");
 		String fullEntry = timestamp.format(cal.getTime()) + " | " + message
@@ -52,7 +48,7 @@ public class Logger {
 				logFile.createNewFile();
 			}
 		} catch (IOException e) {
-			setMessage(exceptionToString(e), LEVEL_ERROR);
+			setMessage(e.toString(), LEVEL_ERROR);
 		}
 
 	}
@@ -75,21 +71,14 @@ public class Logger {
 			writer.append(message);
 			writer.close();
 		} catch (IOException e) {
-			setMessage(exceptionToString(e), LEVEL_ERROR);
+			setMessage(e.toString(), LEVEL_ERROR);
 		}
 	}
 
-	public String exceptionToString(Throwable e) {
-		StringWriter sw = new StringWriter();
-		PrintWriter pw = new PrintWriter(sw);
-		e.printStackTrace(pw);
-		return sw.toString();
-	}
 
 	// Schreibt eine Zeile in den Log
 	public void appendToLog(String s, int level) {
 		MainView mainView = management.getMainView();
-		String text = s;
 		switch (level) {
 		case 0:
 			if (mainView.getInfo().isSelected()) {

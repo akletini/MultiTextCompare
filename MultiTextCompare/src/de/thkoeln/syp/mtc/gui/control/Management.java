@@ -2,7 +2,6 @@ package de.thkoeln.syp.mtc.gui.control;
 
 import java.awt.FileDialog;
 import java.awt.event.ActionEvent;
-import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -352,7 +351,7 @@ public class Management {
 		try {
 			fd.setIconImage(ImageIO.read(new File("res/icon.png")));
 		} catch (IOException ioe) {
-			logger.setMessage(logger.exceptionToString(ioe),
+			logger.setMessage(ioe.toString(),
 					logger.LEVEL_ERROR);
 		}
 		

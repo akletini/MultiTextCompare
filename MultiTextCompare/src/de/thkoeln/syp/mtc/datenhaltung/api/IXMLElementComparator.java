@@ -3,7 +3,6 @@ package de.thkoeln.syp.mtc.datenhaltung.api;
 import java.util.Comparator;
 import java.util.List;
 
-import org.jdom2.Attribute;
 import org.jdom2.Element;
 
 public class IXMLElementComparator implements Comparator<Element> {

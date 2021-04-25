@@ -13,16 +13,26 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import de.thkoeln.syp.mtc.gui.control.Logger;
+import de.thkoeln.syp.mtc.gui.control.Management;
 import de.thkoeln.syp.mtc.gui.control.PopupController;
 
 public class PopupView extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2476545478556069504L;
 	private PopupController popupController;
 	private JPanel panel;
 	private JLabel label;
 	private JLabel labelSpace;
 	private JButton btnOk;
+	private Management management;
+	private Logger logger;
 
 	public PopupView(String name, String error) {
+		management = Management.getInstance();
+		logger = management.getLogger();
 		panel = new JPanel();
 		label = new JLabel(error);
 		labelSpace = new JLabel();
@@ -41,7 +51,7 @@ public class PopupView extends JFrame {
 		try {
 			this.setIconImage(ImageIO.read(new File("res/icon.png")));
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.setMessage(e.toString(), logger.LEVEL_ERROR);
 		}
 		popupController = new PopupController(this);
 	}

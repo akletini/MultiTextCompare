@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Insets;
-import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.io.File;
 import java.io.IOException;
@@ -28,7 +27,7 @@ import javax.swing.text.StyleContext;
 import de.thkoeln.syp.mtc.datenhaltung.api.IDiffChar;
 import de.thkoeln.syp.mtc.datenhaltung.api.IDiffLine;
 import de.thkoeln.syp.mtc.gui.control.ComparisonController;
-import de.thkoeln.syp.mtc.gui.control.MainController;
+import de.thkoeln.syp.mtc.gui.control.Logger;
 import de.thkoeln.syp.mtc.gui.control.Management;
 import de.thkoeln.syp.mtc.gui.resources.NoWrapJTextPane;
 import de.thkoeln.syp.mtc.gui.resources.ScrollBarSynchronizer;
@@ -38,6 +37,10 @@ import de.thkoeln.syp.mtc.steuerung.services.IDiffHelper;
 import de.thkoeln.syp.mtc.steuerung.services.IMatchHelper;
 
 public class ComparisonView extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4623247136191282712L;
 	private Management management;
 	private File[] selectedTempFiles, matchedDiffFiles;
 	private String fileName1, fileName2, fileName3;
@@ -50,10 +53,12 @@ public class ComparisonView extends JFrame {
 	private IMatchHelper matchHelper;
 	private List<File> selection;
 	private List<File> temp;
+	private Logger logger;
 
 	public ComparisonView(List<File> selectedList, List<Integer> fileIndices) {
 		// Management
 		management = Management.getInstance();
+		logger = management.getLogger();
 		if (management.getComparisonView() != null)
 			management.getComparisonView().dispose();
 		this.setSize(1000, 500);
@@ -206,12 +211,13 @@ public class ComparisonView extends JFrame {
 			try {
 				this.setIconImage(ImageIO.read(new File("res/icon.png")));
 			} catch (IOException e) {
+				logger.setMessage(e.toString(), logger.LEVEL_ERROR);
 			}
 			
 			Management.getInstance().setComparisonController(new ComparisonController(this));
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.setMessage(e.toString(), logger.LEVEL_ERROR);
 		}
 
 	}

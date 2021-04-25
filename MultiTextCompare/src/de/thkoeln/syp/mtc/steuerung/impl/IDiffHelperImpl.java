@@ -2,7 +2,6 @@ package de.thkoeln.syp.mtc.steuerung.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -22,7 +21,6 @@ import de.thkoeln.syp.mtc.datenhaltung.api.IDiffLine;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IDiffCharImpl;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IDiffLineImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IDiffHelper;
-import difflib.StringUtills;
 
 public class IDiffHelperImpl implements IDiffHelper {
 

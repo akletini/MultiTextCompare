@@ -21,9 +21,14 @@ import javax.swing.border.EmptyBorder;
 
 import net.miginfocom.swing.MigLayout;
 import de.thkoeln.syp.mtc.gui.control.FileSelectionController;
+import de.thkoeln.syp.mtc.gui.control.Logger;
 import de.thkoeln.syp.mtc.gui.control.Management;
 
 public class FileSelectionView extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 422706508260142301L;
 	private Management management;
 	private JPanel panel;
 	private JScrollPane scrollPane;
@@ -37,10 +42,11 @@ public class FileSelectionView extends JFrame {
 	private ButtonGroup bg;
 	private DefaultListModel<String> model;
 	private JList<String> listFilePath;
+	private Logger logger;
 
 	public FileSelectionView() {
 		management = Management.getInstance();
-
+		logger = management.getLogger();
 		// Panel
 		panel = new JPanel();
 		panel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -130,6 +136,7 @@ public class FileSelectionView extends JFrame {
 		try {
 			this.setIconImage(ImageIO.read(new File("res/icon.png")));
 		} catch (IOException e) {
+			logger.setMessage(e.toString(), logger.LEVEL_ERROR);
 		}
 	}
 

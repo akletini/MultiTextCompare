@@ -27,12 +27,18 @@ import javax.swing.event.ChangeListener;
 import net.miginfocom.swing.MigLayout;
 import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
 import de.thkoeln.syp.mtc.gui.control.ConfigController;
+import de.thkoeln.syp.mtc.gui.control.Logger;
 import de.thkoeln.syp.mtc.gui.control.Management;
 
 public class ConfigView extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7166501486094263080L;
 	private Management management;
 	private IConfig config;
+	private Logger logger;
 	private int matchAtSimilarity;
 	private JPanel panel, panelGeneral, panelXML, panelDiff, panelJSON;
 	private JScrollPane scrollGeneral, scrollDiff, scrollXML, scrollJSON;
@@ -49,7 +55,7 @@ public class ConfigView extends JFrame {
 			lblMatchLines, lblLookForBest, lblMatchAt, lblSortKeys,
 			lblDeleteValues, lblXmlParameters, lblJsonParameters, lblLookahead;
 
-	private JComboBox comboBoxComparisonModes, comboBoxXMLValidation,
+	private JComboBox<?> comboBoxComparisonModes, comboBoxXMLValidation,
 			comboBoxXMLPrint;
 	private JButton btnResetToDefault, btnSetRootPath, btnOk, btnCancel,
 			btnSaveAs;
@@ -62,6 +68,7 @@ public class ConfigView extends JFrame {
 	public ConfigView() {
 		management = Management.getInstance();
 		config = management.getFileImporter().getConfig();
+		logger = management.getLogger();
 
 		Color white = Color.WHITE;
 		panel = new JPanel();
@@ -129,7 +136,7 @@ public class ConfigView extends JFrame {
 		panelGeneral.add(lblKeepCapitalization, "cell 5 6,alignx left");
 
 		String[] comparisonModes = { "Compare characters", "Compare lines" };
-		comboBoxComparisonModes = new JComboBox(comparisonModes);
+		comboBoxComparisonModes = new JComboBox<Object>(comparisonModes);
 		comboBoxComparisonModes.setSelectedIndex(config.getCompareLines() ? 1
 				: 0);
 
@@ -155,7 +162,7 @@ public class ConfigView extends JFrame {
 		lblXmlParameters = new JLabel("XML parameters");
 		lblXmlParameters.setFont(new Font("Tahoma", Font.BOLD, 13));
 		panelXML.add(lblXmlParameters, "cell 1 1");
-		comboBoxXMLValidation = new JComboBox(validations);
+		comboBoxXMLValidation = new JComboBox<Object>(validations);
 		comboBoxXMLValidation.setSelectedItem(config.getXmlValidation());
 		panelXML.add(comboBoxXMLValidation, "cell 1 3,alignx left, grow");
 
@@ -163,7 +170,7 @@ public class ConfigView extends JFrame {
 		panelXML.add(lblValidation, "cell 5 3");
 
 		String[] prints = { "Pretty", "Raw", "Compact" };
-		comboBoxXMLPrint = new JComboBox(prints);
+		comboBoxXMLPrint = new JComboBox<Object>(prints);
 		comboBoxXMLPrint.setSelectedItem(config.getXmlPrint());
 		panelXML.add(comboBoxXMLPrint, "cell 1 4,alignx left, grow");
 
@@ -343,6 +350,7 @@ public class ConfigView extends JFrame {
 		try {
 			this.setIconImage(ImageIO.read(new File("res/icon.png")));
 		} catch (IOException e) {
+			logger.setMessage(e.toString(), logger.LEVEL_ERROR);
 		}
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -356,7 +364,7 @@ public class ConfigView extends JFrame {
 			textFieldLookahead.setText(lookeheadText);
 
 		} catch (NumberFormatException e) {
-			e.printStackTrace();
+			logger.setMessage(e.toString(), logger.LEVEL_ERROR);
 		}
 	}
 
@@ -436,7 +444,7 @@ public class ConfigView extends JFrame {
 		return lblKeepCapitalization;
 	}
 
-	public JComboBox getComboBoxComparisonModes() {
+	public JComboBox<?> getComboBoxComparisonModes() {
 		return comboBoxComparisonModes;
 	}
 
@@ -452,7 +460,7 @@ public class ConfigView extends JFrame {
 		return lblComparisonParameters;
 	}
 
-	public JComboBox getComboBoxXmlValidation() {
+	public JComboBox<?> getComboBoxXmlValidation() {
 		return comboBoxXMLValidation;
 	}
 
@@ -464,7 +472,7 @@ public class ConfigView extends JFrame {
 		return lblPrint;
 	}
 
-	public JComboBox getComboBoxXmlPrint() {
+	public JComboBox<?> getComboBoxXmlPrint() {
 		return comboBoxXMLPrint;
 	}
 
@@ -585,6 +593,7 @@ public class ConfigView extends JFrame {
 			return inputLookahead;
 		} catch (NumberFormatException e) {
 			textFieldLookahead.setText("" +configLookahead);
+			logger.setMessage("Invalid lookahead value", logger.LEVEL_ERROR);
 		}
 		return configLookahead;
 	}

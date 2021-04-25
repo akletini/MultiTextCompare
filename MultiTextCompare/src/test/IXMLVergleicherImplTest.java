@@ -427,7 +427,7 @@ public class IXMLVergleicherImplTest {
 			e.printStackTrace();
 		}
 		
-		Map<File,File> testMap = new HashMap();
+		Map<File,File> testMap = new HashMap<File, File>();
 		
 		testMap.put(testMap1, testMap2);//correct
 		
@@ -457,7 +457,7 @@ public class IXMLVergleicherImplTest {
 			e.printStackTrace();
 		}
 		
-		Map<File,File> testMap = new HashMap();
+		Map<File,File> testMap = new HashMap<File, File>();
 		
 		testMap.put(testMap3, testMap4);//faulty
 		

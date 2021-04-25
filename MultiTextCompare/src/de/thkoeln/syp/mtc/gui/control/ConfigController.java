@@ -7,17 +7,18 @@ import java.io.File;
 
 import javax.swing.JFileChooser;
 
-import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
 import de.thkoeln.syp.mtc.gui.view.ConfigView;
 
 public class ConfigController {
 	private Management management;
 	private ConfigView configView;
 	private JFileChooser fc;
+	@SuppressWarnings("unused")
 	private Logger logger;
 
 	public ConfigController(ConfigView configView) {
 		management = Management.getInstance();
+		logger = management.getLogger();
 		this.configView = configView;
 		this.configView
 				.addSetRootListener(new SetRootListener());

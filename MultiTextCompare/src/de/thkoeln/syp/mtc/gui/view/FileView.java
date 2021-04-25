@@ -10,19 +10,28 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.ScrollPaneConstants;
 
+import de.thkoeln.syp.mtc.gui.control.Logger;
+import de.thkoeln.syp.mtc.gui.control.Management;
 import de.thkoeln.syp.mtc.gui.resources.TextLineNumber;
 
 public class FileView extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1950432104929262839L;
 	private JTextPane textPane;
 	private JScrollPane scroll;
 	private TextLineNumber tln;
+	private Management management;
+	private Logger logger;
 	
 	public FileView(){
+		management = Management.getInstance();
+		logger =  management.getLogger();
 		textPane = new JTextPane();
 		scroll = new JScrollPane(textPane);
 		tln = new TextLineNumber(textPane);
@@ -54,7 +63,7 @@ public class FileView extends JFrame {
 		try {
 			this.setIconImage(ImageIO.read(new File("res/icon.png")));
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.setMessage(e.toString(), logger.LEVEL_ERROR);
 		}
 	}
 	

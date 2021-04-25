@@ -380,7 +380,7 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 		
 		Comparator<Element> elementsComperator = new IXMLElementComparator();
 		
-	    List children = current.getChildren();
+	    List<Element> children = current.getChildren();
 	      
 	    for(int i=0; i<children.size(); i++){
 	    	

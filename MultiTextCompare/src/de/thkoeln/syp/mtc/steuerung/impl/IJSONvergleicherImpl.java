@@ -30,6 +30,11 @@ import de.thkoeln.syp.mtc.steuerung.services.IJSONvergleicher;
 
 public class IJSONvergleicherImpl extends JsonNodeFactory implements IJSONvergleicher {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2223880091323111953L;
+
 	private List<IJSONParseError> errorListe;
 	
 	private IJSONParseError parseError;

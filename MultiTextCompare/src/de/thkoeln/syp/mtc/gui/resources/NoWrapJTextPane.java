@@ -6,6 +6,11 @@ import javax.swing.JTextPane;
 
 //Extra JTextPane Klasse, die "Word Wrapping" verhindert
 public class NoWrapJTextPane extends JTextPane {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 527168883171479510L;
+
 	@Override
 	public boolean getScrollableTracksViewportWidth() {
 		// Only track viewport width when the viewport is wider than the

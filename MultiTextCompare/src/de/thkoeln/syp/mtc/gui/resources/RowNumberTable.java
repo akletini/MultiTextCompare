@@ -20,10 +20,12 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 
-import de.thkoeln.syp.mtc.gui.control.Management;
-
 public class RowNumberTable extends JTable implements ChangeListener,
 		PropertyChangeListener, TableModelListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5736931872898571250L;
 	private JTable main;
 	private String[] filenames;
 
@@ -158,6 +160,11 @@ public class RowNumberTable extends JTable implements ChangeListener,
 	 * Attempt to mimic the table header renderer
 	 */
 	private static class RowNumberRenderer extends DefaultTableCellRenderer {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1753286549980889921L;
+
 		public RowNumberRenderer() {
 			setHorizontalAlignment(JLabel.CENTER);
 		}

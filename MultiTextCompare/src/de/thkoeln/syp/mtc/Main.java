@@ -26,7 +26,7 @@ public class Main {
 					});
 				} catch (Exception e) {
 					Logger logger = management.getLogger();
-					logger.setMessage(logger.exceptionToString(e), logger.LEVEL_ERROR);
+					logger.setMessage(e.toString(), logger.LEVEL_ERROR);
 				}
 			}
 		});
