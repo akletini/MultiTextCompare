@@ -55,7 +55,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		List<String> referenceLines = null;
 		List<String> comparisonLines = null;
 		final int MATCHING_LOOKAHEAD = fileImporter.getConfig().getMatchingLookahead();
-		final double MATCH_AT_VALUE = fileImporter.getConfig().getMatchAt() / 100;
+		final double MATCH_AT_VALUE = fileImporter.getConfig().getMatchAt();
 		final boolean SEARCH_BEST_MATCH = fileImporter.getConfig().getBestMatch();
 		for (IAehnlichkeitImpl a : batch) {
 			File ref, comp;

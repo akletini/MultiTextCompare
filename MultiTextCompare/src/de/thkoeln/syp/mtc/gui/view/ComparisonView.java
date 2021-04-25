@@ -137,7 +137,7 @@ public class ComparisonView extends JFrame {
 
 		try {
 			selectedTempFiles = selection.toArray(new File[selection.size()]);
-			matchHelper.setMATCH_AT(management.getFileImporter().getConfig().getMatchAt() /100.0);
+			matchHelper.setMATCH_AT(management.getFileImporter().getConfig().getMatchAt());
 			matchHelper.setLOOKAHEAD(management.getFileImporter().getConfig().getMatchingLookahead());
 			matchHelper.setSearchBestMatch(management.getFileImporter().getConfig().getBestMatch());
 			matchedDiffFiles = matchHelper.createMatchFiles(selectedTempFiles);
@@ -281,7 +281,6 @@ public class ComparisonView extends JFrame {
 		match.matchLines(files[0], files[1]);
 		match.matchLines(files[0], files[2]);
 		match.matchLines(files[1], files[2]);
-
 	}
 	
 	public void addMouseWheelListenerLeft(MouseWheelListener e){

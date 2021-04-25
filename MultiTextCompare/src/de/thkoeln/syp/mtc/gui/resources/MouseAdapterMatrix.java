@@ -36,7 +36,7 @@ public class MouseAdapterMatrix extends MouseAdapter {
 		fileIndices = new ArrayList<Integer>();
 		referenceFiles = new ArrayList<File>();
 		controlMode = false;
-		referenceCell = new ReferenceCell(null, null, -1, -1);
+		referenceCell = new ReferenceCell(-1, -1);
 	}
 
 	@Override
@@ -102,8 +102,7 @@ public class MouseAdapterMatrix extends MouseAdapter {
 					greyOutMatrix(true);
 					//Add reference cell to selectedFiles list
 					fetchFilesFromCellClick(rowIndex, columnIndex);
-					referenceCell = new ReferenceCell(selectedFiles.get(1),
-							selectedFiles.get(0), rowIndex, columnIndex);
+					referenceCell = new ReferenceCell(rowIndex, columnIndex);
 					management.setReferenceRow(rowIndex);
 					management.setReferenceCol(columnIndex);
 
@@ -305,9 +304,7 @@ class ReferenceCell {
 	File fileRow, fileCol;
 	int row, col;
 
-	public ReferenceCell(File fileRow, File fileCol, int row, int col) {
-		this.fileRow = fileRow;
-		this.fileCol = fileCol;
+	public ReferenceCell(int row, int col) {
 		this.row = row;
 		this.col = col;
 	}
