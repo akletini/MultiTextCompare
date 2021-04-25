@@ -437,10 +437,10 @@ public class FileSelectionController extends JFrame {
 					BufferedReader input = new BufferedReader(
 							new InputStreamReader(new FileInputStream(
 									selectedFile), "UTF-8"));
-					management.getFileView().getTextArea().setText(null);
-					management.getFileView().getTextArea()
+					management.getFileView().getTextPane().setText(null);
+					management.getFileView().getTextPane()
 							.read(input, "Reading file...");
-					management.getFileView().getTextArea().setCaretPosition(0);
+					management.getFileView().getTextPane().setCaretPosition(0);
 
 					management.getFileView().setTitle(fileName);
 					management.getFileView().setVisible(true);

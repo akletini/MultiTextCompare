@@ -2,7 +2,11 @@ package de.thkoeln.syp.mtc.gui.resources;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -15,6 +19,7 @@ import javax.swing.JTable;
 import de.thkoeln.syp.mtc.gui.control.Logger;
 import de.thkoeln.syp.mtc.gui.control.Management;
 import de.thkoeln.syp.mtc.gui.view.ComparisonView;
+import de.thkoeln.syp.mtc.gui.view.FileView;
 
 // Extra Klasse fuer die Klickbarkeit der Matrix
 public class MouseAdapterMatrix extends MouseAdapter {
@@ -56,9 +61,11 @@ public class MouseAdapterMatrix extends MouseAdapter {
 				rowIndex = table.rowAtPoint(e.getPoint());
 				columnIndex = table.columnAtPoint(e.getPoint());
 				kreuzKlick = true;
-				
-				//wieder farbig machen
-				if(controlMode && rowIndex == referenceCell.row && columnIndex == referenceCell.col && e.isControlDown()){
+
+				// wieder farbig machen
+				if (controlMode && rowIndex == referenceCell.row
+						&& columnIndex == referenceCell.col
+						&& e.isControlDown()) {
 					controlMode = false;
 					greyOutMatrix(false);
 					selectedFiles.clear();
@@ -94,20 +101,22 @@ public class MouseAdapterMatrix extends MouseAdapter {
 						kreuzKlick = false;
 					}
 				}
-				
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+				// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				// gehe in STRG-Mode
-				else if (isSingleClick(e) && e.isControlDown() && !(rowIndex == referenceCell.row && columnIndex == referenceCell.col)) {
+				else if (isSingleClick(e)
+						&& e.isControlDown()
+						&& !(rowIndex == referenceCell.row && columnIndex == referenceCell.col)) {
 					controlMode = true;
 					greyOutMatrix(true);
-					//Add reference cell to selectedFiles list
+					// Add reference cell to selectedFiles list
 					fetchFilesFromCellClick(rowIndex, columnIndex);
 					referenceCell = new ReferenceCell(rowIndex, columnIndex);
 					management.setReferenceRow(rowIndex);
 					management.setReferenceCol(columnIndex);
 
 				}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+				// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				if (controlMode) {
 					if (rowIndex == referenceCell.row) {
 
@@ -123,7 +132,8 @@ public class MouseAdapterMatrix extends MouseAdapter {
 								logger.setMessage(
 										management.getCurrentFileSelection()
 												.get(rowIndex).split("\\|")[0]
-												.trim() + " and "
+												.trim()
+												+ " and "
 												+ management
 														.getCurrentFileSelection()
 														.get(columnIndex)
@@ -175,80 +185,61 @@ public class MouseAdapterMatrix extends MouseAdapter {
 
 						kreuzKlick = false;
 					}
-				
+
 				}
 				// Control mode end
-				
-				
+
+			}
+			// click on table header
+			else if (management.getMainView().getTableMatrix().getTableHeader()
+					.equals(e.getSource())) {
+				columnIndex = management.getMainView().getTableMatrix()
+						.columnAtPoint(e.getPoint());
+
+				// Tempfiles werden durchsucht
+				for (Map.Entry<File, File> entry : tempFiles) {
+					if (entry.getValue().getName()
+							.equals("temp_" + (columnIndex + 1))) {
+						FileView fileView = new FileView();
+						try {
+							BufferedReader reader = new BufferedReader(
+									new FileReader(entry.getValue()));
+							String currentLine = "";
+							List<String> lines = new ArrayList<String>();
+							while ((currentLine = reader.readLine()) != null) {
+								lines.add(currentLine + "\n");
+							}
+							String lastLine = lines.get(lines.size() - 1);
+							String newLastLine = lastLine.substring(0, lastLine.length() - 1);
+							lines.remove(lines.size() - 1);
+							lines.add(newLastLine);
+							for(String s : lines){
+								fileView.getTextPane().setText(fileView.getTextPane().getText() + s);
+							}
+							
+							reader.close();
+							fileView.setVisible(true);
+
+						} catch (IOException ex) {
+							logger.setMessage(ex.toString(), logger.LEVEL_ERROR);
+						}
+					}
+				}
 			}
 
-			// // Klick auf Spaltenkopf
-			// else if
-			// (management.getMainView().getTableMatrix().getTableHeader()
-			// .equals(e.getSource())) {
-			// columnIndex = management.getMainView().getTableMatrix()
-			// .columnAtPoint(e.getPoint());
-			//
-			// // Tempfiles werden durchsucht
-			// for (Map.Entry<File, File> entry : tempFiles) {
-			// if (entry.getValue().getName()
-			// .equals("temp_" + (columnIndex + 1))) {
-			// if (!fileIndices.contains(columnIndex)) {
-			// selectedFiles.add(entry.getValue());
-			// fileIndices.add(columnIndex);
-			// }
-			//
-			// // Logausgabe
-			// logger.setMessage(management.getCurrentFileSelection()
-			// .get(columnIndex)
-			// .split("\\|")[0].trim()
-			// + " has been selected. Total: "
-			// + (selectedFiles.size()), logger.LEVEL_INFO);
-			// }
-			// }
-			// }
-
-			// Falls 4 Dateien ausgewaehlt wurden
-			if (selectedFiles.size() > 3) {
-				logger.setMessage(
-						"Error! Only 2 or 3 files can be compared at once.",
-						logger.LEVEL_WARNING);
-				selectedFiles.clear();
-				fileIndices.clear();
-				kreuzKlick = false;
-
-				// ComparisonView wird geoeffnet
-			} else if ((selectedFiles.size() == 2 && kreuzKlick == true)
-					|| selectedFiles.size() == 3) {
-				// Klick ueber und unter der Hauptdiagonale spiegeln
-				// if (rowIndex < columnIndex) {
-				// management.setComparisonView(new ComparisonView(
-				// selectedFiles, fileIndices));
-				// } else {
-				// Collections.reverse(selectedFiles);
-				// Collections.reverse(fileIndices);
-				// management.setComparisonView(new ComparisonView(
-				// selectedFiles, fileIndices));
-				// }
-				// logger.setMessage("Comparison is now visible",
-				// logger.LEVEL_INFO);
-				// selectedFiles.clear();
-				// fileIndices.clear();
-				// kreuzKlick = false;
-			}
 		}
 	}
 
 	public void greyOutMatrix(boolean doIt) {
 		JTable matrix = management.getMainView().getTableMatrix();
-		
+
 		if (doIt) {
 			management.setIsMatrixGreyedOut(doIt);
 			matrix.repaint();
 		} else {
 			management.setIsMatrixGreyedOut(doIt);
 			matrix.getSelectionModel().clearSelection();
-			matrix.repaint(); // war ausgegraut
+			matrix.repaint();
 		}
 	}
 

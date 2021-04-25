@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.Desktop.Action;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.io.File;
@@ -313,6 +314,7 @@ public class MainView extends JFrame {
 						return d;
 					}
 
+					@Override
 					public String getToolTipText(MouseEvent e) {
 						int index = columnModel
 								.getColumnIndexAtX(e.getPoint().x);
@@ -330,6 +332,8 @@ public class MainView extends JFrame {
 									logger.LEVEL_WARNING);
 						return null;
 					}
+					
+		
 				};
 			}
 		};
@@ -415,7 +419,6 @@ public class MainView extends JFrame {
 		MouseAdapterMatrix mouseAdapterMatrix = new MouseAdapterMatrix();
 		tableMatrix.addMouseListener(mouseAdapterMatrix);
 		tableMatrix.getTableHeader().addMouseListener(mouseAdapterMatrix);
-
 	}
 
 	// Generierung der Farbe passend zum Aehnlichkeitswert
@@ -471,6 +474,7 @@ public class MainView extends JFrame {
 	}
 
 	// -- Methoden um die Buttons auf den Controller zu verweisen --
+	
 	public void addFileSelectionListener(ActionListener e) {
 		btnDateiauswahl.addActionListener(e);
 	}

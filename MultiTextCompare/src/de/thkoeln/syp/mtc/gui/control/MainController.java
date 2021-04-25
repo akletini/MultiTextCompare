@@ -3,6 +3,9 @@ package de.thkoeln.syp.mtc.gui.control;
 import java.awt.FileDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.event.WindowEvent;
@@ -12,6 +15,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.rmi.server.ExportException;
+import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
 
 import javax.imageio.ImageIO;
 import javax.swing.JScrollPane;
@@ -58,6 +64,7 @@ public class MainController {
 		mainView.addToolbarZoomInListener(new ToolbarZoomInListener());
 		mainView.addToolbarZoomOutListener(new ToolbarZoomOutListener());
 	}
+
 
 	class FileSelectionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
@@ -332,25 +339,25 @@ public class MainController {
 	}
 
 	class MenuShowLogListener implements ActionListener {
-		public void actionPerformed(ActionEvent e){
+		public void actionPerformed(ActionEvent e) {
 			if (Management.getInstance().getFileView() == null) {
 				management.setFileView(new FileView());
 			}
 			FileView fileView = management.getFileView();
 			Logger logger = management.getLogger();
 			try {
-			File logFile = logger.getCurrentLogFile();
-			BufferedReader input = new BufferedReader(
-					new InputStreamReader(new FileInputStream(
-							logFile), "UTF-8"));
-			fileView.getTextArea().read(input, "Reading log...");
-			management.getFileView().getTextArea().setCaretPosition(0);
+				File logFile = logger.getCurrentLogFile();
+				BufferedReader input = new BufferedReader(
+						new InputStreamReader(new FileInputStream(logFile),
+								"UTF-8"));
+				fileView.getTextPane().read(input, "Reading log...");
+				management.getFileView().getTextPane().setCaretPosition(0);
 
-			fileView.setTitle(logFile.getName());
-			management.getFileView().setVisible(true);
-			}
-			catch(IOException ioe){
-				logger.setMessage(logger.exceptionToString(ioe) , logger.LEVEL_ERROR);
+				fileView.setTitle(logFile.getName());
+				management.getFileView().setVisible(true);
+			} catch (IOException ioe) {
+				logger.setMessage(logger.exceptionToString(ioe),
+						logger.LEVEL_ERROR);
 			}
 		}
 	}

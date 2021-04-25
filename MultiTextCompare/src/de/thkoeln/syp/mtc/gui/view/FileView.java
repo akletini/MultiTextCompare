@@ -58,7 +58,7 @@ public class FileView extends JFrame {
 		}
 	}
 	
-	public JTextPane getTextArea() {
+	public JTextPane getTextPane() {
 		return textPane;
 	}
 
