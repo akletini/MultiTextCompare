@@ -9,12 +9,10 @@ public class IAehnlichkeitImpl implements IAehnlichkeit {
 	private File von, zu;
 	private int weight, id;
 	private double wert;
-	
+
 	public IAehnlichkeitImpl() {
-		
+
 	}
-	
-	
 
 	public IAehnlichkeitImpl(File von, File zu, int weight, int id, double wert) {
 		this.von = von;
@@ -23,8 +21,6 @@ public class IAehnlichkeitImpl implements IAehnlichkeit {
 		this.id = id;
 		this.wert = wert;
 	}
-
-
 
 	@Override
 	public void setVon(File von) {
@@ -42,9 +38,7 @@ public class IAehnlichkeitImpl implements IAehnlichkeit {
 
 	@Override
 	public void setWert(double wert) {
-		if (wert >= 0 && wert <= 1) {
-			this.wert = wert;
-		}
+		this.wert = wert;
 	}
 
 	@Override
@@ -61,12 +55,12 @@ public class IAehnlichkeitImpl implements IAehnlichkeit {
 	public double getWert() {
 		return wert;
 	}
-	
+
 	@Override
 	public int getWeight() {
 		return weight;
 	}
-	
+
 	@Override
 	public void setWeight(int weight) {
 		this.weight = weight;
@@ -81,10 +75,11 @@ public class IAehnlichkeitImpl implements IAehnlichkeit {
 	public void setId(int id) {
 		this.id = id;
 	}
-	
+
 	@Override
-	public String toString(){
-//		return "Compare " + von.getName() + " with " + zu.getName() + " ID: " + id + ", weight: " + weight;
+	public String toString() {
+		// return "Compare " + von.getName() + " with " + zu.getName() + " ID: "
+		// + id + ", weight: " + weight;
 		return "" + id;
 	}
 }
