@@ -4,8 +4,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -137,8 +139,7 @@ public class MouseAdapterMatrix extends MouseAdapter {
 														.getCurrentFileSelection()
 														.get(columnIndex)
 														.split("\\|")[0].trim()
-												+ " have been selected. Total: "
-												+ (selectedFiles.size()),
+												+ " have been selected.",
 										logger.LEVEL_INFO);
 							}
 						}
@@ -158,8 +159,7 @@ public class MouseAdapterMatrix extends MouseAdapter {
 										management.getCurrentFileSelection()
 												.get(columnIndex).split("\\|")[0]
 												.trim()
-												+ " has been selected. Total: "
-												+ (selectedFiles.size()),
+												+ " has been selected.",
 										logger.LEVEL_INFO);
 							}
 						}
@@ -201,21 +201,23 @@ public class MouseAdapterMatrix extends MouseAdapter {
 							.equals("temp_" + (columnIndex + 1))) {
 						FileView fileView = new FileView();
 						try {
-							BufferedReader reader = new BufferedReader(
-									new FileReader(entry.getValue()));
+							BufferedReader reader = new BufferedReader(new InputStreamReader(
+									new FileInputStream(entry.getValue()), "UTF-8"));
 							String currentLine = "";
 							List<String> lines = new ArrayList<String>();
 							while ((currentLine = reader.readLine()) != null) {
 								lines.add(currentLine + "\n");
 							}
 							String lastLine = lines.get(lines.size() - 1);
-							String newLastLine = lastLine.substring(0, lastLine.length() - 1);
+							String newLastLine = lastLine.substring(0,
+									lastLine.length() - 1);
 							lines.remove(lines.size() - 1);
 							lines.add(newLastLine);
-							for(String s : lines){
-								fileView.getTextPane().setText(fileView.getTextPane().getText() + s);
+							for (String s : lines) {
+								fileView.getTextPane().setText(
+										fileView.getTextPane().getText() + s);
 							}
-							
+
 							reader.close();
 							fileView.setVisible(true);
 
@@ -265,8 +267,7 @@ public class MouseAdapterMatrix extends MouseAdapter {
 		if (columnIndex == rowIndex) {
 			logger.setMessage(management.getCurrentFileSelection()
 					.get(rowIndex).split("\\|")[0].trim()
-					+ " has been selected. Total: " + (selectedFiles.size()),
-					logger.LEVEL_INFO);
+					+ " has been selected.", logger.LEVEL_INFO);
 			// Sonstige Logausgabe
 		} else {
 			logger.setMessage(
@@ -275,8 +276,7 @@ public class MouseAdapterMatrix extends MouseAdapter {
 							+ " & "
 							+ management.getCurrentFileSelection()
 									.get(columnIndex).split("\\|")[0]
-							+ " have been selected. Total: "
-							+ (selectedFiles.size()), logger.LEVEL_INFO);
+							+ " have been selected.", logger.LEVEL_INFO);
 		}
 	}
 
