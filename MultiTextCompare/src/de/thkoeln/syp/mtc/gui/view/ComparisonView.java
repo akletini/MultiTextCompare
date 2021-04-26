@@ -116,6 +116,7 @@ public class ComparisonView extends JFrame {
 		new ScrollBarSynchronizer(scrollPaneLeft.getVerticalScrollBar(),
 				scrollPaneMid.getVerticalScrollBar(),
 				scrollPaneRight.getVerticalScrollBar());
+		new ScrollBarSynchronizer(scrollPaneLeft.getHorizontalScrollBar(),scrollPaneMid.getHorizontalScrollBar(),scrollPaneRight.getHorizontalScrollBar()); 
 
 	
 		// Panel Parameter
