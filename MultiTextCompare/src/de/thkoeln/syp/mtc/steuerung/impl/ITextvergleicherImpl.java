@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
@@ -18,7 +19,11 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IAehnlichkeit;
 import de.thkoeln.syp.mtc.datenhaltung.api.IMatrix;
@@ -438,7 +443,15 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 
 		return batches;
 	}
+	
+	/*
+	 * END FOR NORMAL TEXT COMPARISON
+	 */
 
+	public void compareJSON() throws IOException{
+		IJSONcomparer jsonComparer = new IJSONcomparer();
+		jsonComparer.init();
+	}
 	/**
 	 * Berechnet die Levenshtein Distanz zwischen s1 und s2
 	 * 

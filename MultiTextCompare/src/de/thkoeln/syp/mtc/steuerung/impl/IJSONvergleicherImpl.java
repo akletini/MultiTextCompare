@@ -49,6 +49,9 @@ public class IJSONvergleicherImpl extends JsonNodeFactory implements IJSONvergle
 		this.iFileImporter = fileImporter;
 		this.iConfig = fileImporter.getConfig();
 	}
+	public IJSONvergleicherImpl(){
+		
+	}
 		
 	/**
 	 * Parst mittels Jackson gegebenes File auf Wohlgeformtheit
