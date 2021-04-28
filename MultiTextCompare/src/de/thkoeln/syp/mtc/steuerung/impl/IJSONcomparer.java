@@ -33,7 +33,7 @@ public class IJSONcomparer {
 		rootNodeRef = mapperRef.readTree(jsonFileRef);
 		rootNodeComp = mapperComp.readTree(jsonFileComp);
 		calcLevelWeight(rootNodeRef, rootNodeComp);
-		traverse(rootNodeRef, rootNodeComp, 0);
+		traverseGraph(rootNodeRef, rootNodeComp, 0);
 		// StringBuilder b = new StringBuilder();
 		// processNode(rootNodeRef, b, 0);
 		return rootNodeRef;
@@ -58,36 +58,76 @@ public class IJSONcomparer {
 	}
 
 	@SuppressWarnings("unused")
-	public void traverse(JsonNode rootRef, JsonNode rootComp, int depth) {
-
-		if (rootRef.isObject()) {
-			Iterator<String> fieldNames = rootRef.fieldNames();
-			Iterator<String> fieldNamesComp = rootComp.fieldNames();
-
-			// Iterate through left tree
-			while (fieldNames.hasNext()) {
-				String fieldName = fieldNames.next();
-//				 System.out.println(fieldName + " " + depth);
-				JsonNode fieldValueRef = rootRef.get(fieldName);
-
+	public void traverseGraph(JsonNode rootRef, JsonNode rootComp, int depth) {
+		Iterator<String> fieldNames = rootRef.fieldNames();
+		Iterator<String> fieldNamesComp = rootComp.fieldNames();
+		while (fieldNames.hasNext()) {
+			String fieldName = fieldNames.next();
+			// System.out.println(fieldName + " " + depth);
+			JsonNode fieldValueRef = rootRef.get(fieldName);
+			if (fieldValueRef.isValueNode()) {
+				if (existsInBoth(fieldName, rootNodeComp)) {
+					JsonNode fieldValueComp = rootComp.get(fieldName);
+					compareValues(fieldValueRef, fieldValueComp);
+				}
+			} else if (fieldValueRef.isObject()) {
+				// Iterate through left tree
 				if (existsInBoth(fieldName, rootNodeComp)) {
 					JsonNode fieldValueComp = rootComp.get(fieldName);
 					compareFields(fieldValueRef, fieldValueComp);
 					// traverse(fieldValue, depth + 1);
 				}
 				//
-			}
-		} else if (rootRef.isArray()) {
-			ArrayNode arrayNode = (ArrayNode) rootRef;
-			for (int i = 0; i < arrayNode.size(); i++) {
-				JsonNode arrayElement = arrayNode.get(i);
-				traverse(arrayElement, rootComp, depth);
-			}
-		} else {
-			System.out.println("Test");
-			// JsonNode root represents a single value field - do something with
-			// it.
 
+			} else if (fieldValueRef.isArray()) {
+				
+					if (existsInBoth(fieldName, rootComp)) {
+						JsonNode fieldValueComp = rootComp.get(fieldName);
+						compareArrays(fieldValueRef, fieldValueComp);
+						// System.out.println(arrayItem.get(fieldName));
+					}
+					// traverse(arrayElement, rootComp, depth);
+				
+			}
+		}
+	}
+
+	private void compareArrays(JsonNode fieldValueRef, JsonNode fieldValueComp) {
+		for(int i = 0; i < fieldValueRef.size(); i++){
+			JsonNode currentRefNode = fieldValueRef.get(i);
+
+			if(fieldValueComp.isValueNode()){
+				if(currentRefNode.equals(fieldValueComp)){
+					System.out.println("gleich");
+				}
+				else {
+					System.out.println("ungleich");
+				}
+			}
+			else if(fieldValueComp.isContainerNode()){
+				ArrayList<JsonNode> compNodes = new ArrayList<JsonNode>();
+				for(JsonNode node : fieldValueComp){
+					compNodes.add(node);
+				}
+				
+				if(compNodes.contains(currentRefNode)){
+					System.out.println("yes");
+				}
+			}
+		}
+	}
+
+	private void compareValues(JsonNode fieldValueRef, JsonNode fieldValueComp) {
+
+		if (fieldValueComp.isValueNode()) {
+			String valueRef = fieldValueRef.asText();
+			String valueComp = fieldValueComp.asText();
+			if (valueRef.equals(valueComp)) {
+				System.out.println(valueRef);
+			}
+		}
+		else if(fieldValueComp.isContainerNode()){
+			System.out.println("Do sth else idk");
 		}
 	}
 
@@ -112,21 +152,20 @@ public class IJSONcomparer {
 			JsonNode nodeComp = fieldValueComp.get(matchingKeys.get(i));
 			if (!nodeRef.isContainerNode() || !nodeComp.isContainerNode()) {
 				equalValues.add(nodeRef.equals(nodeComp));
-			}
-			else {
+			} else {
 				compareFields(nodeRef, nodeComp);
 			}
 		}
-		
-		for (String s : matchingKeys) {
+
+//		 for (String s : matchingKeys) {
+//		 // JsonNode node = fieldValueRef.get(s);
+//		 System.out.println(s);
+//		 }
+
+		for (Boolean s : equalValues) {
 			// JsonNode node = fieldValueRef.get(s);
 			System.out.println(s);
 		}
-
-//		for (Boolean s : equalValues) {
-//			// JsonNode node = fieldValueRef.get(s);
-//			System.out.println(s);
-//		}
 
 	}
 
