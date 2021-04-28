@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -95,7 +96,7 @@ public class IJSONvergleicherImplTest {
 	}
 	
 	@Test
-	public void test_jsonPrepare_Correct() {
+	public void test_jsonPrepare_Correct() throws IOException {
 		iJSON.clearErrorList();
 		
 		FileInputStream instream = null;
@@ -128,7 +129,7 @@ public class IJSONvergleicherImplTest {
 	
 	
 	@Test
-	public void test_jsonPrepare_Incorrect() {
+	public void test_jsonPrepare_Incorrect() throws IOException {
 		iJSON.clearErrorList();
 		
 		try{

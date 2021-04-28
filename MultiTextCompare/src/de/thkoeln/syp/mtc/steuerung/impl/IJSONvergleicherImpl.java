@@ -4,7 +4,11 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -64,9 +68,10 @@ public class IJSONvergleicherImpl extends JsonNodeFactory implements
 	 * 
 	 * @return Map<File, File> Map welche nach den in der Config getroffenen
 	 *         Einstellungen manipuliert wurde
+	 * @throws IOException 
 	 */
 	@Override
-	public Map<File, File> jsonPrepare(Map<File, File> tempFiles) {
+	public Map<File, File> jsonPrepare(Map<File, File> tempFiles) throws IOException {
 		this.clearErrorList();
 
 		boolean deleteValues = iConfig.getJsonDeleteValues();
@@ -372,25 +377,11 @@ public class IJSONvergleicherImpl extends JsonNodeFactory implements
 	 *            werden soll.
 	 * 
 	 * @return content repraesentiert uebergebene JSON-Datei als String.
+	 * @throws IOException 
 	 */
 	@Override
-	public String jsonFileToString(File file) {
-		boolean parseErrorOccured = false;
-
-		FileInputStream fileInputStream = null;
-
-		byte[] fileInBytes = new byte[(int) file.length()];
-
-		try {
-
-			fileInputStream = new FileInputStream(file);
-			fileInputStream.read(fileInBytes);
-			fileInputStream.close();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return new String(fileInBytes);
+	public String jsonFileToString(File file) throws IOException {
+		return new String(Files.readAllBytes(Paths.get(file.getAbsolutePath())), StandardCharsets.UTF_8 );
 	}
 
 	/**

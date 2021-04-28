@@ -461,7 +461,8 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	 *            Vergleichs-String
 	 * @return die LevenShtein Distanz zwischen s1 und s2
 	 */
-	private int calculateLevenshteinDist(char[] s1, char[] s2) {
+	@Override
+	public int calculateLevenshteinDist(char[] s1, char[] s2) {
 
 		// memoize only previous line of distance matrix
 		int[] prev = new int[s2.length + 1];

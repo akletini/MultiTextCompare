@@ -33,6 +33,8 @@ public interface ITextvergleicher {
 
 	void setFileImporter(IFileImporter fileImporter);
 
+	int calculateLevenshteinDist(char[] s1, char[] s2);
+
 	
 	
 	
