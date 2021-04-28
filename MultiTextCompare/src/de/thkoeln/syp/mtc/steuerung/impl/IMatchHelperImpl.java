@@ -71,13 +71,13 @@ public class IMatchHelperImpl implements IMatchHelper {
 				return;
 			}
 
-			int lastMatchedIndex = 0;
+			int lastMatchedIndex = 0, lookaheadExtensionOnMatch = 0;
 			// Schaue f�r jede Zeile der linken Datei
 			for (int i = 0; i < lineCountLeft; i++) {
 				reference = leftFile.get(i);
 
 				// ob es in der rechten Datei ein Match gibt
-				int maxSearchIndex = i + LOOKAHEAD + 1;
+				int maxSearchIndex = i + LOOKAHEAD + 1 + lookaheadExtensionOnMatch;
 
 				if (LOOKAHEAD != 0) {
 					if (maxSearchIndex >= lineCountRight) {
@@ -87,9 +87,10 @@ public class IMatchHelperImpl implements IMatchHelper {
 							comp = rightFile.get(j);
 							int LCS = getLCSLengthFromComparison(reference,
 									rightFile.get(j));
-							if (matches(LCS, reference, rightFile.get(j))
+							if (isMatchable(LCS, reference, rightFile.get(j))
 									&& notMatchedYet(i, j)) {
-								lastMatchedIndex = j;
+								lastMatchedIndex = j + 1;
+								lookaheadExtensionOnMatch = 1;
 								matches.add(new IMatchImpl(i, j, reference,
 										comp));
 								oldIndeces.add(new IMatchImpl(i, j, reference,
@@ -104,9 +105,10 @@ public class IMatchHelperImpl implements IMatchHelper {
 						comp = rightFile.get(j);
 						int LCS = getLCSLengthFromComparison(reference,
 								rightFile.get(j));
-						if (matches(LCS, reference, rightFile.get(j))
+						if (isMatchable(LCS, reference, rightFile.get(j))
 								&& notMatchedYet(i, j)) {
-							lastMatchedIndex = j;
+							lastMatchedIndex = j + 1;
+							lookaheadExtensionOnMatch = 1;
 							matches.add(new IMatchImpl(i, j, reference, comp));
 							oldIndeces
 									.add(new IMatchImpl(i, j, reference, comp));
@@ -168,7 +170,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 						comp = rightFile.get(j);
 						int LCS = getLCSLengthFromComparison(reference,
 								rightFile.get(j));
-						if (matches(LCS, reference, rightFile.get(j))
+						if (isMatchable(LCS, reference, rightFile.get(j))
 								&& notMatchedYet(i, j)) {
 							IMatch matchCandidate = new IMatchImpl(i, j,
 									reference, comp);
@@ -196,7 +198,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 					comp = rightFile.get(j);
 					int LCS = getLCSLengthFromComparison(reference,
 							rightFile.get(j));
-					if (matches(LCS, reference, rightFile.get(j))
+					if (isMatchable(LCS, reference, rightFile.get(j))
 							&& notMatchedYet(i, j)) {
 						IMatch matchCandidate = new IMatchImpl(i, j, reference,
 								comp);
@@ -532,9 +534,9 @@ public class IMatchHelperImpl implements IMatchHelper {
 	 *            String mit dem verglichen wird
 	 * @return true wenn sich die Strings aehnlich sind, sonst false
 	 */
-	private boolean matches(int LCS, String ref, String comp) {
+	private boolean isMatchable(int LCS, String ref, String comp) {
 		int lcsLength = getLCSLengthFromComparison(ref, comp);
-		if (lcsLength >= (Math.max(ref.length(), comp.length()) * MATCH_AT)) {
+		if (lcsLength > (Math.max(ref.length(), comp.length()) * MATCH_AT)) {
 			return true;
 		}
 		return false;
