@@ -239,12 +239,11 @@ public class FileSelectionController extends JFrame {
 			management.getFileSelectionView().getModel().clear();
 			management.getFileSelectionView().getLblFileCount().setText("0");
 			setRdbtn(true);
-			try {
-			management.getCompareThread().stop();
-			}
-			catch(Exception ex){
-				logger.setMessage(ex.toString(), logger.LEVEL_ERROR);
-			}
+//			try {
+//				management.getCompareThread().stop();
+//			} catch (Exception ex) {
+//				logger.setMessage(ex.toString(), logger.LEVEL_ERROR);
+//			}
 			management.getFileSelectionView().getBtnCompare().setVisible(true);
 			newSelection = true;
 		}
@@ -264,7 +263,8 @@ public class FileSelectionController extends JFrame {
 					management.setCompareThread(Thread.currentThread());
 					management.setCurrentFileSelection(management
 							.getFileSelectionView().getModel());
-					management.getFileSelectionView().getBtnCompare().setEnabled(false);
+					management.getFileSelectionView().getBtnCompare()
+							.setEnabled(false);
 
 					anzDateien = fileImporter.getTextdateien().size();
 					if (anzDateien < 2) {
@@ -298,14 +298,13 @@ public class FileSelectionController extends JFrame {
 
 					}
 
-
 					// Vergleich
 					textvergleicher.setFileImporter(fileImporter);
 					IConfig currentConfig = fileImporter.getConfig();
-					if(!(currentConfig.getKeepBlankLines() 
+					if (!(currentConfig.getKeepBlankLines()
 							&& currentConfig.getKeepCapitalization()
-							&& currentConfig.getKeepPuctuation()
-							&& currentConfig.getKeepWhitespaces())){
+							&& currentConfig.getKeepPuctuation() && currentConfig
+								.getKeepWhitespaces())) {
 						fileImporter.normTempFiles();
 					}
 					textvergleicher.getTempfilesFromHashMap(management
@@ -313,10 +312,36 @@ public class FileSelectionController extends JFrame {
 					textvergleicher.getVergleiche(textvergleicher
 							.getTempFiles());
 					textvergleicher.createBatches();
-				
-						ExecutorService es = Executors
-								.newFixedThreadPool(Runtime.getRuntime()
-										.availableProcessors());
+
+					ExecutorService es = Executors.newFixedThreadPool(Runtime
+							.getRuntime().availableProcessors());
+
+					if (mode == 2) {
+						for (int i = 0; i < textvergleicher.getBatches().size(); i++) {
+							final List<IAehnlichkeitImpl> currentBatch = textvergleicher
+									.getBatches().get(i).getInhalt();
+							es.execute(new Runnable() {
+
+								@Override
+								public void run() {
+									textvergleicher.compareJSON(currentBatch);
+
+								}
+
+							});
+
+						}
+
+						es.shutdown();
+						boolean finished = es.awaitTermination(Long.MAX_VALUE,
+								TimeUnit.MINUTES);
+						if (finished) {
+							logger.writeToLogFile("Comparison finished", true);
+						} else {
+							logger.writeToLogFile("Comparison error", true);
+						}
+					} else {
+
 						if (fileImporter.getConfig().getCompareLines() == false) {
 
 							for (int i = 0; i < textvergleicher.getBatches()
@@ -337,12 +362,12 @@ public class FileSelectionController extends JFrame {
 							}
 
 							es.shutdown();
-							boolean finished = es.awaitTermination(30,
-									TimeUnit.MINUTES);
-							if(finished){
-								logger.writeToLogFile("Comparison finished", true);
-							}
-							else {
+							boolean finished = es.awaitTermination(
+									Long.MAX_VALUE, TimeUnit.MINUTES);
+							if (finished) {
+								logger.writeToLogFile("Comparison finished",
+										true);
+							} else {
 								logger.writeToLogFile("Comparison error", true);
 							}
 
@@ -365,17 +390,16 @@ public class FileSelectionController extends JFrame {
 
 							}
 							es.shutdown();
-							boolean finished = es.awaitTermination(30,
-									TimeUnit.MINUTES);
-							if(finished){
-								logger.writeToLogFile("Comparison finished", true);
-							}
-							else {
+							boolean finished = es.awaitTermination(
+									Long.MAX_VALUE, TimeUnit.MINUTES);
+							if (finished) {
+								logger.writeToLogFile("Comparison finished",
+										true);
+							} else {
 								logger.writeToLogFile("Comparison error", true);
 							}
 						}
-					
-
+					}
 					newSelection = false;
 					return null;
 				}
@@ -426,7 +450,8 @@ public class FileSelectionController extends JFrame {
 								+ " files has been created successfully!"
 								+ timeDiffAsString, logger.LEVEL_INFO);
 					}
-					management.getFileSelectionView().getBtnCompare().setEnabled(true);
+					management.getFileSelectionView().getBtnCompare()
+							.setEnabled(true);
 				}
 			}
 
@@ -553,7 +578,6 @@ public class FileSelectionController extends JFrame {
 		}
 		return selectedFiles;
 	}
-
 
 	// - Getter -
 
