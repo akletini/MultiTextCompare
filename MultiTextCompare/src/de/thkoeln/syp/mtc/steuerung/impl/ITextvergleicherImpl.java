@@ -22,6 +22,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
+import org.apache.commons.text.similarity.LevenshteinDistance;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -34,17 +36,14 @@ import de.thkoeln.syp.mtc.steuerung.services.IMatchHelper;
 import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
 
 public class ITextvergleicherImpl implements ITextvergleicher {
-	
+
 	private IFileImporter fileImporter;
-	
+
 	private IMatrix iMatrixImpl;
 	private List<IMatrixImpl> batches;
 
 	private List<IAehnlichkeitImpl> paarungen;
 	private List<File> tempFiles;
-
-
-
 
 	public ITextvergleicherImpl() {
 
@@ -59,44 +58,50 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	public void vergleicheZeilenweise(List<IAehnlichkeitImpl> batch) {
 		List<String> referenceLines = null;
 		List<String> comparisonLines = null;
-		final int MATCHING_LOOKAHEAD = fileImporter.getConfig().getMatchingLookahead();
+		final int MATCHING_LOOKAHEAD = fileImporter.getConfig()
+				.getMatchingLookahead();
 		final double MATCH_AT_VALUE = fileImporter.getConfig().getMatchAt();
-		final boolean SEARCH_BEST_MATCH = fileImporter.getConfig().getBestMatch();
+		final boolean SEARCH_BEST_MATCH = fileImporter.getConfig()
+				.getBestMatch();
+		final boolean MATCH_LINES = fileImporter.getConfig().getLineMatch();
 		for (IAehnlichkeitImpl a : batch) {
 			File ref, comp;
 			ref = a.getVon();
 			comp = a.getZu();
-			
+
 			try {
-				IMatchHelper matchHelper = 	new IMatchHelperImpl();
-				File[] original = new File[] {ref, comp};
+				IMatchHelper matchHelper = new IMatchHelperImpl();
+				File[] original = new File[] { ref, comp };
 				File[] matchedFiles = createCompareMatchFiles(original);
 				ref = matchedFiles[0];
 				comp = matchedFiles[1];
 				matchHelper.setMATCH_AT(MATCH_AT_VALUE);
 				matchHelper.setLOOKAHEAD(MATCHING_LOOKAHEAD);
 				matchHelper.setSearchBestMatch(SEARCH_BEST_MATCH);
+				if(MATCH_LINES){
+					matchHelper.matchLines(ref, comp);
+				}
 
-				matchHelper.matchLines(ref, comp);
-				
 				referenceLines = fileToLines(ref);
 				comparisonLines = fileToLines(comp);
-				
-				double maxFileSize = calculateLineWeight(referenceLines.size(), comparisonLines.size());
+
+				double maxFileSize = calculateLineWeight(referenceLines.size(),
+						comparisonLines.size());
 				double weightPerLine = 1 / maxFileSize;
 				double similarity = 0;
-				
-				similarity = calculateSimilarityMetric(weightPerLine, referenceLines, comparisonLines);
+
+				similarity = calculateSimilarityMetric(weightPerLine,
+						referenceLines, comparisonLines);
 				ref.delete();
 				comp.delete();
 				a.setWert(similarity);
-				
+
 			} catch (IOException e) {
-				
+
 				e.printStackTrace();
 			}
 		}
-		
+
 	}
 
 	/**
@@ -124,16 +129,14 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 
 				Arrays.sort(referenzArray);
 				Arrays.sort(vergleichsArray);
+				
+				referenzString = new String(referenzArray);
+				vergleichsString = new String(vergleichsArray);
 
+				double maxSize = (double) Math.max(referenzArray.length, vergleichsArray.length);
+				
 				double levenshtein = (double) calculateLevenshteinDist(
-						referenzArray, vergleichsArray);
-
-				double maxSize;
-				if (referenzString.length() > vergleichsString.length()) {
-					maxSize = referenzString.length();
-				} else {
-					maxSize = vergleichsString.length();
-				}
+						referenzString, vergleichsString, new Integer(5));
 
 				double metrik = (maxSize - levenshtein) / maxSize;
 				a.setWert(metrik);
@@ -143,9 +146,23 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 			}
 
 		}
-		
+
 	}
-	
+
+	@Override
+	public void compareJSON(List<IAehnlichkeitImpl> batch) {
+		for (IAehnlichkeitImpl a : batch) {
+			try {
+				IJSONcomparer jsonComparer = new IJSONcomparer();
+				double similarity = jsonComparer.compare(a.getVon(), a.getZu());
+				a.setWert(similarity);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
+
 	private File[] createCompareMatchFiles(File[] files) throws IOException {
 		BufferedReader reader;
 		BufferedWriter writer;
@@ -171,7 +188,6 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 				writer.write(line + "\n");
 			}
 			matchFiles.add(temp);
-
 
 			reader.close();
 			writer.close();
@@ -235,8 +251,6 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 
 	}
 
-
-
 	/**
 	 * Liest Datei zeilenweise aus und speichert die Zeilen in lines
 	 * 
@@ -254,8 +268,6 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		in.close();
 		return lines;
 	}
-
-	
 
 	@Override
 	public void fillMatrix() {
@@ -277,8 +289,6 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		return Math.max(refSize, vglSize);
 	}
 
-
-
 	/**
 	 * Berechnet die Aehnlichkeitsmetrix fuer geaenderte Zeilen
 	 * 
@@ -291,8 +301,8 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	 *            eine Liste mit allen Zeilen aus der Vergleichsdatei
 	 * @return Array mit den berechneten Metriken
 	 */
-	private double calculateSimilarityMetric(double weight, List<String> refList,
-			List<String> compList) {
+	private double calculateSimilarityMetric(double weight,
+			List<String> refList, List<String> compList) {
 		int norm = normalizeStringLists(refList, compList);
 		int max = refList.size();
 		if (norm == 0) {
@@ -303,19 +313,25 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 
 		double[] metricPerLine = new double[max];
 		for (int i = 0; i < max; i++) {
-			char[] ref = refList.get(i).toCharArray();
-			char[] comp = compList.get(i).toCharArray();
+			String ref = refList.get(i);
+			String comp = compList.get(i);
 			int longestString;
 
-			if (ref.length >= comp.length) {
-				longestString = ref.length;
+			if (ref.length() >= comp.length()) {
+				longestString = ref.length();
 			} else {
-				longestString = comp.length;
+				longestString = comp.length();
 			}
 
 			double lengthOfLongestString = (double) longestString;
-			double levenshteinDist = (double) calculateLevenshteinDist(ref,
-					comp);
+			double levenshteinDist;
+			if(lengthOfLongestString <= 500) {
+				levenshteinDist = (double) new LevenshteinDistance().apply(ref, comp);
+			}
+			else {
+				LevenshteinDistance levenshtein = new LevenshteinDistance(500);
+				levenshteinDist = (double) levenshtein.apply(ref, comp);
+			}
 			if (lengthOfLongestString != 0) {
 				metricPerLine[i] = weight
 						* (double) ((lengthOfLongestString - levenshteinDist) / lengthOfLongestString);
@@ -325,7 +341,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 
 		}
 		double similarity = 0;
-		for(int i = 0; i < metricPerLine.length; i++){
+		for (int i = 0; i < metricPerLine.length; i++) {
 			similarity += metricPerLine[i];
 		}
 		return similarity;
@@ -413,25 +429,26 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		Collections.sort(paarungen, new SortIAehnlichkeitByID());
 		batches = distributeBatches(paarungen, numThreads);
 
-
 	}
 
 	@Override
-	public void mergeBatches(){
+	public void mergeBatches() {
 		paarungen.clear();
-		for(int i = 0; i < batches.size(); i++){
+		for (int i = 0; i < batches.size(); i++) {
 			List<IAehnlichkeitImpl> currentBatch = batches.get(i).getInhalt();
-			for(int j = 0; j < currentBatch.size(); j++){
+			for (int j = 0; j < currentBatch.size(); j++) {
 				IAehnlichkeit currentComparison = currentBatch.get(j);
 				paarungen.add(new IAehnlichkeitImpl(currentComparison.getVon(),
-						currentComparison.getZu(), currentComparison.getWeight(), currentComparison.getId(), currentComparison.getWert()));
+						currentComparison.getZu(), currentComparison
+								.getWeight(), currentComparison.getId(),
+						currentComparison.getWert()));
 			}
 		}
 		Collections.sort(paarungen, new SortIAehnlichkeitByID());
 	}
 
-	public List<IMatrixImpl> distributeBatches(List<IAehnlichkeitImpl> iterable,
-			int partitions) {
+	public List<IMatrixImpl> distributeBatches(
+			List<IAehnlichkeitImpl> iterable, int partitions) {
 		batches = new ArrayList<>(partitions);
 		for (int i = 0; i < partitions; i++)
 			batches.add(new IMatrixImpl());
@@ -443,15 +460,11 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 
 		return batches;
 	}
-	
+
 	/*
 	 * END FOR NORMAL TEXT COMPARISON
 	 */
 
-	public void compareJSON() throws IOException{
-		IJSONcomparer jsonComparer = new IJSONcomparer();
-		jsonComparer.init();
-	}
 	/**
 	 * Berechnet die Levenshtein Distanz zwischen s1 und s2
 	 * 
@@ -462,37 +475,10 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	 * @return die LevenShtein Distanz zwischen s1 und s2
 	 */
 	@Override
-	public int calculateLevenshteinDist(char[] s1, char[] s2) {
-
-		// memoize only previous line of distance matrix
-		int[] prev = new int[s2.length + 1];
-
-		for (int j = 0; j < s2.length + 1; j++) {
-			prev[j] = j;
-		}
-
-		for (int i = 1; i < s1.length + 1; i++) {
-
-			// calculate current line of distance matrix
-			int[] curr = new int[s2.length + 1];
-			curr[0] = i;
-
-			for (int j = 1; j < s2.length + 1; j++) {
-				int d1 = prev[j] + 1;
-				int d2 = curr[j - 1] + 1;
-				int d3 = prev[j - 1];
-				if (s1[i - 1] != s2[j - 1]) {
-					d3 += 1;
-				}
-				curr[j] = Math.min(Math.min(d1, d2), d3);
-			}
-
-			// define current line of distance matrix as previous
-			prev = curr;
-		}
-		return prev[s2.length];
+	public int calculateLevenshteinDist(String ref, String comp, Integer threshold) {
+		LevenshteinDistance levenshtein = new LevenshteinDistance(threshold);
+		return levenshtein.apply(ref, comp);
 	}
-
 
 	@Override
 	public List<IAehnlichkeitImpl> getPaarungen() {
@@ -508,7 +494,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	public IMatrixImpl getMatrix() {
 		return (IMatrixImpl) iMatrixImpl;
 	}
-	
+
 	@Override
 	public List<IMatrixImpl> getBatches() {
 		return batches;

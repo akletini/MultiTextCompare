@@ -1,6 +1,7 @@
 package de.thkoeln.syp.mtc.steuerung.services;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +34,9 @@ public interface ITextvergleicher {
 
 	void setFileImporter(IFileImporter fileImporter);
 
-	int calculateLevenshteinDist(char[] s1, char[] s2);
+	void compareJSON(List<IAehnlichkeitImpl> batch);
+
+	int calculateLevenshteinDist(String ref, String comp, Integer threshold);
 
 	
 	
