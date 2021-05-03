@@ -109,5 +109,17 @@ public interface IConfig {
 
 	void setBestMatch(boolean bestMatch);
 
+	int getMaxLineLength();
+
+	void setMaxLineLength(int maxLineLength);
+
+	boolean isXmlUseSemanticComparison();
+
+	void setXmlUseSemanticComparison(boolean xmlUseSemanticComparison);
+
+	boolean isJsonUseSemanticComparison();
+
+	void setJsonUseSemanticComparison(boolean jsonUseSemanticComparison);
+
 	
 }

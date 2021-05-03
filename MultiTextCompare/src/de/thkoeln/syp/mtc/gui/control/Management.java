@@ -274,6 +274,7 @@ public class Management {
 				.getCheckBoxCaps().isSelected());
 		config.setKeepPuctuation(configView.getCheckBoxPunctuation()
 				.isSelected());
+		config.setMaxLineLength(configView.getTextFieldMaxLineLengthValue());
 		config.setLineMatch(configView.getCheckBoxLineMatch().isSelected());
 		config.setMatchAt(((double)configView.getMatchAtSlider().getValue()) / 100); 
 		
@@ -289,9 +290,11 @@ public class Management {
 		config.setXmlDeleteComments(configView
 				.getCheckBoxXmlDeleteComments().isSelected());
 		config.setXmlOnlyTags(configView.getCheckBoxXmlOnlyTags().isSelected());
+		config.setXmlUseSemanticComparison(configView.getCheckBoxXMLSemantic().isSelected());
 		
 		config.setJsonSortKeys(configView.getCheckBoxJsonSortKeys().isSelected());
 		config.setJsonDeleteValues(configView.getCheckBoxJsonDeleteValues().isSelected());
+		config.setJsonUseSemanticComparison(configView.getCheckBoxJSONSemantic().isSelected());
 		
 		switch(configView.getComboBoxComparisonModes().getSelectedItem().toString()){
 		case "Compare lines":

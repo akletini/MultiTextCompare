@@ -9,6 +9,8 @@ public class IConfigImpl implements IConfig {
 
 	private String rootDir, path, filename, filetype, pathCurrent;
 	
+	private int maxLineLength;
+	
 	//Log parameters
 	private boolean showInfos, showWarnings, showErrors;
 	
@@ -19,11 +21,11 @@ public class IConfigImpl implements IConfig {
 	
 	// XML spezifische Parameter
 	private boolean xmlSortElements, xmlSortAttributes, xmlDeleteAttributes,
-			xmlDeleteComments, xmlOnlyTags;
+			xmlDeleteComments, xmlOnlyTags, xmlUseSemanticComparison;
 	private int xmlValidation, xmlPrint;
 
 	// JSON spezifische Parameter
-	private boolean jsonSortKeys, jsonDeleteValues;
+	private boolean jsonSortKeys, jsonDeleteValues, jsonUseSemanticComparison;
 
 	@Override
 	public void setCompareLines(boolean compareLines) {
@@ -270,6 +272,30 @@ public class IConfigImpl implements IConfig {
 	@Override
 	public void setPathCurrent(String pathCurrent) {
 		this.pathCurrent = pathCurrent;
+	}
+	@Override
+	public int getMaxLineLength() {
+		return maxLineLength;
+	}
+	@Override
+	public void setMaxLineLength(int maxLineLength) {
+		this.maxLineLength = maxLineLength;
+	}
+	@Override
+	public boolean isXmlUseSemanticComparison() {
+		return xmlUseSemanticComparison;
+	}
+	@Override
+	public void setXmlUseSemanticComparison(boolean xmlUseSemanticComparison) {
+		this.xmlUseSemanticComparison = xmlUseSemanticComparison;
+	}
+	@Override
+	public boolean isJsonUseSemanticComparison() {
+		return jsonUseSemanticComparison;
+	}
+	@Override
+	public void setJsonUseSemanticComparison(boolean jsonUseSemanticComparison) {
+		this.jsonUseSemanticComparison = jsonUseSemanticComparison;
 	}
 	
 	

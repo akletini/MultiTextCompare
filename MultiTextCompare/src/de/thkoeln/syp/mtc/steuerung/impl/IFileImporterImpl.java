@@ -25,7 +25,7 @@ public class IFileImporterImpl implements IFileImporter {
 	private IConfig iConfig;
 	private List<File> textdateien;
 	private Map<File, File> tempFiles, diffTempFiles;
-	
+
 	private Properties prop;
 	private Thread rootImporter;
 
@@ -48,6 +48,7 @@ public class IFileImporterImpl implements IFileImporter {
 		prop.setProperty(PROP_PUNCTUATION, "true");
 		prop.setProperty(PROP_CAPITALIZATION, "true");
 		prop.setProperty(PROP_COMPARELINES, "true");
+		prop.setProperty(PROP_MAXLINELENGTH, "300");
 
 		prop.setProperty(PROP_LINEMATCH, "true");
 		prop.setProperty(PROP_MATCHAT, "0.85");
@@ -61,9 +62,11 @@ public class IFileImporterImpl implements IFileImporter {
 		prop.setProperty(PROP_XMLDELETEATTRIBUTES, "false");
 		prop.setProperty(PROP_XMLDELETECOMMENTS, "false");
 		prop.setProperty(PROP_XMLONLYTAGS, "false");
+		prop.setProperty(PROP_XMLUSESEMANTICCOMPARE, "true");
 
 		prop.setProperty(PROP_JSONSORTKEYS, "true");
 		prop.setProperty(PROP_JSONDELETEVALUES, "false");
+		prop.setProperty(PROP_JSONUSESEMANTICCOMPARE, "true");
 
 		prop.setProperty(PROP_SHOWINFOS, "true");
 		prop.setProperty(PROP_SHOWWARNINGS, "true");
@@ -96,12 +99,11 @@ public class IFileImporterImpl implements IFileImporter {
 	public Map<File, File> getTempFilesMap() {
 		return tempFiles;
 	}
-	
+
 	@Override
 	public void setTempFiles(Map<File, File> tempFiles) {
 		this.tempFiles = tempFiles;
 	}
-
 
 	@Override
 	public Map<File, File> getDiffTempFilesMap() {
@@ -206,6 +208,8 @@ public class IFileImporterImpl implements IFileImporter {
 				.getProperty(PROP_CAPITALIZATION)));
 		iConfig.setCompareLines(Boolean.parseBoolean(prop
 				.getProperty(PROP_COMPARELINES)));
+		iConfig.setMaxLineLength(Integer.parseInt(prop
+				.getProperty(PROP_MAXLINELENGTH)));
 
 		iConfig.setLineMatch(Boolean.parseBoolean(prop
 				.getProperty(PROP_LINEMATCH)));
@@ -228,11 +232,15 @@ public class IFileImporterImpl implements IFileImporter {
 				.getProperty(PROP_XMLDELETECOMMENTS)));
 		iConfig.setXmlOnlyTags(Boolean.parseBoolean(prop
 				.getProperty(PROP_XMLONLYTAGS)));
+		iConfig.setXmlUseSemanticComparison(Boolean.parseBoolean(prop
+				.getProperty(PROP_XMLUSESEMANTICCOMPARE)));
 
 		iConfig.setJsonSortKeys(Boolean.parseBoolean(prop
 				.getProperty(PROP_JSONSORTKEYS)));
 		iConfig.setJsonDeleteValues(Boolean.parseBoolean(prop
 				.getProperty(PROP_JSONDELETEVALUES)));
+		iConfig.setJsonUseSemanticComparison(Boolean.parseBoolean(prop
+				.getProperty(PROP_JSONUSESEMANTICCOMPARE)));
 
 		iConfig.setShowInfos(Boolean.parseBoolean(prop
 				.getProperty(PROP_SHOWINFOS)));
@@ -332,6 +340,8 @@ public class IFileImporterImpl implements IFileImporter {
 					Boolean.toString(iConfig.getKeepCapitalization()));
 			prop.setProperty(PROP_COMPARELINES,
 					Boolean.toString(iConfig.getCompareLines()));
+			prop.setProperty(PROP_MAXLINELENGTH,
+					Integer.toString(iConfig.getMaxLineLength()));
 
 			prop.setProperty(PROP_LINEMATCH,
 					Boolean.toString(iConfig.getLineMatch()));
@@ -356,11 +366,15 @@ public class IFileImporterImpl implements IFileImporter {
 					Boolean.toString(iConfig.getXmlDeleteComments()));
 			prop.setProperty(PROP_XMLONLYTAGS,
 					Boolean.toString(iConfig.getXmlOnlyTags()));
+			prop.setProperty(PROP_XMLUSESEMANTICCOMPARE,
+					Boolean.toString(iConfig.isXmlUseSemanticComparison()));
 
 			prop.setProperty(PROP_JSONSORTKEYS,
 					Boolean.toString(iConfig.getJsonSortKeys()));
 			prop.setProperty(PROP_JSONDELETEVALUES,
 					Boolean.toString(iConfig.getJsonDeleteValues()));
+			prop.setProperty(PROP_JSONUSESEMANTICCOMPARE,
+					Boolean.toString(iConfig.isJsonUseSemanticComparison()));
 
 			prop.setProperty(PROP_SHOWINFOS,
 					Boolean.toString(iConfig.getShowInfos()));
@@ -627,11 +641,10 @@ public class IFileImporterImpl implements IFileImporter {
 	}
 
 	/**
-	 * @deprecated
-	 * Erstellt aus den manipulierten Dateien temporaere Dateien im Ordner
-	 * 'TempFiles'. Die temporaeren Dateien werden in einer HashMap gespeichert
-	 * um von diesen auch wieder auf die originalen Dateien schliessen zu
-	 * koennen
+	 * @deprecated Erstellt aus den manipulierten Dateien temporaere Dateien im
+	 *             Ordner 'TempFiles'. Die temporaeren Dateien werden in einer
+	 *             HashMap gespeichert um von diesen auch wieder auf die
+	 *             originalen Dateien schliessen zu koennen
 	 * 
 	 * @param fileMap
 	 *            manipulierte tempFileMap

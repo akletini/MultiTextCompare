@@ -64,6 +64,8 @@ public class ConfigController {
 			configView.getCheckBoxJsonDeleteValues().setSelected(false);
 			configView.getCheckBoxBestMatch().setSelected(false);
 			configView.getComboBoxComparisonModes().setSelectedIndex(0);
+			configView.getCheckBoxJSONSemantic().setSelected(false);
+			configView.getCheckBoxXMLSemantic().setSelected(false);
 		}
 	}
 

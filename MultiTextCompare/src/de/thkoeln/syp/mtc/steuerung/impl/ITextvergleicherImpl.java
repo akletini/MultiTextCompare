@@ -136,7 +136,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 				double maxSize = (double) Math.max(referenzArray.length, vergleichsArray.length);
 				
 				double levenshtein = (double) calculateLevenshteinDist(
-						referenzString, vergleichsString, new Integer(5));
+						referenzString, vergleichsString, new Integer(20));
 
 				double metrik = (maxSize - levenshtein) / maxSize;
 				a.setWert(metrik);
@@ -477,7 +477,12 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	@Override
 	public int calculateLevenshteinDist(String ref, String comp, Integer threshold) {
 		LevenshteinDistance levenshtein = new LevenshteinDistance(threshold);
-		return levenshtein.apply(ref, comp);
+		int dist= levenshtein.apply(ref, comp);
+		if(dist == -1){
+			return Math.max(ref.length(), comp.length());
+		}
+		
+		return dist;
 	}
 
 	@Override

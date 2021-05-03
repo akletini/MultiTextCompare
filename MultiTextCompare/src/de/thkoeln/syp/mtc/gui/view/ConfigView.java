@@ -40,27 +40,28 @@ public class ConfigView extends JFrame {
 	private IConfig config;
 	private Logger logger;
 	private int matchAtSimilarity;
-	private JPanel panel, panelGeneral, panelXML, panelDiff, panelJSON;
-	private JScrollPane scrollGeneral, scrollDiff, scrollXML, scrollJSON;
+	private JPanel panel, panelGeneral, panelXML, panelMatching, panelJSON;
+	private JScrollPane scrollGeneral, scrollMatching, scrollXML, scrollJSON;
 	private JCheckBox whitespaceCheck, blanklinesCheck,
 			checkBoxKeepPunctuation, checkBoxKeepCapitalization,
 			checkBoxSortElements, checkBoxSortAttibutes,
 			checkBoxDeleteAttributes, checkBoxDeleteComments, checkBoxOnlyTags,
 			checkBoxMatchLines, checkBoxBestMatch, checkBoxSortKeys,
-			checkBoxDeleteValues;
+			checkBoxDeleteValues, checkBoxXMLSemantic, checkBoxJSONSemantic;
 	private JLabel labelBlankLines, lblKeepPunctuation, lblKeepCapitalization,
 			comparisonModeLabel, lblRootPath, lblComparisonParameters,
 			lblValidation, lblPrint, lblSortElements, lblSortAttributes,
 			lblDeleteAttributes, lblDeleteComments, lblOnlyTags, lblMatching,
 			lblMatchLines, lblLookForBest, lblMatchAt, lblSortKeys,
-			lblDeleteValues, lblXmlParameters, lblJsonParameters, lblLookahead;
+			lblDeleteValues, lblXmlParameters, lblJsonParameters, lblLookahead,
+			lblMaxLineLength, lblXmlSemantic, lblJsonSemantic;
 
 	private JComboBox<?> comboBoxComparisonModes, comboBoxXMLValidation,
 			comboBoxXMLPrint;
 	private JButton btnResetToDefault, btnSetRootPath, btnOk, btnCancel,
 			btnSaveAs;
 	private JSlider matchAtSlider;
-	private JTextField textFieldLookahead;
+	private JTextField textFieldLookahead, textFieldMaxLength;
 
 	/**
 	 * Create the frame.
@@ -73,17 +74,17 @@ public class ConfigView extends JFrame {
 		Color white = Color.WHITE;
 		panel = new JPanel();
 		panelGeneral = new JPanel();
-		panelDiff = new JPanel();
+		panelMatching = new JPanel();
 		panelXML = new JPanel();
 		panelJSON = new JPanel();
 
 		scrollGeneral = new JScrollPane();
-		scrollDiff = new JScrollPane();
+		scrollMatching = new JScrollPane();
 		scrollXML = new JScrollPane();
 		scrollJSON = new JScrollPane();
 
 		scrollGeneral.setViewportView(panelGeneral);
-		scrollDiff.setViewportView(panelDiff);
+		scrollMatching.setViewportView(panelMatching);
 		scrollXML.setViewportView(panelXML);
 		scrollJSON.setViewportView(panelJSON);
 
@@ -134,13 +135,20 @@ public class ConfigView extends JFrame {
 		lblKeepCapitalization = new JLabel("Keep capitalization");
 		lblKeepCapitalization.setHorizontalAlignment(SwingConstants.LEFT);
 		panelGeneral.add(lblKeepCapitalization, "cell 5 6,alignx left");
+		
+		textFieldMaxLength = new JTextField();
+		textFieldMaxLength.setText("" + config.getMaxLineLength());
+		panelGeneral.add(textFieldMaxLength, "cell 1 7, alignx center,aligny center, grow");
+		
+		lblMaxLineLength = new JLabel("Maximum line length");
+		panelGeneral.add(lblMaxLineLength, "cell 5 7,alignx left");
 
 		String[] comparisonModes = { "Compare characters", "Compare lines" };
 		comboBoxComparisonModes = new JComboBox<Object>(comparisonModes);
 		comboBoxComparisonModes.setSelectedIndex(config.getCompareLines() ? 1
 				: 0);
 
-		panelGeneral.add(comboBoxComparisonModes, "cell 1 8,alignx left");
+		panelGeneral.add(comboBoxComparisonModes, "cell 1 8,alignx left, grow");
 
 		comparisonModeLabel = new JLabel("Comparison mode");
 		comparisonModeLabel.setHorizontalAlignment(SwingConstants.LEFT);
@@ -180,71 +188,80 @@ public class ConfigView extends JFrame {
 		checkBoxSortElements = new JCheckBox("");
 		checkBoxSortElements.setBackground(white);
 		checkBoxSortElements.setSelected(config.getXmlSortElements());
-		panelXML.add(checkBoxSortElements, "cell 1 5");
+		panelXML.add(checkBoxSortElements, "cell 1 6");
 
 		lblSortElements = new JLabel("Sort elements");
-		panelXML.add(lblSortElements, "cell 5 5");
+		panelXML.add(lblSortElements, "cell 5 6");
 
 		checkBoxSortAttibutes = new JCheckBox("");
 		checkBoxSortAttibutes.setBackground(white);
 		checkBoxSortAttibutes.setSelected(config.getXmlSortAttributes());
-		panelXML.add(checkBoxSortAttibutes, "cell 1 6");
+		panelXML.add(checkBoxSortAttibutes, "cell 1 7");
 
 		lblSortAttributes = new JLabel("Sort attributes");
-		panelXML.add(lblSortAttributes, "cell 5 6");
+		panelXML.add(lblSortAttributes, "cell 5 7");
 
 		checkBoxDeleteAttributes = new JCheckBox("");
 		checkBoxDeleteAttributes.setBackground(white);
 		checkBoxDeleteAttributes.setSelected(config.getXmlDeleteAttributes());
-		panelXML.add(checkBoxDeleteAttributes, "cell 1 7");
+		panelXML.add(checkBoxDeleteAttributes, "cell 1 8");
 
 		lblDeleteAttributes = new JLabel("Delete attributes");
-		panelXML.add(lblDeleteAttributes, "cell 5 7");
+		panelXML.add(lblDeleteAttributes, "cell 5 8");
 
 		checkBoxDeleteComments = new JCheckBox("");
 		checkBoxDeleteComments.setBackground(white);
 		checkBoxDeleteComments.setSelected(config.getXmlDeleteComments());
-		panelXML.add(checkBoxDeleteComments, "cell 1 8");
+		panelXML.add(checkBoxDeleteComments, "cell 1 9");
 
 		lblDeleteComments = new JLabel("Delete comments");
-		panelXML.add(lblDeleteComments, "cell 5 8");
+		panelXML.add(lblDeleteComments, "cell 5 9");
 
 		checkBoxOnlyTags = new JCheckBox("");
 		checkBoxOnlyTags.setBackground(white);
 		checkBoxOnlyTags.setSelected(config.getXmlOnlyTags());
-		panelXML.add(checkBoxOnlyTags, "cell 1 9");
+		panelXML.add(checkBoxOnlyTags, "cell 1 10");
 
 		lblOnlyTags = new JLabel("Only Tags");
-		panelXML.add(lblOnlyTags, "cell 5 9");
+		panelXML.add(lblOnlyTags, "cell 5 10");
+		
+		checkBoxXMLSemantic = new JCheckBox("");
+		checkBoxXMLSemantic.setBackground(white);
+		checkBoxXMLSemantic.setSelected(config.isXmlUseSemanticComparison());
+		panelXML.add(checkBoxXMLSemantic, "cell 1 5");
+
+		lblXmlSemantic = new JLabel("Use semantic comparison");
+		lblXmlSemantic.setFont(new Font("Tahoma", Font.BOLD, 11));
+		panelXML.add(lblXmlSemantic, "cell 5 5");
 
 		lblRootPath = new JLabel("Root search path");
 		lblRootPath.setFont(new Font("Tahoma", Font.BOLD, 13));
 		panelGeneral.add(lblRootPath, "cell 1 10");
 
-		// ////////////////////////Diff//////////////////////////////
-		panelDiff.setLayout(new MigLayout("",
+		// ////////////////////////Matching//////////////////////////////
+		panelMatching.setLayout(new MigLayout("",
 				"[][164.00][][][31.00][grow,fill]",
 				"[][20.00px][10px:10px:10px][][][][][][][][][77.00]"));
 
 		lblMatching = new JLabel("Matching");
 		lblMatching.setFont(new Font("Tahoma", Font.BOLD, 13));
-		panelDiff.add(lblMatching, "cell 1 1");
+		panelMatching.add(lblMatching, "cell 1 1");
 
 		checkBoxMatchLines = new JCheckBox("");
 		checkBoxMatchLines.setBackground(white);
 		checkBoxMatchLines.setSelected(config.getLineMatch());
-		panelDiff.add(checkBoxMatchLines, "cell 1 3");
+		panelMatching.add(checkBoxMatchLines, "cell 1 3");
 
 		lblMatchLines = new JLabel("Match lines");
-		panelDiff.add(lblMatchLines, "cell 5 3");
+		panelMatching.add(lblMatchLines, "cell 5 3");
 
 		checkBoxBestMatch = new JCheckBox("");
 		checkBoxBestMatch.setBackground(white);
 		checkBoxBestMatch.setSelected(config.getBestMatch());
-		panelDiff.add(checkBoxBestMatch, "cell 1 4");
+		panelMatching.add(checkBoxBestMatch, "cell 1 4");
 
 		lblLookForBest = new JLabel("Look for best match");
-		panelDiff.add(lblLookForBest, "cell 5 4");
+		panelMatching.add(lblLookForBest, "cell 5 4");
 		matchAtSlider = new JSlider(JSlider.HORIZONTAL, 0, 100,
 				(int) (config.getMatchAt() * 100));
 		matchAtSlider.setBackground(white);
@@ -262,11 +279,11 @@ public class ConfigView extends JFrame {
 		labelTable.put(100, new JLabel("100"));
 		matchAtSlider.setLabelTable(labelTable);
 
-		panelDiff.add(matchAtSlider, "cell 1 5,alignx center,aligny center");
+		panelMatching.add(matchAtSlider, "cell 1 5,alignx center,aligny center");
 
 		lblMatchAt = new JLabel("Match lines at "
 				+ (int) (config.getMatchAt() * 100) + "% similarity");
-		panelDiff.add(lblMatchAt, "cell 5 5");
+		panelMatching.add(lblMatchAt, "cell 5 5");
 
 		matchAtSlider.addChangeListener(new ChangeListener() {
 
@@ -281,13 +298,13 @@ public class ConfigView extends JFrame {
 
 		textFieldLookahead = new JTextField();
 		textFieldLookahead.setText("" + config.getMatchingLookahead());
-		panelDiff.add(textFieldLookahead,
+		panelMatching.add(textFieldLookahead,
 				"cell 1 6,alignx center,aligny center, grow");
 
 		lblLookahead = new JLabel("Matching lookahead ");
 		lblLookahead
 				.setToolTipText("<html>Number of lines that will be checked to write similar text on the same line.<br> Setting it to 0 will cause the matcher to search through the whole document</html>");
-		panelDiff.add(lblLookahead, "cell 5 6");
+		panelMatching.add(lblLookahead, "cell 5 6");
 
 		// ///////////////////////JSON//////////////////////////
 		panelJSON.setLayout(new MigLayout("",
@@ -301,28 +318,37 @@ public class ConfigView extends JFrame {
 		checkBoxSortKeys = new JCheckBox("");
 		checkBoxSortKeys.setBackground(white);
 		checkBoxSortKeys.setSelected(config.getJsonSortKeys());
-		panelJSON.add(checkBoxSortKeys, "cell 1 3");
+		panelJSON.add(checkBoxSortKeys, "cell 1 4");
 
 		lblSortKeys = new JLabel("Sort keys");
-		panelJSON.add(lblSortKeys, "cell 5 3");
+		panelJSON.add(lblSortKeys, "cell 5 4");
 
 		checkBoxDeleteValues = new JCheckBox("");
 		checkBoxDeleteValues.setBackground(white);
 		checkBoxDeleteValues.setSelected(config.getJsonDeleteValues());
-		panelJSON.add(checkBoxDeleteValues, "cell 1 4");
+		panelJSON.add(checkBoxDeleteValues, "cell 1 5");
 
 		lblDeleteValues = new JLabel("Delete values");
-		panelJSON.add(lblDeleteValues, "cell 5 4");
+		panelJSON.add(lblDeleteValues, "cell 5 5");
+		
+		checkBoxJSONSemantic = new JCheckBox("");
+		checkBoxJSONSemantic.setBackground(white);
+		checkBoxJSONSemantic.setSelected(config.isJsonUseSemanticComparison());
+		panelJSON.add(checkBoxJSONSemantic, "cell 1 3");
+
+		lblJsonSemantic = new JLabel("Use semantic comparison");
+		lblJsonSemantic.setFont(new Font("Tahoma", Font.BOLD, 11));
+		panelJSON.add(lblJsonSemantic, "cell 5 3");
 
 		// //////////////////////////////////////////////////////////////
 		tabbedPane.add(scrollGeneral, "    General    ");
-		tabbedPane.add(scrollDiff, "    Diff    ");
+		tabbedPane.add(scrollMatching, "    Matching    ");
 		tabbedPane.add(scrollXML, "    XML    ");
 		tabbedPane.add(scrollJSON, "    JSON    ");
 
 		tabbedPane.setBackground(white);
 		panelGeneral.setBackground(white);
-		panelDiff.setBackground(white);
+		panelMatching.setBackground(white);
 		panelXML.setBackground(white);
 		panelJSON.setBackground(white);
 
@@ -393,7 +419,7 @@ public class ConfigView extends JFrame {
 	}
 
 	public JPanel getPanelDiff() {
-		return panelDiff;
+		return panelMatching;
 	}
 
 	public JPanel getPanelJSON() {
@@ -405,7 +431,7 @@ public class ConfigView extends JFrame {
 	}
 
 	public JScrollPane getScrollDiff() {
-		return scrollDiff;
+		return scrollMatching;
 	}
 
 	public JScrollPane getScrollXML() {
@@ -600,6 +626,48 @@ public class ConfigView extends JFrame {
 
 	public JTextField getTextFieldLookahead() {
 		return textFieldLookahead;
+	}
+	
+	public int getTextFieldMaxLineLengthValue(){
+		int configLineLength = management.getFileImporter().getConfig()
+				.getMaxLineLength();
+		try {
+			
+			int inputLookahead = Integer.parseInt(textFieldMaxLength.getText());
+			if (inputLookahead < 0) {
+				textFieldMaxLength.setText("" +configLineLength);
+				return configLineLength;
+			}
+			return inputLookahead;
+		} catch (NumberFormatException e) {
+			textFieldMaxLength.setText("" +configLineLength);
+			logger.setMessage("Invalid line length value", logger.LEVEL_ERROR);
+		}
+		return configLineLength;
+	}
+	
+	public JCheckBox getCheckBoxXMLSemantic() {
+		return checkBoxXMLSemantic;
+	}
+
+	public JCheckBox getCheckBoxJSONSemantic() {
+		return checkBoxJSONSemantic;
+	}
+
+	public JTextField getTextFieldMaxLength() {
+		return textFieldMaxLength;
+	}
+
+	public void setCheckBoxXMLSemantic(JCheckBox checkBoxXMLSemantic) {
+		this.checkBoxXMLSemantic = checkBoxXMLSemantic;
+	}
+
+	public void setCheckBoxJSONSemantic(JCheckBox checkBoxJSONSemantic) {
+		this.checkBoxJSONSemantic = checkBoxJSONSemantic;
+	}
+
+	public void setTextFieldMaxLength(JTextField textFieldMaxLength) {
+		this.textFieldMaxLength = textFieldMaxLength;
 	}
 
 	// Button listeners
