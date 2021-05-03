@@ -74,7 +74,7 @@ public class IJSONcomparer {
 				if (existsInBoth(fieldName, rootNodeComp)) {
 					JsonNode fieldValueComp = rootComp.get(fieldName);
 					double sim = compareObjects(fieldValueRef, fieldValueComp,
-									currentLevelWeight);
+							currentLevelWeight);
 					similarity.add(sim);
 					System.out.println(sim);
 				}
@@ -84,7 +84,7 @@ public class IJSONcomparer {
 				if (existsInBoth(fieldName, rootNodeComp)) {
 					JsonNode fieldValueComp = rootComp.get(fieldName);
 					double sim = compareArrays(fieldValueRef, fieldValueComp,
-									currentLevelWeight);
+							currentLevelWeight);
 					similarity.add(sim);
 					System.out.println(sim);
 
@@ -156,7 +156,8 @@ public class IJSONcomparer {
 				if (nodeComp.isValueNode()) {
 					//
 				} else if (nodeComp.isArray()) {
-					double similarity = currentLevelWeight * compareArrays(nodeRef, nodeComp, currentWeight);
+					double similarity = currentLevelWeight
+							* compareArrays(nodeRef, nodeComp, currentWeight);
 					equalValues.add(similarity);
 				} else if (nodeComp.isObject()) {
 					// Type mismatch
@@ -184,17 +185,20 @@ public class IJSONcomparer {
 	private double compareArrays(JsonNode fieldValueRef,
 			JsonNode fieldValueComp, double currentLevelWeight) {
 		double similarity = 0.0;
-		double maxArraySize = Math.max(fieldValueRef.size(), fieldValueComp.size());
+		double maxArraySize = Math.max(fieldValueRef.size(),
+				fieldValueComp.size());
+		int lastMatchedIndex = 0;
 		for (int i = 0; i < fieldValueRef.size(); i++) {
 			JsonNode currentRefNode = fieldValueRef.get(i);
-			for (int j = 0; j < fieldValueComp.size(); j++) {
+			for (int j = lastMatchedIndex; j < fieldValueComp.size(); j++) {
 				JsonNode currentCompNode = fieldValueComp.get(j);
 				if (currentRefNode.isValueNode()) {
 					if (currentCompNode.isValueNode()) {
-						double currentWeight = calcLevelWeight(fieldValueRef, fieldValueComp);
-						similarity += currentLevelWeight
-								* calcSimilarity(currentRefNode.asText(),
-										currentCompNode.asText(), currentWeight);
+						if (currentRefNode.equals(currentCompNode)) {
+							similarity += currentLevelWeight
+									* (1.0 / maxArraySize);
+							break;
+						}
 					} else if (currentCompNode.isArray()) {
 						// Type mismatch
 					} else if (currentCompNode.isObject()) {
@@ -204,9 +208,9 @@ public class IJSONcomparer {
 					if (currentCompNode.isValueNode()) {
 						//
 					} else if (currentCompNode.isArray()) {
-						if(currentRefNode.equals(currentCompNode)){
-							double currentWeight = calcLevelWeight(currentRefNode, currentCompNode);
-							similarity += currentLevelWeight * (1 / maxArraySize);
+						if (currentRefNode.equals(currentCompNode)) {;
+							similarity += currentLevelWeight
+									* (1 / maxArraySize);
 						}
 					} else if (currentCompNode.isObject()) {
 						// Type mismatch
@@ -217,21 +221,58 @@ public class IJSONcomparer {
 					} else if (currentCompNode.isArray()) {
 						// Type mismatch
 					} else if (currentCompNode.isObject()) {
-						double currentWeight = calcLevelWeight(currentRefNode, currentCompNode);
-						similarity += currentLevelWeight * compareObjects(currentRefNode, currentCompNode, currentWeight);
+						
+						if(objectsShareFields(currentRefNode, currentCompNode)){
+
+						double objectsim = compareObjects(currentRefNode,
+								currentCompNode, currentLevelWeight);
+						similarity += 1 / maxArraySize 
+								* objectsim;
+						lastMatchedIndex = j + 1;
+						break;
+						}
 					}
 				}
 			}
 		}
 		return similarity;
 	}
+	
+	private boolean objectsShareFields(JsonNode ref, JsonNode comp){
+		Iterator<String> itRef = ref.fieldNames();
+		Iterator<String> itComp = comp.fieldNames();
+
+		ArrayList<String> fieldNamesRef = iteratorToList(itRef);
+		ArrayList<String> fieldNamesComp = iteratorToList(itComp);
+
+		ArrayList<String> matchingKeys = new ArrayList<String>();
+		
+		for (int i = 0; i < fieldNamesRef.size(); i++) {
+			String current = fieldNamesRef.get(i);
+			if (fieldNamesComp.contains(current)) {
+				matchingKeys.add(current);
+			}
+		}
+		
+		if((fieldNamesRef.size() == fieldNamesComp.size()) && (fieldNamesRef.size() == matchingKeys.size())){
+			return true;
+		}
+		return false;
+	}
 
 	public double calcLevelWeight(JsonNode rootRef, JsonNode rootComp) {
 		double weight = 0;
-		int nodeCountLeft = getIteratorSize(rootRef.fields());
-		int nodeCountRight = getIteratorSize(rootComp.fields());
-		int maxNodeCount = Math.max(nodeCountLeft, nodeCountRight);
-		weight = 1 / (double) maxNodeCount;
+		if (rootRef.isObject() && rootComp.isObject()) {
+			int nodeCountLeft = getIteratorSize(rootRef.fields());
+			int nodeCountRight = getIteratorSize(rootComp.fields());
+			int maxNodeCount = Math.max(nodeCountLeft, nodeCountRight);
+			weight = 1 / (double) maxNodeCount;
+		} else if (rootRef.isArray() && rootComp.isArray()) {
+			int nodeCountLeft = rootRef.size();
+			int nodeCountRight = rootComp.size();
+			int maxNodeCount = Math.max(nodeCountLeft, nodeCountRight);
+			weight = 1 / (double) maxNodeCount;
+		}
 		return weight;
 	}
 
