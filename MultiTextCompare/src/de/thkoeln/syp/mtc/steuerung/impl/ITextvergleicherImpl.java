@@ -78,7 +78,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 				matchHelper.setMATCH_AT(MATCH_AT_VALUE);
 				matchHelper.setLOOKAHEAD(MATCHING_LOOKAHEAD);
 				matchHelper.setSearchBestMatch(SEARCH_BEST_MATCH);
-				if(MATCH_LINES){
+				if (MATCH_LINES) {
 					matchHelper.matchLines(ref, comp);
 				}
 
@@ -111,6 +111,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	 */
 	@Override
 	public void vergleicheUeberGanzesDokument(List<IAehnlichkeitImpl> batch) {
+		final int MAXLINELENGTH = fileImporter.getConfig().getMaxLineLength();
 		for (IAehnlichkeitImpl a : batch) {
 
 			try {
@@ -129,14 +130,16 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 
 				Arrays.sort(referenzArray);
 				Arrays.sort(vergleichsArray);
-				
+
 				referenzString = new String(referenzArray);
 				vergleichsString = new String(vergleichsArray);
 
-				double maxSize = (double) Math.max(referenzArray.length, vergleichsArray.length);
-				
+				double maxSize = (double) Math.max(referenzArray.length,
+						vergleichsArray.length);
+
 				double levenshtein = (double) calculateLevenshteinDist(
-						referenzString, vergleichsString, new Integer(20));
+						referenzString, vergleichsString, new Integer(
+								MAXLINELENGTH));
 
 				double metrik = (maxSize - levenshtein) / maxSize;
 				a.setWert(metrik);
@@ -151,9 +154,10 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 
 	@Override
 	public void compareJSON(List<IAehnlichkeitImpl> batch) {
+		final int MAXLINELENGTH = fileImporter.getConfig().getMaxLineLength();
 		for (IAehnlichkeitImpl a : batch) {
 			try {
-				IJSONcomparer jsonComparer = new IJSONcomparer();
+				IJSONcomparer jsonComparer = new IJSONcomparer(MAXLINELENGTH);
 				double similarity = jsonComparer.compare(a.getVon(), a.getZu());
 				a.setWert(similarity);
 			} catch (IOException e) {
@@ -303,6 +307,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	 */
 	private double calculateSimilarityMetric(double weight,
 			List<String> refList, List<String> compList) {
+		final int MAXLINELENGTH = fileImporter.getConfig().getMaxLineLength();
 		int norm = normalizeStringLists(refList, compList);
 		int max = refList.size();
 		if (norm == 0) {
@@ -325,11 +330,12 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 
 			double lengthOfLongestString = (double) longestString;
 			double levenshteinDist;
-			if(lengthOfLongestString <= 500) {
-				levenshteinDist = (double) new LevenshteinDistance().apply(ref, comp);
-			}
-			else {
-				LevenshteinDistance levenshtein = new LevenshteinDistance(500);
+			if (lengthOfLongestString <= 500) {
+				levenshteinDist = (double) new LevenshteinDistance().apply(ref,
+						comp);
+			} else {
+				LevenshteinDistance levenshtein = new LevenshteinDistance(
+						MAXLINELENGTH);
 				levenshteinDist = (double) levenshtein.apply(ref, comp);
 			}
 			if (lengthOfLongestString != 0) {
@@ -475,13 +481,17 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	 * @return die LevenShtein Distanz zwischen s1 und s2
 	 */
 	@Override
-	public int calculateLevenshteinDist(String ref, String comp, Integer threshold) {
+	public int calculateLevenshteinDist(String ref, String comp,
+			Integer threshold) {
 		LevenshteinDistance levenshtein = new LevenshteinDistance(threshold);
-		int dist= levenshtein.apply(ref, comp);
-		if(dist == -1){
+		if (threshold == 0) {
+			levenshtein = new LevenshteinDistance(null);
+		}
+		int dist = levenshtein.apply(ref, comp);
+		if (dist == -1) {
 			return Math.max(ref.length(), comp.length());
 		}
-		
+
 		return dist;
 	}
 

@@ -25,9 +25,11 @@ public class IJSONcomparer {
 	private JsonNode rootNodeComp;
 
 	private ITextvergleicher textComparer;
-
-	public IJSONcomparer() {
+	private int maxLineLength;
+	
+	public IJSONcomparer(int maxLineLength) {
 		textComparer = new ITextvergleicherImpl();
+		this.maxLineLength = maxLineLength;
 	}
 
 	public double compare(File ref, File comp) throws IOException {
@@ -307,7 +309,7 @@ public class IJSONcomparer {
 	private double calcSimilarity(String ref, String comp, double weight) {
 		double longestLength = (double) Math.max(ref.length(), comp.length());
 		double levenshteinDist = (double) textComparer
-				.calculateLevenshteinDist(ref, comp, 20);
+				.calculateLevenshteinDist(ref, comp, maxLineLength);
 		if (levenshteinDist == -1.0) {
 			return 0.0;
 		}
