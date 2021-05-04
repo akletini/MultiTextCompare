@@ -20,6 +20,7 @@ import javax.swing.JSlider;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.ToolTipManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -49,12 +50,13 @@ public class ConfigView extends JFrame {
 			checkBoxMatchLines, checkBoxBestMatch, checkBoxSortKeys,
 			checkBoxDeleteValues, checkBoxXMLSemantic, checkBoxJSONSemantic;
 	private JLabel labelBlankLines, lblKeepPunctuation, lblKeepCapitalization,
-			comparisonModeLabel, lblRootPath, lblComparisonParameters,
-			lblValidation, lblPrint, lblSortElements, lblSortAttributes,
-			lblDeleteAttributes, lblDeleteComments, lblOnlyTags, lblMatching,
-			lblMatchLines, lblLookForBest, lblMatchAt, lblSortKeys,
-			lblDeleteValues, lblXmlParameters, lblJsonParameters, lblLookahead,
-			lblMaxLineLength, lblXmlSemantic, lblJsonSemantic;
+			labelWhitespace, comparisonModeLabel, lblRootPath,
+			lblComparisonParameters, lblValidation, lblPrint, lblSortElements,
+			lblSortAttributes, lblDeleteAttributes, lblDeleteComments,
+			lblOnlyTags, lblMatching, lblMatchLines, lblLookForBest,
+			lblMatchAt, lblSortKeys, lblDeleteValues, lblXmlParameters,
+			lblJsonParameters, lblLookahead, lblMaxLineLength, lblXmlSemantic,
+			lblJsonSemantic;
 
 	private JComboBox<?> comboBoxComparisonModes, comboBoxXMLValidation,
 			comboBoxXMLPrint;
@@ -72,6 +74,8 @@ public class ConfigView extends JFrame {
 		logger = management.getLogger();
 
 		Color white = Color.WHITE;
+		ToolTipManager.sharedInstance().setInitialDelay(500);
+		ToolTipManager.sharedInstance().setDismissDelay(6000);
 		panel = new JPanel();
 		panelGeneral = new JPanel();
 		panelMatching = new JPanel();
@@ -108,7 +112,8 @@ public class ConfigView extends JFrame {
 		whitespaceCheck.setSelected(config.getKeepWhitespaces());
 		panelGeneral.add(whitespaceCheck, "cell 1 3,alignx left,aligny top");
 
-		JLabel labelWhitespace = new JLabel("Keep whitespaces");
+		labelWhitespace = new JLabel("Keep whitespaces");
+		labelWhitespace.setToolTipText("Decides if whitespaces will be deleted for any comparison");
 		panelGeneral.add(labelWhitespace, "cell 5 3,alignx left,aligny center");
 
 		blanklinesCheck = new JCheckBox("");
@@ -117,6 +122,7 @@ public class ConfigView extends JFrame {
 		panelGeneral.add(blanklinesCheck, "cell 1 4");
 
 		labelBlankLines = new JLabel("Keep blank lines");
+		labelBlankLines.setToolTipText("Decides if blank lines will be deleted for any comparison");
 		panelGeneral.add(labelBlankLines, "cell 5 4,alignx left");
 
 		checkBoxKeepPunctuation = new JCheckBox("");
@@ -125,6 +131,7 @@ public class ConfigView extends JFrame {
 		panelGeneral.add(checkBoxKeepPunctuation, "cell 1 5");
 
 		lblKeepPunctuation = new JLabel("Keep punctuation");
+		lblKeepPunctuation.setToolTipText("Decides if punctuation will be deleted for any comparison");
 		panelGeneral.add(lblKeepPunctuation, "cell 5 5,alignx left");
 
 		checkBoxKeepCapitalization = new JCheckBox("");
@@ -134,13 +141,18 @@ public class ConfigView extends JFrame {
 
 		lblKeepCapitalization = new JLabel("Keep capitalization");
 		lblKeepCapitalization.setHorizontalAlignment(SwingConstants.LEFT);
+		lblKeepCapitalization.setToolTipText("If disabled all characters will be set to lowercase");
 		panelGeneral.add(lblKeepCapitalization, "cell 5 6,alignx left");
-		
+
 		textFieldMaxLength = new JTextField();
 		textFieldMaxLength.setText("" + config.getMaxLineLength());
-		panelGeneral.add(textFieldMaxLength, "cell 1 7, alignx center,aligny center, grow");
-		
+		panelGeneral.add(textFieldMaxLength,
+				"cell 1 7, alignx center,aligny center, grow");
+
 		lblMaxLineLength = new JLabel("Maximum line length");
+		lblMaxLineLength.setToolTipText("<html>If a line contains more characters than specified here the comparison will be aborted and valued at zero similarity<br>"
+				+ "If set to  0, the line length will not be limited<br>"
+				+ "May greatly improve performance for comparisons</html>");
 		panelGeneral.add(lblMaxLineLength, "cell 5 7,alignx left");
 
 		String[] comparisonModes = { "Compare characters", "Compare lines" };
@@ -152,12 +164,16 @@ public class ConfigView extends JFrame {
 
 		comparisonModeLabel = new JLabel("Comparison mode");
 		comparisonModeLabel.setHorizontalAlignment(SwingConstants.LEFT);
+		comparisonModeLabel.setToolTipText("<html>Sets the comparison mode.<br>"
+				+ "<i>Compare lines</i>: Compares files on a line-by-line base. Is affected by the \"Match lines\" setting in the \"Matching\" options menu<br>"
+				+ "<i>Compare characters</i>: Compares all characters present in the files</html>");
 		panelGeneral.add(comparisonModeLabel, "cell 5 8,alignx left");
 
 		btnSetRootPath = new JButton();
 		if (config.getRootDir() != null) {
 			btnSetRootPath.setText(config.getRootDir());
 		}
+		btnSetRootPath.setToolTipText("If the wildcard search is used, this is the directory below which all files are located");
 		panelGeneral.add(btnSetRootPath, "cell 5 10,alignx left");
 
 		// ////////////////////////XML//////////////////////////////
@@ -175,6 +191,7 @@ public class ConfigView extends JFrame {
 		panelXML.add(comboBoxXMLValidation, "cell 1 3,alignx left, grow");
 
 		lblValidation = new JLabel("Validation");
+		lblValidation.setToolTipText("Select if or how XML-files should be validated");
 		panelXML.add(lblValidation, "cell 5 3");
 
 		String[] prints = { "Pretty", "Raw", "Compact" };
@@ -183,6 +200,7 @@ public class ConfigView extends JFrame {
 		panelXML.add(comboBoxXMLPrint, "cell 1 4,alignx left, grow");
 
 		lblPrint = new JLabel("Print");
+		lblPrint.setToolTipText("Select how XML will be printed");
 		panelXML.add(lblPrint, "cell 5 4");
 
 		checkBoxSortElements = new JCheckBox("");
@@ -191,6 +209,7 @@ public class ConfigView extends JFrame {
 		panelXML.add(checkBoxSortElements, "cell 1 6");
 
 		lblSortElements = new JLabel("Sort elements");
+		lblSortElements.setToolTipText("If selected, XML files will be sorted alphabetically");
 		panelXML.add(lblSortElements, "cell 5 6");
 
 		checkBoxSortAttibutes = new JCheckBox("");
@@ -199,6 +218,7 @@ public class ConfigView extends JFrame {
 		panelXML.add(checkBoxSortAttibutes, "cell 1 7");
 
 		lblSortAttributes = new JLabel("Sort attributes");
+		lblSortAttributes.setToolTipText("If selected, attributes will be sorted alphabetically");
 		panelXML.add(lblSortAttributes, "cell 5 7");
 
 		checkBoxDeleteAttributes = new JCheckBox("");
@@ -207,6 +227,7 @@ public class ConfigView extends JFrame {
 		panelXML.add(checkBoxDeleteAttributes, "cell 1 8");
 
 		lblDeleteAttributes = new JLabel("Delete attributes");
+		lblDeleteAttributes.setToolTipText("If selected, attributes will be deleted for comparisons");
 		panelXML.add(lblDeleteAttributes, "cell 5 8");
 
 		checkBoxDeleteComments = new JCheckBox("");
@@ -215,6 +236,7 @@ public class ConfigView extends JFrame {
 		panelXML.add(checkBoxDeleteComments, "cell 1 9");
 
 		lblDeleteComments = new JLabel("Delete comments");
+		lblDeleteComments.setToolTipText("If selected, comments will be deleted for comparisons");
 		panelXML.add(lblDeleteComments, "cell 5 9");
 
 		checkBoxOnlyTags = new JCheckBox("");
@@ -223,8 +245,9 @@ public class ConfigView extends JFrame {
 		panelXML.add(checkBoxOnlyTags, "cell 1 10");
 
 		lblOnlyTags = new JLabel("Only Tags");
+		lblOnlyTags.setToolTipText("If selected, only tags will be considered for comparison");
 		panelXML.add(lblOnlyTags, "cell 5 10");
-		
+
 		checkBoxXMLSemantic = new JCheckBox("");
 		checkBoxXMLSemantic.setBackground(white);
 		checkBoxXMLSemantic.setSelected(config.isXmlUseSemanticComparison());
@@ -232,6 +255,7 @@ public class ConfigView extends JFrame {
 
 		lblXmlSemantic = new JLabel("Use semantic comparison");
 		lblXmlSemantic.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblXmlSemantic.setToolTipText("If selected, XML-files will be compared on a structural level rather than on a line-by-line or character basis");
 		panelXML.add(lblXmlSemantic, "cell 5 5");
 
 		lblRootPath = new JLabel("Root search path");
@@ -253,6 +277,7 @@ public class ConfigView extends JFrame {
 		panelMatching.add(checkBoxMatchLines, "cell 1 3");
 
 		lblMatchLines = new JLabel("Match lines");
+		lblMatchLines.setToolTipText("<html>If enabled, similar lines will be aligned in the diff view and if <i>Compare lines is enabled</i></html>");
 		panelMatching.add(lblMatchLines, "cell 5 3");
 
 		checkBoxBestMatch = new JCheckBox("");
@@ -261,6 +286,7 @@ public class ConfigView extends JFrame {
 		panelMatching.add(checkBoxBestMatch, "cell 1 4");
 
 		lblLookForBest = new JLabel("Look for best match");
+		lblLookForBest.setToolTipText("Will match most similar line within the lookahead instead of stopping at the first match. May slow down the comparison");
 		panelMatching.add(lblLookForBest, "cell 5 4");
 		matchAtSlider = new JSlider(JSlider.HORIZONTAL, 0, 100,
 				(int) (config.getMatchAt() * 100));
@@ -279,7 +305,8 @@ public class ConfigView extends JFrame {
 		labelTable.put(100, new JLabel("100"));
 		matchAtSlider.setLabelTable(labelTable);
 
-		panelMatching.add(matchAtSlider, "cell 1 5,alignx center,aligny center");
+		panelMatching
+				.add(matchAtSlider, "cell 1 5,alignx center,aligny center");
 
 		lblMatchAt = new JLabel("Match lines at "
 				+ (int) (config.getMatchAt() * 100) + "% similarity");
@@ -321,6 +348,7 @@ public class ConfigView extends JFrame {
 		panelJSON.add(checkBoxSortKeys, "cell 1 4");
 
 		lblSortKeys = new JLabel("Sort keys");
+		lblSortKeys.setToolTipText("If ticked files will be sorted alphabetically");
 		panelJSON.add(lblSortKeys, "cell 5 4");
 
 		checkBoxDeleteValues = new JCheckBox("");
@@ -329,8 +357,9 @@ public class ConfigView extends JFrame {
 		panelJSON.add(checkBoxDeleteValues, "cell 1 5");
 
 		lblDeleteValues = new JLabel("Delete values");
+		lblDeleteValues.setToolTipText("If ticked only keys will be compared");
 		panelJSON.add(lblDeleteValues, "cell 5 5");
-		
+
 		checkBoxJSONSemantic = new JCheckBox("");
 		checkBoxJSONSemantic.setBackground(white);
 		checkBoxJSONSemantic.setSelected(config.isJsonUseSemanticComparison());
@@ -338,6 +367,7 @@ public class ConfigView extends JFrame {
 
 		lblJsonSemantic = new JLabel("Use semantic comparison");
 		lblJsonSemantic.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblJsonSemantic.setToolTipText("If this is ticked, JSON-files will be compared on a structural level rather than on a line-by-line or character basis");
 		panelJSON.add(lblJsonSemantic, "cell 5 3");
 
 		// //////////////////////////////////////////////////////////////
@@ -610,15 +640,15 @@ public class ConfigView extends JFrame {
 		int configLookahead = management.getFileImporter().getConfig()
 				.getMatchingLookahead();
 		try {
-			
+
 			int inputLookahead = Integer.parseInt(textFieldLookahead.getText());
 			if (inputLookahead < 0) {
-				textFieldLookahead.setText("" +configLookahead);
+				textFieldLookahead.setText("" + configLookahead);
 				return configLookahead;
 			}
 			return inputLookahead;
 		} catch (NumberFormatException e) {
-			textFieldLookahead.setText("" +configLookahead);
+			textFieldLookahead.setText("" + configLookahead);
 			logger.setMessage("Invalid lookahead value", logger.LEVEL_ERROR);
 		}
 		return configLookahead;
@@ -627,25 +657,25 @@ public class ConfigView extends JFrame {
 	public JTextField getTextFieldLookahead() {
 		return textFieldLookahead;
 	}
-	
-	public int getTextFieldMaxLineLengthValue(){
+
+	public int getTextFieldMaxLineLengthValue() {
 		int configLineLength = management.getFileImporter().getConfig()
 				.getMaxLineLength();
 		try {
-			
+
 			int inputLookahead = Integer.parseInt(textFieldMaxLength.getText());
 			if (inputLookahead < 0) {
-				textFieldMaxLength.setText("" +configLineLength);
+				textFieldMaxLength.setText("" + configLineLength);
 				return configLineLength;
 			}
 			return inputLookahead;
 		} catch (NumberFormatException e) {
-			textFieldMaxLength.setText("" +configLineLength);
+			textFieldMaxLength.setText("" + configLineLength);
 			logger.setMessage("Invalid line length value", logger.LEVEL_ERROR);
 		}
 		return configLineLength;
 	}
-	
+
 	public JCheckBox getCheckBoxXMLSemantic() {
 		return checkBoxXMLSemantic;
 	}
