@@ -240,6 +240,7 @@ public class FileSelectionController extends JFrame {
 			management.getFileSelectionView().getLblFileCount().setText("0");
 			setRdbtn(true);
 //			try {
+//				if(management.getCompareThread().isAlive())
 //				management.getCompareThread().stop();
 //			} catch (Exception ex) {
 //				logger.setMessage(ex.toString(), logger.LEVEL_ERROR);
@@ -340,7 +341,32 @@ public class FileSelectionController extends JFrame {
 						} else {
 							logger.writeToLogFile("Comparison error", true);
 						}
-					} else {
+					}else if(mode == 1){
+						for (int i = 0; i < textvergleicher.getBatches().size(); i++) {
+							final List<IAehnlichkeitImpl> currentBatch = textvergleicher
+									.getBatches().get(i).getInhalt();
+							es.execute(new Runnable() {
+
+								@Override
+								public void run() {
+									textvergleicher.compareXML(currentBatch);
+
+								}
+
+							});
+
+						}
+
+						es.shutdown();
+						boolean finished = es.awaitTermination(Long.MAX_VALUE,
+								TimeUnit.MINUTES);
+						if (finished) {
+							logger.writeToLogFile("Comparison finished", true);
+						} else {
+							logger.writeToLogFile("Comparison error", true);
+						}
+					}
+					else {
 
 						if (fileImporter.getConfig().getCompareLines() == false) {
 

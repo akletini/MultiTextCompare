@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
 
-public class IJSONcomparer {
+public class IJSONComparerImpl {
 	private static final String NEW_LINE = "\n";
 	private static final String FIELD_DELIMITER = ": ";
 	private static final String ARRAY_PREFIX = "- ";
@@ -27,7 +27,7 @@ public class IJSONcomparer {
 	private ITextvergleicher textComparer;
 	private int maxLineLength;
 	
-	public IJSONcomparer(int maxLineLength) {
+	public IJSONComparerImpl(int maxLineLength) {
 		textComparer = new ITextvergleicherImpl();
 		this.maxLineLength = maxLineLength;
 	}

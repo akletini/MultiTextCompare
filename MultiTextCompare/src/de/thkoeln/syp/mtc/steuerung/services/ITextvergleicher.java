@@ -38,6 +38,8 @@ public interface ITextvergleicher {
 
 	int calculateLevenshteinDist(String ref, String comp, Integer threshold);
 
+	void compareXML(List<IAehnlichkeitImpl> batch);
+
 	
 	
 	

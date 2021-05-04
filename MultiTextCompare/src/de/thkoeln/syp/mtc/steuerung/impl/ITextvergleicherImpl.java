@@ -157,7 +157,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		final int MAXLINELENGTH = fileImporter.getConfig().getMaxLineLength();
 		for (IAehnlichkeitImpl a : batch) {
 			try {
-				IJSONcomparer jsonComparer = new IJSONcomparer(MAXLINELENGTH);
+				IJSONComparerImpl jsonComparer = new IJSONComparerImpl(MAXLINELENGTH);
 				double similarity = jsonComparer.compare(a.getVon(), a.getZu());
 				a.setWert(similarity);
 			} catch (IOException e) {
@@ -165,6 +165,20 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 			}
 		}
 
+	}
+	
+	@Override
+	public void compareXML(List<IAehnlichkeitImpl> batch){
+		final int MAXLINELENGTH = fileImporter.getConfig().getMaxLineLength();
+		for(IAehnlichkeitImpl a : batch){
+			try{
+				IXMLComparerImpl xmlComparer = new IXMLComparerImpl(MAXLINELENGTH);
+				double similarity = xmlComparer.compare(a.getVon(), a.getZu());
+				a.setWert(similarity);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	private File[] createCompareMatchFiles(File[] files) throws IOException {
