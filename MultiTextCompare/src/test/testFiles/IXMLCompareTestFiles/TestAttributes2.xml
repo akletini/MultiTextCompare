@@ -1,0 +1,10 @@
+<Markt>
+	<Kunde name="Horst" nachname="Schmidt">1234</Kunde>
+	<Kunde name="Horst" nachname="Schmidt">1256</Kunde>
+	<Kunde>1234</Kunde>
+	<Kunde name="Horst" nachname="Schmidt">1234</Kunde>
+	<Kunde>1256</Kunde>
+	<Kunde name="Horst" nachname="Schmidt">1256</Kunde>
+	<Kunde>1234</Kunde>
+	<Kunde>1256</Kunde>
+</Markt>

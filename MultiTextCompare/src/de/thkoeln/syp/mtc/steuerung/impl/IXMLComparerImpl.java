@@ -17,6 +17,7 @@ public class IXMLComparerImpl {
 
 	private int maxLineLength;
 	private ITextvergleicher textvergleicher;
+	private List<Double> similarities;
 
 	public IXMLComparerImpl(int maxLineLength) {
 		textvergleicher = new ITextvergleicherImpl();
@@ -34,15 +35,15 @@ public class IXMLComparerImpl {
 		rootRef = docRef.getRootElement();
 		rootComp = docComp.getRootElement();
 
-		double similarity = traverseGraph(rootRef, rootComp);
+		similarities = traverseGraph(rootRef, rootComp);
+		double similarity = sumSimilarities(similarities);
 		return similarity;
 	}
 
-	private double traverseGraph(Element rootRef, Element rootComp) {
-		double similarity = 0.0;
+	private List<Double> traverseGraph(Element rootRef, Element rootComp) {
+		List<Double> similarity = new ArrayList<Double>();
 		double currentLevelWeight = calcLevelWeight(rootRef, rootComp);
 		List<Element> refFirstLevelChildren = rootRef.getChildren();
-		List<Element> compFirstLevelChildren = rootComp.getChildren();
 		for (int i = 0; i < refFirstLevelChildren.size(); i++) {
 			Element currentRef = refFirstLevelChildren.get(i);
 			String currentRefName = currentRef.getName();
@@ -52,13 +53,13 @@ public class IXMLComparerImpl {
 				Element currentComp = rootComp.getChildren(currentRefName).get(0);
 				// Liste von Knoten
 				if (hasChildren(currentRef) && hasChildren(currentComp)) {
-					similarity += compareElementsRecursively(currentRef, currentComp,
-							currentLevelWeight);
+					similarity.add(compareElementsRecursively(currentRef, currentComp,
+							currentLevelWeight));
 				}
 				// einzelnes Feld
 				else if (!hasChildren(currentRef) && !hasChildren(currentComp)) {
-					similarity += compareElements(currentRef, currentComp,
-							currentLevelWeight);
+					similarity.add(compareElements(currentRef, currentComp,
+							currentLevelWeight));
 				}
 				rootComp.getChildren(currentRefName).remove(0);
 			}
@@ -68,8 +69,8 @@ public class IXMLComparerImpl {
 
 	private double compareElements(Element ref, Element comp,
 			double currentLevelWeight) {
-		final double contentWeight = 0.5;
-		final double attributeWeight = 0.5;
+		double contentWeight = 0.5;
+		double attributeWeight = 0.5;
 		double totalSimilarity = 0, contentSimilarity, attributeSimilarity;
 		double stringSimilarity = compareStrings(ref.getValue(), comp.getValue());
 		contentSimilarity = currentLevelWeight * contentWeight
@@ -78,7 +79,12 @@ public class IXMLComparerImpl {
 				* attributeWeight
 				* calcAttributeSimilarity(ref.getAttributes(),
 						comp.getAttributes());
-		totalSimilarity = contentSimilarity + attributeSimilarity;
+		if(hasAttributes(ref) || hasAttributes(comp)){
+			totalSimilarity = contentSimilarity + attributeSimilarity;
+		}else {
+			totalSimilarity = 2 * contentSimilarity;
+		}
+		
 		return totalSimilarity;
 	}
 
@@ -133,9 +139,8 @@ public class IXMLComparerImpl {
 				if (currentRef.getName().equals(currentComp.getName())) {
 					matchingRef.add(currentRef);
 					matchingComp.add(currentComp);
-					lastMatchedIndex = j +1;
+					lastMatchedIndex = j + 1;
 					break;
-					// remove matched node from comp list
 				}
 			}
 		}
@@ -187,5 +192,23 @@ public class IXMLComparerImpl {
 			return false;
 		}
 		return true;
+	}
+	
+	private boolean hasAttributes(Element e){
+		if(e.getAttributes().size() == 0){
+			return false;
+		}
+		return true;
+	}
+	private double sumSimilarities(List<Double> similarities) {
+		double similarity = 0.0;
+		for (Double d : similarities) {
+			similarity += d;
+		}
+		return similarity;
+	}
+	
+	public List<Double> getSimilarities(){
+		return similarities;
 	}
 }
