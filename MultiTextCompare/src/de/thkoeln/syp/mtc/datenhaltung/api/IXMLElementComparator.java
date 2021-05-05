@@ -33,7 +33,7 @@ public class IXMLElementComparator implements Comparator<Element> {
 	}
 	
 	public int compareAttributes(Element e1, Element e2){
-		if(e1.hasAttributes() || e2.hasAttributes()) {
+		if(e1.hasAttributes() && e2.hasAttributes()) {
 			//return Vergleich des ersten Attribut-Values
 			return e1.getAttributes().get(0).getValue().compareTo(e2.getAttributes().get(0).getValue());
 		}
