@@ -96,6 +96,7 @@ public class IXMLComparerImplTest {
 	public void test_recursiveElementListDifferentDeep() throws IOException, JDOMException{
 		xmlCompare.compare(recTest1, recTest2);
 		List<Double> similarities = xmlCompare.getSimilarities();
+		//left branch + right branch
 		assertEquals(((1.0/3.0 * 1.0/2.0) + (1.0/3.0 *  1.0/2.0 * 1.0/2.0)) ,similarities.get(2).doubleValue(), 0.0001);
 	}
 
