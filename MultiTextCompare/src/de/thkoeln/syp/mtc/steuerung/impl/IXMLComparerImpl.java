@@ -43,10 +43,13 @@ public class IXMLComparerImpl {
 		double currentLevelWeight = calcLevelWeight(rootRef, rootComp);
 		List<Element> refFirstLevelChildren = rootRef.getChildren();
 		List<Element> compFirstLevelChildren = rootComp.getChildren();
-		for (Element currentRef : refFirstLevelChildren) {
+		for (int i = 0; i < refFirstLevelChildren.size(); i++) {
+			Element currentRef = refFirstLevelChildren.get(i);
 			String currentRefName = currentRef.getName();
-			Element currentComp = rootComp.getChild(currentRefName);
-			if (currentComp != null) {
+			List<Element> compChildren = rootComp.getChildren(currentRefName);
+			
+			if (!compChildren.isEmpty()) {
+				Element currentComp = rootComp.getChildren(currentRefName).get(0);
 				// Liste von Knoten
 				if (hasChildren(currentRef) && hasChildren(currentComp)) {
 					similarity += compareElementsRecursively(currentRef, currentComp,
@@ -57,6 +60,7 @@ public class IXMLComparerImpl {
 					similarity += compareElements(currentRef, currentComp,
 							currentLevelWeight);
 				}
+				rootComp.getChildren(currentRefName).remove(0);
 			}
 		}
 		return similarity;
@@ -121,13 +125,17 @@ public class IXMLComparerImpl {
 
 		double currentWeight = calcLevelWeight(ref, comp);
 
+		int lastMatchedIndex = 0;
 		for (int i = 0; i < ref.getChildren().size(); i++) {
 			Element currentRef = ref.getChildren().get(i);
-			for (int j = 0; j < comp.getChildren().size(); j++) {
+			for (int j = lastMatchedIndex; j < comp.getChildren().size(); j++) {
 				Element currentComp = comp.getChildren().get(j);
 				if (currentRef.getName().equals(currentComp.getName())) {
 					matchingRef.add(currentRef);
 					matchingComp.add(currentComp);
+					lastMatchedIndex = j +1;
+					break;
+					// remove matched node from comp list
 				}
 			}
 		}
