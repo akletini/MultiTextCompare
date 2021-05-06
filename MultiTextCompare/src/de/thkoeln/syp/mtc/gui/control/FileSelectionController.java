@@ -245,7 +245,7 @@ public class FileSelectionController extends JFrame {
 //			} catch (Exception ex) {
 //				logger.setMessage(ex.toString(), logger.LEVEL_ERROR);
 //			}
-			management.getFileSelectionView().getBtnCompare().setVisible(true);
+			management.getFileSelectionView().getBtnCompare().setEnabled(true);
 			newSelection = true;
 		}
 	}
