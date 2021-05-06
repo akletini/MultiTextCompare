@@ -52,9 +52,10 @@ public class IXMLElementComparator implements Comparator<Element> {
 		if (!hasChildren(e1) || !hasChildren(e2)) {
 			return 0;
 		}
-		if (childrenE1.size() == childrenE2.size()) {
-			Element left = childrenE1.get(0);
-			Element right = childrenE2.get(0);
+		int minSize = Math.min(childrenE1.size(), childrenE2.size());
+		for(int i = 0; i < minSize; i++) { //rework this
+			Element left = childrenE1.get(i);
+			Element right = childrenE2.get(i);
 			if (hasChildren(left) || hasChildren(right)) {
 				compareElementsForChildren(left, right);
 			} else {
@@ -66,21 +67,13 @@ public class IXMLElementComparator implements Comparator<Element> {
 						if (left.getText().compareTo(right.getText()) != 0) {
 							return left.getText().compareTo(right.getText());
 						} else {
-	
 							int returnCompareAttributes;
 							if ((returnCompareAttributes = compareAttributes(left,
 									right)) != 0) {
 								return returnCompareAttributes;
-							} else {
-								return compareElementsForChildren(left, right);
 							}
 						}
 					}
-					else {
-						System.out.println("hallo");
-						return left.getName().compareTo(right.getName());
-					}
-
 			}
 		}
 
