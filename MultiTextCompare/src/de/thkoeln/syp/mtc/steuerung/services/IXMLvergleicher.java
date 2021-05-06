@@ -1,10 +1,12 @@
 package de.thkoeln.syp.mtc.steuerung.services;
 
 import java.io.File;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
 import org.jdom2.Document;
+import org.jdom2.Element;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IXMLParseError;
 
@@ -12,7 +14,7 @@ public interface IXMLvergleicher {
   
   Document sortAttributes(Document doc);
   
-  Document sortElements(Document doc);
+  Document sortElements(Document doc, Comparator<Element> comparator);
   
   boolean parseFile(File file, int mode);
   

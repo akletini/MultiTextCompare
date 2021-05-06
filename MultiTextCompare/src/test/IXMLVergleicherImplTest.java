@@ -23,6 +23,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
+import de.thkoeln.syp.mtc.datenhaltung.api.IXMLElementComparator;
 import de.thkoeln.syp.mtc.datenhaltung.api.IXMLParseError;
 import de.thkoeln.syp.mtc.steuerung.impl.IFileImporterImpl;
 import de.thkoeln.syp.mtc.steuerung.impl.IXMLvergleicherImpl;
@@ -121,7 +122,7 @@ public class IXMLVergleicherImplTest {
 			e.printStackTrace();
 		}
 
-		String ist = xout.outputString(iXML.sortElements(testdateiDoc));;
+		String ist = xout.outputString(iXML.sortElements(testdateiDoc, new IXMLElementComparator()));
 		String soll = xout.outputString(erwartetesErgebnissDoc);
 		
 		assertEquals(soll, ist);

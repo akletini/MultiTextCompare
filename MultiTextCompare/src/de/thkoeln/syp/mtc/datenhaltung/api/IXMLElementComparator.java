@@ -20,7 +20,6 @@ public class IXMLElementComparator implements Comparator<Element> {
 				// Values gleich
 				int returnCompareAttributes;
 				if ((returnCompareAttributes = compareAttributes(e1, e2)) != 0) {
-					System.out.println("hallo");
 					return returnCompareAttributes;
 				} else {
 					int returnRecursiveSearch = compareElementsForChildren(e1,
@@ -57,31 +56,31 @@ public class IXMLElementComparator implements Comparator<Element> {
 			Element left = childrenE1.get(0);
 			Element right = childrenE2.get(0);
 			if (hasChildren(left) || hasChildren(right)) {
-				return compareElementsForChildren(left, right);
+				compareElementsForChildren(left, right);
 			} else {
 				Element leftParent = (Element) left.getParent();
 				Element rightParent = (Element) right.getParent();
 				// if elements do not have children, compare parent names
 				if (leftParent.getName().compareTo(rightParent.getName()) == 0) {
-
-					// if parents are equal compare current element values
-					if (left.getText().compareTo(right.getText()) != 0) {
-						return left.getText().compareTo(right.getText());
-					} else {
-
-						int returnCompareAttributes;
-						if ((returnCompareAttributes = compareAttributes(left,
-								right)) != 0) {
-							return returnCompareAttributes;
+						// if parents are equal compare current element values
+						if (left.getText().compareTo(right.getText()) != 0) {
+							return left.getText().compareTo(right.getText());
 						} else {
-							return compareElementsForChildren(left, right);
+	
+							int returnCompareAttributes;
+							if ((returnCompareAttributes = compareAttributes(left,
+									right)) != 0) {
+								return returnCompareAttributes;
+							} else {
+								return compareElementsForChildren(left, right);
+							}
 						}
 					}
+					else {
+						System.out.println("hallo");
+						return left.getName().compareTo(right.getName());
+					}
 
-				} else {
-					return leftParent.getName()
-							.compareTo(rightParent.getName());
-				}
 			}
 		}
 

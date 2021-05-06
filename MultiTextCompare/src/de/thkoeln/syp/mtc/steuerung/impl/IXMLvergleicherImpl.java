@@ -107,7 +107,9 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 				}
 				
 				if(sortElements){
-					xml = this.sortElements(xml);
+					Comparator<Element> elementsComperator = new IXMLElementComparator();
+					xml = sortElements(xml, new StandardXMLComparator());
+					xml = sortElements(xml, elementsComperator);
 				}
 				
 				String xmlString = xout.outputString(xml);
@@ -353,14 +355,13 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 	 * @return representiert das urspruengliche Dokument mit alphabeitsch geordneten Attributen.
 	 * 		
 	 * */
-	public Document sortElements(Document doc){
-		Comparator<Element> elementsComperator = new IXMLElementComparator();
+	public Document sortElements(Document doc, Comparator<Element> comparator){
 		
 		Element root = doc.getRootElement();
 		
-		root.sortChildren(elementsComperator);
+		root.sortChildren(comparator);
 	
-		iterateAndSortElements(root);
+		iterateAndSortElements(root, comparator);
 		
 		return doc;		
 		
@@ -376,7 +377,7 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 	 * 		  repraesentiert ein JDOM Element, dessen Kindelemente alphabetisch geordnet werden sollen.
 	 * 
 	 * */
-	private void iterateAndSortElements(Element current) {    
+	private void iterateAndSortElements(Element current, Comparator<Element> comparator) {    
 		
 		Comparator<Element> elementsComperator = new IXMLElementComparator();
 		
@@ -388,7 +389,7 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 	    	
 	    	e.sortChildren(elementsComperator);
 	    	
-	    	iterateAndSortElements(e);
+	    	iterateAndSortElements(e, comparator);
 	    }
 	          
 	}
@@ -828,5 +829,10 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 
 }
 	
-
+class StandardXMLComparator implements Comparator<Element> {
+	@Override
+	public int compare(Element e1, Element e2){
+		return e1.getName().compareTo(e2.getName());
+	}
+}
 

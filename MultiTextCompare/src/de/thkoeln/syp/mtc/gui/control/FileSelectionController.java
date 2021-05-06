@@ -317,7 +317,7 @@ public class FileSelectionController extends JFrame {
 					ExecutorService es = Executors.newFixedThreadPool(Runtime
 							.getRuntime().availableProcessors());
 
-					if (mode == 2) {
+					if (mode == 2 && fileImporter.getConfig().isJsonUseSemanticComparison()) {
 						for (int i = 0; i < textvergleicher.getBatches().size(); i++) {
 							final List<IAehnlichkeitImpl> currentBatch = textvergleicher
 									.getBatches().get(i).getInhalt();
@@ -341,7 +341,7 @@ public class FileSelectionController extends JFrame {
 						} else {
 							logger.writeToLogFile("Comparison error", true);
 						}
-					}else if(mode == 1){
+					}else if(mode == 1 && fileImporter.getConfig().isXmlUseSemanticComparison()){
 						for (int i = 0; i < textvergleicher.getBatches().size(); i++) {
 							final List<IAehnlichkeitImpl> currentBatch = textvergleicher
 									.getBatches().get(i).getInhalt();
