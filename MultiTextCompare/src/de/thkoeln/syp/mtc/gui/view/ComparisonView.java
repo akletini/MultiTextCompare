@@ -57,7 +57,7 @@ public class ComparisonView extends JFrame {
 	private List<File> temp;
 	private Logger logger;
 
-	public ComparisonView(final List<File> selectedList, final List<Integer> fileIndices) {
+	public ComparisonView(List<File> selectedList, List<Integer> fileIndices) {
 		// Management
 		management = Management.getInstance();
 		logger = management.getLogger();
@@ -78,6 +78,7 @@ public class ComparisonView extends JFrame {
 		fileName2 = management.getFileSelectionView().getModel()
 				.get(fileIndices.get(1)).split("\\|")[0];
 		fileName3 = "";
+		
 
 		// -- Alle Container --
 
@@ -125,19 +126,27 @@ public class ComparisonView extends JFrame {
 		// Panel Parameter
 		panel.setPreferredSize(new Dimension(200, 200));
 		
+		// Anzeige wird vorbereitet
+		for (File f : selectedList) {
+			for (Entry<File, File> entry : management.getFileImporter()
+					.getTempFilesMap().entrySet()) {
+				if (entry.getValue().equals(f))
+					selection.add(entry.getKey());
+			}
+		}
+		
+		if(selection.size() == 3){
+			fileName3 = " <-> "
+					+ management.getCurrentFileSelection()
+							.get(fileIndices.get(2)).split("\\|")[0];
+		}
+		
 		class DiffThread extends SwingWorker<Void, Void> {
 
 			@Override
 			protected Void doInBackground() throws Exception {
 				try {
-				// Anzeige wird vorbereitet
-				for (File f : selectedList) {
-					for (Entry<File, File> entry : management.getFileImporter()
-							.getTempFilesMap().entrySet()) {
-						if (entry.getValue().equals(f))
-							selection.add(entry.getKey());
-					}
-				}
+				
 
 				for (File f : selection) {
 					temp.add(management.getFileImporter().getTempFilesMap().get(f));
@@ -197,10 +206,7 @@ public class ComparisonView extends JFrame {
 
 				// -- Fuer 3 Dateien --
 				if (selection.size() == 3) {
-					fileName3 = " <-> "
-							+ management.getCurrentFileSelection()
-									.get(fileIndices.get(2)).split("\\|")[0];
-
+					
 					splitLeft = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
 							scrollPaneLeft, scrollPaneMid);
 					splitRight = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
@@ -222,8 +228,11 @@ public class ComparisonView extends JFrame {
 					tPaneLeft.setCaretPosition(0);
 					tPaneMid.setCaretPosition(0);
 					tPaneRight.setCaretPosition(0);
+					management.getComparisonView().setTitle("Selected:     " + fileName1 + " <-> " + fileName2
+							+ fileName3);
 
 				}
+				
 				management.getComparisonView().setVisible(true);
 			}
 			
