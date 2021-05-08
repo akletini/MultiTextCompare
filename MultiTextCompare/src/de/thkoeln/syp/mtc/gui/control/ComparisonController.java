@@ -28,11 +28,14 @@ class LeftMouseWheelListener implements MouseWheelListener {
 		final JScrollBar horizontalScrollBar = comp.getScrollPaneLeft()
 				.getHorizontalScrollBar();
 
-
-		if (comp.getScrollPaneRight().getVerticalScrollBar().isVisible() && !e.isShiftDown()) {
+		if (comp.getScrollPaneRight().getVerticalScrollBar().isVisible()
+				&& !e.isShiftDown()) {
 			comp.getScrollPaneRight().dispatchEvent(e);
-		}
-		else if (comp.getScrollPaneRight().getHorizontalScrollBar().isVisible()
+		} else if (!comp.getScrollPaneRight().getVerticalScrollBar()
+				.isVisible()) {
+			comp.getScrollPaneRight().dispatchEvent(e);
+		} else if (comp.getScrollPaneRight().getHorizontalScrollBar()
+				.isVisible()
 				&& e.isShiftDown()) {
 			if (e.getWheelRotation() >= 1)// mouse wheel was rotated
 			// down/ towards the user
@@ -66,11 +69,14 @@ class MiddleMouseWheelListener implements MouseWheelListener {
 		ComparisonView comp = Management.getInstance().getComparisonView();
 		final JScrollBar horizontalScrollBar = comp.getScrollPaneMid()
 				.getHorizontalScrollBar();
-		if (comp.getScrollPaneRight().getVerticalScrollBar().isVisible() && !e.isShiftDown()) {
+		if (comp.getScrollPaneRight().getVerticalScrollBar().isVisible()
+				&& !e.isShiftDown()) {
 			comp.getScrollPaneRight().dispatchEvent(e);
-		}
-		
-		else if (comp.getScrollPaneRight().getHorizontalScrollBar().isVisible()
+		} else if (!comp.getScrollPaneRight().getVerticalScrollBar()
+				.isVisible()) {
+			comp.getScrollPaneRight().dispatchEvent(e);
+		} else if (comp.getScrollPaneRight().getHorizontalScrollBar()
+				.isVisible()
 				&& e.isShiftDown()) {
 			if (e.getWheelRotation() >= 1)// mouse wheel was rotated
 			// down/ towards the user
@@ -98,3 +104,4 @@ class MiddleMouseWheelListener implements MouseWheelListener {
 
 	}
 }
+

@@ -21,6 +21,7 @@ import de.thkoeln.syp.mtc.datenhaltung.api.IDiffLine;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IDiffCharImpl;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IDiffLineImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IDiffHelper;
+import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
 
 public class IDiffHelperImpl implements IDiffHelper {
 
@@ -29,12 +30,13 @@ public class IDiffHelperImpl implements IDiffHelper {
 	private List<IDiffLine> rightLines;
 
 	private final double minCommonality = 0.4;
+	
+	private IFileImporter fileImporter;
 
 	public IDiffHelperImpl() {
 		leftLines = new ArrayList<IDiffLine>();
 		middleLines = new ArrayList<IDiffLine>();
 		rightLines = new ArrayList<IDiffLine>();
-
 	}
 
 	/**
@@ -48,6 +50,7 @@ public class IDiffHelperImpl implements IDiffHelper {
 	@Override
 	public void computeDisplayDiff(File[] files) throws IOException {
 		int maxLength = getMaxLengthOfFiles(files);
+		int maxLineSize = fileImporter.getConfig().getMaxLineLength();
 		// Read both files with line iterator.
 		if (files.length == 2) {
 			LineIterator file1 = FileUtils.lineIterator(files[0], "UTF-8");
@@ -74,19 +77,20 @@ public class IDiffHelperImpl implements IDiffHelper {
 
 				String left = (file1.hasNext() ? file1.nextLine() : "") + "\n";
 				String right = (file2.hasNext() ? file2.nextLine() : "") + "\n";
+				
+				int lineSize = left.length() + right.length();
 
 				// Prepare diff comparator with lines from both files.
 				StringsComparator comparator = new StringsComparator(left,
 						right);
 
-				if (comparator.getScript().getLCSLength() > (Math.max(
-						left.length(), right.length()) * minCommonality)) {
+				if ( lineSize < maxLineSize && (comparator.getScript().getLCSLength() > (Math.max(
+						left.length(), right.length()) * minCommonality))) {
 					/*
 					 * If both lines have atleast 40% commonality then only
 					 * compare with each other so that they are aligned with
 					 * each other in final diff.
 					 */
-					
 					left = lineNum + spaces + left;
 					right = lineNum + spaces + right;
 					comparator = new StringsComparator(left, right);
@@ -143,15 +147,17 @@ public class IDiffHelperImpl implements IDiffHelper {
 				String middle = (file2.hasNext() ? file2.nextLine() : "")
 						+ "\n";
 				String right = (file3.hasNext() ? file3.nextLine() : "") + "\n";
-
+				
+				int lineSizeLeftMid = left.length() + middle.length();
+				int lineSizeLeftRight = left.length() + right.length();
 				// Prepare diff comparator with lines from both files.
 				StringsComparator comparator1 = new StringsComparator(left,
 						middle);
 				StringsComparator comparator2 = new StringsComparator(left,
 						right);
 
-				if (comparator1.getScript().getLCSLength() > (Math.max(
-						left.length(), middle.length()) * minCommonality)) {
+				if (lineSizeLeftMid < maxLineSize && (comparator1.getScript().getLCSLength() > (Math.max(
+						left.length(), middle.length()) * minCommonality))) {
 					/*
 					 * If both lines have atleast 40% commonality then only
 					 * compare with each other so that they are aligned with
@@ -182,8 +188,8 @@ public class IDiffHelperImpl implements IDiffHelper {
 
 				}
 
-				if (comparator2.getScript().getLCSLength() > (Math.max(
-						left.length(), right.length()) * minCommonality)) {
+				if (lineSizeLeftRight < maxLineSize && (comparator2.getScript().getLCSLength() > (Math.max(
+						left.length(), right.length()) * minCommonality))) {
 					/*
 					 * If both lines have atleast 40% commonality then only
 					 * compare with each other so that they are aligned with
@@ -240,7 +246,7 @@ public class IDiffHelperImpl implements IDiffHelper {
 
 		// Initialize visitor.
 		int lineNum = 0;
-		
+		int maxLineSize = fileImporter.getConfig().getMaxLineLength();
 		// Read file line by line so that comparison can be done line by
 		// line.
 		while (file1.hasNext() || file2.hasNext()
@@ -258,12 +264,12 @@ public class IDiffHelperImpl implements IDiffHelper {
 			}
 			String middle = (file1.hasNext() ? file1.nextLine() : "") + "\n";
 			String right = (file2.hasNext() ? file2.nextLine() : "") + "\n";
-
+			int lineSizeMidRight = middle.length() + right.length();
 			// Prepare diff comparator with lines from both files.
 			StringsComparator comparator = new StringsComparator(middle, right);
 
-			if (comparator.getScript().getLCSLength() > (Math.max(
-					middle.length(), right.length()) * minCommonality)) {
+			if (lineSizeMidRight < maxLineSize && (comparator.getScript().getLCSLength() > (Math.max(
+					middle.length(), right.length()) * minCommonality))) {
 				/*
 				 * If both lines have atleast 40% commonality then only compare
 				 * with each other so that they are aligned with each other in
@@ -329,6 +335,11 @@ public class IDiffHelperImpl implements IDiffHelper {
 	@Override
 	public List<IDiffLine> getMiddleLines() {
 		return middleLines;
+	}
+	
+	@Override
+	public void setFileImporter(IFileImporter fileImporter){
+		this.fileImporter = fileImporter;
 	}
 }
 

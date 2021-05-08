@@ -15,4 +15,6 @@ public interface IDiffHelper {
 	List<IDiffLine> getMiddleLines();
 
 	void computeDisplayDiff(File[] files) throws IOException;
+	
+	void setFileImporter(IFileImporter fileImporter);
 }

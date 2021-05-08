@@ -78,7 +78,6 @@ public class ComparisonView extends JFrame {
 		fileName2 = management.getFileSelectionView().getModel()
 				.get(fileIndices.get(1)).split("\\|")[0];
 		fileName3 = "";
-		
 
 		// -- Alle Container --
 
@@ -113,7 +112,8 @@ public class ComparisonView extends JFrame {
 				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollPaneMain
 				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPaneMain.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+		scrollPaneMain
+				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
 		// Synced das vertikale Scrollen
 		new ScrollBarSynchronizer(scrollPaneLeft.getVerticalScrollBar(),
@@ -125,7 +125,7 @@ public class ComparisonView extends JFrame {
 
 		// Panel Parameter
 		panel.setPreferredSize(new Dimension(200, 200));
-		
+
 		// Anzeige wird vorbereitet
 		for (File f : selectedList) {
 			for (Entry<File, File> entry : management.getFileImporter()
@@ -134,39 +134,40 @@ public class ComparisonView extends JFrame {
 					selection.add(entry.getKey());
 			}
 		}
-		
-		if(selection.size() == 3){
+
+		if (selection.size() == 3) {
 			fileName3 = " <-> "
 					+ management.getCurrentFileSelection()
 							.get(fileIndices.get(2)).split("\\|")[0];
 		}
-		
+
 		class DiffThread extends SwingWorker<Void, Void> {
 
 			@Override
 			protected Void doInBackground() throws Exception {
 				try {
-				
 
-				for (File f : selection) {
-					temp.add(management.getFileImporter().getTempFilesMap().get(f));
-				}
+					for (File f : selection) {
+						temp.add(management.getFileImporter().getTempFilesMap()
+								.get(f));
+					}
 
-				selection.clear();
-				selection.addAll(temp);
+					selection.clear();
+					selection.addAll(temp);
 
-				if (selection.size() == 1)
-					selection.add(selection.get(0));
+					if (selection.size() == 1)
+						selection.add(selection.get(0));
 
-				
-					selectedTempFiles = selection.toArray(new File[selection.size()]);
-					matchHelper.setMATCH_AT(management.getFileImporter().getConfig()
-							.getMatchAt());
-					matchHelper.setLOOKAHEAD(management.getFileImporter().getConfig()
-							.getMatchingLookahead());
+					selectedTempFiles = selection.toArray(new File[selection
+							.size()]);
+					matchHelper.setMATCH_AT(management.getFileImporter()
+							.getConfig().getMatchAt());
+					matchHelper.setLOOKAHEAD(management.getFileImporter()
+							.getConfig().getMatchingLookahead());
 					matchHelper.setSearchBestMatch(management.getFileImporter()
 							.getConfig().getBestMatch());
-					matchedDiffFiles = matchHelper.createMatchFiles(selectedTempFiles);
+					matchedDiffFiles = matchHelper
+							.createMatchFiles(selectedTempFiles);
 
 					// Falls Line Match aktiviert
 					if (management.getFileImporter().getConfig().getLineMatch()) {
@@ -174,7 +175,8 @@ public class ComparisonView extends JFrame {
 							matchHelper.matchLines(matchedDiffFiles[0],
 									matchedDiffFiles[1]);
 						} else if (selection.size() == 3) {
-							matchUntilFilesUnchanged(matchHelper, matchedDiffFiles);
+							matchUntilFilesUnchanged(matchHelper,
+									matchedDiffFiles);
 						}
 					}
 
@@ -184,9 +186,9 @@ public class ComparisonView extends JFrame {
 				}
 				return null;
 			}
-			
+
 			@Override
-			public void done(){
+			public void done() {
 				// -- Fuer 2 Dateien --
 				if (selection.size() == 2) {
 					splitLeft = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
@@ -201,12 +203,12 @@ public class ComparisonView extends JFrame {
 
 					tPaneLeft.setCaretPosition(0);
 					tPaneRight.setCaretPosition(0);
-					
+
 				}
 
 				// -- Fuer 3 Dateien --
 				if (selection.size() == 3) {
-					
+
 					splitLeft = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
 							scrollPaneLeft, scrollPaneMid);
 					splitRight = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
@@ -228,36 +230,34 @@ public class ComparisonView extends JFrame {
 					tPaneLeft.setCaretPosition(0);
 					tPaneMid.setCaretPosition(0);
 					tPaneRight.setCaretPosition(0);
-					management.getComparisonView().setTitle("Selected:     " + fileName1 + " <-> " + fileName2
-							+ fileName3);
+					management.getComparisonView().setTitle(
+							"Selected:     " + fileName1 + " <-> " + fileName2
+									+ fileName3);
 
 				}
-				
+
 				management.getComparisonView().setVisible(true);
 			}
-			
+
 		}
 		DiffThread diffThread = new DiffThread();
 		diffThread.execute();
-			
 
-			// Frame
-			this.add(scrollPaneMain);
-			this.setTitle("Selected:     " + fileName1 + " <-> " + fileName2
-					+ fileName3);
+		// Frame
+		this.add(scrollPaneMain);
+		this.setTitle("Selected:     " + fileName1 + " <-> " + fileName2
+				+ fileName3);
 
-			this.setVisible(true);
-			this.setLocationRelativeTo(null);
-			try {
-				this.setIconImage(ImageIO.read(new File("res/icon.png")));
-			} catch (IOException e) {
-				logger.setMessage(e.toString(), logger.LEVEL_ERROR);
-			}
+		this.setVisible(true);
+		this.setLocationRelativeTo(null);
+		try {
+			this.setIconImage(ImageIO.read(new File("res/icon.png")));
+		} catch (IOException e) {
+			logger.setMessage(e.toString(), logger.LEVEL_ERROR);
+		}
 
-			Management.getInstance().setComparisonController(
-					new ComparisonController(this));
-
-		
+		Management.getInstance().setComparisonController(
+				new ComparisonController(this));
 
 	}
 
@@ -335,7 +335,6 @@ public class ComparisonView extends JFrame {
 	public void addMouseWheelListenerMiddle(MouseWheelListener e) {
 		scrollPaneMid.addMouseWheelListener(e);
 	}
-
 
 	public JScrollPane getScrollPaneLeft() {
 		return scrollPaneLeft;
