@@ -40,7 +40,6 @@ public class IJSONComparerImpl {
 		calcLevelWeight(rootNodeRef, rootNodeComp);
 		List<Double> similarities = traverseGraph(rootNodeRef, rootNodeComp);
 		double similarity = sumSimilarities(similarities);
-		System.out.println(similarity);
 		// StringBuilder b = new StringBuilder();
 		// processNode(rootNodeRef, b, 0);
 		return similarity;
@@ -68,7 +67,6 @@ public class IJSONComparerImpl {
 					double sim = compareValues(fieldValueRef, fieldValueComp,
 							weight);
 					similarity.add(sim);
-					System.out.println(sim);
 
 				}
 			} else if (fieldValueRef.isObject()) {
@@ -78,7 +76,6 @@ public class IJSONComparerImpl {
 					double sim = compareObjects(fieldValueRef, fieldValueComp,
 							currentLevelWeight);
 					similarity.add(sim);
-					System.out.println(sim);
 				}
 				//
 
@@ -88,7 +85,6 @@ public class IJSONComparerImpl {
 					double sim = compareArrays(fieldValueRef, fieldValueComp,
 							currentLevelWeight);
 					similarity.add(sim);
-					System.out.println(sim);
 
 				}
 			}
