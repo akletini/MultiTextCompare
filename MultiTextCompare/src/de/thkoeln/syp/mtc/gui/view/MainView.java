@@ -28,6 +28,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -76,6 +77,7 @@ public class MainView extends JFrame {
 	private JMenuItem clearLog, showLog;
 	private JCheckBoxMenuItem info, warning, error;
 	private JMenuItem about, tutorial;
+	private JProgressBar progressBar;
 	private Logger logger;
 	private IConfig config;
 
@@ -213,6 +215,9 @@ public class MainView extends JFrame {
 		btnAbout = new JButton(iconInfo);
 		btnAbout.setToolTipText("More on MultiTextCompare");
 		toolBar.add(btnAbout);
+		progressBar = new JProgressBar();
+		toolBar.add(progressBar);
+		progressBar.setVisible(false);
 
 		// TextArea (Ausgabe)
 		textArea = new JTextPane();
@@ -469,6 +474,10 @@ public class MainView extends JFrame {
 
 	public JCheckBoxMenuItem getError() {
 		return error;
+	}
+	
+	public JProgressBar getProgressBar() {
+		return progressBar;
 	}
 
 	// Setter

@@ -12,6 +12,7 @@ import javax.swing.DefaultListModel;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IAehnlichkeitImpl;
+import de.thkoeln.syp.mtc.gui.control.FileSelectionController.CompareListener.CompareThread;
 import de.thkoeln.syp.mtc.gui.view.AboutView;
 import de.thkoeln.syp.mtc.gui.view.ComparisonView;
 import de.thkoeln.syp.mtc.gui.view.ConfigView;
@@ -55,7 +56,7 @@ public class Management {
 	private IXMLvergleicher xmlvergleicher;
 	private IJSONvergleicher jsonvergleicher;
 	
-	private Thread compareThread;
+	private CompareThread compareThread;
 
 	private Management() {
 		fileImporter = new IFileImporterImpl();
@@ -221,11 +222,11 @@ public class Management {
 		this.comparisons = comparisons;
 	}
 	
-	public Thread getCompareThread() {
+	public CompareThread getCompareThread() {
 		return compareThread;
 	}
 
-	public void setCompareThread(Thread compareThread) {
+	public void setCompareThread(CompareThread compareThread) {
 		this.compareThread = compareThread;
 	}
 

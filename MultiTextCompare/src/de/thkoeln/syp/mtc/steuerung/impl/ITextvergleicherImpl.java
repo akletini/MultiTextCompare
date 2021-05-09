@@ -7,7 +7,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
@@ -19,18 +18,16 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.UUID;
 
 import org.apache.commons.text.similarity.LevenshteinDistance;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IAehnlichkeit;
 import de.thkoeln.syp.mtc.datenhaltung.api.IMatrix;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IAehnlichkeitImpl;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IMatrixImpl;
+import de.thkoeln.syp.mtc.gui.control.FileSelectionController.CompareListener.CompareThread;
+import de.thkoeln.syp.mtc.gui.control.Management;
 import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
 import de.thkoeln.syp.mtc.steuerung.services.IMatchHelper;
 import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
@@ -44,9 +41,12 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 
 	private List<IAehnlichkeitImpl> paarungen;
 	private List<File> tempFiles;
+	
+	private CompareThread compareThread;
+	private volatile int i;
 
 	public ITextvergleicherImpl() {
-
+		
 	}
 
 	/**
@@ -56,6 +56,8 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	 */
 	@Override
 	public void vergleicheZeilenweise(List<IAehnlichkeitImpl> batch) {
+		compareThread = Management.getInstance().getCompareThread();
+		i = 0;
 		List<String> referenceLines = null;
 		List<String> comparisonLines = null;
 		final int MATCHING_LOOKAHEAD = fileImporter.getConfig()
@@ -70,6 +72,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 			comp = a.getZu();
 
 			try {
+				i++;
 				IMatchHelper matchHelper = new IMatchHelperImpl();
 				File[] original = new File[] { ref, comp };
 				File[] matchedFiles = createCompareMatchFiles(original);
@@ -95,7 +98,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 				ref.delete();
 				comp.delete();
 				a.setWert(similarity);
-
+				compareThread.publishData(i);
 			} catch (IOException e) {
 
 				e.printStackTrace();
@@ -112,9 +115,12 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	@Override
 	public void vergleicheUeberGanzesDokument(List<IAehnlichkeitImpl> batch) {
 		final int MAXLINELENGTH = fileImporter.getConfig().getMaxLineLength();
+		compareThread = Management.getInstance().getCompareThread();
+		i = 0;
 		for (IAehnlichkeitImpl a : batch) {
 
 			try {
+				i++;
 				List<String> refList = fileToLines(a.getVon());
 				List<String> vglList = fileToLines(a.getZu());
 
@@ -143,7 +149,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 
 				double metrik = (maxSize - levenshtein) / maxSize;
 				a.setWert(metrik);
-
+				compareThread.publishData(i);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -154,12 +160,16 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 
 	@Override
 	public void compareJSON(List<IAehnlichkeitImpl> batch) {
+		i = 0;
+		compareThread = Management.getInstance().getCompareThread();
 		final int MAXLINELENGTH = fileImporter.getConfig().getMaxLineLength();
 		for (IAehnlichkeitImpl a : batch) {
 			try {
+				i++;
 				IJSONComparerImpl jsonComparer = new IJSONComparerImpl(MAXLINELENGTH);
 				double similarity = jsonComparer.compare(a.getVon(), a.getZu());
 				a.setWert(similarity);
+				compareThread.publishData(i);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -170,11 +180,15 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	@Override
 	public void compareXML(List<IAehnlichkeitImpl> batch){
 		final int MAXLINELENGTH = fileImporter.getConfig().getMaxLineLength();
+		i = 0;
+		compareThread = Management.getInstance().getCompareThread();
 		for(IAehnlichkeitImpl a : batch){
 			try{
+				i++;
 				IXMLComparerImpl xmlComparer = new IXMLComparerImpl(MAXLINELENGTH);
 				double similarity = xmlComparer.compare(a.getVon(), a.getZu());
 				a.setWert(similarity);
+				compareThread.publishData(i);
 			}catch(Exception e) {
 				e.printStackTrace();
 			}

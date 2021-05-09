@@ -23,6 +23,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.SwingWorker;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
@@ -232,257 +233,285 @@ public class FileSelectionController extends JFrame {
 	}
 
 	class ResetListener implements ActionListener {
-		@SuppressWarnings("deprecation")
 		public void actionPerformed(ActionEvent e) {
 			// Zueruecksetzen der Auswahl im FileImporter & der Anzeige
 			fileImporter.deleteImports();
 			management.getFileSelectionView().getModel().clear();
 			management.getFileSelectionView().getLblFileCount().setText("0");
 			setRdbtn(true);
-//			try {
-//				if(management.getCompareThread().isAlive())
-//				management.getCompareThread().stop();
-//			} catch (Exception ex) {
-//				logger.setMessage(ex.toString(), logger.LEVEL_ERROR);
-//			}
+			try {
+				if(management.getCompareThread() != null && !management.getCompareThread().isDone())
+				management.getCompareThread().cancel(true);
+			} catch (Exception ex) {
+				logger.setMessage(ex.toString(), logger.LEVEL_ERROR);
+				management.getFileSelectionView().getBtnCompare().setEnabled(true);
+			}
 			management.getFileSelectionView().getBtnCompare().setEnabled(true);
 			newSelection = true;
 		}
 	}
 
-	class CompareListener implements ActionListener {
+	public class CompareListener implements ActionListener{
+		private CompareThread compareThread;
 		public void actionPerformed(ActionEvent e) {
-			class CompareThread extends SwingWorker<Void, Object> {
-				int anzDateien;
-				long start_time;
-				Management management;
+			 
+			compareThread = new CompareThread();
+			management.setCompareThread(compareThread);
+			compareThread.execute();
+		}
+		
+		public class CompareThread extends SwingWorker<Void, Integer>{
+			int anzDateien;
+			long start_time;
+			Management management;
+			JProgressBar progressBar;
+			
+		
+			public void publishData(int i){
+				publish(i);
+			}
+			
 
-				@Override
-				protected Void doInBackground() throws Exception {
+			@Override
+			protected Void doInBackground() throws Exception {
 
-					management = Management.getInstance();
-					management.setCompareThread(Thread.currentThread());
-					management.setCurrentFileSelection(management
-							.getFileSelectionView().getModel());
-					management.getFileSelectionView().getBtnCompare()
-							.setEnabled(false);
-
-					anzDateien = fileImporter.getTextdateien().size();
-					if (anzDateien < 2) {
-						return null;
-					}
-
-					fileImporter.deleteTempFiles();
-					fileImporter.createTempFiles();
-					xmlvergleicher.clearErrorList();
-					logger.setMessage("Start comparing...", logger.LEVEL_INFO);
-					start_time = System.nanoTime();
-
-					// XML Vergleich
-					if (mode == 1) {
-						fileImporter.setTempFiles((xmlvergleicher
-								.xmlPrepare(fileImporter.getTempFilesMap())));
-						for (IXMLParseError error : xmlvergleicher
-								.getErrorList())
-							logger.setMessage(error.getMessage(),
-									logger.LEVEL_WARNING);
-					}
-
-					// JSON Vergleich
-					else if (mode == 2) {
-						fileImporter.setTempFiles((jsonvergleicher
-								.jsonPrepare(fileImporter.getTempFilesMap())));
-						for (IJSONParseError error : jsonvergleicher
-								.getErrorList())
-							logger.setMessage(error.getMessage() + "\n",
-									logger.LEVEL_WARNING);
-
-					}
-
-					// Vergleich
-					textvergleicher.setFileImporter(fileImporter);
-					IConfig currentConfig = fileImporter.getConfig();
-					if (!(currentConfig.getKeepBlankLines()
-							&& currentConfig.getKeepCapitalization()
-							&& currentConfig.getKeepPuctuation() && currentConfig
-								.getKeepWhitespaces())) {
-						fileImporter.normTempFiles();
-					}
-					textvergleicher.getTempfilesFromHashMap(management
-							.getFileImporter().getTempFilesMap());
-					textvergleicher.getVergleiche(textvergleicher
-							.getTempFiles());
-					textvergleicher.createBatches();
-
-					ExecutorService es = Executors.newFixedThreadPool(Runtime
-							.getRuntime().availableProcessors());
-
-					if (mode == 2 && fileImporter.getConfig().isJsonUseSemanticComparison()) {
-						for (int i = 0; i < textvergleicher.getBatches().size(); i++) {
-							final List<IAehnlichkeitImpl> currentBatch = textvergleicher
-									.getBatches().get(i).getInhalt();
-							es.execute(new Runnable() {
-
-								@Override
-								public void run() {
-									textvergleicher.compareJSON(currentBatch);
-
-								}
-
-							});
-
-						}
-
-						es.shutdown();
-						boolean finished = es.awaitTermination(Long.MAX_VALUE,
-								TimeUnit.MINUTES);
-						if (finished) {
-							logger.writeToLogFile("Comparison finished", true);
-						} else {
-							logger.writeToLogFile("Comparison error", true);
-						}
-					}else if(mode == 1 && fileImporter.getConfig().isXmlUseSemanticComparison()){
-						for (int i = 0; i < textvergleicher.getBatches().size(); i++) {
-							final List<IAehnlichkeitImpl> currentBatch = textvergleicher
-									.getBatches().get(i).getInhalt();
-							es.execute(new Runnable() {
-
-								@Override
-								public void run() {
-									textvergleicher.compareXML(currentBatch);
-
-								}
-
-							});
-
-						}
-
-						es.shutdown();
-						boolean finished = es.awaitTermination(Long.MAX_VALUE,
-								TimeUnit.MINUTES);
-						if (finished) {
-							logger.writeToLogFile("Comparison finished", true);
-						} else {
-							logger.writeToLogFile("Comparison error", true);
-						}
-					}
-					else {
-
-						if (fileImporter.getConfig().getCompareLines() == false) {
-
-							for (int i = 0; i < textvergleicher.getBatches()
-									.size(); i++) {
-								final List<IAehnlichkeitImpl> currentBatch = textvergleicher
-										.getBatches().get(i).getInhalt();
-								es.execute(new Runnable() {
-
-									@Override
-									public void run() {
-										textvergleicher
-												.vergleicheUeberGanzesDokument(currentBatch);
-
-									}
-
-								});
-
-							}
-
-							es.shutdown();
-							boolean finished = es.awaitTermination(
-									Long.MAX_VALUE, TimeUnit.MINUTES);
-							if (finished) {
-								logger.writeToLogFile("Comparison finished",
-										true);
-							} else {
-								logger.writeToLogFile("Comparison error", true);
-							}
-
-						} else {
-							for (int i = 0; i < textvergleicher.getBatches()
-									.size(); i++) {
-								final List<IAehnlichkeitImpl> currentBatch = textvergleicher
-										.getBatches().get(i).getInhalt();
-								es.execute(new Runnable() {
-
-									@Override
-									public void run() {
-
-										textvergleicher
-												.vergleicheZeilenweise(currentBatch);
-
-									}
-
-								});
-
-							}
-							es.shutdown();
-							boolean finished = es.awaitTermination(
-									Long.MAX_VALUE, TimeUnit.MINUTES);
-							if (finished) {
-								logger.writeToLogFile("Comparison finished",
-										true);
-							} else {
-								logger.writeToLogFile("Comparison error", true);
-							}
-						}
-					}
-					newSelection = false;
+				management = Management.getInstance();
+				progressBar = management.getMainView().getProgressBar();
+				management.setCurrentFileSelection(management
+						.getFileSelectionView().getModel());
+				management.getFileSelectionView().getBtnCompare()
+						.setEnabled(false);
+				
+				anzDateien = fileImporter.getTextdateien().size();
+				if (anzDateien < 2) {
 					return null;
 				}
 
-				@Override
-				protected void done() {
+				fileImporter.deleteTempFiles();
+				fileImporter.createTempFiles();
+				xmlvergleicher.clearErrorList();
+				logger.setMessage("Start comparing...", logger.LEVEL_INFO);
+				start_time = System.nanoTime();
 
-					if (anzDateien < 2) {
-						new PopupView("Error",
-								"Please select at least two files for comparison");
-						return;
-					}
-					textvergleicher.mergeBatches();
-
-					textvergleicher.fillMatrix();
-
-					management.getMainView().updateMatrix(
-							textvergleicher.getMatrix(), anzDateien,
-							getFileNames(anzDateien));
-
-					lastComparisonFiles.clear();
-					lastComparisonFiles.addAll(fileImporter.getTextdateien());
-
-					long end_time = System.nanoTime();
-					double time_difference = (end_time - start_time) / 1e6;
-					String timeDiffAsString;
-					if (time_difference > 1000) {
-						time_difference /= 1000;
-						time_difference = Math.round(time_difference * 100.0) / 100.0;
-						timeDiffAsString = " (time taken: " + time_difference
-								+ "s)";
-					} else {
-						timeDiffAsString = " (time taken: " + time_difference
-								+ "ms)";
-					}
-					if (!xmlvergleicher.getErrorList().isEmpty()) {
-						logger.setMessage(
-								"A matrix with "
-										+ anzDateien
-										+ " files has been created, but the file selection contained "
-										+ xmlvergleicher.getErrorList().size()
-										+ " XML errors." + timeDiffAsString,
-								logger.LEVEL_INFO);
-					}
-
-					else {
-						logger.setMessage("A matrix with " + anzDateien
-								+ " files has been created successfully!"
-								+ timeDiffAsString, logger.LEVEL_INFO);
-					}
-					management.getFileSelectionView().getBtnCompare()
-							.setEnabled(true);
+				// XML Vergleich
+				if (mode == 1) {
+					fileImporter.setTempFiles((xmlvergleicher
+							.xmlPrepare(fileImporter.getTempFilesMap())));
+					for (IXMLParseError error : xmlvergleicher
+							.getErrorList())
+						logger.setMessage(error.getMessage(),
+								logger.LEVEL_WARNING);
 				}
+
+				// JSON Vergleich
+				else if (mode == 2) {
+					fileImporter.setTempFiles((jsonvergleicher
+							.jsonPrepare(fileImporter.getTempFilesMap())));
+					for (IJSONParseError error : jsonvergleicher
+							.getErrorList())
+						logger.setMessage(error.getMessage() + "\n",
+								logger.LEVEL_WARNING);
+
+				}
+
+				// Vergleich
+				textvergleicher.setFileImporter(fileImporter);
+				IConfig currentConfig = fileImporter.getConfig();
+				if (!(currentConfig.getKeepBlankLines()
+						&& currentConfig.getKeepCapitalization()
+						&& currentConfig.getKeepPuctuation() && currentConfig
+							.getKeepWhitespaces())) {
+					fileImporter.normTempFiles();
+				}
+				textvergleicher.getTempfilesFromHashMap(management
+						.getFileImporter().getTempFilesMap());
+				textvergleicher.getVergleiche(textvergleicher
+						.getTempFiles());
+				textvergleicher.createBatches();
+				
+				progressBar.setVisible(true);
+				progressBar.setStringPainted(true);
+				progressBar.setMinimum(0);
+				progressBar.setMaximum(textvergleicher.getPaarungen().size());
+				progressBar.setValue(0);
+
+				ExecutorService es = Executors.newFixedThreadPool(Runtime
+						.getRuntime().availableProcessors());
+
+				if (mode == 2 && fileImporter.getConfig().isJsonUseSemanticComparison()) {
+					for (int i = 0; i < textvergleicher.getBatches().size(); i++) {
+						final List<IAehnlichkeitImpl> currentBatch = textvergleicher
+								.getBatches().get(i).getInhalt();
+						es.execute(new Runnable() {
+
+							@Override
+							public void run() {
+								textvergleicher.compareJSON(currentBatch);
+							}
+
+						});
+
+					}
+
+					es.shutdown();
+					boolean finished = es.awaitTermination(Long.MAX_VALUE,
+							TimeUnit.MINUTES);
+					if (finished) {
+						logger.writeToLogFile("Comparison finished", true);
+					} else {
+						logger.writeToLogFile("Comparison error", true);
+					}
+				}else if(mode == 1 && fileImporter.getConfig().isXmlUseSemanticComparison()){
+					for (int i = 0; i < textvergleicher.getBatches().size(); i++) {
+						final List<IAehnlichkeitImpl> currentBatch = textvergleicher
+								.getBatches().get(i).getInhalt();
+						es.execute(new Runnable() {
+
+							@Override
+							public void run() {
+								textvergleicher.compareXML(currentBatch);
+
+							}
+
+						});
+
+					}
+
+					es.shutdown();
+					boolean finished = es.awaitTermination(Long.MAX_VALUE,
+							TimeUnit.MINUTES);
+					if (finished) {
+						logger.writeToLogFile("Comparison finished", true);
+					} else {
+						logger.writeToLogFile("Comparison error", true);
+					}
+				}
+				else {
+
+					if (fileImporter.getConfig().getCompareLines() == false) {
+
+						for (int i = 0; i < textvergleicher.getBatches()
+								.size(); i++) {
+							final List<IAehnlichkeitImpl> currentBatch = textvergleicher
+									.getBatches().get(i).getInhalt();
+							es.execute(new Runnable() {
+
+								@Override
+								public void run() {
+									textvergleicher
+											.vergleicheUeberGanzesDokument(currentBatch);
+
+								}
+
+							});
+
+						}
+
+						es.shutdown();
+						boolean finished = es.awaitTermination(
+								Long.MAX_VALUE, TimeUnit.MINUTES);
+						if (finished) {
+							logger.writeToLogFile("Comparison finished",
+									true);
+						} else {
+							logger.writeToLogFile("Comparison error", true);
+						}
+
+					} else {
+						for (int i = 0; i < textvergleicher.getBatches()
+								.size(); i++) {
+							final List<IAehnlichkeitImpl> currentBatch = textvergleicher
+									.getBatches().get(i).getInhalt();
+							es.execute(new Runnable() {
+
+								@Override
+								public void run() {
+
+									textvergleicher
+											.vergleicheZeilenweise(currentBatch);
+
+								}
+
+							});
+
+						}
+						es.shutdown();
+						boolean finished = es.awaitTermination(
+								Long.MAX_VALUE, TimeUnit.MINUTES);
+						if (finished) {
+							logger.writeToLogFile("Comparison finished",
+									true);
+						} else {
+							logger.writeToLogFile("Comparison error", true);
+						}
+					}
+				}
+				newSelection = false;
+				return null;
+			}
+			
+			@Override
+			protected void process(List<Integer> chunks){
+				int i = chunks.get(chunks.size()-1);
+				progressBar.setValue(i);
+				progressBar.setToolTipText(i + " / " + progressBar.getMaximum() + " comparisons finished");
 			}
 
-			new CompareThread().execute();
+			@Override
+			protected void done() {
+				progressBar.setValue(progressBar.getMaximum());
+				
+				if (anzDateien < 2) {
+					new PopupView("Error",
+							"Please select at least two files for comparison");
+					return;
+				}
+				textvergleicher.mergeBatches();
+
+				textvergleicher.fillMatrix();
+
+				management.getMainView().updateMatrix(
+						textvergleicher.getMatrix(), anzDateien,
+						getFileNames(anzDateien));
+
+				lastComparisonFiles.clear();
+				lastComparisonFiles.addAll(fileImporter.getTextdateien());
+
+				long end_time = System.nanoTime();
+				double time_difference = (end_time - start_time) / 1e6;
+				String timeDiffAsString;
+				if (time_difference > 1000) {
+					time_difference /= 1000;
+					time_difference = Math.round(time_difference * 100.0) / 100.0;
+					timeDiffAsString = " (time taken: " + time_difference
+							+ "s)";
+				} else {
+					timeDiffAsString = " (time taken: " + time_difference
+							+ "ms)";
+				}
+				if (!xmlvergleicher.getErrorList().isEmpty()) {
+					logger.setMessage(
+							"A matrix with "
+									+ anzDateien
+									+ " files has been created, but the file selection contained "
+									+ xmlvergleicher.getErrorList().size()
+									+ " XML errors." + timeDiffAsString,
+							logger.LEVEL_INFO);
+				}
+
+				else {
+					logger.setMessage("A matrix with " + anzDateien
+							+ " files has been created successfully!"
+							+ timeDiffAsString, logger.LEVEL_INFO);
+				}
+				management.getFileSelectionView().getBtnCompare()
+						.setEnabled(true);
+				progressBar.setToolTipText(null);
+				progressBar.setVisible(false);
+			}
 		}
+
+
 	}
 
 	class FileViewListener extends MouseAdapter {
