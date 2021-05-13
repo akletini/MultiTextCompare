@@ -94,6 +94,11 @@ public class IFileImporterImpl implements IFileImporter {
 	public List<File> getTextdateien() {
 		return textdateien;
 	}
+	
+	@Override
+	public void setTextdateien(List<File> textDateien) {
+		this.textdateien = textDateien;
+	}
 
 	@Override
 	public Map<File, File> getTempFilesMap() {

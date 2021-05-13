@@ -1,11 +1,16 @@
 package de.thkoeln.syp.mtc.datenhaltung.impl;
 
 import java.io.File;
+import java.io.Serializable;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IAehnlichkeit;
 
-public class IAehnlichkeitImpl implements IAehnlichkeit {
+public class IAehnlichkeitImpl implements IAehnlichkeit, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8018312879168148656L;
 	private File von, zu;
 	private int weight, id;
 	private double wert;

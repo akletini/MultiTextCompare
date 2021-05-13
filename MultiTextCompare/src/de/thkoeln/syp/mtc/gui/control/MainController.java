@@ -8,14 +8,29 @@ import java.awt.event.MouseWheelListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
+import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
+import de.thkoeln.syp.mtc.datenhaltung.api.IMatrix;
+import de.thkoeln.syp.mtc.datenhaltung.impl.IAehnlichkeitImpl;
+import de.thkoeln.syp.mtc.datenhaltung.impl.IMatrixImpl;
 import de.thkoeln.syp.mtc.gui.resources.RowNumberTable;
 import de.thkoeln.syp.mtc.gui.view.AboutView;
 import de.thkoeln.syp.mtc.gui.view.ConfigView;
@@ -40,6 +55,8 @@ public class MainController {
 		mainView.addHelpListener(new HelpListener());
 		mainView.addAboutListener(new AboutListener());
 		mainView.addZoomListener(new ZoomListener());
+		mainView.addMenuSaveComparisonListener(new MenuSaveComparisonListener());
+		mainView.addMenuLoadComparisonListener(new MenuLoadComparisonListener());
 		mainView.addMenuFileSelection(new MenuFileSelectionListener());
 		mainView.addLogClearListener(new LogClearListener());
 		mainView.addMenuSettingsListener(new MenuSettingsListener());
@@ -56,7 +73,6 @@ public class MainController {
 		mainView.addToolbarZoomInListener(new ToolbarZoomInListener());
 		mainView.addToolbarZoomOutListener(new ToolbarZoomOutListener());
 	}
-
 
 	class FileSelectionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
@@ -158,6 +174,167 @@ public class MainController {
 		}
 	}
 
+	class MenuSaveComparisonListener implements ActionListener {
+
+		public void actionPerformed(ActionEvent e) {
+			// init
+			List<IAehnlichkeitImpl> matrix = management.getComparisons();
+			DefaultListModel<String> fileSelection = management
+					.getCurrentFileSelection();
+			Map<File, File> tempFileMap = management.getFileImporter()
+					.getTempFilesMap();
+			
+			if(management.getMainView().getTableMatrix() == null){
+				logger.setMessage("Please create a comparison first", logger.LEVEL_WARNING);
+				return;
+			}
+
+			String compPath = System.getProperty("user.dir") + File.separator
+					+ "comparisons";
+			FileDialog fd = new FileDialog(management.getMainView(),
+					"Save comparison as", FileDialog.SAVE);
+			fd.setLocationRelativeTo(null);
+			fd.setMultipleMode(false);
+			fd.setDirectory(compPath);
+			fd.setVisible(true);
+			try {
+				fd.setIconImage(ImageIO.read(new File("res/icon.png")));
+			} catch (IOException ioe) {
+				logger.setMessage(
+						"Could not locate the MultiTextCompare logo. It was either moved or deleted",
+						logger.LEVEL_ERROR);
+			}
+
+			if (fd.getFiles().length == 1) {
+				File comparison = new File(fd.getFiles()[0].getAbsolutePath());
+				if (!comparison.exists()) {
+					comparison = new File(comparison.getAbsolutePath() + ".mtc");
+				}
+				saveComparison(compPath, comparison.getAbsolutePath(), matrix, fileSelection, tempFileMap);
+			}
+
+		}
+
+		public void saveComparison(String filePath,
+				String fileName,
+				List<IAehnlichkeitImpl> matrix,
+				DefaultListModel<String> fileSelection,
+				Map<File, File> tempFileMap) {
+			ObjectOutputStream oos = null;
+			FileOutputStream fout = null;
+
+			File compDir = new File(filePath);
+			compDir.mkdir();
+			File comparison = new File(fileName);
+			try {
+				comparison.createNewFile();
+
+				fout = new FileOutputStream(comparison);
+				oos = new ObjectOutputStream(fout);
+				// write objects
+				oos.writeObject(matrix);
+				oos.writeObject(fileSelection);
+				oos.writeObject(tempFileMap);
+				
+				fout.close();
+				oos.close();
+			} catch (IOException e) {
+				logger.setMessage(e.toString(), logger.LEVEL_ERROR);
+			} 
+		}
+	}
+
+	class MenuLoadComparisonListener implements ActionListener {
+
+		@SuppressWarnings("unchecked")
+		public void actionPerformed(ActionEvent e) {
+			List<IAehnlichkeitImpl> matrix = new ArrayList<IAehnlichkeitImpl>();
+			DefaultListModel<String> fileSelection = new DefaultListModel<String>();
+			Map<File, File> tempFileMap = new LinkedHashMap<File, File>();
+			FileInputStream fis = null;
+			ObjectInputStream ois = null;
+			
+			String compPath = System.getProperty("user.dir") + File.separator
+					+ "comparisons";
+			FileDialog fd = new FileDialog(management.getMainView(),
+					"Save comparison as", FileDialog.LOAD);
+			fd.setLocationRelativeTo(null);
+			fd.setFile("*.mtc");
+			fd.setMultipleMode(false);
+			fd.setDirectory(compPath);
+			fd.setVisible(true);
+			try {
+				fd.setIconImage(ImageIO.read(new File("res/icon.png")));
+			} catch (IOException ioe) {
+				logger.setMessage(
+						"Failed to locate MultiTextCompare logo. It has either been moved or deleted",
+						logger.LEVEL_ERROR);
+			}
+
+			File[] files = fd.getFiles();
+			
+			if(files.length == 0){
+				return;
+			}
+			File comparison = files[0];
+			if(!comparison.getAbsolutePath().endsWith(".mtc")){
+				logger.setMessage("Wrong file type. Only files with the extension .mtc are allowed!", logger.LEVEL_WARNING);
+				return;
+			}
+
+			try {
+				fis = new FileInputStream(comparison);
+				ois = new ObjectInputStream(fis);
+
+				matrix = (ArrayList<IAehnlichkeitImpl>) ois.readObject();
+				fileSelection = (DefaultListModel<String>) ois.readObject();
+				tempFileMap = (LinkedHashMap<File, File>) ois.readObject();
+
+				IMatrix m = new IMatrixImpl();
+				m.setInhalt(matrix);
+				ArrayList<String> fileNamesFull = Collections
+						.list(fileSelection.elements());
+				List<String> fileNames = cutFileNamePreamble(fileNamesFull);
+
+				management.getFileImporter().setTempFiles(tempFileMap);
+				management.getFileImporter().setTextdateien(
+						pathNamesToFileList(fileNames));
+				management.setCurrentFileSelection(fileSelection);
+				management.getMainView().updateMatrix(m, fileSelection.size(),
+						management.getFileNames(fileSelection.size()));
+
+				if (management.getFileSelectionView() == null) {
+					management.setFileSelectionView(new FileSelectionView());
+				}
+				management.getFileSelectionController().updateListFilePath();
+				management.setCurrentComparison(comparison);
+				management.getMainView().setTitle(management.getMainView().getTitle() + " - " + comparison.getName());
+				
+				fis.close();
+				ois.close();
+
+			} catch (IOException | ClassNotFoundException ex) {
+				logger.setMessage(ex.toString(), logger.LEVEL_ERROR);
+			}
+		}
+
+		private List<String> cutFileNamePreamble(List<String> list) {
+			List<String> pathList = new ArrayList<String>();
+			for (int i = 0; i < list.size(); i++) {
+				pathList.add(list.get(i).split("\\|")[1].trim());
+			}
+			return pathList;
+		}
+
+		private List<File> pathNamesToFileList(List<String> paths) {
+			List<File> files = new ArrayList<File>();
+			for (int i = 0; i < paths.size(); i++) {
+				files.add(new File(paths.get(i)));
+			}
+			return files;
+		}
+	}
+
 	class MenuFileSelectionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 
@@ -254,12 +431,16 @@ public class MainController {
 			try {
 				fd.setIconImage(ImageIO.read(new File("res/icon.png")));
 			} catch (IOException ioe) {
-				logger.setMessage(ioe.toString(),
-						logger.LEVEL_ERROR);
+				logger.setMessage("Failed to locate MultiTextCompare logo. It has either been moved or deleted", logger.LEVEL_ERROR);
 			}
 			if (fd.getFiles().length == 1) {
 				// neue config ziehen
 				File newConfig = fd.getFiles()[0];
+				
+				if(!newConfig.getAbsolutePath().endsWith(".properties")){
+					logger.setMessage("Wrong file type. Only files with the extension .properties are allowed!", logger.LEVEL_WARNING);
+					return;
+				}
 
 				// neue config in default config referenzieren
 				fileImporter.importConfigdatei(IFileImporter.DEFAULT_CONFIG);
@@ -348,8 +529,7 @@ public class MainController {
 				fileView.setTitle(logFile.getName());
 				management.getFileView().setVisible(true);
 			} catch (IOException ioe) {
-				logger.setMessage(ioe.toString(),
-						logger.LEVEL_ERROR);
+				logger.setMessage(ioe.toString(), logger.LEVEL_ERROR);
 			}
 		}
 	}
@@ -364,8 +544,8 @@ public class MainController {
 					.getMatrixScrollpane();
 			RowNumberTable rowNumb = management.getMainView()
 					.getRowNumberTable();
-			
-			if(tableMatrix == null){
+
+			if (tableMatrix == null) {
 				return;
 			}
 			if (e.isControlDown()) {

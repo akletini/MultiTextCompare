@@ -50,7 +50,7 @@ public class MouseAdapterMatrix extends MouseAdapter {
 		kreuzKlick = false;
 		int rowIndex = 0, columnIndex = 0;
 		// Abbruch falls die FileSelection geaendert wurde
-		if (management.getFileSelectionController().getNewSelection())
+		if (management.isNewSelection())
 			logger.setMessage(
 					"It is not possible to show side-by-side comparisons after altering the file selection. Please generate a new matrix.",
 					logger.LEVEL_WARNING);

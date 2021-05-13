@@ -79,4 +79,6 @@ public interface IFileImporter {
 	boolean deleteTempFiles();
 
 	void setTempFiles(Map<File, File> tempFiles);
+
+	void setTextdateien(List<File> textDateien);
 }

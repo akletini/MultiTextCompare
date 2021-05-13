@@ -57,7 +57,7 @@ public class FileSelectionController extends JFrame {
 	private IXMLvergleicher xmlvergleicher;
 	private IJSONvergleicher jsonvergleicher;
 	private int mode;
-	private boolean newSelection;
+	
 	private Logger logger;
 
 	public FileSelectionController(FileSelectionView fileSelectionView) {
@@ -90,7 +90,7 @@ public class FileSelectionController extends JFrame {
 
 		// Variable um zu bestimmen ob nach Anzeige der Matrix die Selection
 		// geaendert wurde
-		newSelection = false;
+		management.setNewSelection(false);
 	}
 
 	class SetRootListener implements ActionListener {
@@ -221,7 +221,7 @@ public class FileSelectionController extends JFrame {
 			// Datei(en) aus dem FileImporter loeschen
 			for (File f : getListSelection()) {
 				fileImporter.deleteImport(f);
-				newSelection = true;
+				management.setNewSelection(true);
 			}
 
 			// Anzeige aktualsieren
@@ -247,7 +247,7 @@ public class FileSelectionController extends JFrame {
 				management.getFileSelectionView().getBtnCompare().setEnabled(true);
 			}
 			management.getFileSelectionView().getBtnCompare().setEnabled(true);
-			newSelection = true;
+			management.setNewSelection(true);
 		}
 	}
 
@@ -446,7 +446,7 @@ public class FileSelectionController extends JFrame {
 						}
 					}
 				}
-				newSelection = false;
+				management.setNewSelection(false);
 				return null;
 			}
 			
@@ -469,10 +469,11 @@ public class FileSelectionController extends JFrame {
 				textvergleicher.mergeBatches();
 
 				textvergleicher.fillMatrix();
+				management.setComparisons(textvergleicher.getPaarungen());
 
 				management.getMainView().updateMatrix(
 						textvergleicher.getMatrix(), anzDateien,
-						getFileNames(anzDateien));
+						management.getFileNames(anzDateien));
 
 				lastComparisonFiles.clear();
 				lastComparisonFiles.addAll(fileImporter.getTextdateien());
@@ -569,9 +570,9 @@ public class FileSelectionController extends JFrame {
 	}
 
 	// Aktualsieren der JList + Anzahl an Dateien
-	private void updateListFilePath() {
+	public void updateListFilePath() {
 		int importSize = fileImporter.getTextdateien().size();
-		String[] fileNames = getFileNames(importSize);
+		String[] fileNames = management.getFileNames(importSize);
 		management.getFileSelectionView().getModel().clear();
 		for (int i = 0; i < importSize; i++) {
 			management
@@ -589,30 +590,12 @@ public class FileSelectionController extends JFrame {
 		}
 	}
 
-	// Gibt passenden Buchstaben fuer Index
-	private String intToFilename(int n) {
-		char[] buf = new char[(int) java.lang.Math.floor(java.lang.Math
-				.log(25 * (n + 1)) / java.lang.Math.log(26))];
-		for (int i = buf.length - 1; i >= 0; i--) {
-			n--;
-			buf[i] = (char) ('A' + n % 26);
-			n /= 26;
-		}
-		return new String(buf);
-	}
 
-	// Gibt vollstaendige Liste wieder (A,B,C,..AA,AB,AC,..)
-	private String[] getFileNames(int length) {
-		String[] fileNames = new String[length];
 
-		for (int i = 0; i < fileNames.length; i++) {
-			fileNames[i] = intToFilename(i + 1);
-		}
-		return fileNames;
-	}
+	
 
 	// Konvertiert die Anzeige Liste in Liste der Pfade (ohne bspw. "AB: ")
-	private List<String> convertToPaths(List<String> list) {
+	public List<String> convertToPaths(List<String> list) {
 		List<String> pathList = new ArrayList<String>();
 		for (int i = 0; i < management.getFileSelectionView().getListFilePath()
 				.getSelectedValuesList().size(); i++) {
@@ -648,7 +631,5 @@ public class FileSelectionController extends JFrame {
 		return mode;
 	}
 
-	public boolean getNewSelection() {
-		return newSelection;
-	}
+
 }

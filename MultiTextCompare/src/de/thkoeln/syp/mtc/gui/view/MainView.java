@@ -249,8 +249,7 @@ public class MainView extends JFrame {
 	// Erstellen der Matrix
 	public void updateMatrix(IMatrix matrix, int anzahlDateien,
 			String[] nameDateien) {
-		List<IAehnlichkeitImpl> listMatrix = management.getTextvergleicher()
-				.getMatrix().getInhalt(); // Aehnlichkeitswerte
+		List<IAehnlichkeitImpl> listMatrix =matrix.getInhalt(); // Aehnlichkeitswerte
 		management.getComparisons().addAll(listMatrix);
 		String[][] data = new String[anzahlDateien][anzahlDateien]; // String
 																	// Array zum
@@ -339,8 +338,7 @@ public class MainView extends JFrame {
 							int realIndex = columnModel.getColumn(index)
 									.getModelIndex();
 
-							if (!management.getFileSelectionController()
-									.getNewSelection())
+							if (!management.isNewSelection())
 								return management.getPaths()[realIndex];
 						}
 						if (index != -1)
@@ -526,6 +524,14 @@ public class MainView extends JFrame {
 
 	public void addZoomListener(MouseWheelListener e) {
 		addMouseWheelListener(e);
+	}
+	
+	public void addMenuSaveComparisonListener(ActionListener e){
+		saveComparison.addActionListener(e);
+	}
+	
+	public void addMenuLoadComparisonListener(ActionListener e){
+		loadComparison.addActionListener(e);
 	}
 
 	public void addMenuFileSelection(ActionListener e) {

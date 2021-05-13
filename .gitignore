@@ -98,6 +98,7 @@ hs_err_pid*
 MultiTextCompare/config.properties
 MultiTextCompare/logs/*
 MultiTextCompare/configs/*
+MultiTextCompare/comparisons/*
 MultiTextCompare/TempFiles/*
 MultiTextCompare/out/*
 MultiTextCompare/src/test/testFiles/config.properties

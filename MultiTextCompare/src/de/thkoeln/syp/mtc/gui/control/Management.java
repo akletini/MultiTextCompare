@@ -49,7 +49,9 @@ public class Management {
 	private DefaultListModel<String> currentFileSelection;
 	private List<IAehnlichkeitImpl> comparisons;
 	private boolean isMatrixGreyedOut, isReferenceSet;
+	private boolean newSelection;
 	private int referenceRow, referenceCol;
+	private File currentComparison;
 
 	private IFileImporter fileImporter;
 	private ITextvergleicher textvergleicher;
@@ -66,6 +68,7 @@ public class Management {
 		
 		comparisons = new ArrayList<IAehnlichkeitImpl>();
 		isMatrixGreyedOut = false;
+		currentComparison = null;
 	}
 
 	public static Management getInstance() {
@@ -355,7 +358,7 @@ public class Management {
 		try {
 			fd.setIconImage(ImageIO.read(new File("res/icon.png")));
 		} catch (IOException ioe) {
-			logger.setMessage(ioe.toString(),
+			logger.setMessage("Failed to locate MultiTextCompare logo. It has either been moved or deleted",
 					logger.LEVEL_ERROR);
 		}
 		
@@ -384,10 +387,32 @@ public class Management {
 				configView.setTitle("Settings using " + config.getPath());
 				configView.repaint();
 			} catch (IOException e1) {
-				e1.printStackTrace();
+				logger.setMessage("Something went wrong, please try again", logger.LEVEL_ERROR);
 			}
 		}
 	}
+	
+	// Gibt vollstaendige Liste wieder (A,B,C,..AA,AB,AC,..)
+		public String[] getFileNames(int length) {
+			String[] fileNames = new String[length];
+
+			for (int i = 0; i < fileNames.length; i++) {
+				fileNames[i] = intToFilename(i + 1);
+			}
+			return fileNames;
+		}
+		
+		// Gibt passenden Buchstaben fuer Index
+		private String intToFilename(int n) {
+			char[] buf = new char[(int) java.lang.Math.floor(java.lang.Math
+					.log(25 * (n + 1)) / java.lang.Math.log(26))];
+			for (int i = buf.length - 1; i >= 0; i--) {
+				n--;
+				buf[i] = (char) ('A' + n % 26);
+				n /= 26;
+			}
+			return new String(buf);
+		}
 
 	public boolean isReferenceSet() {
 		return isReferenceSet;
@@ -411,6 +436,22 @@ public class Management {
 
 	public void setReferenceCol(int referenceCol) {
 		this.referenceCol = referenceCol;
+	}
+
+	public boolean isNewSelection() {
+		return newSelection;
+	}
+
+	public void setNewSelection(boolean newSelection) {
+		this.newSelection = newSelection;
+	}
+
+	public File getCurrentComparison() {
+		return currentComparison;
+	}
+
+	public void setCurrentComparison(File currentComparison) {
+		this.currentComparison = currentComparison;
 	}
 
 
