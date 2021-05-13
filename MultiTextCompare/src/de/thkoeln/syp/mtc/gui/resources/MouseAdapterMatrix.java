@@ -273,7 +273,7 @@ public class MouseAdapterMatrix extends MouseAdapter {
 			logger.setMessage(
 					management.getCurrentFileSelection().get(rowIndex)
 							.split("\\|")[0].trim()
-							+ " & "
+							+ " and "
 							+ management.getCurrentFileSelection()
 									.get(columnIndex).split("\\|")[0]
 							+ " have been selected.", logger.LEVEL_INFO);

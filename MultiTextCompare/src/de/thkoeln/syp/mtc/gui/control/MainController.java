@@ -27,6 +27,8 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import org.apache.commons.io.FileUtils;
+
 import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
 import de.thkoeln.syp.mtc.datenhaltung.api.IMatrix;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IAehnlichkeitImpl;
@@ -188,9 +190,13 @@ public class MainController {
 				logger.setMessage("Please create a comparison first", logger.LEVEL_WARNING);
 				return;
 			}
-
+			
+			//create comparison directory
 			String compPath = System.getProperty("user.dir") + File.separator
 					+ "comparisons";
+			File compDir = new File(compPath);
+			compDir.mkdir();
+			
 			FileDialog fd = new FileDialog(management.getMainView(),
 					"Save comparison as", FileDialog.SAVE);
 			fd.setLocationRelativeTo(null);
@@ -207,25 +213,25 @@ public class MainController {
 
 			if (fd.getFiles().length == 1) {
 				File comparison = new File(fd.getFiles()[0].getAbsolutePath());
-				if (!comparison.exists()) {
-					comparison = new File(comparison.getAbsolutePath() + ".mtc");
-				}
-				saveComparison(compPath, comparison.getAbsolutePath(), matrix, fileSelection, tempFileMap);
+				comparison.mkdir();
+
+				saveComparison(comparison.getAbsolutePath() + File.separator + comparison.getName(), matrix, fileSelection, tempFileMap);
+				copyTempFiles(comparison.getAbsolutePath() + File.separator + "TempFiles");
+				management.setCurrentComparison(comparison);
+				management.getMainView().setTitle("MultiTextCompare - " + comparison.getName());
 			}
 
 		}
 
-		public void saveComparison(String filePath,
-				String fileName,
+		public void saveComparison(String fileName,
 				List<IAehnlichkeitImpl> matrix,
 				DefaultListModel<String> fileSelection,
 				Map<File, File> tempFileMap) {
 			ObjectOutputStream oos = null;
 			FileOutputStream fout = null;
 
-			File compDir = new File(filePath);
-			compDir.mkdir();
-			File comparison = new File(fileName);
+
+			File comparison = new File(fileName + ".mtc");
 			try {
 				comparison.createNewFile();
 
@@ -241,6 +247,18 @@ public class MainController {
 			} catch (IOException e) {
 				logger.setMessage(e.toString(), logger.LEVEL_ERROR);
 			} 
+		}
+		
+		private void copyTempFiles(String destinationPath){
+			File source = new File(System.getProperty("user.dir") + File.separator
+					+ "TempFiles");
+			File destination = new File(destinationPath);
+			try {
+			    FileUtils.copyDirectory(source, destination);
+			} catch (IOException e) {
+			    e.printStackTrace();
+			}
+			
 		}
 	}
 
@@ -308,13 +326,33 @@ public class MainController {
 				}
 				management.getFileSelectionController().updateListFilePath();
 				management.setCurrentComparison(comparison);
-				management.getMainView().setTitle(management.getMainView().getTitle() + " - " + comparison.getName());
+				loadComparisonTempFiles(comparison.getAbsolutePath());
+				management.getMainView().setTitle("MultiTextCompare - " + comparison.getName());
+				management.setIsMatrixGreyedOut(false);
 				
 				fis.close();
 				ois.close();
 
 			} catch (IOException | ClassNotFoundException ex) {
 				logger.setMessage(ex.toString(), logger.LEVEL_ERROR);
+			}
+		}
+		
+		private void loadComparisonTempFiles(String comparisonFileDir){
+			File tempFileDir = new File(System.getProperty("user.dir") + File.separator
+					+ "TempFiles");
+			try {
+				//remove all files from main temp file directory
+				FileUtils.cleanDirectory(tempFileDir);
+				
+				//get current comparison dir
+				File comparisonFile = new File(comparisonFileDir);
+				File comparisonDir = new File(comparisonFile.getParent() + File.separator + "TempFiles");
+				
+				//copy all temp files of selected comparison into main directory
+				FileUtils.copyDirectory(comparisonDir, tempFileDir);
+			} catch (IOException e) {
+				logger.setMessage("There were files that could not be deleted from the \"TempFiles\" directory. Please close them and try again", logger.LEVEL_ERROR);
 			}
 		}
 
