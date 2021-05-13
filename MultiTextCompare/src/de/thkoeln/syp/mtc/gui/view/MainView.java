@@ -50,6 +50,7 @@ import de.thkoeln.syp.mtc.datenhaltung.impl.IAehnlichkeitImpl;
 import de.thkoeln.syp.mtc.gui.control.Logger;
 import de.thkoeln.syp.mtc.gui.control.MainController;
 import de.thkoeln.syp.mtc.gui.control.Management;
+import de.thkoeln.syp.mtc.gui.control.MainController.MenuLoadComparisonListener;
 import de.thkoeln.syp.mtc.gui.resources.DefaultTableHeaderCellRenderer;
 import de.thkoeln.syp.mtc.gui.resources.MouseAdapterMatrix;
 import de.thkoeln.syp.mtc.gui.resources.RowNumberTable;

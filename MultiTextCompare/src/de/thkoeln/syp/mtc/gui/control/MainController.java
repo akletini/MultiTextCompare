@@ -237,16 +237,16 @@ public class MainController {
 				management.getMainView().setTitle(
 						"MultiTextCompare - " + comparison.getName());
 				management.getFileImporter().getConfig()
-				.setLastComparisonPath(comparison.getAbsolutePath());
-				
-				if(management.getConfigView() != null){
+						.setLastComparisonPath(comparison.getAbsolutePath());
+
+				if (management.getConfigView() != null) {
 					management.getConfigView().dispose();
 					management.saveConfig();
 					management.setConfigView(new ConfigView());
 					management.getConfigView().setVisible(true);
 					management.getConfigView().toBack();
 				}
-				
+
 				logger.setMessage("Successfully saved comparison",
 						logger.LEVEL_INFO);
 			}
@@ -291,7 +291,7 @@ public class MainController {
 		}
 	}
 
-	class MenuLoadComparisonListener implements ActionListener {
+	public class MenuLoadComparisonListener implements ActionListener {
 
 		@SuppressWarnings("unchecked")
 		public void actionPerformed(ActionEvent e) {
@@ -300,35 +300,41 @@ public class MainController {
 			Map<File, File> tempFileMap = new LinkedHashMap<File, File>();
 			FileInputStream fis = null;
 			ObjectInputStream ois = null;
+			File comparison = null;
+			if (e != null) {
+				String compPath = System.getProperty("user.dir")
+						+ File.separator + "comparisons";
+				FileDialog fd = new FileDialog(management.getMainView(),
+						"Save comparison as", FileDialog.LOAD);
+				fd.setLocationRelativeTo(null);
+				fd.setFile("*.mtc");
+				fd.setMultipleMode(false);
+				fd.setDirectory(compPath);
+				fd.setVisible(true);
+				try {
+					fd.setIconImage(ImageIO.read(new File("res/icon.png")));
+				} catch (IOException ioe) {
+					logger.setMessage(
+							"Failed to locate MultiTextCompare logo. It has either been moved or deleted",
+							logger.LEVEL_ERROR);
+				}
 
-			String compPath = System.getProperty("user.dir") + File.separator
-					+ "comparisons";
-			FileDialog fd = new FileDialog(management.getMainView(),
-					"Save comparison as", FileDialog.LOAD);
-			fd.setLocationRelativeTo(null);
-			fd.setFile("*.mtc");
-			fd.setMultipleMode(false);
-			fd.setDirectory(compPath);
-			fd.setVisible(true);
-			try {
-				fd.setIconImage(ImageIO.read(new File("res/icon.png")));
-			} catch (IOException ioe) {
-				logger.setMessage(
-						"Failed to locate MultiTextCompare logo. It has either been moved or deleted",
-						logger.LEVEL_ERROR);
+				File[] files = fd.getFiles();
+
+				if (files.length == 0) {
+					return;
+				}
+				comparison = files[0];
+				if (!comparison.getAbsolutePath().endsWith(".mtc")) {
+					logger.setMessage(
+							"Wrong file type. Only files with the extension .mtc are allowed!",
+							logger.LEVEL_WARNING);
+					return;
+				}
 			}
-
-			File[] files = fd.getFiles();
-
-			if (files.length == 0) {
-				return;
-			}
-			File comparison = files[0];
-			if (!comparison.getAbsolutePath().endsWith(".mtc")) {
-				logger.setMessage(
-						"Wrong file type. Only files with the extension .mtc are allowed!",
-						logger.LEVEL_WARNING);
-				return;
+			// open on startup
+			else {
+				comparison = new File(management.getFileImporter().getConfig().getLastComparisonPath());
 			}
 
 			try {
@@ -363,8 +369,8 @@ public class MainController {
 				management.setIsMatrixGreyedOut(false);
 				management.getFileImporter().getConfig()
 						.setLastComparisonPath(comparison.getAbsolutePath());
-				
-				if(management.getConfigView() != null){
+
+				if (management.getConfigView() != null) {
 					management.getConfigView().dispose();
 					management.saveConfig();
 					management.setConfigView(new ConfigView());

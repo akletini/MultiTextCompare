@@ -5,6 +5,7 @@ import javax.swing.UIManager;
 
 import de.thkoeln.syp.mtc.gui.control.Logger;
 import de.thkoeln.syp.mtc.gui.control.Management;
+import de.thkoeln.syp.mtc.gui.control.MainController.MenuLoadComparisonListener;
 import de.thkoeln.syp.mtc.gui.view.MainView;
 
 public class Main {
@@ -12,12 +13,18 @@ public class Main {
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			private Management management;
+			private Logger logger;
 			public void run() {
 				try {
 					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 					management = Management.getInstance();
 					management.setMainView(new MainView());					
 					management.getMainView().setVisible(true);
+					logger = management.getLogger();
+					if (management.getFileImporter().getConfig().getOpenLastComparison()) {
+						management.getMainController().new MenuLoadComparisonListener().actionPerformed(null);
+						logger.setMessage("Successfully opened last comparison", logger.LEVEL_INFO);
+					}
 					
 					Runtime.getRuntime().addShutdownHook(new Thread(){
 						public void run(){
@@ -25,7 +32,6 @@ public class Main {
 						}
 					});
 				} catch (Exception e) {
-					Logger logger = management.getLogger();
 					logger.setMessage(e.toString(), logger.LEVEL_ERROR);
 				}
 			}

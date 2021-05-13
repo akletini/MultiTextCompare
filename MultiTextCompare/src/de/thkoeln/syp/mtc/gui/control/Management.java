@@ -415,8 +415,8 @@ public class Management {
 
 	// Gibt passenden Buchstaben fuer Index
 	private String intToFilename(int n) {
-		char[] buf = new char[(int) java.lang.Math.floor(java.lang.Math
-				.log(25 * (n + 1)) / java.lang.Math.log(26))];
+		char[] buf = new char[(int) Math.floor(Math
+				.log(25 * (n + 1)) / Math.log(26))];
 		for (int i = buf.length - 1; i >= 0; i--) {
 			n--;
 			buf[i] = (char) ('A' + n % 26);
