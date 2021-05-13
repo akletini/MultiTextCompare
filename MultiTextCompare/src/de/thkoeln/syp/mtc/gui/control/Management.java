@@ -45,7 +45,7 @@ public class Management {
 	private MainController mainController;
 	private ComparisonController comparisonController;
 	private Logger logger;
-	
+
 	private DefaultListModel<String> currentFileSelection;
 	private List<IAehnlichkeitImpl> comparisons;
 	private boolean isMatrixGreyedOut, isReferenceSet;
@@ -57,7 +57,7 @@ public class Management {
 	private ITextvergleicher textvergleicher;
 	private IXMLvergleicher xmlvergleicher;
 	private IJSONvergleicher jsonvergleicher;
-	
+
 	private CompareThread compareThread;
 
 	private Management() {
@@ -65,7 +65,7 @@ public class Management {
 		textvergleicher = new ITextvergleicherImpl();
 		xmlvergleicher = new IXMLvergleicherImpl(fileImporter);
 		jsonvergleicher = new IJSONvergleicherImpl(fileImporter);
-		
+
 		comparisons = new ArrayList<IAehnlichkeitImpl>();
 		isMatrixGreyedOut = false;
 		currentComparison = null;
@@ -189,7 +189,7 @@ public class Management {
 	public void setJsonvergleicher(IJSONvergleicher jsonVergleicher) {
 		this.jsonvergleicher = jsonVergleicher;
 	}
-	
+
 	public Logger getLogger() {
 		return logger;
 	}
@@ -202,7 +202,8 @@ public class Management {
 		return comparisonController;
 	}
 
-	public void setComparisonController(ComparisonController comparisonController) {
+	public void setComparisonController(
+			ComparisonController comparisonController) {
 		this.comparisonController = comparisonController;
 	}
 
@@ -210,9 +211,10 @@ public class Management {
 		return currentFileSelection;
 	}
 
-	public void setCurrentFileSelection(DefaultListModel<String> currentFileSelection) {
+	public void setCurrentFileSelection(
+			DefaultListModel<String> currentFileSelection) {
 		this.currentFileSelection = new DefaultListModel<String>();
-		for(int i = 0; i < currentFileSelection.size(); i++){
+		for (int i = 0; i < currentFileSelection.size(); i++) {
 			this.currentFileSelection.add(i, currentFileSelection.elementAt(i));
 		}
 	}
@@ -224,7 +226,7 @@ public class Management {
 	public void setComparisons(List<IAehnlichkeitImpl> comparisons) {
 		this.comparisons = comparisons;
 	}
-	
+
 	public CompareThread getCompareThread() {
 		return compareThread;
 	}
@@ -251,9 +253,7 @@ public class Management {
 					fileImporter.getConfig().getRootDir());
 	}
 
-
-	
-	public void clearLog(){
+	public void clearLog() {
 		mainView.getTextArea().setText("");
 	}
 
@@ -266,41 +266,49 @@ public class Management {
 		}
 		return pathArray;
 	}
-	
-	public void saveConfig(ActionEvent e){
+
+	public void saveConfig() {
 		IConfig config = fileImporter.getConfig();
 
+		// general
 		config.setKeepWhitespaces(configView.getCheckBoxWhitespaces()
 				.isSelected());
 		config.setKeepBlankLines(configView.getCheckBoxBlankLines()
 				.isSelected());
-		config.setKeepCapitalization(configView
-				.getCheckBoxCaps().isSelected());
+		config.setKeepCapitalization(configView.getCheckBoxCaps().isSelected());
 		config.setKeepPuctuation(configView.getCheckBoxPunctuation()
 				.isSelected());
 		config.setMaxLineLength(configView.getTextFieldMaxLineLengthValue());
 		config.setLineMatch(configView.getCheckBoxLineMatch().isSelected());
-		config.setMatchAt(((double)configView.getMatchAtSlider().getValue()) / 100); 
-		
+		config.setMatchAt(((double) configView.getMatchAtSlider().getValue()) / 100);
+		config.setOpenLastComparison(configView.getCheckBoxOpenLastComparison()
+				.isSelected());
 		config.setMatchingLookahead(configView.getTextFieldLookaheadValue());
 		config.setBestMatch(configView.getCheckBoxBestMatch().isSelected());
 
+		//xml
 		config.setXmlSortElements(configView.getCheckBoxXmlSortElements()
 				.isSelected());
-		config.setXmlSortAttributes((configView
-				.getCheckBoxXmlSortAttributes().isSelected()));
-		config.setXmlDeleteAttributes(configView.getCheckBoxXmlDeleteAttribute()
+		config.setXmlSortAttributes((configView.getCheckBoxXmlSortAttributes()
+				.isSelected()));
+		config.setXmlDeleteAttributes(configView
+				.getCheckBoxXmlDeleteAttribute().isSelected());
+		config.setXmlDeleteComments(configView.getCheckBoxXmlDeleteComments()
 				.isSelected());
-		config.setXmlDeleteComments(configView
-				.getCheckBoxXmlDeleteComments().isSelected());
 		config.setXmlOnlyTags(configView.getCheckBoxXmlOnlyTags().isSelected());
-		config.setXmlUseSemanticComparison(configView.getCheckBoxXMLSemantic().isSelected());
-		
-		config.setJsonSortKeys(configView.getCheckBoxJsonSortKeys().isSelected());
-		config.setJsonDeleteValues(configView.getCheckBoxJsonDeleteValues().isSelected());
-		config.setJsonUseSemanticComparison(configView.getCheckBoxJSONSemantic().isSelected());
-		
-		switch(configView.getComboBoxComparisonModes().getSelectedItem().toString()){
+		config.setXmlUseSemanticComparison(configView.getCheckBoxXMLSemantic()
+				.isSelected());
+
+		//json
+		config.setJsonSortKeys(configView.getCheckBoxJsonSortKeys()
+				.isSelected());
+		config.setJsonDeleteValues(configView.getCheckBoxJsonDeleteValues()
+				.isSelected());
+		config.setJsonUseSemanticComparison(configView
+				.getCheckBoxJSONSemantic().isSelected());
+
+		switch (configView.getComboBoxComparisonModes().getSelectedItem()
+				.toString()) {
 		case "Compare lines":
 			config.setCompareLines(true);
 			break;
@@ -308,7 +316,7 @@ public class Management {
 			config.setCompareLines(false);
 			break;
 		}
-		
+
 		switch (configView.getComboBoxXmlValidation().getSelectedItem()
 				.toString()) {
 		case "Internal XSD":
@@ -324,7 +332,7 @@ public class Management {
 			config.setXmlValidation(0);
 			break;
 		}
-		
+
 		switch (configView.getComboBoxXmlPrint().getSelectedItem().toString()) {
 		case "Raw":
 			config.setXmlPrint(1);
@@ -336,12 +344,12 @@ public class Management {
 			config.setXmlPrint(0);
 			break;
 		}
-		
+
 		fileImporter.exportConfigdatei();
 		logger.setMessage("Configuration has been saved", logger.LEVEL_INFO);
 	}
-	
-	public void saveConfigAs(ActionEvent e){
+
+	public void saveConfigAs() {
 		if (Management.getInstance().getConfigView() == null) {
 			setConfigView(new ConfigView());
 		}
@@ -349,8 +357,8 @@ public class Management {
 				+ "configs";
 		ConfigView configView = getConfigView();
 		IFileImporter fileImporter = getFileImporter();
-		FileDialog fd = new FileDialog(getMainView(),
-				"Save config as", FileDialog.SAVE);
+		FileDialog fd = new FileDialog(getMainView(), "Save config as",
+				FileDialog.SAVE);
 		fd.setLocationRelativeTo(null);
 		fd.setMultipleMode(false);
 		fd.setDirectory(configDir);
@@ -358,61 +366,64 @@ public class Management {
 		try {
 			fd.setIconImage(ImageIO.read(new File("res/icon.png")));
 		} catch (IOException ioe) {
-			logger.setMessage("Failed to locate MultiTextCompare logo. It has either been moved or deleted",
+			logger.setMessage(
+					"Failed to locate MultiTextCompare logo. It has either been moved or deleted",
 					logger.LEVEL_ERROR);
 		}
-		
+
 		if (fd.getFiles().length == 1) {
 			try {
 				File newConfig = new File(fd.getFiles()[0].getAbsolutePath());
-				//aktuelle config in neue config kopieren
+				// aktuelle config in neue config kopieren
 				IConfig config = fileImporter.getConfig();
-				if(!newConfig.exists()){
-					newConfig = new File(newConfig.getAbsolutePath() + ".properties");
+				if (!newConfig.exists()) {
+					newConfig = new File(newConfig.getAbsolutePath()
+							+ ".properties");
 				}
 				newConfig.createNewFile();
 				config.setPath(newConfig.getAbsolutePath());
 				fileImporter.exportConfigdatei();
-				
-				//neue config in default config referenzieren
+
+				// neue config in default config referenzieren
 				fileImporter.importConfigdatei(IFileImporter.DEFAULT_CONFIG);
 				config = fileImporter.getConfig();
 				config.setPathCurrent(newConfig.getAbsolutePath());
 				fileImporter.exportConfigdatei();
-				//neue config aktivieren
+				// neue config aktivieren
 				fileImporter.importConfigdatei(newConfig);
-				saveConfig(e);
+				saveConfig();
 				config = fileImporter.getConfig();
-				
+
 				configView.setTitle("Settings using " + config.getPath());
 				configView.repaint();
 			} catch (IOException e1) {
-				logger.setMessage("Something went wrong, please try again", logger.LEVEL_ERROR);
+				logger.setMessage("Something went wrong, please try again",
+						logger.LEVEL_ERROR);
 			}
 		}
 	}
-	
-	// Gibt vollstaendige Liste wieder (A,B,C,..AA,AB,AC,..)
-		public String[] getFileNames(int length) {
-			String[] fileNames = new String[length];
 
-			for (int i = 0; i < fileNames.length; i++) {
-				fileNames[i] = intToFilename(i + 1);
-			}
-			return fileNames;
+	// Gibt vollstaendige Liste wieder (A,B,C,..AA,AB,AC,..)
+	public String[] getFileNames(int length) {
+		String[] fileNames = new String[length];
+
+		for (int i = 0; i < fileNames.length; i++) {
+			fileNames[i] = intToFilename(i + 1);
 		}
-		
-		// Gibt passenden Buchstaben fuer Index
-		private String intToFilename(int n) {
-			char[] buf = new char[(int) java.lang.Math.floor(java.lang.Math
-					.log(25 * (n + 1)) / java.lang.Math.log(26))];
-			for (int i = buf.length - 1; i >= 0; i--) {
-				n--;
-				buf[i] = (char) ('A' + n % 26);
-				n /= 26;
-			}
-			return new String(buf);
+		return fileNames;
+	}
+
+	// Gibt passenden Buchstaben fuer Index
+	private String intToFilename(int n) {
+		char[] buf = new char[(int) java.lang.Math.floor(java.lang.Math
+				.log(25 * (n + 1)) / java.lang.Math.log(26))];
+		for (int i = buf.length - 1; i >= 0; i--) {
+			n--;
+			buf[i] = (char) ('A' + n % 26);
+			n /= 26;
 		}
+		return new String(buf);
+	}
 
 	public boolean isReferenceSet() {
 		return isReferenceSet;
@@ -453,6 +464,5 @@ public class Management {
 	public void setCurrentComparison(File currentComparison) {
 		this.currentComparison = currentComparison;
 	}
-
 
 }

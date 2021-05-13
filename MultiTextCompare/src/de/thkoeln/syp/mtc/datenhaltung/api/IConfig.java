@@ -121,5 +121,13 @@ public interface IConfig {
 
 	void setJsonUseSemanticComparison(boolean jsonUseSemanticComparison);
 
+	boolean getOpenLastComparison();
+
+	void setOpenLastComparison(boolean openLastComparison);
+
+	String getLastComparisonPath();
+
+	void setLastComparisonPath(String lastComparisonPath);
+
 	
 }

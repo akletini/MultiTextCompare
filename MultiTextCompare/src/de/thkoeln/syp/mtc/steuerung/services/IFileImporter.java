@@ -17,6 +17,8 @@ public interface IFileImporter {
 	final String PROP_CAPITALIZATION = "capitalization";
 	final String PROP_COMPARELINES = "compareLines";
 	final String PROP_MAXLINELENGTH = "maxLineLength";
+	final String PROP_OPENLASTCOMPARISON = "openLastComparison";
+	final String PROP_LASTCOMPARISONPATH = "lastComparisonPath";
 	
 	final String PROP_LINEMATCH = "lineMatch";
 	final String PROP_MATCHAT = "matchAt";

@@ -49,6 +49,8 @@ public class IFileImporterImpl implements IFileImporter {
 		prop.setProperty(PROP_CAPITALIZATION, "true");
 		prop.setProperty(PROP_COMPARELINES, "true");
 		prop.setProperty(PROP_MAXLINELENGTH, "300");
+		prop.setProperty(PROP_OPENLASTCOMPARISON, "false");
+		prop.setProperty(PROP_LASTCOMPARISONPATH, "");
 
 		prop.setProperty(PROP_LINEMATCH, "true");
 		prop.setProperty(PROP_MATCHAT, "0.85");
@@ -94,7 +96,7 @@ public class IFileImporterImpl implements IFileImporter {
 	public List<File> getTextdateien() {
 		return textdateien;
 	}
-	
+
 	@Override
 	public void setTextdateien(List<File> textDateien) {
 		this.textdateien = textDateien;
@@ -215,6 +217,9 @@ public class IFileImporterImpl implements IFileImporter {
 				.getProperty(PROP_COMPARELINES)));
 		iConfig.setMaxLineLength(Integer.parseInt(prop
 				.getProperty(PROP_MAXLINELENGTH)));
+		iConfig.setOpenLastComparison(Boolean.parseBoolean(prop
+				.getProperty(PROP_OPENLASTCOMPARISON)));
+		iConfig.setLastComparisonPath(prop.getProperty(PROP_LASTCOMPARISONPATH));
 
 		iConfig.setLineMatch(Boolean.parseBoolean(prop
 				.getProperty(PROP_LINEMATCH)));
@@ -347,6 +352,10 @@ public class IFileImporterImpl implements IFileImporter {
 					Boolean.toString(iConfig.getCompareLines()));
 			prop.setProperty(PROP_MAXLINELENGTH,
 					Integer.toString(iConfig.getMaxLineLength()));
+			prop.setProperty(PROP_OPENLASTCOMPARISON,
+					Boolean.toString(iConfig.getOpenLastComparison()));
+			prop.setProperty(PROP_LASTCOMPARISONPATH,
+					iConfig.getLastComparisonPath());
 
 			prop.setProperty(PROP_LINEMATCH,
 					Boolean.toString(iConfig.getLineMatch()));

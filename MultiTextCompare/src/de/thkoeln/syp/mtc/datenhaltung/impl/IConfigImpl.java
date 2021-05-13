@@ -10,6 +10,8 @@ public class IConfigImpl implements IConfig {
 	private String rootDir, path, filename, filetype, pathCurrent;
 	
 	private int maxLineLength;
+	private boolean openLastComparison;
+	private String lastComparisonPath;
 	
 	//Log parameters
 	private boolean showInfos, showWarnings, showErrors;
@@ -296,6 +298,22 @@ public class IConfigImpl implements IConfig {
 	@Override
 	public void setJsonUseSemanticComparison(boolean jsonUseSemanticComparison) {
 		this.jsonUseSemanticComparison = jsonUseSemanticComparison;
+	}
+	@Override
+	public boolean getOpenLastComparison() {
+		return openLastComparison;
+	}
+	@Override
+	public void setOpenLastComparison(boolean openLastComparison) {
+		this.openLastComparison = openLastComparison;
+	}
+	@Override
+	public String getLastComparisonPath() {
+		return lastComparisonPath;
+	}
+	@Override
+	public void setLastComparisonPath(String lastComparisonPath) {
+		this.lastComparisonPath = lastComparisonPath;
 	}
 	
 	

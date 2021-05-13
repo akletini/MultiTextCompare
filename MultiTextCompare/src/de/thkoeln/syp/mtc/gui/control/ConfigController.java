@@ -72,7 +72,7 @@ public class ConfigController {
 	// Save Button: Speichert die Konfiguration in der config Datei
 	public class SaveListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			management.saveConfig(e);
+			management.saveConfig();
 			configView.dispatchEvent(new WindowEvent(configView,
 					WindowEvent.WINDOW_CLOSING));
 		}
@@ -81,7 +81,7 @@ public class ConfigController {
 	// Save As Button: Speichert die Konfiguration in der config Datei
 		public class SaveAsListener implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
-				management.saveConfigAs(e);
+				management.saveConfigAs();
 				configView.dispatchEvent(new WindowEvent(configView,
 						WindowEvent.WINDOW_CLOSING));
 			}

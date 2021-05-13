@@ -42,12 +42,10 @@ import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
 public class MainController {
 	private Management management;
 	private Logger logger;
-	private ConfigView configView;
 
 	public MainController(MainView mainView) {
 		management = Management.getInstance();
 		management.setMainController(this);
-		configView = management.getConfigView();
 		logger = management.getLogger();
 		mainView.addFileSelectionListener(new FileSelectionListener());
 		mainView.addConfigListener(new ConfigListener());
@@ -183,28 +181,35 @@ public class MainController {
 					.getCurrentFileSelection();
 			Map<File, File> tempFileMap = management.getFileImporter()
 					.getTempFilesMap();
-			
-			if(management.getMainView().getTableMatrix() == null){
-				logger.setMessage("Please create a comparison first", logger.LEVEL_WARNING);
+
+			if (management.getMainView().getTableMatrix() == null) {
+				logger.setMessage("Please create a comparison first",
+						logger.LEVEL_WARNING);
 				return;
 			}
-			
-			//differentiate save and save as
-			if(management.getCurrentComparison() != null){
+
+			// differentiate save and save as
+			if (management.getCurrentComparison() != null) {
 				File currentComparison = management.getCurrentComparison();
-				saveComparison(currentComparison.getAbsolutePath() + File.separator + currentComparison.getName(), matrix, fileSelection, tempFileMap);
-				copyTempFiles(currentComparison.getAbsolutePath() + File.separator + "TempFiles");
+				saveComparison(currentComparison.getAbsolutePath()
+						+ File.separator + currentComparison.getName(), matrix,
+						fileSelection, tempFileMap);
+				copyTempFiles(currentComparison.getAbsolutePath()
+						+ File.separator + "TempFiles");
 				management.setCurrentComparison(currentComparison);
-				management.getMainView().setTitle("MultiTextCompare - " + currentComparison.getName());
+				management.getMainView().setTitle(
+						"MultiTextCompare - " + currentComparison.getName());
+				logger.setMessage("Successfully saved comparison to "
+						+ currentComparison.getName(), logger.LEVEL_INFO);
 				return;
 			}
-			
-			//create comparison directory
+
+			// create comparison directory
 			String compPath = System.getProperty("user.dir") + File.separator
 					+ "comparisons";
 			File compDir = new File(compPath);
 			compDir.mkdir();
-			
+
 			FileDialog fd = new FileDialog(management.getMainView(),
 					"Save comparison as", FileDialog.SAVE);
 			fd.setLocationRelativeTo(null);
@@ -223,10 +228,27 @@ public class MainController {
 				File comparison = new File(fd.getFiles()[0].getAbsolutePath());
 				comparison.mkdir();
 
-				saveComparison(comparison.getAbsolutePath() + File.separator + comparison.getName(), matrix, fileSelection, tempFileMap);
-				copyTempFiles(comparison.getAbsolutePath() + File.separator + "TempFiles");
+				saveComparison(comparison.getAbsolutePath() + File.separator
+						+ comparison.getName(), matrix, fileSelection,
+						tempFileMap);
+				copyTempFiles(comparison.getAbsolutePath() + File.separator
+						+ "TempFiles");
 				management.setCurrentComparison(comparison);
-				management.getMainView().setTitle("MultiTextCompare - " + comparison.getName());
+				management.getMainView().setTitle(
+						"MultiTextCompare - " + comparison.getName());
+				management.getFileImporter().getConfig()
+				.setLastComparisonPath(comparison.getAbsolutePath());
+				
+				if(management.getConfigView() != null){
+					management.getConfigView().dispose();
+					management.saveConfig();
+					management.setConfigView(new ConfigView());
+					management.getConfigView().setVisible(true);
+					management.getConfigView().toBack();
+				}
+				
+				logger.setMessage("Successfully saved comparison",
+						logger.LEVEL_INFO);
 			}
 
 		}
@@ -238,7 +260,6 @@ public class MainController {
 			ObjectOutputStream oos = null;
 			FileOutputStream fout = null;
 
-
 			File comparison = new File(fileName + ".mtc");
 			try {
 				comparison.createNewFile();
@@ -249,24 +270,24 @@ public class MainController {
 				oos.writeObject(matrix);
 				oos.writeObject(fileSelection);
 				oos.writeObject(tempFileMap);
-				
+
 				fout.close();
 				oos.close();
 			} catch (IOException e) {
 				logger.setMessage(e.toString(), logger.LEVEL_ERROR);
-			} 
+			}
 		}
-		
-		private void copyTempFiles(String destinationPath){
-			File source = new File(System.getProperty("user.dir") + File.separator
-					+ "TempFiles");
+
+		private void copyTempFiles(String destinationPath) {
+			File source = new File(System.getProperty("user.dir")
+					+ File.separator + "TempFiles");
 			File destination = new File(destinationPath);
 			try {
-			    FileUtils.copyDirectory(source, destination);
+				FileUtils.copyDirectory(source, destination);
 			} catch (IOException e) {
-			    e.printStackTrace();
+				e.printStackTrace();
 			}
-			
+
 		}
 	}
 
@@ -279,7 +300,7 @@ public class MainController {
 			Map<File, File> tempFileMap = new LinkedHashMap<File, File>();
 			FileInputStream fis = null;
 			ObjectInputStream ois = null;
-			
+
 			String compPath = System.getProperty("user.dir") + File.separator
 					+ "comparisons";
 			FileDialog fd = new FileDialog(management.getMainView(),
@@ -298,13 +319,15 @@ public class MainController {
 			}
 
 			File[] files = fd.getFiles();
-			
-			if(files.length == 0){
+
+			if (files.length == 0) {
 				return;
 			}
 			File comparison = files[0];
-			if(!comparison.getAbsolutePath().endsWith(".mtc")){
-				logger.setMessage("Wrong file type. Only files with the extension .mtc are allowed!", logger.LEVEL_WARNING);
+			if (!comparison.getAbsolutePath().endsWith(".mtc")) {
+				logger.setMessage(
+						"Wrong file type. Only files with the extension .mtc are allowed!",
+						logger.LEVEL_WARNING);
 				return;
 			}
 
@@ -335,9 +358,20 @@ public class MainController {
 				management.getFileSelectionController().updateListFilePath();
 				management.setCurrentComparison(comparison);
 				loadComparisonTempFiles(comparison.getAbsolutePath());
-				management.getMainView().setTitle("MultiTextCompare - " + comparison.getName());
+				management.getMainView().setTitle(
+						"MultiTextCompare - " + comparison.getName());
 				management.setIsMatrixGreyedOut(false);
+				management.getFileImporter().getConfig()
+						.setLastComparisonPath(comparison.getAbsolutePath());
 				
+				if(management.getConfigView() != null){
+					management.getConfigView().dispose();
+					management.saveConfig();
+					management.setConfigView(new ConfigView());
+					management.getConfigView().setVisible(true);
+					management.getConfigView().toBack();
+				}
+
 				fis.close();
 				ois.close();
 
@@ -345,22 +379,26 @@ public class MainController {
 				logger.setMessage(ex.toString(), logger.LEVEL_ERROR);
 			}
 		}
-		
-		private void loadComparisonTempFiles(String comparisonFileDir){
-			File tempFileDir = new File(System.getProperty("user.dir") + File.separator
-					+ "TempFiles");
+
+		private void loadComparisonTempFiles(String comparisonFileDir) {
+			File tempFileDir = new File(System.getProperty("user.dir")
+					+ File.separator + "TempFiles");
 			try {
-				//remove all files from main temp file directory
+				// remove all files from main temp file directory
 				FileUtils.cleanDirectory(tempFileDir);
-				
-				//get current comparison dir
+
+				// get current comparison dir
 				File comparisonFile = new File(comparisonFileDir);
-				File comparisonDir = new File(comparisonFile.getParent() + File.separator + "TempFiles");
-				
-				//copy all temp files of selected comparison into main directory
+				File comparisonDir = new File(comparisonFile.getParent()
+						+ File.separator + "TempFiles");
+
+				// copy all temp files of selected comparison into main
+				// directory
 				FileUtils.copyDirectory(comparisonDir, tempFileDir);
 			} catch (IOException e) {
-				logger.setMessage("There were files that could not be deleted from the \"TempFiles\" directory. Please close them and try again", logger.LEVEL_ERROR);
+				logger.setMessage(
+						"There were files that could not be deleted from the \"TempFiles\" directory. Please close them and try again",
+						logger.LEVEL_ERROR);
 			}
 		}
 
@@ -453,7 +491,7 @@ public class MainController {
 
 	class MenuSaveConfigListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			management.saveConfig(e);
+			management.saveConfig();
 		}
 	}
 
@@ -477,14 +515,18 @@ public class MainController {
 			try {
 				fd.setIconImage(ImageIO.read(new File("res/icon.png")));
 			} catch (IOException ioe) {
-				logger.setMessage("Failed to locate MultiTextCompare logo. It has either been moved or deleted", logger.LEVEL_ERROR);
+				logger.setMessage(
+						"Failed to locate MultiTextCompare logo. It has either been moved or deleted",
+						logger.LEVEL_ERROR);
 			}
 			if (fd.getFiles().length == 1) {
 				// neue config ziehen
 				File newConfig = fd.getFiles()[0];
-				
-				if(!newConfig.getAbsolutePath().endsWith(".properties")){
-					logger.setMessage("Wrong file type. Only files with the extension .properties are allowed!", logger.LEVEL_WARNING);
+
+				if (!newConfig.getAbsolutePath().endsWith(".properties")) {
+					logger.setMessage(
+							"Wrong file type. Only files with the extension .properties are allowed!",
+							logger.LEVEL_WARNING);
 					return;
 				}
 
@@ -498,6 +540,7 @@ public class MainController {
 				fileImporter.importConfigdatei(newConfig);
 				config = fileImporter.getConfig();
 
+				// general
 				configView.getCheckBoxWhitespaces().setSelected(
 						config.getKeepWhitespaces());
 				configView.getCheckBoxBlankLines().setSelected(
@@ -510,6 +553,14 @@ public class MainController {
 						config.getCompareLines() ? 1 : 0);
 				configView.getCheckBoxLineMatch().setSelected(
 						config.getLineMatch());
+				configView.getCheckBoxOpenLastComparison().setSelected(
+						config.getOpenLastComparison());
+				configView.getTextFieldMaxLength().setText(
+						"" + config.getMaxLineLength());
+
+				// xml
+				configView.getCheckBoxXMLSemantic().setSelected(
+						config.isXmlUseSemanticComparison());
 				configView.getComboBoxXmlValidation().setSelectedIndex(
 						config.getXmlValidation());
 				configView.getComboBoxXmlPrint().setSelectedIndex(
@@ -524,10 +575,16 @@ public class MainController {
 						config.getXmlDeleteComments());
 				configView.getCheckBoxXmlOnlyTags().setSelected(
 						config.getXmlOnlyTags());
+
+				// json
+				configView.getCheckBoxJSONSemantic().setSelected(
+						config.isJsonUseSemanticComparison());
 				configView.getCheckBoxJsonSortKeys().setSelected(
 						config.getJsonSortKeys());
 				configView.getCheckBoxJsonDeleteValues().setSelected(
 						config.getJsonDeleteValues());
+
+				// matching
 				configView.getCheckBoxBestMatch().setSelected(
 						config.getBestMatch());
 				configView.getMatchAtSlider().setValue(
@@ -547,7 +604,7 @@ public class MainController {
 
 	class MenuSaveConfigAsListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			management.saveConfigAs(e);
+			management.saveConfigAs();
 		}
 	}
 

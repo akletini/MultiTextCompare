@@ -48,7 +48,8 @@ public class ConfigView extends JFrame {
 			checkBoxSortElements, checkBoxSortAttibutes,
 			checkBoxDeleteAttributes, checkBoxDeleteComments, checkBoxOnlyTags,
 			checkBoxMatchLines, checkBoxBestMatch, checkBoxSortKeys,
-			checkBoxDeleteValues, checkBoxXMLSemantic, checkBoxJSONSemantic;
+			checkBoxDeleteValues, checkBoxXMLSemantic, checkBoxJSONSemantic, checkBoxOpenLastComparison;
+
 	private JLabel labelBlankLines, lblKeepPunctuation, lblKeepCapitalization,
 			labelWhitespace, comparisonModeLabel, lblRootPath,
 			lblComparisonParameters, lblValidation, lblPrint, lblSortElements,
@@ -56,7 +57,8 @@ public class ConfigView extends JFrame {
 			lblOnlyTags, lblMatching, lblMatchLines, lblLookForBest,
 			lblMatchAt, lblSortKeys, lblDeleteValues, lblXmlParameters,
 			lblJsonParameters, lblLookahead, lblMaxLineLength, lblXmlSemantic,
-			lblJsonSemantic;
+			lblJsonSemantic, lblOpenLastComparison;
+
 
 	private JComboBox<?> comboBoxComparisonModes, comboBoxXMLValidation,
 			comboBoxXMLPrint;
@@ -101,7 +103,7 @@ public class ConfigView extends JFrame {
 		// //////////////////////GENERAL/////////////////////////////////
 		panelGeneral.setLayout(new MigLayout("",
 				"[][164.00][][][31.00][grow,fill]",
-				"[][20.00px][10px:10px:10px][][][][][][][][][77.00]"));
+				"[][20.00px][10px:10px:10px][][][][][][][][][][77.00]"));
 
 		lblComparisonParameters = new JLabel("Comparison parameters");
 		lblComparisonParameters.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -175,6 +177,17 @@ public class ConfigView extends JFrame {
 		}
 		btnSetRootPath.setToolTipText("If the wildcard search is used, this is the directory below which all files are located");
 		panelGeneral.add(btnSetRootPath, "cell 5 10,alignx left");
+		
+		checkBoxOpenLastComparison = new JCheckBox("");
+		checkBoxOpenLastComparison.setBackground(white);
+		checkBoxOpenLastComparison.setSelected(config.getOpenLastComparison());
+		panelGeneral.add(checkBoxOpenLastComparison, "cell 1 11");
+		
+		lblOpenLastComparison = new JLabel("Open last saved comparison on startup");
+		if(!config.getLastComparisonPath().equals("")){
+			lblOpenLastComparison.setText(lblOpenLastComparison.getText() + ". Currently: " + config.getLastComparisonPath());
+		}
+		panelGeneral.add(lblOpenLastComparison, "cell 5 11,alignx left");
 
 		// ////////////////////////XML//////////////////////////////
 		panelXML.setLayout(new MigLayout("",
@@ -698,6 +711,14 @@ public class ConfigView extends JFrame {
 
 	public void setTextFieldMaxLength(JTextField textFieldMaxLength) {
 		this.textFieldMaxLength = textFieldMaxLength;
+	}
+	
+	public JCheckBox getCheckBoxOpenLastComparison() {
+		return checkBoxOpenLastComparison;
+	}
+
+	public void setCheckBoxOpenLastComparison(JCheckBox checkBoxOpenLastComparison) {
+		this.checkBoxOpenLastComparison = checkBoxOpenLastComparison;
 	}
 
 	// Button listeners
