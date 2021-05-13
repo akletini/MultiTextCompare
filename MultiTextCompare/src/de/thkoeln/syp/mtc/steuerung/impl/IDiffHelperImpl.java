@@ -55,7 +55,6 @@ public class IDiffHelperImpl implements IDiffHelper {
 		if (files.length == 2) {
 			LineIterator file1 = FileUtils.lineIterator(files[0], "UTF-8");
 			LineIterator file2 = FileUtils.lineIterator(files[1], "UTF-8");
-
 			// Initialize visitor.
 			FileCommandVisitor fileCommandVisitor = new FileCommandVisitor();
 			int lineNum = 0;
@@ -115,6 +114,8 @@ public class IDiffHelperImpl implements IDiffHelper {
 			fileCommandVisitor.generatePrimaryDiff(2);
 			leftLines = fileCommandVisitor.getLeftLines();
 			rightLines = fileCommandVisitor.getRightLines();
+			file1.close();
+			file2.close();
 		} else {
 			final LineIterator file1 = FileUtils
 					.lineIterator(files[0], "UTF-8");
@@ -226,6 +227,10 @@ public class IDiffHelperImpl implements IDiffHelper {
 			leftLines = fileCommandVisitor.getLeftLines();
 			middleLines = fileCommandVisitor.getMiddleLines();
 			rightLines = fileCommandVisitor.getRightLines();
+			
+			file1.close();
+			file2.close();
+			file3.close();			
 		}
 	}
 
@@ -295,7 +300,8 @@ public class IDiffHelperImpl implements IDiffHelper {
 				rightComparator.getScript().visit(fileCommandVisitor);
 			}
 		}
-
+		file1.close();
+		file2.close();
 	}
 	
 	private int getMaxLengthOfFiles(File[] files){
