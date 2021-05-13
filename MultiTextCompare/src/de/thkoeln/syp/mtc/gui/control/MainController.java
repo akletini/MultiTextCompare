@@ -9,7 +9,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
@@ -22,8 +21,6 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
@@ -58,6 +55,7 @@ public class MainController {
 		mainView.addAboutListener(new AboutListener());
 		mainView.addZoomListener(new ZoomListener());
 		mainView.addMenuSaveComparisonListener(new MenuSaveComparisonListener());
+		mainView.addMenuSaveAsComparisonListener(new MenuSaveComparisonListener());
 		mainView.addMenuLoadComparisonListener(new MenuLoadComparisonListener());
 		mainView.addMenuFileSelection(new MenuFileSelectionListener());
 		mainView.addLogClearListener(new LogClearListener());
@@ -188,6 +186,16 @@ public class MainController {
 			
 			if(management.getMainView().getTableMatrix() == null){
 				logger.setMessage("Please create a comparison first", logger.LEVEL_WARNING);
+				return;
+			}
+			
+			//differentiate save and save as
+			if(management.getCurrentComparison() != null){
+				File currentComparison = management.getCurrentComparison();
+				saveComparison(currentComparison.getAbsolutePath() + File.separator + currentComparison.getName(), matrix, fileSelection, tempFileMap);
+				copyTempFiles(currentComparison.getAbsolutePath() + File.separator + "TempFiles");
+				management.setCurrentComparison(currentComparison);
+				management.getMainView().setTitle("MultiTextCompare - " + currentComparison.getName());
 				return;
 			}
 			

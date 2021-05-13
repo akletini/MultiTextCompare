@@ -526,8 +526,14 @@ public class MainView extends JFrame {
 		addMouseWheelListener(e);
 	}
 	
+	// Menu button listeners
+	
 	public void addMenuSaveComparisonListener(ActionListener e){
 		saveComparison.addActionListener(e);
+	}
+	
+	public void addMenuSaveAsComparisonListener(ActionListener e){
+		saveComparisonAs.addActionListener(e);
 	}
 	
 	public void addMenuLoadComparisonListener(ActionListener e){
