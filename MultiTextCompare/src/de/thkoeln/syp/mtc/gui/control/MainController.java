@@ -364,6 +364,10 @@ public class MainController {
 					.getMatrixScrollpane();
 			RowNumberTable rowNumb = management.getMainView()
 					.getRowNumberTable();
+			
+			if(tableMatrix == null){
+				return;
+			}
 			if (e.isControlDown()) {
 				// Kleiner machen
 				if (e.getWheelRotation() > 0) {
