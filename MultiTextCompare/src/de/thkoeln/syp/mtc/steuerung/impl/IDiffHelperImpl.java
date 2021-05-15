@@ -51,6 +51,9 @@ public class IDiffHelperImpl implements IDiffHelper {
 	public void computeDisplayDiff(File[] files) throws IOException {
 		int maxLength = getMaxLengthOfFiles(files);
 		int maxLineSize = fileImporter.getConfig().getMaxLineLength();
+		if(maxLineSize == 0) {
+			maxLineSize = Integer.MAX_VALUE;
+		}
 		// Read both files with line iterator.
 		if (files.length == 2) {
 			LineIterator file1 = FileUtils.lineIterator(files[0], "UTF-8");
