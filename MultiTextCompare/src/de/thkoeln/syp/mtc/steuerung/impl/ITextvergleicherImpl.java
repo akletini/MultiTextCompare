@@ -60,6 +60,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		i = 0;
 		List<String> referenceLines = null;
 		List<String> comparisonLines = null;
+		Object[] matchedFiles = null;
 		final int MATCHING_LOOKAHEAD = fileImporter.getConfig()
 				.getMatchingLookahead();
 		final double MATCH_AT_VALUE = fileImporter.getConfig().getMatchAt();
@@ -74,19 +75,20 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 			try {
 				i++;
 				IMatchHelper matchHelper = new IMatchHelperImpl();
-				File[] original = new File[] { ref, comp };
-				File[] matchedFiles = createCompareMatchFiles(original);
-				ref = matchedFiles[0];
-				comp = matchedFiles[1];
 				matchHelper.setMATCH_AT(MATCH_AT_VALUE);
 				matchHelper.setLOOKAHEAD(MATCHING_LOOKAHEAD);
 				matchHelper.setSearchBestMatch(SEARCH_BEST_MATCH);
+				matchHelper.isLineCompare(true);
 				if (MATCH_LINES) {
-					matchHelper.matchLines(ref, comp);
+					matchedFiles = matchHelper.matchLines(ref, comp);
 				}
 
-				referenceLines = fileToLines(ref);
-				comparisonLines = fileToLines(comp);
+
+				String[] refArray =  (String[]) matchedFiles[0];
+				String[] compArray =  (String[]) matchedFiles[1];
+				
+				referenceLines =  new ArrayList<String>(Arrays.asList(refArray));
+				comparisonLines = new ArrayList<String>(Arrays.asList(compArray));
 
 				double maxFileSize = calculateLineWeight(referenceLines.size(),
 						comparisonLines.size());
@@ -95,8 +97,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 
 				similarity = calculateSimilarityMetric(weightPerLine,
 						referenceLines, comparisonLines);
-				ref.delete();
-				comp.delete();
+
 				a.setWert(similarity);
 				compareThread.publishData(i);
 			} catch (IOException e) {
@@ -190,44 +191,11 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 				a.setWert(similarity);
 				compareThread.publishData(i);
 			}catch(Exception e) {
-				e.printStackTrace();
+//				e.printStackTrace();
 			}
 		}
 	}
 
-	private File[] createCompareMatchFiles(File[] files) throws IOException {
-		BufferedReader reader;
-		BufferedWriter writer;
-		List<File> matchFiles = new ArrayList<File>();
-		for (File f : files) {
-			String path = System.getProperty("user.dir") + File.separator
-					+ "TempFiles" + File.separator + "temp_match_"
-					+ UUID.randomUUID().toString();
-			File temp = new File(path);
-
-			if (temp.exists()) {
-				temp.delete();
-			}
-			temp.createNewFile();
-
-			reader = new BufferedReader(new InputStreamReader(
-					new FileInputStream(f), "UTF-8"));
-			writer = new BufferedWriter(new OutputStreamWriter(
-					new FileOutputStream(temp), "UTF-8"));
-
-			String line;
-			while ((line = reader.readLine()) != null) {
-				writer.write(line + "\n");
-			}
-			matchFiles.add(temp);
-
-			reader.close();
-			writer.close();
-
-		}
-		return matchFiles.toArray(new File[files.length]);
-
-	}
 
 	/**
 	 * Extrahiert die temporaeren Dateien die im IFileImporterImpl erstellt

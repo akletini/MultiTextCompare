@@ -8,7 +8,7 @@ import de.thkoeln.syp.mtc.datenhaltung.api.IMatch;
 
 public interface IMatchHelper {
 
-	void matchLines(File a, File b) throws IOException;
+	Object[] matchLines(File a, File b) throws IOException;
 
 	File[] createMatchFiles(File[] files) throws IOException;
 
@@ -25,5 +25,7 @@ public interface IMatchHelper {
 	boolean getSearchBestMatch();
 
 	void setSearchBestMatch(boolean searchBestMatch);
+
+	void isLineCompare(boolean isLineCompare);
 
 }

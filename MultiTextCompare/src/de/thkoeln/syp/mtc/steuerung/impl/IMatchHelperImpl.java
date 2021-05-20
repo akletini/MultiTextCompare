@@ -33,6 +33,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 	private double MATCH_AT = 0.6;
 
 	private boolean searchBestMatch = false;
+	private boolean isLineCompare = false;
 	private boolean swapped;
 
 	private int leftSize = 0, rightSize = 0;
@@ -51,12 +52,12 @@ public class IMatchHelperImpl implements IMatchHelper {
 	 *            Vergleichsdatei
 	 */
 	@Override
-	public void matchLines(File a, File b) throws IOException {
+	public Object[] matchLines(File a, File b) throws IOException {
 		String reference = "", comp = "";
 		int lineCountLeft = 0, lineCountRight = 0;
 
 		if (searchBestMatch) {
-			matchBestLines(a, b);
+			return matchBestLines(a, b);
 		} else {
 
 			oldIndeces = new ArrayList<IMatch>();
@@ -78,7 +79,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 			}
 
 			if (lineCountLeft == 0 || lineCountRight == 0) {
-				return;
+				return new Object[]{leftFile.toArray(new String[0]), rightFile.toArray(new String[0])};
 			}
 
 			int lastMatchedIndex = 0, lookaheadExtensionOnMatch = 0;
@@ -138,15 +139,17 @@ public class IMatchHelperImpl implements IMatchHelper {
 				if(swapped){
 					swapBack();
 				}
-				writeArrayToFile(a, b);
+				if(!isLineCompare){
+					writeArrayToFile(a, b);
+				}
+				return new Object[]{leftFileLines, rightFileLines};
 			} else {
-				return;
+				return new Object[]{leftFile.toArray(new String[0]), rightFile.toArray(new String[0])};
 			}
 		}
-
 	}
 
-	public void matchBestLines(File a, File b) throws IOException {
+	public Object[] matchBestLines(File a, File b) throws IOException {
 
 		String reference = "", comp = "";
 		int lineCountLeft = 0, lineCountRight = 0;
@@ -171,7 +174,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 		}
 
 		if (lineCountLeft == 0 || lineCountRight == 0) {
-			return;
+			return new Object[]{leftFile.toArray(new String[0]), rightFile.toArray(new String[0])};
 		}
 
 
@@ -254,11 +257,13 @@ public class IMatchHelperImpl implements IMatchHelper {
 			if(swapped){
 				swapBack();
 			}
-			writeArrayToFile(a, b);
+			if(!isLineCompare){
+				writeArrayToFile(a, b);
+			}
 		} else {
-			return;
+			return new Object[]{leftFile.toArray(new String[0]), rightFile.toArray(new String[0])};
 		}
-
+		return new Object[]{leftFileLines, rightFileLines};
 	}
 
 	private IMatch getBestMatch() {
@@ -682,6 +687,10 @@ public class IMatchHelperImpl implements IMatchHelper {
 	@Override
 	public void setSearchBestMatch(boolean searchBestMatch) {
 		this.searchBestMatch = searchBestMatch;
+	}
+	@Override
+	public void isLineCompare(boolean isLineCompare){
+		this.isLineCompare = isLineCompare;
 	}
 	
 	private void swapFiles(){
