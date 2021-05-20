@@ -346,7 +346,6 @@ public class Management {
 		}
 
 		fileImporter.exportConfigdatei();
-		logger.setMessage("Configuration has been saved", logger.LEVEL_INFO);
 	}
 
 	public void saveConfigAs() {
@@ -396,6 +395,7 @@ public class Management {
 
 				configView.setTitle("Settings using " + config.getPath());
 				configView.repaint();
+				logger.setMessage("Configuration has been saved", logger.LEVEL_INFO);
 			} catch (IOException e1) {
 				logger.setMessage("Something went wrong, please try again",
 						logger.LEVEL_ERROR);

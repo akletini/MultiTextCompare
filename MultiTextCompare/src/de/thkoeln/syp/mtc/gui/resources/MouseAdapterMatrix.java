@@ -139,7 +139,7 @@ public class MouseAdapterMatrix extends MouseAdapter {
 														.getCurrentFileSelection()
 														.get(columnIndex)
 														.split("\\|")[0].trim()
-												+ " have been selected.",
+												+ " have been selected as reference.",
 										logger.LEVEL_INFO);
 							}
 						}
@@ -203,21 +203,10 @@ public class MouseAdapterMatrix extends MouseAdapter {
 						try {
 							BufferedReader reader = new BufferedReader(new InputStreamReader(
 									new FileInputStream(entry.getValue()), "UTF-8"));
-							String currentLine = "";
-							List<String> lines = new ArrayList<String>();
-							while ((currentLine = reader.readLine()) != null) {
-								lines.add(currentLine + "\n");
-							}
-							String lastLine = lines.get(lines.size() - 1);
-							String newLastLine = lastLine.substring(0,
-									lastLine.length() - 1);
-							lines.remove(lines.size() - 1);
-							lines.add(newLastLine);
-							for (String s : lines) {
-								fileView.getTextPane().setText(
-										fileView.getTextPane().getText() + s);
-							}
-
+							fileView.getTextPane().setText(null);
+							fileView.getTextPane().read(reader, "Reading file...");
+							fileView.getTextPane().setCaretPosition(0);
+							fileView.setTitle(entry.getValue().getAbsolutePath());
 							reader.close();
 							fileView.setVisible(true);
 

@@ -380,6 +380,8 @@ public class MainController {
 
 				fis.close();
 				ois.close();
+				
+				logger.setMessage("Successfully loaded comparison " + comparison.getName(), logger.LEVEL_INFO);
 
 			} catch (IOException | ClassNotFoundException ex) {
 				logger.setMessage(ex.toString(), logger.LEVEL_ERROR);
@@ -498,6 +500,7 @@ public class MainController {
 	class MenuSaveConfigListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			management.saveConfig();
+			logger.setMessage("Configuration has been saved", logger.LEVEL_INFO);
 		}
 	}
 
@@ -604,6 +607,8 @@ public class MainController {
 
 				configView.setTitle("Settings using " + config.getPath());
 				configView.repaint();
+				
+				logger.setMessage("Successfully loaded configuration " + config.getPath(), logger.LEVEL_INFO);
 			}
 		}
 	}

@@ -73,6 +73,7 @@ public class ConfigController {
 	public class SaveListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			management.saveConfig();
+			logger.setMessage("Configuration has been saved", logger.LEVEL_INFO);
 			configView.dispatchEvent(new WindowEvent(configView,
 					WindowEvent.WINDOW_CLOSING));
 		}
@@ -82,6 +83,7 @@ public class ConfigController {
 		public class SaveAsListener implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				management.saveConfigAs();
+				logger.setMessage("Configuration has been saved", logger.LEVEL_INFO);
 				configView.dispatchEvent(new WindowEvent(configView,
 						WindowEvent.WINDOW_CLOSING));
 			}
