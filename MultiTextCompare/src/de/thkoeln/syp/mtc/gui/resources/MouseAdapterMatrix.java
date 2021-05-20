@@ -155,12 +155,12 @@ public class MouseAdapterMatrix extends MouseAdapter {
 									fileIndices.add(rowIndex);
 								}
 								// Logausgabe
-								logger.setMessage(
-										management.getCurrentFileSelection()
-												.get(columnIndex).split("\\|")[0]
-												.trim()
-												+ " has been selected.",
-										logger.LEVEL_INFO);
+//								logger.setMessage(
+//										management.getCurrentFileSelection()
+//												.get(columnIndex).split("\\|")[0]
+//												.trim()
+//												+ " has been selected.",
+//										logger.LEVEL_INFO);
 							}
 						}
 					}

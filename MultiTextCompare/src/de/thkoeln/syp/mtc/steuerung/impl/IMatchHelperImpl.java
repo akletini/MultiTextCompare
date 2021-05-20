@@ -33,6 +33,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 	private double MATCH_AT = 0.6;
 
 	private boolean searchBestMatch = false;
+	private boolean swapped;
 
 	private int leftSize = 0, rightSize = 0;
 
@@ -64,8 +65,17 @@ public class IMatchHelperImpl implements IMatchHelper {
 			leftFile = new ArrayList<String>();
 			rightFile = new ArrayList<String>();
 
+
 			lineCountLeft = getLineCounts(a, leftFile);
 			lineCountRight = getLineCounts(b, rightFile);
+			
+			if(lineCountRight < lineCountLeft){
+				int temp = lineCountLeft;
+				lineCountLeft = lineCountRight;
+				lineCountRight = temp;
+				swapFiles();
+				swapped = true;
+			}
 
 			if (lineCountLeft == 0 || lineCountRight == 0) {
 				return;
@@ -86,9 +96,8 @@ public class IMatchHelperImpl implements IMatchHelper {
 						for (int j = lastMatchedIndex; j < maxSearchIndex; j++) {
 							comp = rightFile.get(j);
 							int LCS = getLCSLengthFromComparison(reference,
-									rightFile.get(j));
-							if (isMatchable(LCS, reference, rightFile.get(j))
-									&& notMatchedYet(i, j)) {
+									comp);
+							if (isMatchable(LCS, reference, comp)) {
 								lastMatchedIndex = j + 1;
 								lookaheadExtensionOnMatch = 1;
 								matches.add(new IMatchImpl(i, j, reference,
@@ -104,8 +113,8 @@ public class IMatchHelperImpl implements IMatchHelper {
 					for (int j = lastMatchedIndex; j < lineCountRight; j++) {
 						comp = rightFile.get(j);
 						int LCS = getLCSLengthFromComparison(reference,
-								rightFile.get(j));
-						if (isMatchable(LCS, reference, rightFile.get(j))
+								comp);
+						if (isMatchable(LCS, reference, comp)
 								&& notMatchedYet(i, j)) {
 							lastMatchedIndex = j + 1;
 							lookaheadExtensionOnMatch = 1;
@@ -126,6 +135,9 @@ public class IMatchHelperImpl implements IMatchHelper {
 				alignMatches(matches);
 				fillInMatches(a, b);
 				fillInBetweenMatches(oldIndeces);
+				if(swapped){
+					swapBack();
+				}
 				writeArrayToFile(a, b);
 			} else {
 				return;
@@ -148,6 +160,15 @@ public class IMatchHelperImpl implements IMatchHelper {
 
 		lineCountLeft = getLineCounts(a, leftFile);
 		lineCountRight = getLineCounts(b, rightFile);
+		
+		
+		if(lineCountRight < lineCountLeft){
+			int temp = lineCountLeft;
+			lineCountLeft = lineCountRight;
+			lineCountRight = temp;
+			swapFiles();
+			swapped = true;
+		}
 
 		if (lineCountLeft == 0 || lineCountRight == 0) {
 			return;
@@ -170,7 +191,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 						comp = rightFile.get(j);
 						int LCS = getLCSLengthFromComparison(reference,
 								rightFile.get(j));
-						if (isMatchable(LCS, reference, rightFile.get(j))
+						if (isMatchable(LCS, reference, comp)
 								&& notMatchedYet(i, j)) {
 							IMatch matchCandidate = new IMatchImpl(i, j,
 									reference, comp);
@@ -230,6 +251,9 @@ public class IMatchHelperImpl implements IMatchHelper {
 			alignMatches(matches);
 			fillInMatches(a, b);
 			fillInBetweenMatches(oldIndeces);
+			if(swapped){
+				swapBack();
+			}
 			writeArrayToFile(a, b);
 		} else {
 			return;
@@ -659,13 +683,28 @@ public class IMatchHelperImpl implements IMatchHelper {
 	public void setSearchBestMatch(boolean searchBestMatch) {
 		this.searchBestMatch = searchBestMatch;
 	}
+	
+	private void swapFiles(){
+			List<String> tempList;			
+			tempList = leftFile;
+			leftFile = rightFile;
+			rightFile = tempList;
+		
+	}
+	
+	private void swapBack(){
+		String[] temp;
+		temp = leftFileLines;
+		leftFileLines = rightFileLines;
+		rightFileLines = temp;
+	}
 
 	static class SortByLCS implements Comparator<IMatch> {
 
 		@Override
 		public int compare(IMatch o1, IMatch o2) {
 			if ((o2.getMatchLCS() - o1.getMatchLCS()) == 0) {
-				return o1.getRightRow() - o2.getRightRow();
+				return o2.getRightRow() - o1.getRightRow();
 			}
 			return o2.getMatchLCS() - o1.getMatchLCS();
 		}

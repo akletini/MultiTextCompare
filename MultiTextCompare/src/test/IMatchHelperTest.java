@@ -61,7 +61,7 @@ public class IMatchHelperTest {
 	@Before
 	public void before(){
 		iMatch.setMATCH_AT(0);
-		iMatch.setMATCH_AT(0.6 / 100);
+		iMatch.setMATCH_AT(0.6);
 		iMatch.setSearchBestMatch(true);
 	}
 
