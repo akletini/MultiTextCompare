@@ -6,9 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jdom2.Attribute;
+import org.jdom2.CDATA;
+import org.jdom2.Comment;
+import org.jdom2.Content;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
+import org.jdom2.ProcessingInstruction;
 import org.jdom2.input.SAXBuilder;
 
 import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
@@ -51,6 +55,7 @@ public class IXMLComparerImpl {
 			
 			if (!compChildren.isEmpty()) {
 				Element currentComp = rootComp.getChildren(currentRefName).get(0);
+				compareContent(currentRef.getContent(), currentComp.getContent());
 				// Liste von Knoten
 				if (hasChildren(currentRef) && hasChildren(currentComp)) {
 					similarity.add(compareElementsRecursively(currentRef, currentComp,
@@ -148,6 +153,13 @@ public class IXMLComparerImpl {
 		for (int i = 0; i < matchingRef.size(); i++) {
 			Element currentRef = matchingRef.get(i);
 			Element currentComp = matchingComp.get(i);
+			
+			List<Content> refContent = currentRef.getContent();
+			List<Content> compContent = currentComp.getContent();
+			
+			// BETA
+			compareContent(refContent, compContent);
+			
 			if (hasChildren(currentRef) && hasChildren(currentComp)) {
 				double similarity = currentLevelWeight * compareElementsRecursively(currentRef, currentComp,
 						currentWeight);
@@ -167,6 +179,37 @@ public class IXMLComparerImpl {
 		}
 		return sim;
 	}
+
+	private void compareContent(List<Content> refContent,
+			List<Content> compContent) {
+		int maxSize = Math.max(refContent.size(), compContent.size());
+		int minSize = Math.min(refContent.size(), compContent.size());
+		
+		for(int i = 0; i < refContent.size(); i++){
+			Object ref = refContent.get(i);
+			for(int j = 0; j < compContent.size(); j++){
+				Object comp = compContent.get(j);
+				if(ref instanceof Comment && comp instanceof Comment){
+					compareComments((Comment) ref, (Comment) comp);
+					break;
+				}
+				else if(ref instanceof CDATA && comp instanceof CDATA){
+					compareCDATA((CDATA) ref, (CDATA) comp);
+					break;
+				}
+			}
+		}
+		
+	}
+	
+	private double compareComments(Comment ref, Comment comp){
+		return compareStrings(ref.getText(), comp.getText());
+	}
+	
+	private double compareCDATA(CDATA ref, CDATA comp){
+		return compareStrings(ref.getTextNormalize(), comp.getTextNormalize());
+	}
+	
 
 	private double compareStrings(String ref, String comp) {
 		double similarity = 1.0;
