@@ -41,18 +41,18 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 
 	private List<IAehnlichkeitImpl> paarungen;
 	private List<File> tempFiles;
-	
+
 	private CompareThread compareThread;
 	private volatile int i;
 
 	public ITextvergleicherImpl() {
-		
+
 	}
 
 	/**
-	 * Sucht zunächst alle gleichen Zeilen. Falls es nur inserts und deletes
-	 * gibt, ergibt sich die Aehnlichkeit aus: Anzahl gleicher Zahlen * Gewicht
-	 * Ansonsten werden geänderte Zeilen einzeln ausgewertet und gewichtet.
+	 * Sucht zunï¿½chst alle gleichen Zeilen. Falls es nur inserts und deletes gibt,
+	 * ergibt sich die Aehnlichkeit aus: Anzahl gleicher Zahlen * Gewicht Ansonsten
+	 * werden geï¿½nderte Zeilen einzeln ausgewertet und gewichtet.
 	 */
 	@Override
 	public void vergleicheZeilenweise(List<IAehnlichkeitImpl> batch) {
@@ -64,8 +64,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		final int MATCHING_LOOKAHEAD = fileImporter.getConfig()
 				.getMatchingLookahead();
 		final double MATCH_AT_VALUE = fileImporter.getConfig().getMatchAt();
-		final boolean SEARCH_BEST_MATCH = fileImporter.getConfig()
-				.getBestMatch();
+		final boolean SEARCH_BEST_MATCH = fileImporter.getConfig().getBestMatch();
 		final boolean MATCH_LINES = fileImporter.getConfig().getLineMatch();
 		for (IAehnlichkeitImpl a : batch) {
 			File ref, comp;
@@ -90,8 +89,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 				referenceLines =  new ArrayList<String>(Arrays.asList(refArray));
 				comparisonLines = new ArrayList<String>(Arrays.asList(compArray));
 
-				double maxFileSize = calculateLineWeight(referenceLines.size(),
-						comparisonLines.size());
+				double maxFileSize = calculateLineWeight(referenceLines.size(), comparisonLines.size());
 				double weightPerLine = 1 / maxFileSize;
 				double similarity = 0;
 
@@ -109,9 +107,9 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	}
 
 	/**
-	 * Verkettet sowohl Referenz- als auch Vergleichsdatei zu je einem String
-	 * und vergleicht jeweils die Zeichenmengen miteinander. Anwendung: Wenn die
-	 * Reihenfolge der Woerter keine große Rolle spielt.
+	 * Verkettet sowohl Referenz- als auch Vergleichsdatei zu je einem String und
+	 * vergleicht jeweils die Zeichenmengen miteinander. Anwendung: Wenn die
+	 * Reihenfolge der Woerter keine groï¿½e Rolle spielt.
 	 */
 	@Override
 	public void vergleicheUeberGanzesDokument(List<IAehnlichkeitImpl> batch) {
@@ -141,12 +139,10 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 				referenzString = new String(referenzArray);
 				vergleichsString = new String(vergleichsArray);
 
-				double maxSize = (double) Math.max(referenzArray.length,
-						vergleichsArray.length);
+				double maxSize = (double) Math.max(referenzArray.length, vergleichsArray.length);
 
-				double levenshtein = (double) calculateLevenshteinDist(
-						referenzString, vergleichsString, new Integer(
-								MAXLINELENGTH));
+				double levenshtein = (double) calculateLevenshteinDist(referenzString, vergleichsString,
+						new Integer(MAXLINELENGTH));
 
 				double metrik = (maxSize - levenshtein) / maxSize;
 				a.setWert(metrik);
@@ -177,14 +173,14 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		}
 
 	}
-	
+
 	@Override
-	public void compareXML(List<IAehnlichkeitImpl> batch){
+	public void compareXML(List<IAehnlichkeitImpl> batch) {
 		final int MAXLINELENGTH = fileImporter.getConfig().getMaxLineLength();
 		i = 0;
 		compareThread = Management.getInstance().getCompareThread();
-		for(IAehnlichkeitImpl a : batch){
-			try{
+		for (IAehnlichkeitImpl a : batch) {
+			try {
 				i++;
 				IXMLComparerImpl xmlComparer = new IXMLComparerImpl(MAXLINELENGTH);
 				double similarity = xmlComparer.compare(a.getVon(), a.getZu());
@@ -198,8 +194,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 
 
 	/**
-	 * Extrahiert die temporaeren Dateien die im IFileImporterImpl erstellt
-	 * werden
+	 * Extrahiert die temporaeren Dateien die im IFileImporterImpl erstellt werden
 	 */
 	@Override
 	public void getTempfilesFromHashMap(Map<File, File> map) {
@@ -212,27 +207,22 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	}
 
 	/**
-	 * Sortiert die Hashmap nach Nummerierung der temporaeren Dateien. Diese
-	 * sind mit temp_1...temp_n benannt
+	 * Sortiert die Hashmap nach Nummerierung der temporaeren Dateien. Diese sind
+	 * mit temp_1...temp_n benannt
 	 * 
-	 * @param map
-	 *            enthält das Mapping der importierten Dateien auf die
-	 *            temporaeren Dateien
+	 * @param map enthï¿½lt das Mapping der importierten Dateien auf die temporaeren
+	 *            Dateien
 	 * @return eine sortierte Hashmap
 	 */
 	private HashMap<File, File> sortHashMapByValue(Map<File, File> map) {
-		List<Map.Entry<File, File>> list = new ArrayList<Map.Entry<File, File>>(
-				map.entrySet());
+		List<Map.Entry<File, File>> list = new ArrayList<Map.Entry<File, File>>(map.entrySet());
 
 		// Sort the list
 		Collections.sort(list, new Comparator<Map.Entry<File, File>>() {
-			public int compare(Map.Entry<File, File> o1,
-					Map.Entry<File, File> o2) {
+			public int compare(Map.Entry<File, File> o1, Map.Entry<File, File> o2) {
 				try {
-					Integer von = Integer.parseInt(o1.getValue().getName()
-							.replace("temp_", ""));
-					Integer zu = Integer.parseInt(o2.getValue().getName()
-							.replace("temp_", ""));
+					Integer von = Integer.parseInt(o1.getValue().getName().replace("temp_", ""));
+					Integer zu = Integer.parseInt(o2.getValue().getName().replace("temp_", ""));
 					return von.compareTo(zu);
 				} catch (NumberFormatException e) {
 					e.printStackTrace();
@@ -254,8 +244,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	/**
 	 * Liest Datei zeilenweise aus und speichert die Zeilen in lines
 	 * 
-	 * @param file
-	 *            Datei deren Zeilen in eine Liste konvertiert werden sollen
+	 * @param file Datei deren Zeilen in eine Liste konvertiert werden sollen
 	 * @return lines Liste mit Zeilen von file
 	 */
 	private List<String> fileToLines(File file) throws IOException {
@@ -279,10 +268,8 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	 * Zwischenschritt fuer die Berechnung der Zeilengewichte. Vergleicht die
 	 * groessen der beiden Zeilenlisten
 	 * 
-	 * @param refSize
-	 *            Liste mit einzelnen Zeilen der Referenzdatei
-	 * @param vglSize
-	 *            Liste mit einzelnen Zeilen der Vergleichsdatei
+	 * @param refSize Liste mit einzelnen Zeilen der Referenzdatei
+	 * @param vglSize Liste mit einzelnen Zeilen der Vergleichsdatei
 	 * @return die groesste Zahl zwischen den beiden Parametern
 	 */
 	private int calculateLineWeight(int refSize, int vglSize) {
@@ -292,17 +279,13 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	/**
 	 * Berechnet die Aehnlichkeitsmetrix fuer geaenderte Zeilen
 	 * 
-	 * @param weight
-	 *            die Gewichtung einer einzigen Zeile := 1/max. Anzahl der
-	 *            Zeilen innerhalb der verglichenen Dateien
-	 * @param refList
-	 *            eine Liste mit allen Zeilen aus der Referenzdatei
-	 * @param compList
-	 *            eine Liste mit allen Zeilen aus der Vergleichsdatei
+	 * @param weight   die Gewichtung einer einzigen Zeile := 1/max. Anzahl der
+	 *                 Zeilen innerhalb der verglichenen Dateien
+	 * @param refList  eine Liste mit allen Zeilen aus der Referenzdatei
+	 * @param compList eine Liste mit allen Zeilen aus der Vergleichsdatei
 	 * @return Array mit den berechneten Metriken
 	 */
-	private double calculateSimilarityMetric(double weight,
-			List<String> refList, List<String> compList) {
+	private double calculateSimilarityMetric(double weight, List<String> refList, List<String> compList) {
 		final int MAXLINELENGTH = fileImporter.getConfig().getMaxLineLength();
 		int norm = normalizeStringLists(refList, compList);
 		int max = refList.size();
@@ -326,14 +309,10 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 
 			double lengthOfLongestString = (double) longestString;
 			double levenshteinDist;
-			if (lengthOfLongestString <= 500) {
-				levenshteinDist = (double) new LevenshteinDistance().apply(ref,
-						comp);
-			} else {
-				LevenshteinDistance levenshtein = new LevenshteinDistance(
-						MAXLINELENGTH);
-				levenshteinDist = (double) levenshtein.apply(ref, comp);
-			}
+
+			LevenshteinDistance levenshtein = new LevenshteinDistance(MAXLINELENGTH);
+			levenshteinDist = (double) levenshtein.apply(ref, comp);
+
 			if (lengthOfLongestString != 0) {
 				metricPerLine[i] = weight
 						* (double) ((lengthOfLongestString - levenshteinDist) / lengthOfLongestString);
@@ -351,12 +330,10 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 
 	/**
 	 * 
-	 * @param refList
-	 *            Liste mit Zeilen der Referenzdatei
-	 * @param compList
-	 *            Liste mit Zahlen der Vergleichsdatei
-	 * @return 0 wenn refList groeßer ist, 1 wenn vglList groeßer ist und 2 wenn
-	 *         beide gleich groß sind
+	 * @param refList  Liste mit Zeilen der Referenzdatei
+	 * @param compList Liste mit Zahlen der Vergleichsdatei
+	 * @return 0 wenn refList groeï¿½er ist, 1 wenn vglList groeï¿½er ist und 2 wenn
+	 *         beide gleich groï¿½ sind
 	 */
 	private int normalizeStringLists(List<String> refList, List<String> compList) {
 		int refListSize = refList.size();
@@ -378,9 +355,8 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	}
 
 	/**
-	 * @param files
-	 *            die Liste der Textdateien die fuer den Vergleich ausgewaehlt
-	 *            wurden
+	 * @param files die Liste der Textdateien die fuer den Vergleich ausgewaehlt
+	 *              wurden
 	 * @return paarungen die Eintraege der Aehnlichkeitsmatrix ohne den
 	 *         Aehnlichkeitswert
 	 */
@@ -396,8 +372,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 				vergleich.setZu(files.get(j));
 				vergleich.setId(id);
 				try {
-					vergleich.setWeight(getWeightFromComparison(files.get(i),
-							files.get(j)));
+					vergleich.setWeight(getWeightFromComparison(files.get(i), files.get(j)));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -440,25 +415,21 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 			List<IAehnlichkeitImpl> currentBatch = batches.get(i).getInhalt();
 			for (int j = 0; j < currentBatch.size(); j++) {
 				IAehnlichkeit currentComparison = currentBatch.get(j);
-				paarungen.add(new IAehnlichkeitImpl(currentComparison.getVon(),
-						currentComparison.getZu(), currentComparison
-								.getWeight(), currentComparison.getId(),
-						currentComparison.getWert()));
+				paarungen.add(new IAehnlichkeitImpl(currentComparison.getVon(), currentComparison.getZu(),
+						currentComparison.getWeight(), currentComparison.getId(), currentComparison.getWert()));
 			}
 		}
 		Collections.sort(paarungen, new SortIAehnlichkeitByID());
 	}
 
-	public List<IMatrixImpl> distributeBatches(
-			List<IAehnlichkeitImpl> iterable, int partitions) {
+	public List<IMatrixImpl> distributeBatches(List<IAehnlichkeitImpl> iterable, int partitions) {
 		batches = new ArrayList<>(partitions);
 		for (int i = 0; i < partitions; i++)
 			batches.add(new IMatrixImpl());
 
 		Iterator<IAehnlichkeitImpl> iterator = iterable.iterator();
 		for (int i = 0; iterator.hasNext(); i++)
-			batches.get(i % partitions).getInhalt()
-					.add((IAehnlichkeitImpl) iterator.next());
+			batches.get(i % partitions).getInhalt().add((IAehnlichkeitImpl) iterator.next());
 
 		return batches;
 	}
@@ -470,15 +441,12 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	/**
 	 * Berechnet die Levenshtein Distanz zwischen s1 und s2
 	 * 
-	 * @param s1
-	 *            Referenz-String
-	 * @param s2
-	 *            Vergleichs-String
+	 * @param s1 Referenz-String
+	 * @param s2 Vergleichs-String
 	 * @return die LevenShtein Distanz zwischen s1 und s2
 	 */
 	@Override
-	public int calculateLevenshteinDist(String ref, String comp,
-			Integer threshold) {
+	public int calculateLevenshteinDist(String ref, String comp, Integer threshold) {
 		LevenshteinDistance levenshtein = new LevenshteinDistance(threshold);
 		if (threshold == 0) {
 			levenshtein = new LevenshteinDistance(null);
