@@ -70,7 +70,6 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 			File ref, comp;
 			ref = a.getVon();
 			comp = a.getZu();
-
 			try {
 				i++;
 				IMatchHelper matchHelper = new IMatchHelperImpl();
@@ -80,14 +79,15 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 				matchHelper.isLineCompare(true);
 				if (MATCH_LINES) {
 					matchedFiles = matchHelper.matchLines(ref, comp);
+					String[] refArray =  (String[]) matchedFiles[0];
+					String[] compArray =  (String[]) matchedFiles[1];
+					
+					referenceLines =  new ArrayList<String>(Arrays.asList(refArray));
+					comparisonLines = new ArrayList<String>(Arrays.asList(compArray));
+				}else{
+					referenceLines =  fileToLines(ref);
+					comparisonLines =  fileToLines(comp);
 				}
-
-
-				String[] refArray =  (String[]) matchedFiles[0];
-				String[] compArray =  (String[]) matchedFiles[1];
-				
-				referenceLines =  new ArrayList<String>(Arrays.asList(refArray));
-				comparisonLines = new ArrayList<String>(Arrays.asList(compArray));
 
 				double maxFileSize = calculateLineWeight(referenceLines.size(), comparisonLines.size());
 				double weightPerLine = 1 / maxFileSize;
@@ -117,7 +117,6 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		compareThread = Management.getInstance().getCompareThread();
 		i = 0;
 		for (IAehnlichkeitImpl a : batch) {
-
 			try {
 				i++;
 				List<String> refList = fileToLines(a.getVon());
@@ -403,7 +402,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	public void createBatches() {
 		batches = new ArrayList<IMatrixImpl>();
 		int numThreads = Runtime.getRuntime().availableProcessors();
-		Collections.sort(paarungen, new SortIAehnlichkeitByID());
+		Collections.sort(paarungen, new SortIAehnlichkeitByWeight());
 		batches = distributeBatches(paarungen, numThreads);
 
 	}
