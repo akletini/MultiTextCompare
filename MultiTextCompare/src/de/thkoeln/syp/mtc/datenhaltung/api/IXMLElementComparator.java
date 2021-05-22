@@ -43,8 +43,12 @@ public class IXMLElementComparator implements Comparator<Element> {
 			for (int i = 0; i < minSize; i++) {
 				Attribute a1 = attr1.get(i);
 				Attribute a2 = attr2.get(i);
+				
+				if(!a1.getName().equals(a2.getName())){
+					return a1.getName().compareTo(a2.getName());
+				}
 
-				if (a1.getValue().compareTo(a2.getValue()) == 0) {
+				if (a1.getValue().equals(a2.getValue())) {
 					continue;
 				}
 				return a1.getValue().compareTo(a2.getValue());
@@ -66,7 +70,7 @@ public class IXMLElementComparator implements Comparator<Element> {
 			return 0;
 		}
 		int minSize = Math.min(childrenE1.size(), childrenE2.size());
-		for (int i = 0; i < minSize; i++) { // rework this
+		for (int i = 0; i < minSize; i++) { 
 			Element left = childrenE1.get(i);
 			Element right = childrenE2.get(i);
 
@@ -93,6 +97,12 @@ public class IXMLElementComparator implements Comparator<Element> {
 				}
 			}
 
+		}
+		if (childrenE1.size() > childrenE2.size()) {
+			return 1;
+		}
+		if (childrenE1.size() < childrenE2.size()) {
+			return -1;
 		}
 		return 0;
 	}
