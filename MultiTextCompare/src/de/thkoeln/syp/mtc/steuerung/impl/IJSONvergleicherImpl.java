@@ -25,6 +25,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
 import de.thkoeln.syp.mtc.datenhaltung.api.IJSONParseError;
@@ -68,10 +69,11 @@ public class IJSONvergleicherImpl extends JsonNodeFactory implements
 	 * 
 	 * @return Map<File, File> Map welche nach den in der Config getroffenen
 	 *         Einstellungen manipuliert wurde
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	@Override
-	public Map<File, File> jsonPrepare(Map<File, File> tempFiles) throws IOException {
+	public Map<File, File> jsonPrepare(Map<File, File> tempFiles)
+			throws IOException {
 		this.clearErrorList();
 
 		boolean deleteValues = iConfig.getJsonDeleteValues();
@@ -286,18 +288,7 @@ public class IJSONvergleicherImpl extends JsonNodeFactory implements
 			while (fieldNames.hasNext()) {
 				String fieldName = fieldNames.next();
 				JsonNode fieldValue = root.get(fieldName);
-				if (fieldValue.isArray()) {
-					ArrayList<JsonNode> arrayNodes = new ArrayList<JsonNode>();
-					ArrayList<JsonNode> sortedArrayNodes = new ArrayList<JsonNode>();
-					for (JsonNode node : fieldValue) {
-						arrayNodes.add(node);
-					}
-					Collections.sort(arrayNodes , new SortJsonArrays());
-					for(int i = 0; i < arrayNodes.size(); i++){
-						sortedArrayNodes.add(arrayNodes.get(i));
-						((ArrayNode)fieldValue).set(i, sortedArrayNodes.get(i));
-					}
-				}
+				sortArraysRecursively(fieldValue);
 			}
 			sortedJSONString = mapper.writeValueAsString(root);
 
@@ -306,6 +297,40 @@ public class IJSONvergleicherImpl extends JsonNodeFactory implements
 		}
 
 		return sortedJSONString;
+	}
+
+	private void sortArraysRecursively(JsonNode currentRoot) {
+		if (currentRoot.isArray()) {
+			ArrayList<JsonNode> arrayNodes = new ArrayList<JsonNode>();
+			ArrayList<JsonNode> sortedArrayNodes = new ArrayList<JsonNode>();
+			for (JsonNode node : currentRoot) {
+				if (node.isValueNode()) {
+					arrayNodes.add(node);
+				} else if (node.isArray()) {
+					sortArraysRecursively(node);
+					arrayNodes.add(node);
+				} else if (node.isObject()) {
+					sortArraysRecursively(node);
+					arrayNodes.add(node);
+				}
+			}
+			Collections.sort(arrayNodes, new SortJsonArrays());
+			for (int i = 0; i < arrayNodes.size(); i++) {
+				sortedArrayNodes.add(arrayNodes.get(i));
+				((ArrayNode) currentRoot).set(i, sortedArrayNodes.get(i));
+			}
+		} else if (currentRoot.isObject()) {
+			for (JsonNode node : currentRoot) {
+				if (node.isValueNode()) {
+					// do nothing
+				} else if (node.isArray()) {
+					sortArraysRecursively(node);
+				} else if (node.isObject()) {
+					sortArraysRecursively(node);
+				}
+			}
+
+		}
 	}
 
 	/**
@@ -377,11 +402,13 @@ public class IJSONvergleicherImpl extends JsonNodeFactory implements
 	 *            werden soll.
 	 * 
 	 * @return content repraesentiert uebergebene JSON-Datei als String.
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	@Override
 	public String jsonFileToString(File file) throws IOException {
-		return new String(Files.readAllBytes(Paths.get(file.getAbsolutePath())), StandardCharsets.UTF_8 );
+		return new String(
+				Files.readAllBytes(Paths.get(file.getAbsolutePath())),
+				StandardCharsets.UTF_8);
 	}
 
 	/**
@@ -421,14 +448,57 @@ public class IJSONvergleicherImpl extends JsonNodeFactory implements
 		@Override
 		public int compare(JsonNode o1, JsonNode o2) {
 			if (o1.isValueNode() && o2.isValueNode()) {
-				return o2.asText().compareTo(o1.asText());
-			} else if (o1.isContainerNode() && o2.isContainerNode()) {
+				return o1.asText().compareTo(o2.asText());
+			} else if (o1.isValueNode() && o2.isArray()) {
+				return -1;
+			} else if (o1.isValueNode() && o2.isObject()) {
+				return -1;
+			}
+
+			else if (o1.isArray() && o2.isValueNode()) {
+				return 1;
+			} else if (o1.isArray() && o2.isArray()) {
+				if (o1.size() > o2.size()) {
+					return 1;
+				} else if (o1.size() < o2.size()) {
+					return -1;
+				}
+				if(!o1.isEmpty() && !o2.isEmpty()){
+					int minSize = Math.min(o1.size(), o2.size());
+					for(int i = 0; i < minSize; i++){
+						String val1 = o1.get(i).toString();
+						String val2 = o2.get(i).toString();
+						if(!val1.equals(val2)){
+							return val1.compareTo(val2);
+						}
+					}
+				}
+				return 0;
+			} else if (o1.isArray() && o2.isObject()) {
+				return -1;
+			} else if (o1.isObject() && o2.isValueNode()) {
+				return 1;
+			} else if (o1.isObject() && o2.isArray()) {
+				return 1;
+			} else if (o1.isObject() && o2.isObject()) {
+				if (o1.size() > o2.size()) {
+					return 1;
+				} else if (o1.size() < o2.size()) {
+					return -1;
+				}
+
+				// for same size, compare keys
 				if (!o1.isEmpty() && !o2.isEmpty()) {
 					Iterator<String> nodesO1 = o1.fieldNames();
 					Iterator<String> nodesO2 = o2.fieldNames();
-					String node1 = nodesO1.next();
-					String node2 = nodesO2.next();
-					return node2.compareTo(node1);
+					while (nodesO1.hasNext() && nodesO2.hasNext()) {
+						String node1 = nodesO1.next();
+						String node2 = nodesO2.next();
+						if (!node1.equals(node1)) {
+							return node2.compareTo(node1);
+						}
+					}
+					return 0;
 				}
 			}
 			return 0;
