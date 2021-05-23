@@ -1,17 +1,17 @@
 package de.thkoeln.syp.mtc.gui.control;
 
 import java.awt.FileDialog;
-import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 
 import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
-import de.thkoeln.syp.mtc.datenhaltung.impl.IAehnlichkeitImpl;
+import de.thkoeln.syp.mtc.datenhaltung.impl.IComparisonImpl;
 import de.thkoeln.syp.mtc.gui.control.FileSelectionController.CompareListener.CompareThread;
 import de.thkoeln.syp.mtc.gui.view.AboutView;
 import de.thkoeln.syp.mtc.gui.view.ComparisonView;
@@ -47,7 +47,7 @@ public class Management {
 	private Logger logger;
 
 	private DefaultListModel<String> currentFileSelection;
-	private List<IAehnlichkeitImpl> comparisons;
+	private List<IComparisonImpl> comparisons;
 	private boolean isMatrixGreyedOut, isReferenceSet;
 	private boolean newSelection;
 	private int referenceRow, referenceCol;
@@ -59,6 +59,7 @@ public class Management {
 	private IJSONvergleicher jsonvergleicher;
 
 	private CompareThread compareThread;
+	private ExecutorService executorService;
 
 	private Management() {
 		fileImporter = new IFileImporterImpl();
@@ -66,7 +67,7 @@ public class Management {
 		xmlvergleicher = new IXMLvergleicherImpl(fileImporter);
 		jsonvergleicher = new IJSONvergleicherImpl(fileImporter);
 
-		comparisons = new ArrayList<IAehnlichkeitImpl>();
+		comparisons = new ArrayList<IComparisonImpl>();
 		isMatrixGreyedOut = false;
 		currentComparison = null;
 	}
@@ -219,11 +220,11 @@ public class Management {
 		}
 	}
 
-	public List<IAehnlichkeitImpl> getComparisons() {
+	public List<IComparisonImpl> getComparisons() {
 		return comparisons;
 	}
 
-	public void setComparisons(List<IAehnlichkeitImpl> comparisons) {
+	public void setComparisons(List<IComparisonImpl> comparisons) {
 		this.comparisons = comparisons;
 	}
 
@@ -463,6 +464,14 @@ public class Management {
 
 	public void setCurrentComparison(File currentComparison) {
 		this.currentComparison = currentComparison;
+	}
+
+	public ExecutorService getExecutorService() {
+		return executorService;
+	}
+
+	public void setExecutorService(ExecutorService executorService) {
+		this.executorService = executorService;
 	}
 
 }

@@ -28,7 +28,7 @@ import org.apache.commons.io.FileUtils;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
 import de.thkoeln.syp.mtc.datenhaltung.api.IMatrix;
-import de.thkoeln.syp.mtc.datenhaltung.impl.IAehnlichkeitImpl;
+import de.thkoeln.syp.mtc.datenhaltung.impl.IComparisonImpl;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IMatrixImpl;
 import de.thkoeln.syp.mtc.gui.resources.RowNumberTable;
 import de.thkoeln.syp.mtc.gui.view.AboutView;
@@ -176,7 +176,7 @@ public class MainController {
 
 		public void actionPerformed(ActionEvent e) {
 			// init
-			List<IAehnlichkeitImpl> matrix = management.getComparisons();
+			List<IComparisonImpl> matrix = management.getComparisons();
 			DefaultListModel<String> fileSelection = management
 					.getCurrentFileSelection();
 			Map<File, File> tempFileMap = management.getFileImporter()
@@ -254,7 +254,7 @@ public class MainController {
 		}
 
 		public void saveComparison(String fileName,
-				List<IAehnlichkeitImpl> matrix,
+				List<IComparisonImpl> matrix,
 				DefaultListModel<String> fileSelection,
 				Map<File, File> tempFileMap) {
 			ObjectOutputStream oos = null;
@@ -295,7 +295,7 @@ public class MainController {
 
 		@SuppressWarnings("unchecked")
 		public void actionPerformed(ActionEvent e) {
-			List<IAehnlichkeitImpl> matrix = new ArrayList<IAehnlichkeitImpl>();
+			List<IComparisonImpl> matrix = new ArrayList<IComparisonImpl>();
 			DefaultListModel<String> fileSelection = new DefaultListModel<String>();
 			Map<File, File> tempFileMap = new LinkedHashMap<File, File>();
 			FileInputStream fis = null;
@@ -341,7 +341,7 @@ public class MainController {
 				fis = new FileInputStream(comparison);
 				ois = new ObjectInputStream(fis);
 
-				matrix = (ArrayList<IAehnlichkeitImpl>) ois.readObject();
+				matrix = (ArrayList<IComparisonImpl>) ois.readObject();
 				fileSelection = (DefaultListModel<String>) ois.readObject();
 				tempFileMap = (LinkedHashMap<File, File>) ois.readObject();
 

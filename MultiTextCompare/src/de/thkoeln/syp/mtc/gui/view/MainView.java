@@ -46,7 +46,7 @@ import javax.swing.table.TableCellRenderer;
 import net.miginfocom.swing.MigLayout;
 import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
 import de.thkoeln.syp.mtc.datenhaltung.api.IMatrix;
-import de.thkoeln.syp.mtc.datenhaltung.impl.IAehnlichkeitImpl;
+import de.thkoeln.syp.mtc.datenhaltung.impl.IComparisonImpl;
 import de.thkoeln.syp.mtc.gui.control.Logger;
 import de.thkoeln.syp.mtc.gui.control.MainController;
 import de.thkoeln.syp.mtc.gui.control.Management;
@@ -250,7 +250,7 @@ public class MainView extends JFrame {
 	// Erstellen der Matrix
 	public void updateMatrix(IMatrix matrix, int anzahlDateien,
 			String[] nameDateien) {
-		List<IAehnlichkeitImpl> listMatrix =matrix.getInhalt(); // Aehnlichkeitswerte
+		List<IComparisonImpl> listMatrix =matrix.getInhalt(); // Aehnlichkeitswerte
 		management.getComparisons().addAll(listMatrix);
 		String[][] data = new String[anzahlDateien][anzahlDateien]; // String
 																	// Array zum
@@ -266,7 +266,7 @@ public class MainView extends JFrame {
 		for (int i = 0; i < anzahlDateien; i++) {
 			data[i][i] = "1.000";
 			for (int j = i + 1; j < anzahlDateien; j++) {
-				double wert = listMatrix.get(index).getWert();
+				double wert = listMatrix.get(index).getValue();
 				String wertString = df.format(wert);
 				data[i][j] = wertString;
 				data[j][i] = wertString;

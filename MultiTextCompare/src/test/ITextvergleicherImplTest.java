@@ -9,7 +9,7 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import de.thkoeln.syp.mtc.datenhaltung.impl.IAehnlichkeitImpl;
+import de.thkoeln.syp.mtc.datenhaltung.impl.IComparisonImpl;
 import de.thkoeln.syp.mtc.steuerung.impl.IFileImporterImpl;
 import de.thkoeln.syp.mtc.steuerung.impl.ITextvergleicherImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
@@ -19,7 +19,7 @@ public class ITextvergleicherImplTest {
 
 	static List<File> textdateien;
 	static ITextvergleicher iText;
-	List<IAehnlichkeitImpl> paarungen;
+	List<IComparisonImpl> paarungen;
 
 	@BeforeClass
 	public static void beforeAllTests() {
@@ -57,7 +57,7 @@ public class ITextvergleicherImplTest {
 		iText.vergleicheZeilenweise(paarungen);
 
 		for (int i = 0; i < paarungen.size(); i++) {
-			aehnlichkeit[i] = paarungen.get(i).getWert();
+			aehnlichkeit[i] = paarungen.get(i).getValue();
 		}
 		assertEquals(0.5, aehnlichkeit[4], 0.0000001);
 	}
@@ -68,7 +68,7 @@ public class ITextvergleicherImplTest {
 		double[] aehnlichkeit = new double[paarungen.size()];
 		iText.vergleicheUeberGanzesDokument(paarungen);
 		for (int i = 0; i < paarungen.size(); i++) {
-			aehnlichkeit[i] = paarungen.get(i).getWert();
+			aehnlichkeit[i] = paarungen.get(i).getValue();
 		}
 		assertEquals(0.5, aehnlichkeit[4], 0.0000001);
 	}

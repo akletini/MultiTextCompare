@@ -5,18 +5,18 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import de.thkoeln.syp.mtc.datenhaltung.impl.IAehnlichkeitImpl;
+import de.thkoeln.syp.mtc.datenhaltung.impl.IComparisonImpl;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IMatrixImpl;
 
 public interface ITextvergleicher {
 
-	List<IAehnlichkeitImpl> getVergleiche(List<File> files);
+	List<IComparisonImpl> getVergleiche(List<File> files);
 
-	void vergleicheUeberGanzesDokument(List<IAehnlichkeitImpl> list);
+	void vergleicheUeberGanzesDokument(List<IComparisonImpl> list);
 	
-	void vergleicheZeilenweise(List<IAehnlichkeitImpl> batch);
+	void vergleicheZeilenweise(List<IComparisonImpl> batch);
 
-	List<IAehnlichkeitImpl> getPaarungen();
+	List<IComparisonImpl> getPaarungen();
 
 	List<File> getTempFiles();
 
@@ -34,11 +34,11 @@ public interface ITextvergleicher {
 
 	void setFileImporter(IFileImporter fileImporter);
 
-	void compareJSON(List<IAehnlichkeitImpl> batch);
+	void compareJSON(List<IComparisonImpl> batch);
 
 	int calculateLevenshteinDist(String ref, String comp, Integer threshold);
 
-	void compareXML(List<IAehnlichkeitImpl> batch);
+	void compareXML(List<IComparisonImpl> batch);
 
 	
 	

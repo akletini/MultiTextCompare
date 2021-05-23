@@ -2,9 +2,9 @@ package de.thkoeln.syp.mtc.datenhaltung.api;
 
 import java.util.List;
 
-import de.thkoeln.syp.mtc.datenhaltung.impl.IAehnlichkeitImpl;
+import de.thkoeln.syp.mtc.datenhaltung.impl.IComparisonImpl;
 
 public interface IMatrix {
-	List<IAehnlichkeitImpl> getInhalt();
-	void setInhalt(List<IAehnlichkeitImpl> inhalt);
+	List<IComparisonImpl> getInhalt();
+	void setInhalt(List<IComparisonImpl> inhalt);
 }

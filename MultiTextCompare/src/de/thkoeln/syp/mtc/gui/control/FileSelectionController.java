@@ -30,7 +30,7 @@ import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
 import de.thkoeln.syp.mtc.datenhaltung.api.IJSONParseError;
 import de.thkoeln.syp.mtc.datenhaltung.api.IMatrix;
 import de.thkoeln.syp.mtc.datenhaltung.api.IXMLParseError;
-import de.thkoeln.syp.mtc.datenhaltung.impl.IAehnlichkeitImpl;
+import de.thkoeln.syp.mtc.datenhaltung.impl.IComparisonImpl;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IMatrixImpl;
 import de.thkoeln.syp.mtc.gui.view.FileSelectionView;
 import de.thkoeln.syp.mtc.gui.view.FileView;
@@ -57,7 +57,7 @@ public class FileSelectionController extends JFrame {
 	private IXMLvergleicher xmlvergleicher;
 	private IJSONvergleicher jsonvergleicher;
 	private int mode;
-	
+
 	private Logger logger;
 
 	public FileSelectionController(FileSelectionView fileSelectionView) {
@@ -240,37 +240,49 @@ public class FileSelectionController extends JFrame {
 			management.getFileSelectionView().getLblFileCount().setText("0");
 			setRdbtn(true);
 			try {
-				if(management.getCompareThread() != null && !management.getCompareThread().isDone())
-				management.getCompareThread().cancel(true);
+				if (management.getCompareThread() != null
+						&& management.getExecutorService() != null) {
+						ExecutorService executorService = management.getExecutorService();
+						executorService.shutdown();
+						try {
+						    if (!executorService.awaitTermination(800, TimeUnit.MILLISECONDS)) {
+						        executorService.shutdownNow();
+						    } 
+						} catch (InterruptedException ex) {
+						    executorService.shutdownNow();
+						}
+					management.getCompareThread().cancel(true);
+					
+				}
 			} catch (Exception ex) {
 				logger.setMessage(ex.toString(), logger.LEVEL_ERROR);
-				management.getFileSelectionView().getBtnCompare().setEnabled(true);
+				management.getFileSelectionView().getBtnCompare()
+						.setEnabled(true);
 			}
 			management.getFileSelectionView().getBtnCompare().setEnabled(true);
 			management.setNewSelection(true);
 		}
 	}
 
-	public class CompareListener implements ActionListener{
+	public class CompareListener implements ActionListener {
 		private CompareThread compareThread;
+
 		public void actionPerformed(ActionEvent e) {
-			 
+
 			compareThread = new CompareThread();
 			management.setCompareThread(compareThread);
 			compareThread.execute();
 		}
-		
-		public class CompareThread extends SwingWorker<Void, Integer>{
+
+		public class CompareThread extends SwingWorker<Void, Integer> {
 			int anzDateien;
 			long start_time;
 			Management management;
 			JProgressBar progressBar;
-			
-		
-			public void publishData(int i){
+
+			public void publishData(int i) {
 				publish(i);
 			}
-			
 
 			@Override
 			protected Void doInBackground() throws Exception {
@@ -281,7 +293,7 @@ public class FileSelectionController extends JFrame {
 						.getFileSelectionView().getModel());
 				management.getFileSelectionView().getBtnCompare()
 						.setEnabled(false);
-				
+
 				anzDateien = fileImporter.getTextdateien().size();
 				if (anzDateien < 2) {
 					return null;
@@ -297,8 +309,7 @@ public class FileSelectionController extends JFrame {
 				if (mode == 1) {
 					fileImporter.setTempFiles((xmlvergleicher
 							.xmlPrepare(fileImporter.getTempFilesMap())));
-					for (IXMLParseError error : xmlvergleicher
-							.getErrorList())
+					for (IXMLParseError error : xmlvergleicher.getErrorList())
 						logger.setMessage(error.getMessage(),
 								logger.LEVEL_WARNING);
 				}
@@ -307,8 +318,7 @@ public class FileSelectionController extends JFrame {
 				else if (mode == 2) {
 					fileImporter.setTempFiles((jsonvergleicher
 							.jsonPrepare(fileImporter.getTempFilesMap())));
-					for (IJSONParseError error : jsonvergleicher
-							.getErrorList())
+					for (IJSONParseError error : jsonvergleicher.getErrorList())
 						logger.setMessage(error.getMessage() + "\n",
 								logger.LEVEL_WARNING);
 
@@ -325,10 +335,9 @@ public class FileSelectionController extends JFrame {
 				}
 				textvergleicher.getTempfilesFromHashMap(management
 						.getFileImporter().getTempFilesMap());
-				textvergleicher.getVergleiche(textvergleicher
-						.getTempFiles());
+				textvergleicher.getVergleiche(textvergleicher.getTempFiles());
 				textvergleicher.createBatches();
-				
+
 				progressBar.setVisible(true);
 				progressBar.setStringPainted(true);
 				progressBar.setMinimum(0);
@@ -337,10 +346,13 @@ public class FileSelectionController extends JFrame {
 
 				ExecutorService es = Executors.newFixedThreadPool(Runtime
 						.getRuntime().availableProcessors());
+				management.setExecutorService(es);
 
-				if (mode == 2 && fileImporter.getConfig().isJsonUseSemanticComparison()) {
+				if (mode == 2
+						&& fileImporter.getConfig()
+								.isJsonUseSemanticComparison()) {
 					for (int i = 0; i < textvergleicher.getBatches().size(); i++) {
-						final List<IAehnlichkeitImpl> currentBatch = textvergleicher
+						final List<IComparisonImpl> currentBatch = textvergleicher
 								.getBatches().get(i).getInhalt();
 						es.execute(new Runnable() {
 
@@ -361,9 +373,11 @@ public class FileSelectionController extends JFrame {
 					} else {
 						logger.writeToLogFile("Comparison error", true);
 					}
-				}else if(mode == 1 && fileImporter.getConfig().isXmlUseSemanticComparison()){
+				} else if (mode == 1
+						&& fileImporter.getConfig()
+								.isXmlUseSemanticComparison()) {
 					for (int i = 0; i < textvergleicher.getBatches().size(); i++) {
-						final List<IAehnlichkeitImpl> currentBatch = textvergleicher
+						final List<IComparisonImpl> currentBatch = textvergleicher
 								.getBatches().get(i).getInhalt();
 						es.execute(new Runnable() {
 
@@ -385,14 +399,12 @@ public class FileSelectionController extends JFrame {
 					} else {
 						logger.writeToLogFile("Comparison error", true);
 					}
-				}
-				else {
+				} else {
 
 					if (fileImporter.getConfig().getCompareLines() == false) {
 
-						for (int i = 0; i < textvergleicher.getBatches()
-								.size(); i++) {
-							final List<IAehnlichkeitImpl> currentBatch = textvergleicher
+						for (int i = 0; i < textvergleicher.getBatches().size(); i++) {
+							final List<IComparisonImpl> currentBatch = textvergleicher
 									.getBatches().get(i).getInhalt();
 							es.execute(new Runnable() {
 
@@ -408,25 +420,22 @@ public class FileSelectionController extends JFrame {
 						}
 
 						es.shutdown();
-						boolean finished = es.awaitTermination(
-								Long.MAX_VALUE, TimeUnit.MINUTES);
+						boolean finished = es.awaitTermination(Long.MAX_VALUE,
+								TimeUnit.MINUTES);
 						if (finished) {
-							logger.writeToLogFile("Comparison finished",
-									true);
+							logger.writeToLogFile("Comparison finished", true);
 						} else {
 							logger.writeToLogFile("Comparison error", true);
 						}
 
 					} else {
-						for (int i = 0; i < textvergleicher.getBatches()
-								.size(); i++) {
-							final List<IAehnlichkeitImpl> currentBatch = textvergleicher
+						for (int i = 0; i < textvergleicher.getBatches().size(); i++) {
+							final List<IComparisonImpl> currentBatch = textvergleicher
 									.getBatches().get(i).getInhalt();
 							es.execute(new Runnable() {
 
 								@Override
 								public void run() {
-
 									textvergleicher
 											.vergleicheZeilenweise(currentBatch);
 
@@ -436,11 +445,10 @@ public class FileSelectionController extends JFrame {
 
 						}
 						es.shutdown();
-						boolean finished = es.awaitTermination(
-								Long.MAX_VALUE, TimeUnit.MINUTES);
+						boolean finished = es.awaitTermination(Long.MAX_VALUE,
+								TimeUnit.MINUTES);
 						if (finished) {
-							logger.writeToLogFile("Comparison finished",
-									true);
+							logger.writeToLogFile("Comparison finished", true);
 						} else {
 							logger.writeToLogFile("Comparison error", true);
 						}
@@ -449,18 +457,19 @@ public class FileSelectionController extends JFrame {
 				management.setNewSelection(false);
 				return null;
 			}
-			
+
 			@Override
-			protected void process(List<Integer> chunks){
-				int i = chunks.get(chunks.size()-1);
+			protected void process(List<Integer> chunks) {
+				int i = chunks.get(chunks.size() - 1);
 				progressBar.setValue(i);
-				progressBar.setToolTipText(i + " / " + progressBar.getMaximum() + " comparisons finished");
+				progressBar.setToolTipText(i + " / " + progressBar.getMaximum()
+						+ " comparisons finished");
 			}
 
 			@Override
 			protected void done() {
 				progressBar.setValue(progressBar.getMaximum());
-				
+
 				if (anzDateien < 2) {
 					new PopupView("Error",
 							"Please select at least two files for comparison");
@@ -511,7 +520,6 @@ public class FileSelectionController extends JFrame {
 				progressBar.setVisible(false);
 			}
 		}
-
 
 	}
 
@@ -590,10 +598,6 @@ public class FileSelectionController extends JFrame {
 		}
 	}
 
-
-
-	
-
 	// Konvertiert die Anzeige Liste in Liste der Pfade (ohne bspw. "AB: ")
 	public List<String> convertToPaths(List<String> list) {
 		List<String> pathList = new ArrayList<String>();
@@ -630,6 +634,5 @@ public class FileSelectionController extends JFrame {
 	public int getMode() {
 		return mode;
 	}
-
 
 }

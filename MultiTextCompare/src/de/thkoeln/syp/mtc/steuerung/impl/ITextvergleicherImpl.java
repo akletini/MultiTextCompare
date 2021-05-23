@@ -22,9 +22,9 @@ import java.util.UUID;
 
 import org.apache.commons.text.similarity.LevenshteinDistance;
 
-import de.thkoeln.syp.mtc.datenhaltung.api.IAehnlichkeit;
+import de.thkoeln.syp.mtc.datenhaltung.api.IComparison;
 import de.thkoeln.syp.mtc.datenhaltung.api.IMatrix;
-import de.thkoeln.syp.mtc.datenhaltung.impl.IAehnlichkeitImpl;
+import de.thkoeln.syp.mtc.datenhaltung.impl.IComparisonImpl;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IMatrixImpl;
 import de.thkoeln.syp.mtc.gui.control.FileSelectionController.CompareListener.CompareThread;
 import de.thkoeln.syp.mtc.gui.control.Management;
@@ -39,7 +39,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	private IMatrix iMatrixImpl;
 	private List<IMatrixImpl> batches;
 
-	private List<IAehnlichkeitImpl> paarungen;
+	private List<IComparisonImpl> paarungen;
 	private List<File> tempFiles;
 
 	private CompareThread compareThread;
@@ -55,7 +55,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	 * werden ge�nderte Zeilen einzeln ausgewertet und gewichtet.
 	 */
 	@Override
-	public void vergleicheZeilenweise(List<IAehnlichkeitImpl> batch) {
+	public void vergleicheZeilenweise(List<IComparisonImpl> batch) {
 		compareThread = Management.getInstance().getCompareThread();
 		i = 0;
 		List<String> referenceLines = null;
@@ -66,10 +66,10 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		final double MATCH_AT_VALUE = fileImporter.getConfig().getMatchAt();
 		final boolean SEARCH_BEST_MATCH = fileImporter.getConfig().getBestMatch();
 		final boolean MATCH_LINES = fileImporter.getConfig().getLineMatch();
-		for (IAehnlichkeitImpl a : batch) {
+		for (IComparisonImpl a : batch) {
 			File ref, comp;
-			ref = a.getVon();
-			comp = a.getZu();
+			ref = a.getFrom();
+			comp = a.getTo();
 			try {
 				i++;
 				IMatchHelper matchHelper = new IMatchHelperImpl();
@@ -96,7 +96,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 				similarity = calculateSimilarityMetric(weightPerLine,
 						referenceLines, comparisonLines);
 
-				a.setWert(similarity);
+				a.setValue(similarity);
 				compareThread.publishData(i);
 			} catch (IOException e) {
 
@@ -112,15 +112,15 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	 * Reihenfolge der Woerter keine gro�e Rolle spielt.
 	 */
 	@Override
-	public void vergleicheUeberGanzesDokument(List<IAehnlichkeitImpl> batch) {
+	public void vergleicheUeberGanzesDokument(List<IComparisonImpl> batch) {
 		final int MAXLINELENGTH = fileImporter.getConfig().getMaxLineLength();
 		compareThread = Management.getInstance().getCompareThread();
 		i = 0;
-		for (IAehnlichkeitImpl a : batch) {
+		for (IComparisonImpl a : batch) {
 			try {
 				i++;
-				List<String> refList = fileToLines(a.getVon());
-				List<String> vglList = fileToLines(a.getZu());
+				List<String> refList = fileToLines(a.getFrom());
+				List<String> vglList = fileToLines(a.getTo());
 
 				String referenzString = "", vergleichsString = "";
 				for (String s : refList) {
@@ -144,7 +144,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 						new Integer(MAXLINELENGTH));
 
 				double metrik = (maxSize - levenshtein) / maxSize;
-				a.setWert(metrik);
+				a.setValue(metrik);
 				compareThread.publishData(i);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -155,16 +155,16 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	}
 
 	@Override
-	public void compareJSON(List<IAehnlichkeitImpl> batch) {
+	public void compareJSON(List<IComparisonImpl> batch) {
 		i = 0;
 		compareThread = Management.getInstance().getCompareThread();
 		final int MAXLINELENGTH = fileImporter.getConfig().getMaxLineLength();
-		for (IAehnlichkeitImpl a : batch) {
+		for (IComparisonImpl a : batch) {
 			try {
 				i++;
 				IJSONComparerImpl jsonComparer = new IJSONComparerImpl(MAXLINELENGTH);
-				double similarity = jsonComparer.compare(a.getVon(), a.getZu());
-				a.setWert(similarity);
+				double similarity = jsonComparer.compare(a.getFrom(), a.getTo());
+				a.setValue(similarity);
 				compareThread.publishData(i);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -174,16 +174,16 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	}
 
 	@Override
-	public void compareXML(List<IAehnlichkeitImpl> batch) {
+	public void compareXML(List<IComparisonImpl> batch) {
 		final int MAXLINELENGTH = fileImporter.getConfig().getMaxLineLength();
 		i = 0;
 		compareThread = Management.getInstance().getCompareThread();
-		for (IAehnlichkeitImpl a : batch) {
+		for (IComparisonImpl a : batch) {
 			try {
 				i++;
 				IXMLComparerImpl xmlComparer = new IXMLComparerImpl(MAXLINELENGTH);
-				double similarity = xmlComparer.compare(a.getVon(), a.getZu());
-				a.setWert(similarity);
+				double similarity = xmlComparer.compare(a.getFrom(), a.getTo());
+				a.setValue(similarity);
 				compareThread.publishData(i);
 			}catch(Exception e) {
 //				e.printStackTrace();
@@ -359,23 +359,23 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	 * @return paarungen die Eintraege der Aehnlichkeitsmatrix ohne den
 	 *         Aehnlichkeitswert
 	 */
-	public List<IAehnlichkeitImpl> getVergleiche(List<File> files) {
-		paarungen = new ArrayList<IAehnlichkeitImpl>();
+	public List<IComparisonImpl> getVergleiche(List<File> files) {
+		paarungen = new ArrayList<IComparisonImpl>();
 		int id = 0;
-		IAehnlichkeit vergleich = new IAehnlichkeitImpl();
+		IComparison vergleich = new IComparisonImpl();
 		for (int i = 0; i < files.size(); i++) {
 			for (int j = i + 1; j < files.size(); j++) {
 				id++;
-				vergleich = new IAehnlichkeitImpl();
-				vergleich.setVon(files.get(i));
-				vergleich.setZu(files.get(j));
+				vergleich = new IComparisonImpl();
+				vergleich.setFrom(files.get(i));
+				vergleich.setTo(files.get(j));
 				vergleich.setId(id);
 				try {
 					vergleich.setWeight(getWeightFromComparison(files.get(i), files.get(j)));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				paarungen.add((IAehnlichkeitImpl) vergleich);
+				paarungen.add((IComparisonImpl) vergleich);
 			}
 		}
 
@@ -411,24 +411,24 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	public void mergeBatches() {
 		paarungen.clear();
 		for (int i = 0; i < batches.size(); i++) {
-			List<IAehnlichkeitImpl> currentBatch = batches.get(i).getInhalt();
+			List<IComparisonImpl> currentBatch = batches.get(i).getInhalt();
 			for (int j = 0; j < currentBatch.size(); j++) {
-				IAehnlichkeit currentComparison = currentBatch.get(j);
-				paarungen.add(new IAehnlichkeitImpl(currentComparison.getVon(), currentComparison.getZu(),
-						currentComparison.getWeight(), currentComparison.getId(), currentComparison.getWert()));
+				IComparison currentComparison = currentBatch.get(j);
+				paarungen.add(new IComparisonImpl(currentComparison.getFrom(), currentComparison.getTo(),
+						currentComparison.getWeight(), currentComparison.getId(), currentComparison.getValue()));
 			}
 		}
 		Collections.sort(paarungen, new SortIAehnlichkeitByID());
 	}
 
-	public List<IMatrixImpl> distributeBatches(List<IAehnlichkeitImpl> iterable, int partitions) {
+	public List<IMatrixImpl> distributeBatches(List<IComparisonImpl> iterable, int partitions) {
 		batches = new ArrayList<>(partitions);
 		for (int i = 0; i < partitions; i++)
 			batches.add(new IMatrixImpl());
 
-		Iterator<IAehnlichkeitImpl> iterator = iterable.iterator();
+		Iterator<IComparisonImpl> iterator = iterable.iterator();
 		for (int i = 0; iterator.hasNext(); i++)
-			batches.get(i % partitions).getInhalt().add((IAehnlichkeitImpl) iterator.next());
+			batches.get(i % partitions).getInhalt().add((IComparisonImpl) iterator.next());
 
 		return batches;
 	}
@@ -459,7 +459,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	}
 
 	@Override
-	public List<IAehnlichkeitImpl> getPaarungen() {
+	public List<IComparisonImpl> getPaarungen() {
 		return paarungen;
 	}
 
@@ -483,19 +483,19 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		this.fileImporter = fileImporter;
 	}
 
-	class SortIAehnlichkeitByID implements Comparator<IAehnlichkeit> {
+	class SortIAehnlichkeitByID implements Comparator<IComparison> {
 
 		@Override
-		public int compare(IAehnlichkeit o1, IAehnlichkeit o2) {
+		public int compare(IComparison o1, IComparison o2) {
 			return o1.getId() - o2.getId();
 		}
 
 	}
 
-	class SortIAehnlichkeitByWeight implements Comparator<IAehnlichkeit> {
+	class SortIAehnlichkeitByWeight implements Comparator<IComparison> {
 
 		@Override
-		public int compare(IAehnlichkeit o1, IAehnlichkeit o2) {
+		public int compare(IComparison o1, IComparison o2) {
 			return o2.getWeight() - o1.getWeight();
 		}
 
