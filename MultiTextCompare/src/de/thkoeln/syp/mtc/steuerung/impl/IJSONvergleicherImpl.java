@@ -302,7 +302,6 @@ public class IJSONvergleicherImpl extends JsonNodeFactory implements
 	private void sortArraysRecursively(JsonNode currentRoot) {
 		if (currentRoot.isArray()) {
 			ArrayList<JsonNode> arrayNodes = new ArrayList<JsonNode>();
-			ArrayList<JsonNode> sortedArrayNodes = new ArrayList<JsonNode>();
 			for (JsonNode node : currentRoot) {
 				if (node.isValueNode()) {
 					arrayNodes.add(node);
@@ -314,22 +313,20 @@ public class IJSONvergleicherImpl extends JsonNodeFactory implements
 					arrayNodes.add(node);
 				}
 			}
-			Collections.sort(arrayNodes, new SortJsonArrays());
+			Collections.sort(arrayNodes, new JsonArrayComparator());
 			for (int i = 0; i < arrayNodes.size(); i++) {
-				sortedArrayNodes.add(arrayNodes.get(i));
-				((ArrayNode) currentRoot).set(i, sortedArrayNodes.get(i));
+				((ArrayNode) currentRoot).set(i, arrayNodes.get(i));
 			}
 		} else if (currentRoot.isObject()) {
 			for (JsonNode node : currentRoot) {
 				if (node.isValueNode()) {
-					// do nothing
+					// besitzt keine Kindelemente
 				} else if (node.isArray()) {
 					sortArraysRecursively(node);
 				} else if (node.isObject()) {
 					sortArraysRecursively(node);
 				}
 			}
-
 		}
 	}
 
@@ -443,7 +440,7 @@ public class IJSONvergleicherImpl extends JsonNodeFactory implements
 		errorListe.add(error);
 	}
 
-	class SortJsonArrays implements Comparator<JsonNode> {
+	class JsonArrayComparator implements Comparator<JsonNode> {
 
 		@Override
 		public int compare(JsonNode o1, JsonNode o2) {
@@ -491,11 +488,22 @@ public class IJSONvergleicherImpl extends JsonNodeFactory implements
 				if (!o1.isEmpty() && !o2.isEmpty()) {
 					Iterator<String> nodesO1 = o1.fieldNames();
 					Iterator<String> nodesO2 = o2.fieldNames();
+					List<String> values1 = new ArrayList<String>();
+					List<String> values2 = new ArrayList<String>();
 					while (nodesO1.hasNext() && nodesO2.hasNext()) {
 						String node1 = nodesO1.next();
 						String node2 = nodesO2.next();
 						if (!node1.equals(node1)) {
 							return node2.compareTo(node1);
+						}
+						values1.add(node1);
+						values2.add(node2);
+					}
+					for(int i = 0; i < values1.size(); i++){
+						String val1 = o1.get(values1.get(i)).toString();
+						String val2 = o2.get(values2.get(i)).toString();
+						if(!val1.equals(val2)){
+							return val1.compareTo(val2);
 						}
 					}
 					return 0;
