@@ -38,6 +38,7 @@ public class FileSelectionView extends JFrame {
 	private JButton btnSetRoot, btnSearch, btnAddFiles, btnDelete, btnReset,
 			btnCompare;
 
+
 	private JRadioButton rdbtnTxt, rdbtnXml, rdbtnJson, rdbtnAll;
 	private ButtonGroup bg;
 	private DefaultListModel<String> model;
@@ -209,6 +210,21 @@ public class FileSelectionView extends JFrame {
 
 	public void setBtnCompare(JButton btnCompare) {
 		this.btnCompare = btnCompare;
+	}
+	public JButton getBtnAddFiles() {
+		return btnAddFiles;
+	}
+
+	public JButton getBtnDelete() {
+		return btnDelete;
+	}
+
+	public void setBtnAddFiles(JButton btnAddFiles) {
+		this.btnAddFiles = btnAddFiles;
+	}
+
+	public void setBtnDelete(JButton btnDelete) {
+		this.btnDelete = btnDelete;
 	}
 
 	public int getRadioButton() {

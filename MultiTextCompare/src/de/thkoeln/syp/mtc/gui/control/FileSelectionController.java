@@ -293,6 +293,10 @@ public class FileSelectionController extends JFrame {
 						.getFileSelectionView().getModel());
 				management.getFileSelectionView().getBtnCompare()
 						.setEnabled(false);
+				management.getFileSelectionView().getBtnAddFiles()
+				.setEnabled(false);
+				management.getFileSelectionView().getBtnDelete()
+				.setEnabled(false);
 
 				anzDateien = fileImporter.getTextdateien().size();
 				if (anzDateien < 2) {
@@ -473,9 +477,16 @@ public class FileSelectionController extends JFrame {
 				if (anzDateien < 2) {
 					new PopupView("Error",
 							"Please select at least two files for comparison");
+					management.getFileSelectionView().getBtnCompare()
+					.setEnabled(true);
+					management.getFileSelectionView().getBtnAddFiles()
+					.setEnabled(true);
+					management.getFileSelectionView().getBtnDelete()
+					.setEnabled(true);
 					return;
 				}
 				textvergleicher.mergeBatches();
+
 
 				textvergleicher.fillMatrix();
 				management.setComparisons(textvergleicher.getPaarungen());
@@ -515,7 +526,11 @@ public class FileSelectionController extends JFrame {
 							+ timeDiffAsString, logger.LEVEL_INFO);
 				}
 				management.getFileSelectionView().getBtnCompare()
-						.setEnabled(true);
+				.setEnabled(true);
+				management.getFileSelectionView().getBtnAddFiles()
+				.setEnabled(true);
+				management.getFileSelectionView().getBtnDelete()
+				.setEnabled(true);
 				progressBar.setToolTipText(null);
 				progressBar.setVisible(false);
 			}
