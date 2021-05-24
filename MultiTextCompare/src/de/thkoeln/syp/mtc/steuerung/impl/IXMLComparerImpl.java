@@ -22,6 +22,7 @@ public class IXMLComparerImpl {
 	private int maxLineLength;
 	private ITextvergleicher textvergleicher;
 	private List<Double> similarities;
+	private boolean commentFound;
 
 	public IXMLComparerImpl(int maxLineLength) {
 		textvergleicher = new ITextvergleicherImpl();
@@ -56,8 +57,6 @@ public class IXMLComparerImpl {
 			if (!compChildren.isEmpty()) {
 				Element currentComp = rootComp.getChildren(currentRefName).get(
 						0);
-				compareContent(currentRef.getContent(),
-						currentComp.getContent());
 				// Liste von Knoten
 				if (hasChildren(currentRef) && hasChildren(currentComp)) {
 					similarity.add(compareElementsRecursively(currentRef,
@@ -76,21 +75,52 @@ public class IXMLComparerImpl {
 
 	private double compareElements(Element ref, Element comp,
 			double currentLevelWeight) {
+		boolean compareComments = true;
+		boolean attributesPresent = hasAttributes(ref) || hasAttributes(comp);
 		double contentWeight = 0.5;
+		double textWeight = 0.5;
 		double attributeWeight = 0.5;
-		double totalSimilarity = 0, contentSimilarity, attributeSimilarity;
-		double stringSimilarity = compareStrings(ref.getValue(),
-				comp.getValue());
-		contentSimilarity = currentLevelWeight * contentWeight
+		double totalSimilarity = 0, textSimilarity, attributeSimilarity;
+		commentFound = false; 
+		// BETA
+		List<Content> refContent = ref.getContent();
+		List<Content> compContent = comp.getContent();
+		double contentSim = currentLevelWeight * compareContent(refContent, compContent);
+		if(compareComments && commentFound && attributesPresent){
+			textWeight = 1.0 / 3.0;
+			attributeWeight = textWeight;
+			contentWeight = attributeWeight;
+		}
+		
+		double stringSimilarity = compareStrings(ref.getTextNormalize(),
+				comp.getTextNormalize());
+
+		
+		textSimilarity = currentLevelWeight * textWeight
 				* stringSimilarity;
 		attributeSimilarity = currentLevelWeight
 				* attributeWeight
 				* calcAttributeSimilarity(ref.getAttributes(),
 						comp.getAttributes());
-		if (hasAttributes(ref) || hasAttributes(comp)) {
-			totalSimilarity = contentSimilarity + attributeSimilarity;
-		} else {
-			totalSimilarity = 2 * contentSimilarity;
+		contentSim = contentWeight * contentSim;
+		if(!compareComments){
+			if (attributesPresent) {
+				totalSimilarity = textSimilarity + attributeSimilarity;
+			} else {
+				totalSimilarity = 2 * textSimilarity;
+			}
+		}
+		else {
+			if (attributesPresent && !commentFound) {
+				totalSimilarity = textSimilarity + attributeSimilarity;
+			} else if(attributesPresent && commentFound){
+				totalSimilarity = textSimilarity + attributeSimilarity + contentSim;
+			} else if(!attributesPresent && commentFound){
+				totalSimilarity = textSimilarity + contentSim;
+			}
+			else {
+				totalSimilarity = 2 * textSimilarity;
+			}
 		}
 
 		return totalSimilarity;
@@ -183,12 +213,6 @@ public class IXMLComparerImpl {
 			Element currentRef = matchingRef.get(i);
 			Element currentComp = matchingComp.get(i);
 
-			List<Content> refContent = currentRef.getContent();
-			List<Content> compContent = currentComp.getContent();
-
-			// BETA
-			compareContent(refContent, compContent);
-
 			if (hasChildren(currentRef) && hasChildren(currentComp)) {
 				double similarity = currentLevelWeight
 						* compareElementsRecursively(currentRef, currentComp,
@@ -212,25 +236,45 @@ public class IXMLComparerImpl {
 		return sim;
 	}
 
-	private void compareContent(List<Content> refContent,
+	private double compareContent(List<Content> refContent,
 			List<Content> compContent) {
-		int maxSize = Math.max(refContent.size(), compContent.size());
-		int minSize = Math.min(refContent.size(), compContent.size());
-
+		boolean useComments = true;
+		
+		double totalCommentsLeft = getCommentCount(refContent);
+		double totalCommentsRight = getCommentCount(compContent);
+		double maxSize = Math.max(totalCommentsLeft, totalCommentsRight);
+		List<Double> similaritiesComment = new ArrayList<Double>();
 		for (int i = 0; i < refContent.size(); i++) {
 			Object ref = refContent.get(i);
 			for (int j = 0; j < compContent.size(); j++) {
 				Object comp = compContent.get(j);
 				if (ref instanceof Comment && comp instanceof Comment) {
-					compareComments((Comment) ref, (Comment) comp);
-					break;
-				} else if (ref instanceof CDATA && comp instanceof CDATA) {
-					compareCDATA((CDATA) ref, (CDATA) comp);
+					double sim = compareComments((Comment) ref, (Comment) comp);
+					similaritiesComment.add(sim);
 					break;
 				}
 			}
 		}
+		double sim = 0;
+		if(useComments){
+			if(maxSize != 0){
+				sim += sumSimilarities(similaritiesComment) / maxSize;
+				commentFound = true;
+			}
+		}
+		return sim;
+	}
+	
+	
 
+	private double getCommentCount(List<Content> content) {
+		double count = 0.0;
+		for(Object o : content){
+			if(o instanceof Comment){
+				count++;
+			}
+		}
+		return (double) count;
 	}
 
 	private double compareComments(Comment ref, Comment comp) {
