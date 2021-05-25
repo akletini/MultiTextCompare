@@ -53,7 +53,7 @@ public class IJSONComparerImpl {
 		calcLevelWeight(rootNodeRef, rootNodeComp);
 		List<Double> similarities = traverseGraph(rootNodeRef, rootNodeComp);
 		double similarity = sumSimilarities(similarities);
-		// print(similarities);
+//		 print(similarities);
 		// StringBuilder b = new StringBuilder();
 		// processNode(rootNodeRef, b, 0);
 		return similarity;
@@ -97,7 +97,6 @@ public class IJSONComparerImpl {
 							currentLevelWeight);
 					similarity.add(sim);
 				}
-				//
 
 			} else if (fieldValueRef.isArray()) {
 				if (existsInBoth(fieldName, rootNodeComp)) {
@@ -274,7 +273,7 @@ public class IJSONComparerImpl {
 
 						if (objectsShareFields(currentRefNode, currentCompNode)) {
 
-							double objectsim = currentLevelWeight
+							double objectsim = (1 / maxArraySize) * currentLevelWeight
 									* compareObjects(
 											currentRefNode,
 											currentCompNode,
