@@ -209,6 +209,7 @@ public class FileSelectionController extends JFrame {
 			// Ggf. Radio Buttons ausgrauen und gewaehlten Dateityp speichern
 			setRdbtn(fileImporter.getTextdateien().isEmpty());
 			fileImporter.getConfig().setFiletype(getFileExt());
+			fileImporter.exportConfigdatei();
 			mode = management.getFileSelectionView().getRadioButton();
 
 			// JList Anzeige aktualisieren
