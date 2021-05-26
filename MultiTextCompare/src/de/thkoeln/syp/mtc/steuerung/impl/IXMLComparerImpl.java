@@ -49,26 +49,62 @@ public class IXMLComparerImpl {
 		List<Double> similarity = new ArrayList<Double>();
 		double currentLevelWeight = calcLevelWeight(rootRef, rootComp);
 		List<Element> refFirstLevelChildren = rootRef.getChildren();
+		
+		List<Element> matchingRef = new ArrayList<Element>();
+		List<Element> matchingComp = new ArrayList<Element>();
+
+		// get all elements with equal names which exist in both files
+		List<String> refElementNames = new ArrayList<String>();
 		for (int i = 0; i < refFirstLevelChildren.size(); i++) {
 			Element currentRef = refFirstLevelChildren.get(i);
 			String currentRefName = currentRef.getName();
-			List<Element> compChildren = rootComp.getChildren(currentRefName);
-
-			if (!compChildren.isEmpty()) {
-				Element currentComp = rootComp.getChildren(currentRefName).get(
-						0);
-				// Liste von Knoten
-				if (hasChildren(currentRef) && hasChildren(currentComp)) {
-					similarity.add(compareElementsRecursively(currentRef,
-							currentComp, currentLevelWeight));
-				}
-				// einzelnes Feld
-				else if (!hasChildren(currentRef) && !hasChildren(currentComp)) {
-					similarity.add(compareElements(currentRef, currentComp,
-							currentLevelWeight));
-				}
-				rootComp.getChildren(currentRefName).remove(0);
+			refElementNames.add(currentRefName);
+			if (getElementCount(refElementNames, currentRefName) == 1) {
+				matchingRef.addAll(rootRef
+						.getChildren(currentRefName));
+				matchingComp.addAll(rootComp
+						.getChildren(currentRefName));
 			}
+		}
+
+		// look for equal elements and remove them from the matched pool
+		for (int i = 0; i < matchingRef.size(); i++) {
+			Element currentRef = matchingRef.get(i);
+			for (int j = 0; j < matchingComp.size(); j++) {
+				Element currentComp = matchingComp.get(j);
+				if (currentComp == null) {
+					continue;
+				}
+				XMLOutputter xmlOut = new XMLOutputter();
+				String refString = xmlOut.outputString(currentRef);
+				String compString = xmlOut.outputString(currentComp);
+				boolean equals = refString.equals(compString);
+				if (equals) {
+					similarity.add(currentLevelWeight);
+					matchingRef.set(i, null);
+					matchingComp.set(j, null);
+					break;
+				}
+			}
+		}
+		matchingRef = clearNullValues(matchingRef);
+		matchingComp = clearNullValues(matchingComp);
+		int minSize = Math.min(matchingRef.size(), matchingComp.size());
+		
+		for (int i = 0; i < minSize; i++) {
+			Element currentRef = matchingRef.get(i);
+			Element currentComp = matchingComp.get(i);
+			// Liste von Knoten
+			if (hasChildren(currentRef) && hasChildren(currentComp)) {
+				similarity.add(compareElementsRecursively(currentRef,
+						currentComp, currentLevelWeight));
+			}
+			// einzelnes Feld
+			else if (!hasChildren(currentRef) && !hasChildren(currentComp)) {
+				similarity.add(compareElements(currentRef, currentComp,
+						currentLevelWeight));
+			}
+			
 		}
 		return similarity;
 	}
@@ -77,6 +113,7 @@ public class IXMLComparerImpl {
 			double currentLevelWeight) {
 		boolean compareComments = true;
 		boolean attributesPresent = hasAttributes(ref) || hasAttributes(comp);
+		boolean textPresent = hasText(ref) || hasText(comp);
 		double contentWeight = 0.5;
 		double textWeight = 0.5;
 		double attributeWeight = 0.5;
@@ -86,15 +123,15 @@ public class IXMLComparerImpl {
 		List<Content> refContent = ref.getContent();
 		List<Content> compContent = comp.getContent();
 		double contentSim = currentLevelWeight * compareContent(refContent, compContent);
-		if(compareComments && commentFound && attributesPresent){
+		if(textPresent && commentFound && attributesPresent){
 			textWeight = 1.0 / 3.0;
 			attributeWeight = textWeight;
 			contentWeight = attributeWeight;
 		}
-		
-		double stringSimilarity = compareStrings(ref.getTextNormalize(),
-				comp.getTextNormalize());
-
+		String refNorm = ref.getTextNormalize();
+		String compNorm = comp.getTextNormalize();
+		double stringSimilarity = compareStrings(refNorm,
+				compNorm);
 		
 		textSimilarity = currentLevelWeight * textWeight
 				* stringSimilarity;
@@ -103,23 +140,53 @@ public class IXMLComparerImpl {
 				* calcAttributeSimilarity(ref.getAttributes(),
 						comp.getAttributes());
 		contentSim = contentWeight * contentSim;
+
 		if(!compareComments){
-			if (attributesPresent) {
+			if (attributesPresent && textPresent) {
 				totalSimilarity = textSimilarity + attributeSimilarity;
-			} else {
+			}
+			else if (attributesPresent && !textPresent) {
+				totalSimilarity = 2* attributeSimilarity;
+			}
+			else if (!attributesPresent && !textPresent) {
+				totalSimilarity =  -1;
+			}
+			else {
 				totalSimilarity = 2 * textSimilarity;
 			}
 		}
 		else {
-			if (attributesPresent && !commentFound) {
+			// attribute + text + kein Kommentar
+			if (attributesPresent && textPresent && !commentFound) {
 				totalSimilarity = textSimilarity + attributeSimilarity;
-			} else if(attributesPresent && commentFound){
+			} 
+			// attribute + text + kommentar
+			else if(attributesPresent && textPresent && commentFound){
 				totalSimilarity = textSimilarity + attributeSimilarity + contentSim;
-			} else if(!attributesPresent && commentFound){
+			}
+			// keine attribute + text + kein kommentar
+			else if(!attributesPresent && textPresent && !commentFound){
+				totalSimilarity = 2 * textSimilarity;
+			}
+			// keine attribute + text + kommentar
+			else if(!attributesPresent && textPresent && commentFound){
 				totalSimilarity = textSimilarity + contentSim;
 			}
-			else {
-				totalSimilarity = 2 * textSimilarity;
+			// attribute + kein text + kein Kommentar
+			else if (attributesPresent && !textPresent && !commentFound) {
+				totalSimilarity = 2 * attributeSimilarity;
+			} 
+			// attribute + kein text + kommentar
+			else if(attributesPresent && !textPresent && commentFound){
+				totalSimilarity = attributeSimilarity + contentSim;
+			}
+			// keine attribute + kein text + kein kommentar
+			else if(!attributesPresent && !textPresent && !commentFound){
+				totalSimilarity = -1;
+			}
+			// keine attribute + kein text + kommentar
+			else if(!attributesPresent && !textPresent && commentFound){
+				totalSimilarity = 2 * contentSim;
 			}
 		}
 
@@ -203,6 +270,8 @@ public class IXMLComparerImpl {
 				}
 			}
 		}
+		double currentNodeSim = compareElements(ref, comp,
+				1.0);
 		matchingRef = clearNullValues(matchingRef);
 		matchingComp = clearNullValues(matchingComp);
 
@@ -214,9 +283,10 @@ public class IXMLComparerImpl {
 			Element currentComp = matchingComp.get(i);
 
 			if (hasChildren(currentRef) && hasChildren(currentComp)) {
-				double similarity = currentLevelWeight
+				double similarity = currentLevelWeight 
 						* compareElementsRecursively(currentRef, currentComp,
 								currentWeight);
+			
 				similarities.add(similarity);
 			} else if (hasChildren(currentRef) && !hasChildren(currentComp)) {
 
@@ -232,6 +302,10 @@ public class IXMLComparerImpl {
 		double sim = 0.0;
 		for (Double s : similarities) {
 			sim += s;
+		}
+		if(currentNodeSim != -1){
+			sim = sim * similarities.size() / (similarities.size() + 1);
+			sim  += currentNodeSim / (similarities.size() + 1);
 		}
 		return sim;
 	}
@@ -313,6 +387,13 @@ public class IXMLComparerImpl {
 
 	private boolean hasAttributes(Element e) {
 		if (e.getAttributes().size() == 0) {
+			return false;
+		}
+		return true;
+	}
+	
+	private boolean hasText(Element e) {
+		if (e.getTextNormalize().equals("")) {
 			return false;
 		}
 		return true;
