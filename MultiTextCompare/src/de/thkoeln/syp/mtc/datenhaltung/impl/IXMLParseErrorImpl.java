@@ -59,6 +59,16 @@ public class IXMLParseErrorImpl implements IXMLParseError {
 	public int getLine() {
 		return this.line;
 	}
+
+	@Override
+	public boolean isXMLErrorList() {
+		return true;
+	}
+
+	@Override
+	public boolean isJSONErrorList() {
+		return false;
+	}
 	
 	
 	

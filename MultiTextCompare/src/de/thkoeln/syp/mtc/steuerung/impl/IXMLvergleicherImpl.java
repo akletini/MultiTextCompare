@@ -25,6 +25,7 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
+import de.thkoeln.syp.mtc.datenhaltung.api.IParseError;
 import de.thkoeln.syp.mtc.datenhaltung.api.IXMLAttributeComparator;
 import de.thkoeln.syp.mtc.datenhaltung.api.IXMLElementComparator;
 import de.thkoeln.syp.mtc.datenhaltung.api.IXMLParseError;
@@ -38,7 +39,7 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 	
 	private SAXBuilder builder;
 	
-	private List<IXMLParseError> errorListe;
+	private List<IParseError> errorListe;
 	
 	private IXMLParseError parseError;
 	
@@ -823,7 +824,7 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 	 *           Liste mit moeglichen Elementen der Klasse IXMLParseError,
 	 *           die bei auftretenden Fehlern waehrend des Parsens festegestellt wurden
 	 */
-	public List<IXMLParseError> getErrorList(){
+	public List<IParseError> getErrorList(){
 		return errorListe;
 	}
 

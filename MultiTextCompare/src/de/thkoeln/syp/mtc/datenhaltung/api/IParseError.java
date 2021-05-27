@@ -2,8 +2,10 @@ package de.thkoeln.syp.mtc.datenhaltung.api;
 
 import java.io.File;
 
-public interface IXMLParseError extends IParseError {
+public interface IParseError {
 	
+	public boolean isXMLErrorList();
+	public boolean isJSONErrorList();
 	void setFile(File file);
 	
 	File getFile();

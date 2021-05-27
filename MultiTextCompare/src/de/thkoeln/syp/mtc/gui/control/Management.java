@@ -11,6 +11,8 @@ import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
+import de.thkoeln.syp.mtc.datenhaltung.api.IParseError;
+import de.thkoeln.syp.mtc.datenhaltung.api.IXMLParseError;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IComparisonImpl;
 import de.thkoeln.syp.mtc.gui.control.FileSelectionController.CompareListener.CompareThread;
 import de.thkoeln.syp.mtc.gui.view.AboutView;
@@ -52,6 +54,7 @@ public class Management {
 	private boolean newSelection;
 	private int referenceRow, referenceCol;
 	private File currentComparison;
+	private List<IParseError> currentErrorList;
 
 	private IFileImporter fileImporter;
 	private ITextvergleicher textvergleicher;
@@ -68,6 +71,7 @@ public class Management {
 		jsonvergleicher = new IJSONvergleicherImpl(fileImporter);
 
 		comparisons = new ArrayList<IComparisonImpl>();
+		currentErrorList = new ArrayList<>();
 		isMatrixGreyedOut = false;
 		currentComparison = null;
 	}
@@ -472,6 +476,14 @@ public class Management {
 
 	public void setExecutorService(ExecutorService executorService) {
 		this.executorService = executorService;
+	}
+
+	public List<IParseError> getCurrentErrorList() {
+		return currentErrorList;
+	}
+
+	public void setCurrentErrorList(List<IParseError> list) {
+		this.currentErrorList = list;
 	}
 
 }

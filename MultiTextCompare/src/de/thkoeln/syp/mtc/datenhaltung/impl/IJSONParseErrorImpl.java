@@ -60,6 +60,16 @@ public class IJSONParseErrorImpl implements IJSONParseError{
 	@Override
 	public int getLine() {
 		return this.line;
+	}
+
+	@Override
+	public boolean isXMLErrorList() {
+		return false;
+	}
+
+	@Override
+	public boolean isJSONErrorList() {
+		return true;
 	}	
 		
 		

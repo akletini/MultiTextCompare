@@ -28,11 +28,13 @@ import org.apache.commons.io.FileUtils;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
 import de.thkoeln.syp.mtc.datenhaltung.api.IMatrix;
+import de.thkoeln.syp.mtc.datenhaltung.api.IParseError;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IComparisonImpl;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IMatrixImpl;
 import de.thkoeln.syp.mtc.gui.resources.RowNumberTable;
 import de.thkoeln.syp.mtc.gui.view.AboutView;
 import de.thkoeln.syp.mtc.gui.view.ConfigView;
+import de.thkoeln.syp.mtc.gui.view.ErrorListPane;
 import de.thkoeln.syp.mtc.gui.view.FileSelectionView;
 import de.thkoeln.syp.mtc.gui.view.FileView;
 import de.thkoeln.syp.mtc.gui.view.HelpView;
@@ -177,7 +179,12 @@ public class MainController {
 	class ToolbarShowParseErrorListListener implements ActionListener {
 		
 		public void actionPerformed(ActionEvent e){
-			
+			ErrorListPane elp = new ErrorListPane();
+			List<IParseError> errorFiles = management.getCurrentErrorList();
+			for(IParseError error : errorFiles) {
+				elp.getErrorList().addElement(error.getFile().getAbsolutePath());
+			}
+			elp.setVisible(true);
 		}
 	}
 

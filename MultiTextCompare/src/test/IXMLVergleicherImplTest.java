@@ -23,6 +23,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
+import de.thkoeln.syp.mtc.datenhaltung.api.IParseError;
 import de.thkoeln.syp.mtc.datenhaltung.api.IXMLElementComparator;
 import de.thkoeln.syp.mtc.datenhaltung.api.IXMLParseError;
 import de.thkoeln.syp.mtc.steuerung.impl.IFileImporterImpl;
@@ -233,7 +234,7 @@ public class IXMLVergleicherImplTest {
 		}
 		
 		assertFalse( iXML.parseFile(testdatei, 0) );
-		List<IXMLParseError> errorListe = iXML.getErrorList();
+		List<IParseError> errorListe = iXML.getErrorList();
 		
 		assertNotNull(errorListe);
 		assertEquals(0, errorListe.size());	
@@ -254,7 +255,7 @@ public class IXMLVergleicherImplTest {
 		
 		assertTrue(iXML.parseFile(testdatei, 0));
 		
-		List<IXMLParseError> errorListe = iXML.getErrorList();
+		List<IParseError> errorListe = iXML.getErrorList();
 		
 		assertNotNull(errorListe);
 		assertEquals(1, errorListe.size());
@@ -278,7 +279,7 @@ public class IXMLVergleicherImplTest {
 		}
 		
 		assertFalse(iXML.parseFile(testdatei, 1));
-		List<IXMLParseError> errorListe = iXML.getErrorList();
+		List<IParseError> errorListe = iXML.getErrorList();
 		
 		assertNotNull(errorListe);
 		assertEquals(0, errorListe.size());	
@@ -301,7 +302,7 @@ public class IXMLVergleicherImplTest {
 		}
 		
 		assertTrue(iXML.parseFile(testdatei, 1));
-		List<IXMLParseError> errorListe = iXML.getErrorList();
+		List<IParseError> errorListe = iXML.getErrorList();
 		
 		assertNotNull(errorListe);
 		assertEquals(1, errorListe.size());
@@ -324,7 +325,7 @@ public class IXMLVergleicherImplTest {
 		}
 		
 		assertFalse(iXML.parseFile(testdatei, 2));
-		List<IXMLParseError> errorListe = iXML.getErrorList();
+		List<IParseError> errorListe = iXML.getErrorList();
 		
 		assertNotNull(errorListe);
 		assertEquals(0, errorListe.size());	
@@ -344,7 +345,7 @@ public class IXMLVergleicherImplTest {
 		}
 		
 		assertTrue(iXML.parseFile(testdatei, 2));
-		List<IXMLParseError> errorListe = iXML.getErrorList();
+		List<IParseError> errorListe = iXML.getErrorList();
 		
 		assertNotNull(errorListe);
 		assertTrue(errorListe.size() >= 1);
@@ -365,7 +366,7 @@ public class IXMLVergleicherImplTest {
 		}
 		
 		assertFalse( iXML.parseFile(testdatei, 3) );
-		List<IXMLParseError> errorListe = iXML.getErrorList();
+		List<IParseError> errorListe = iXML.getErrorList();
 		
 		assertNotNull(errorListe);
 		assertEquals(0, errorListe.size());	
@@ -386,7 +387,7 @@ public class IXMLVergleicherImplTest {
 		
 		assertTrue(iXML.parseFile(testdatei, 3));
 		
-		List<IXMLParseError> errorListe = iXML.getErrorList();
+		List<IParseError> errorListe = iXML.getErrorList();
 		
 		assertNotNull(errorListe);
 		assertEquals(1, errorListe.size());

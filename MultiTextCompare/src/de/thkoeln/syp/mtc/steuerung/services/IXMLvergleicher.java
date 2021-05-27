@@ -8,6 +8,7 @@ import java.util.Map;
 import org.jdom2.Document;
 import org.jdom2.Element;
 
+import de.thkoeln.syp.mtc.datenhaltung.api.IParseError;
 import de.thkoeln.syp.mtc.datenhaltung.api.IXMLParseError;
 
 public interface IXMLvergleicher {
@@ -26,7 +27,7 @@ public interface IXMLvergleicher {
   
   String xmlFileToString(File file);
   
-  List<IXMLParseError> getErrorList();
+  List<IParseError> getErrorList();
   
   void clearErrorList();
   

@@ -2,7 +2,7 @@ package de.thkoeln.syp.mtc.datenhaltung.api;
 
 import java.io.File;
 
-public interface IJSONParseError {
+public interface IJSONParseError extends IParseError {
 	
 	void setFile(File file);
 	

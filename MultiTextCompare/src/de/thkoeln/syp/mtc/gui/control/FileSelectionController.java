@@ -29,7 +29,7 @@ import javax.swing.SwingWorker;
 import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
 import de.thkoeln.syp.mtc.datenhaltung.api.IJSONParseError;
 import de.thkoeln.syp.mtc.datenhaltung.api.IMatrix;
-import de.thkoeln.syp.mtc.datenhaltung.api.IXMLParseError;
+import de.thkoeln.syp.mtc.datenhaltung.api.IParseError;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IComparisonImpl;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IMatrixImpl;
 import de.thkoeln.syp.mtc.gui.view.FileSelectionView;
@@ -314,7 +314,8 @@ public class FileSelectionController extends JFrame {
 				if (mode == 1) {
 					fileImporter.setTempFiles((xmlvergleicher
 							.xmlPrepare(fileImporter.getTempFilesMap())));
-					for (IXMLParseError error : xmlvergleicher.getErrorList())
+					management.setCurrentErrorList(xmlvergleicher.getErrorList());
+					for (IParseError error : xmlvergleicher.getErrorList())
 						logger.setMessage(error.getMessage(),
 								logger.LEVEL_WARNING);
 				}
