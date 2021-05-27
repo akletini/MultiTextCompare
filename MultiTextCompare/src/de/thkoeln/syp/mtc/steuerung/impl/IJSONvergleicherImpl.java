@@ -25,10 +25,10 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
 import de.thkoeln.syp.mtc.datenhaltung.api.IJSONParseError;
+import de.thkoeln.syp.mtc.datenhaltung.api.IParseError;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IJSONParseErrorImpl;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IJSONSortNodeFactoryImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
@@ -42,7 +42,7 @@ public class IJSONvergleicherImpl extends JsonNodeFactory implements
 	 */
 	private static final long serialVersionUID = -2223880091323111953L;
 
-	private List<IJSONParseError> errorListe;
+	private List<IParseError> errorListe;
 
 	private IJSONParseError parseError;
 
@@ -424,7 +424,7 @@ public class IJSONvergleicherImpl extends JsonNodeFactory implements
 	 *         festegestellt wurden
 	 */
 	@Override
-	public List<IJSONParseError> getErrorList() {
+	public List<IParseError> getErrorList() {
 		return this.errorListe;
 	}
 

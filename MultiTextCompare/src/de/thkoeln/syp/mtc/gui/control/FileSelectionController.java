@@ -318,16 +318,18 @@ public class FileSelectionController extends JFrame {
 					for (IParseError error : xmlvergleicher.getErrorList())
 						logger.setMessage(error.getMessage(),
 								logger.LEVEL_WARNING);
+					management.getErrorListPane().updateList();
 				}
 
 				// JSON Vergleich
 				else if (mode == 2) {
 					fileImporter.setTempFiles((jsonvergleicher
 							.jsonPrepare(fileImporter.getTempFilesMap())));
-					for (IJSONParseError error : jsonvergleicher.getErrorList())
+					for (IParseError error : jsonvergleicher.getErrorList())
 						logger.setMessage(error.getMessage(),
 								logger.LEVEL_WARNING);
-
+					management.setCurrentErrorList(jsonvergleicher.getErrorList());
+					management.getErrorListPane().updateList();
 				}
 
 				// Vergleich

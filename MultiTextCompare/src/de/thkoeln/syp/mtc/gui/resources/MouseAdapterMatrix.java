@@ -206,7 +206,7 @@ public class MouseAdapterMatrix extends MouseAdapter {
 							fileView.getTextPane().setText(null);
 							fileView.getTextPane().read(reader, "Reading file...");
 							fileView.getTextPane().setCaretPosition(0);
-							fileView.setTitle(entry.getValue().getAbsolutePath());
+							fileView.setTitle(entry.getKey().getAbsolutePath());
 							reader.close();
 							fileView.setVisible(true);
 

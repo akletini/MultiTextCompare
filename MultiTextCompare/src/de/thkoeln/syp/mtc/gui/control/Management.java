@@ -12,16 +12,17 @@ import javax.swing.DefaultListModel;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
 import de.thkoeln.syp.mtc.datenhaltung.api.IParseError;
-import de.thkoeln.syp.mtc.datenhaltung.api.IXMLParseError;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IComparisonImpl;
 import de.thkoeln.syp.mtc.gui.control.FileSelectionController.CompareListener.CompareThread;
 import de.thkoeln.syp.mtc.gui.view.AboutView;
 import de.thkoeln.syp.mtc.gui.view.ComparisonView;
 import de.thkoeln.syp.mtc.gui.view.ConfigView;
+import de.thkoeln.syp.mtc.gui.view.ErrorListPane;
 import de.thkoeln.syp.mtc.gui.view.FileSelectionView;
 import de.thkoeln.syp.mtc.gui.view.FileView;
 import de.thkoeln.syp.mtc.gui.view.HelpView;
 import de.thkoeln.syp.mtc.gui.view.MainView;
+import de.thkoeln.syp.mtc.gui.view.ParseErrorView;
 import de.thkoeln.syp.mtc.steuerung.impl.IFileImporterImpl;
 import de.thkoeln.syp.mtc.steuerung.impl.IJSONvergleicherImpl;
 import de.thkoeln.syp.mtc.steuerung.impl.ITextvergleicherImpl;
@@ -41,6 +42,8 @@ public class Management {
 	private MainView mainView;
 	private AboutView aboutView;
 	private FileView fileView;
+	private ErrorListPane errorListPane;
+	private ParseErrorView parseErrorView;
 
 	private FileSelectionController fileSelectionController;
 	private ConfigController configController;
@@ -72,6 +75,7 @@ public class Management {
 
 		comparisons = new ArrayList<IComparisonImpl>();
 		currentErrorList = new ArrayList<>();
+		errorListPane = new ErrorListPane();
 		isMatrixGreyedOut = false;
 		currentComparison = null;
 	}
@@ -484,6 +488,22 @@ public class Management {
 
 	public void setCurrentErrorList(List<IParseError> list) {
 		this.currentErrorList = list;
+	}
+
+	public ErrorListPane getErrorListPane() {
+		return errorListPane;
+	}
+
+	public void setErrorListPane(ErrorListPane errorListPane) {
+		this.errorListPane = errorListPane;
+	}
+
+	public ParseErrorView getParseErrorView() {
+		return parseErrorView;
+	}
+
+	public void setParseErrorView(ParseErrorView parseErrorView) {
+		this.parseErrorView = parseErrorView;
 	}
 
 }

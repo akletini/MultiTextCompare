@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IJSONParseError;
+import de.thkoeln.syp.mtc.datenhaltung.api.IParseError;
 
 public interface IJSONvergleicher {
   
@@ -13,7 +14,7 @@ public interface IJSONvergleicher {
   
   String jsonFileToString(File file) throws IOException;
   
-  List<IJSONParseError> getErrorList();
+  List<IParseError> getErrorList();
   
   void clearErrorList();
   

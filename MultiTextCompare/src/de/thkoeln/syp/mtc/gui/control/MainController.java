@@ -179,7 +179,11 @@ public class MainController {
 	class ToolbarShowParseErrorListListener implements ActionListener {
 		
 		public void actionPerformed(ActionEvent e){
-			ErrorListPane elp = new ErrorListPane();
+			if(management.getErrorListPane() == null){
+				management.setErrorListPane(new ErrorListPane());
+			}
+			ErrorListPane elp = management.getErrorListPane();
+			elp.getErrorList().clear();
 			List<IParseError> errorFiles = management.getCurrentErrorList();
 			for(IParseError error : errorFiles) {
 				elp.getErrorList().addElement(error.getFile().getAbsolutePath());

@@ -35,7 +35,8 @@ public class FileView extends JFrame {
 		textPane = new JTextPane();
 		scroll = new JScrollPane(textPane);
 		tln = new TextLineNumber(textPane);
-		tln.setBackground(Color.white);
+		tln.setBackground(new Color(20,20,20));
+		tln.setForeground(Color.WHITE);
 		tln.setUpdateFont(true);
 		tln.setDigitAlignment(RIGHT_ALIGNMENT);
 		scroll.setRowHeaderView(tln);
@@ -47,7 +48,7 @@ public class FileView extends JFrame {
 		textPane.setEditable(false);
 		textPane.setBackground(new Color(20,20,20));
 		textPane.setForeground(Color.WHITE);
-		textPane.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
+		textPane.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
