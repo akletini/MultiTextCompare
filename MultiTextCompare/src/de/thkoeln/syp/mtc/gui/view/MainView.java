@@ -94,7 +94,7 @@ public class MainView extends JFrame {
 				"Open Application MultiTextCompare (" + formatter.format(date)
 						+ ")", true);
 		// Icons
-		Icon iconCompare = null, iconConfig = null, iconQuestion = null, iconInfo = null, iconSave = null, iconImport = null, iconDelete = null, iconPlus = null, iconMinus = null;
+		Icon iconCompare = null, iconConfig = null, iconQuestion = null, iconInfo = null, iconSave = null, iconImport = null, iconDelete = null, iconPlus = null, iconMinus = null, iconError = null;
 		try {
 			iconCompare = new ImageIcon(ImageIO.read(new File(
 					"res/fileIconSmall.png")));
@@ -112,6 +112,7 @@ public class MainView extends JFrame {
 					"res/deleteSmall.png")));
 			iconPlus = new ImageIcon(ImageIO.read(new File("res/plus.png")));
 			iconMinus = new ImageIcon(ImageIO.read(new File("res/minus.png")));
+			iconError = new ImageIcon(ImageIO.read(new File("res/parseError.png")));
 		} catch (IOException e1) {
 			logger.setMessage(e1.toString(), logger.LEVEL_ERROR);
 		}
@@ -209,6 +210,10 @@ public class MainView extends JFrame {
 		btnDeleteLog.setToolTipText("Clear output log");
 		toolBar.add(btnDeleteLog);
 		toolBar.addSeparator();
+		btnParseErrorList = new JButton(iconError);
+		btnParseErrorList.setToolTipText("Show parse errors");
+		toolBar.add(btnParseErrorList);
+		toolBar.addSeparator();
 		btnHilfe = new JButton(iconQuestion);
 		btnHilfe.setToolTipText("Open help document");
 		toolBar.add(btnHilfe);
@@ -216,8 +221,6 @@ public class MainView extends JFrame {
 		btnAbout = new JButton(iconInfo);
 		btnAbout.setToolTipText("More on MultiTextCompare");
 		toolBar.add(btnAbout);
-		btnParseErrorList = new JButton("Placeholder");
-		toolBar.add(btnParseErrorList);
 		progressBar = new JProgressBar();
 		toolBar.add(progressBar);
 		progressBar.setVisible(false);
@@ -252,7 +255,7 @@ public class MainView extends JFrame {
 	// Erstellen der Matrix
 	public void updateMatrix(IMatrix matrix, int anzahlDateien,
 			String[] nameDateien) {
-		List<IComparisonImpl> listMatrix =matrix.getInhalt(); // Aehnlichkeitswerte
+		List<IComparisonImpl> listMatrix = matrix.getInhalt(); // Aehnlichkeitswerte
 		management.getComparisons().addAll(listMatrix);
 		String[][] data = new String[anzahlDateien][anzahlDateien]; // String
 																	// Array zum
@@ -300,19 +303,18 @@ public class MainView extends JFrame {
 				// repaint cells in grey and leave relevant cells colored
 				else {
 
-						int indexCol = management.getReferenceCol();
-						int indexRow = management.getReferenceRow();
-						comp.setBackground(Color.GRAY);
+					int indexCol = management.getReferenceCol();
+					int indexRow = management.getReferenceRow();
+					comp.setBackground(Color.GRAY);
+					comp.setForeground(Color.BLACK);
+
+					if ((row == indexRow || col == indexCol) && !(row == col)) {
+						Object value = getModel().getValueAt(row, col);
+						double wert = Double.valueOf(value.toString());
+						Color wertFarbe = getColor(wert);
+						comp.setBackground(wertFarbe);
 						comp.setForeground(Color.BLACK);
-						
-						if ((row == indexRow || col == indexCol)
-								&& !(row == col)) {
-							Object value = getModel().getValueAt(row, col);
-							double wert = Double.valueOf(value.toString());
-							Color wertFarbe = getColor(wert);
-							comp.setBackground(wertFarbe);
-							comp.setForeground(Color.BLACK);
-						}
+					}
 
 				}
 				return comp;
@@ -350,8 +352,7 @@ public class MainView extends JFrame {
 									logger.LEVEL_WARNING);
 						return null;
 					}
-					
-		
+
 				};
 			}
 		};
@@ -425,11 +426,12 @@ public class MainView extends JFrame {
 		// Modifikation der Matrix fuer Zeilenbenennung
 		rowTable = new RowNumberTable(tableMatrix);
 		rowTable.setFilenames(nameDateien);
-		scrollPaneMatrix.setRowHeaderView(rowTable); 
-														
+		scrollPaneMatrix.setRowHeaderView(rowTable);
+
 		scrollPaneMatrix.setCorner(JScrollPane.UPPER_LEFT_CORNER,
 				rowTable.getTableHeader());
-		scrollPaneMatrix.getViewport().setScrollMode(JViewport.BACKINGSTORE_SCROLL_MODE);
+		scrollPaneMatrix.getViewport().setScrollMode(
+				JViewport.BACKINGSTORE_SCROLL_MODE);
 
 		SwingUtilities.updateComponentTreeUI(this);
 
@@ -476,7 +478,7 @@ public class MainView extends JFrame {
 	public JCheckBoxMenuItem getError() {
 		return error;
 	}
-	
+
 	public JProgressBar getProgressBar() {
 		return progressBar;
 	}
@@ -496,7 +498,7 @@ public class MainView extends JFrame {
 	}
 
 	// -- Methoden um die Buttons auf den Controller zu verweisen --
-	
+
 	public JButton getBtnParseErrorList() {
 		return btnParseErrorList;
 	}
@@ -532,25 +534,26 @@ public class MainView extends JFrame {
 	public void addToolbarZoomOutListener(ActionListener e) {
 		btnZoomOut.addActionListener(e);
 	}
-	public void addToolbarShowParseErrorListListener(ActionListener e){
+
+	public void addToolbarShowParseErrorListListener(ActionListener e) {
 		btnParseErrorList.addActionListener(e);
 	}
 
 	public void addZoomListener(MouseWheelListener e) {
 		addMouseWheelListener(e);
 	}
-	
+
 	// Menu button listeners
-	
-	public void addMenuSaveComparisonListener(ActionListener e){
+
+	public void addMenuSaveComparisonListener(ActionListener e) {
 		saveComparison.addActionListener(e);
 	}
-	
-	public void addMenuSaveAsComparisonListener(ActionListener e){
+
+	public void addMenuSaveAsComparisonListener(ActionListener e) {
 		saveComparisonAs.addActionListener(e);
 	}
-	
-	public void addMenuLoadComparisonListener(ActionListener e){
+
+	public void addMenuLoadComparisonListener(ActionListener e) {
 		loadComparison.addActionListener(e);
 	}
 
