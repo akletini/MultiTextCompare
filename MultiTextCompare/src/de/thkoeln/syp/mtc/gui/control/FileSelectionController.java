@@ -324,7 +324,7 @@ public class FileSelectionController extends JFrame {
 					fileImporter.setTempFiles((jsonvergleicher
 							.jsonPrepare(fileImporter.getTempFilesMap())));
 					for (IJSONParseError error : jsonvergleicher.getErrorList())
-						logger.setMessage(error.getMessage() + "\n",
+						logger.setMessage(error.getMessage(),
 								logger.LEVEL_WARNING);
 
 				}

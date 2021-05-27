@@ -367,20 +367,28 @@ public class IJSONvergleicherImpl extends JsonNodeFactory implements
 			root = mapper.readTree(jsonString);
 
 		} catch (JsonParseException jpe) {
-
-			parseError = new IJSONParseErrorImpl(file, jpe.getMessage(), jpe
+			System.out.println(jpe.getOriginalMessage() + " at line: "
+					+ jpe.getLocation().getLineNr() + ", column: "
+					+ jpe.getLocation().getColumnNr());
+			parseError = new IJSONParseErrorImpl(file, jpe.getOriginalMessage()
+					+ " at line: " + jpe.getLocation().getLineNr()
+					+ ", column: " + jpe.getLocation().getColumnNr(), jpe
 					.getLocation().getColumnNr(), jpe.getLocation().getLineNr());
 			addErrorToErrorList(parseError);
 			parseErrorOccured = true;
 
 		} catch (JsonMappingException jme) {
-			parseError = new IJSONParseErrorImpl(file, jme.getMessage(), jme
+			parseError = new IJSONParseErrorImpl(file, jme.getOriginalMessage()
+					+ " at line: " + jme.getLocation().getLineNr()
+					+ ", column: " + jme.getLocation().getColumnNr(), jme
 					.getLocation().getColumnNr(), jme.getLocation().getLineNr());
 			addErrorToErrorList(parseError);
 			parseErrorOccured = true;
 
 		} catch (JsonProcessingException jpe) {
-			parseError = new IJSONParseErrorImpl(file, jpe.getMessage(), jpe
+			parseError = new IJSONParseErrorImpl(file, jpe.getOriginalMessage()
+					+ " at line: " + jpe.getLocation().getLineNr()
+					+ ", column: " + jpe.getLocation().getColumnNr(), jpe
 					.getLocation().getColumnNr(), jpe.getLocation().getLineNr());
 			addErrorToErrorList(parseError);
 			parseErrorOccured = true;
@@ -460,12 +468,12 @@ public class IJSONvergleicherImpl extends JsonNodeFactory implements
 				} else if (o1.size() < o2.size()) {
 					return -1;
 				}
-				if(!o1.isEmpty() && !o2.isEmpty()){
+				if (!o1.isEmpty() && !o2.isEmpty()) {
 					int minSize = Math.min(o1.size(), o2.size());
-					for(int i = 0; i < minSize; i++){
+					for (int i = 0; i < minSize; i++) {
 						String val1 = o1.get(i).toString();
 						String val2 = o2.get(i).toString();
-						if(!val1.equals(val2)){
+						if (!val1.equals(val2)) {
 							return val1.compareTo(val2);
 						}
 					}
@@ -499,10 +507,10 @@ public class IJSONvergleicherImpl extends JsonNodeFactory implements
 						values1.add(node1);
 						values2.add(node2);
 					}
-					for(int i = 0; i < values1.size(); i++){
+					for (int i = 0; i < values1.size(); i++) {
 						String val1 = o1.get(values1.get(i)).toString();
 						String val2 = o2.get(values2.get(i)).toString();
-						if(!val1.equals(val2)){
+						if (!val1.equals(val2)) {
 							return val1.compareTo(val2);
 						}
 					}

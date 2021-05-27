@@ -66,7 +66,7 @@ public class MainView extends JFrame {
 	private JTable tableMatrix;
 	private JToolBar toolBar;
 	private JButton btnDateiauswahl, btnKonfig, btnDeleteLog, btnZoomIn,
-			btnZoomOut, btnHilfe, btnAbout;
+			btnZoomOut, btnHilfe, btnAbout, btnParseErrorList;
 	private JScrollPane scrollPaneMatrix, scrollPaneFiles;
 	private RowNumberTable rowTable;
 	private JTextPane textArea;
@@ -216,6 +216,8 @@ public class MainView extends JFrame {
 		btnAbout = new JButton(iconInfo);
 		btnAbout.setToolTipText("More on MultiTextCompare");
 		toolBar.add(btnAbout);
+		btnParseErrorList = new JButton("Placeholder");
+		toolBar.add(btnParseErrorList);
 		progressBar = new JProgressBar();
 		toolBar.add(progressBar);
 		progressBar.setVisible(false);
@@ -495,6 +497,14 @@ public class MainView extends JFrame {
 
 	// -- Methoden um die Buttons auf den Controller zu verweisen --
 	
+	public JButton getBtnParseErrorList() {
+		return btnParseErrorList;
+	}
+
+	public void setBtnParseErrorList(JButton btnParseErrorList) {
+		this.btnParseErrorList = btnParseErrorList;
+	}
+
 	public void addFileSelectionListener(ActionListener e) {
 		btnDateiauswahl.addActionListener(e);
 	}
@@ -521,6 +531,9 @@ public class MainView extends JFrame {
 
 	public void addToolbarZoomOutListener(ActionListener e) {
 		btnZoomOut.addActionListener(e);
+	}
+	public void addToolbarShowParseErrorListListener(ActionListener e){
+		btnParseErrorList.addActionListener(e);
 	}
 
 	public void addZoomListener(MouseWheelListener e) {

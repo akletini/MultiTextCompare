@@ -37,6 +37,7 @@ import de.thkoeln.syp.mtc.gui.view.FileSelectionView;
 import de.thkoeln.syp.mtc.gui.view.FileView;
 import de.thkoeln.syp.mtc.gui.view.HelpView;
 import de.thkoeln.syp.mtc.gui.view.MainView;
+import de.thkoeln.syp.mtc.gui.view.ParseErrorView;
 import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
 
 public class MainController {
@@ -70,6 +71,7 @@ public class MainController {
 		mainView.addToolbarLogClearListener(new ToolbarLogClearListener());
 		mainView.addToolbarZoomInListener(new ToolbarZoomInListener());
 		mainView.addToolbarZoomOutListener(new ToolbarZoomOutListener());
+		mainView.addToolbarShowParseErrorListListener(new ToolbarShowParseErrorListListener());
 	}
 
 	class FileSelectionListener implements ActionListener {
@@ -169,6 +171,13 @@ public class MainController {
 					tableMatrix.repaint();
 				}
 			}
+		}
+	}
+	
+	class ToolbarShowParseErrorListListener implements ActionListener {
+		
+		public void actionPerformed(ActionEvent e){
+			
 		}
 	}
 
