@@ -5,7 +5,6 @@ import javax.swing.UIManager;
 
 import de.thkoeln.syp.mtc.gui.control.Logger;
 import de.thkoeln.syp.mtc.gui.control.Management;
-import de.thkoeln.syp.mtc.gui.control.MainController.MenuLoadComparisonListener;
 import de.thkoeln.syp.mtc.gui.view.MainView;
 
 public class Main {

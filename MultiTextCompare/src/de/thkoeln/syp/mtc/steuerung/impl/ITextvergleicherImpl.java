@@ -1,14 +1,10 @@
 package de.thkoeln.syp.mtc.steuerung.impl;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -18,7 +14,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import org.apache.commons.text.similarity.LevenshteinDistance;
 
@@ -167,7 +162,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 				a.setValue(similarity);
 				compareThread.publishData(i);
 			} catch (IOException e) {
-				e.printStackTrace();
+//				e.printStackTrace();
 			}
 		}
 
@@ -186,7 +181,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 				a.setValue(similarity);
 				compareThread.publishData(i);
 			}catch(Exception e) {
-//				e.printStackTrace();
+				e.printStackTrace();
 			}
 		}
 	}
@@ -249,7 +244,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	private List<String> fileToLines(File file) throws IOException {
 		final List<String> lines = new ArrayList<String>();
 		String line;
-		final BufferedReader in = new BufferedReader(new FileReader(file));
+		final BufferedReader in =  Files.newBufferedReader(file.toPath(), StandardCharsets.UTF_8);
 		while ((line = in.readLine()) != null) {
 			lines.add(line);
 		}
@@ -385,12 +380,12 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	private int getWeightFromComparison(File ref, File comp) throws IOException {
 		String line = "";
 		int weight = 0;
-		BufferedReader in = new BufferedReader(new FileReader(ref));
+		BufferedReader in =  Files.newBufferedReader(ref.toPath(), StandardCharsets.UTF_8);
 		while ((line = in.readLine()) != null) {
 			weight += line.length();
 		}
 		in.close();
-		in = new BufferedReader(new FileReader(comp));
+		in =  Files.newBufferedReader(comp.toPath(), StandardCharsets.UTF_8);
 		while ((line = in.readLine()) != null) {
 			weight += line.length();
 		}
