@@ -261,6 +261,8 @@ public class FileSelectionController extends JFrame {
 						.setEnabled(true);
 			}
 			management.getFileSelectionView().getBtnCompare().setEnabled(true);
+			management.getFileSelectionView().getBtnAddFiles().setEnabled(true);
+			management.getFileSelectionView().getBtnDelete().setEnabled(true);
 			management.setNewSelection(true);
 		}
 	}

@@ -164,13 +164,15 @@ public class IJSONComparerImpl {
 									nodeComp.asText(), currentWeight);
 					equalValues.add(similarity);
 				} else if (nodeComp.isArray()) {
-					// Type mismatch
+					double similarity = currentLevelWeight = compareValues(nodeRef, nodeComp, currentWeight);
+					equalValues.add(similarity);
 				} else if (nodeComp.isObject()) {
 					// Type mismatch
 				}
 			} else if (nodeRef.isArray()) {
 				if (nodeComp.isValueNode()) {
-					//
+					double similarity = currentLevelWeight = compareValues(nodeComp,nodeRef, currentWeight);
+					equalValues.add(similarity);
 				} else if (nodeComp.isArray()) {
 					double similarity = currentLevelWeight
 							* compareArrays(nodeRef, nodeComp, currentWeight);
@@ -245,13 +247,13 @@ public class IJSONComparerImpl {
 						lastMatchedIndex = j + 1;
 						break;
 					} else if (currentCompNode.isArray()) {
-						// Type mismatch
+						 similarity += currentLevelWeight = compareValues(currentRefNode, currentCompNode, calcLevelWeight(fieldValueRef, fieldValueComp));
 					} else if (currentCompNode.isObject()) {
 						// Type mismatch
 					}
 				} else if (currentRefNode.isArray()) {
 					if (currentCompNode.isValueNode()) {
-						//
+						similarity += currentLevelWeight = compareValues(currentCompNode,currentRefNode, calcLevelWeight(fieldValueRef, fieldValueComp));
 					} else if (currentCompNode.isArray()) {
 						similarity += currentLevelWeight
 								* compareArrays(

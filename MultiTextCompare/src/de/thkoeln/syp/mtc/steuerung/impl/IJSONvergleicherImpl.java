@@ -367,9 +367,6 @@ public class IJSONvergleicherImpl extends JsonNodeFactory implements
 			root = mapper.readTree(jsonString);
 
 		} catch (JsonParseException jpe) {
-			System.out.println(jpe.getOriginalMessage() + " at line: "
-					+ jpe.getLocation().getLineNr() + ", column: "
-					+ jpe.getLocation().getColumnNr());
 			parseError = new IJSONParseErrorImpl(file, jpe.getOriginalMessage()
 					+ " at line: " + jpe.getLocation().getLineNr()
 					+ ", column: " + jpe.getLocation().getColumnNr(), jpe
