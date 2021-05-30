@@ -8,18 +8,9 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.UUID;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonPointer;
-import com.fasterxml.jackson.core.JsonToken;
-import com.fasterxml.jackson.core.ObjectCodec;
-import com.fasterxml.jackson.core.JsonParser.NumberType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.JsonNodeType;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
@@ -29,7 +20,7 @@ public class IJSONComparerImpl {
 	private static final String FIELD_DELIMITER = ": ";
 	private static final String ARRAY_PREFIX = "- ";
 	private static final String YAML_PREFIX = "  ";
-	
+
 	private final String uuid = UUID.randomUUID().toString();
 
 	private ObjectMapper objectMapper = new ObjectMapper();
@@ -53,7 +44,7 @@ public class IJSONComparerImpl {
 		calcLevelWeight(rootNodeRef, rootNodeComp);
 		List<Double> similarities = traverseGraph(rootNodeRef, rootNodeComp);
 		double similarity = sumSimilarities(similarities);
-//		 print(similarities);
+		// print(similarities);
 		// StringBuilder b = new StringBuilder();
 		// processNode(rootNodeRef, b, 0);
 		return similarity;
@@ -164,14 +155,16 @@ public class IJSONComparerImpl {
 									nodeComp.asText(), currentWeight);
 					equalValues.add(similarity);
 				} else if (nodeComp.isArray()) {
-					double similarity = currentLevelWeight = compareValues(nodeRef, nodeComp, currentWeight);
+					double similarity = currentLevelWeight = compareValues(
+							nodeRef, nodeComp, currentWeight);
 					equalValues.add(similarity);
 				} else if (nodeComp.isObject()) {
 					// Type mismatch
 				}
 			} else if (nodeRef.isArray()) {
 				if (nodeComp.isValueNode()) {
-					double similarity = currentLevelWeight = compareValues(nodeComp,nodeRef, currentWeight);
+					double similarity = currentLevelWeight = compareValues(
+							nodeComp, nodeRef, currentWeight);
 					equalValues.add(similarity);
 				} else if (nodeComp.isArray()) {
 					double similarity = currentLevelWeight
@@ -205,34 +198,38 @@ public class IJSONComparerImpl {
 		double similarity = 0.0;
 		double maxArraySize = Math.max(fieldValueRef.size(),
 				fieldValueComp.size());
-		
+
 		// array matching
-		if(fieldValueRef.isArray() && fieldValueComp.isArray()){
-			
+		if (fieldValueRef.isArray() && fieldValueComp.isArray()) {
+
 			ArrayNode refArray = (ArrayNode) fieldValueRef;
 			ArrayNode compArray = (ArrayNode) fieldValueComp;
-			
-			for(int i = 0; i < refArray.size(); i++){
+
+			for (int i = 0; i < refArray.size(); i++) {
 				String refString = refArray.get(i).toString();
-				for(int j = 0; j < compArray.size(); j++){
+				for (int j = 0; j < compArray.size(); j++) {
 					String compString = compArray.get(j).toString();
-					if(compString.equals("[\"" + uuid + "\"]")){
+					if (compString.equals("[\"" + uuid + "\"]")) {
 						continue;
 					}
-					if(refString.equals(compString)){
-						similarity += currentLevelWeight * calcLevelWeight(fieldValueRef, fieldValueComp);
-						refArray.set(i, objectMapper.createArrayNode().add(uuid));
-						compArray.set(j, objectMapper.createArrayNode().add(uuid));
+					if (refString.equals(compString)) {
+						similarity += currentLevelWeight
+								* calcLevelWeight(fieldValueRef, fieldValueComp);
+						refArray.set(i, objectMapper.createArrayNode()
+								.add(uuid));
+						compArray.set(j,
+								objectMapper.createArrayNode().add(uuid));
 						break;
 					}
 				}
 			}
-			refArray = clearNullValues(refArray, uuid);
-			compArray = clearNullValues(compArray, uuid);
+			refArray = clearUUIDFields(refArray, uuid);
+			compArray = clearUUIDFields(compArray, uuid);
 			fieldValueRef = refArray;
 			fieldValueComp = compArray;
 		}
-		
+
+
 		int lastMatchedIndex = 0;
 		for (int i = 0; i < fieldValueRef.size(); i++) {
 			JsonNode currentRefNode = fieldValueRef.get(i);
@@ -247,13 +244,17 @@ public class IJSONComparerImpl {
 						lastMatchedIndex = j + 1;
 						break;
 					} else if (currentCompNode.isArray()) {
-						 similarity += currentLevelWeight = compareValues(currentRefNode, currentCompNode, calcLevelWeight(fieldValueRef, fieldValueComp));
+						similarity += currentLevelWeight = compareValues(
+								currentRefNode, currentCompNode,
+								calcLevelWeight(fieldValueRef, fieldValueComp));
 					} else if (currentCompNode.isObject()) {
 						// Type mismatch
 					}
 				} else if (currentRefNode.isArray()) {
 					if (currentCompNode.isValueNode()) {
-						similarity += currentLevelWeight = compareValues(currentCompNode,currentRefNode, calcLevelWeight(fieldValueRef, fieldValueComp));
+						similarity += currentLevelWeight = compareValues(
+								currentCompNode, currentRefNode,
+								calcLevelWeight(fieldValueRef, fieldValueComp));
 					} else if (currentCompNode.isArray()) {
 						similarity += currentLevelWeight
 								* compareArrays(
@@ -275,7 +276,8 @@ public class IJSONComparerImpl {
 
 						if (objectsShareFields(currentRefNode, currentCompNode)) {
 
-							double objectsim = (1 / maxArraySize) * currentLevelWeight
+							double objectsim = (1 / maxArraySize)
+									* currentLevelWeight
 									* compareObjects(
 											currentRefNode,
 											currentCompNode,
@@ -422,8 +424,8 @@ public class IJSONComparerImpl {
 		yaml.append(fieldName);
 		yaml.append(FIELD_DELIMITER);
 	}
-	
-	private ArrayNode clearNullValues(ArrayNode original, String uuid) {
+
+	private ArrayNode clearUUIDFields(ArrayNode original, String uuid) {
 		ArrayNode returnArray = objectMapper.createArrayNode();
 		for (int i = 0; i < original.size(); i++) {
 			if (!original.get(i).toString().equals("[\"" + uuid + "\"]")) {

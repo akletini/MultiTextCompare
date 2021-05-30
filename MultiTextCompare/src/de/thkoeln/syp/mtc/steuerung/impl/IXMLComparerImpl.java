@@ -40,74 +40,11 @@ public class IXMLComparerImpl {
 		rootRef = docRef.getRootElement();
 		rootComp = docComp.getRootElement();
 
-		similarities = traverseGraph(rootRef, rootComp);
-		double similarity = sumSimilarities(similarities);
+		double similarity = compareElementsRecursively(rootRef, rootComp, 1.0);
 		return similarity;
 	}
 
-	private List<Double> traverseGraph(Element rootRef, Element rootComp) {
-		List<Double> similarity = new ArrayList<Double>();
-		double currentLevelWeight = calcLevelWeight(rootRef, rootComp);
-		List<Element> refFirstLevelChildren = rootRef.getChildren();
-		
-		List<Element> matchingRef = new ArrayList<Element>();
-		List<Element> matchingComp = new ArrayList<Element>();
-
-		// get all elements with equal names which exist in both files
-		List<String> refElementNames = new ArrayList<String>();
-		for (int i = 0; i < refFirstLevelChildren.size(); i++) {
-			Element currentRef = refFirstLevelChildren.get(i);
-			String currentRefName = currentRef.getName();
-			refElementNames.add(currentRefName);
-			if (getElementCount(refElementNames, currentRefName) == 1) {
-				matchingRef.addAll(rootRef
-						.getChildren(currentRefName));
-				matchingComp.addAll(rootComp
-						.getChildren(currentRefName));
-			}
-		}
-
-		// look for equal elements and remove them from the matched pool
-		for (int i = 0; i < matchingRef.size(); i++) {
-			Element currentRef = matchingRef.get(i);
-			for (int j = 0; j < matchingComp.size(); j++) {
-				Element currentComp = matchingComp.get(j);
-				if (currentComp == null) {
-					continue;
-				}
-				XMLOutputter xmlOut = new XMLOutputter();
-				String refString = xmlOut.outputString(currentRef);
-				String compString = xmlOut.outputString(currentComp);
-				boolean equals = refString.equals(compString);
-				if (equals) {
-					similarity.add(currentLevelWeight);
-					matchingRef.set(i, null);
-					matchingComp.set(j, null);
-					break;
-				}
-			}
-		}
-		matchingRef = clearNullValues(matchingRef);
-		matchingComp = clearNullValues(matchingComp);
-		int minSize = Math.min(matchingRef.size(), matchingComp.size());
-		
-		for (int i = 0; i < minSize; i++) {
-			Element currentRef = matchingRef.get(i);
-			Element currentComp = matchingComp.get(i);
-			// Liste von Knoten
-			if (hasChildren(currentRef) && hasChildren(currentComp)) {
-				similarity.add(compareElementsRecursively(currentRef,
-						currentComp, currentLevelWeight));
-			}
-			// einzelnes Feld
-			else if (!hasChildren(currentRef) && !hasChildren(currentComp)) {
-				similarity.add(compareElements(currentRef, currentComp,
-						currentLevelWeight));
-			}
-			
-		}
-		return similarity;
-	}
+	
 
 	private double compareElements(Element ref, Element comp,
 			double currentLevelWeight) {
@@ -233,6 +170,7 @@ public class IXMLComparerImpl {
 		List<Double> similarities = new ArrayList<Double>();
 		List<Element> matchingRef = new ArrayList<Element>();
 		List<Element> matchingComp = new ArrayList<Element>();
+		boolean adjustNodeSimilarity = false;
 
 		double currentWeight = calcLevelWeight(ref, comp);
 
@@ -242,7 +180,7 @@ public class IXMLComparerImpl {
 			Element currentRef = ref.getChildren().get(i);
 			String currentRefName = currentRef.getName();
 			matchedElementNames.add(currentRefName);
-			if (getElementCount(matchedElementNames, currentRefName) == 1) {
+			if (getElementCount(matchedElementNames, currentRefName) == 1 && comp.getChildren(currentRefName).size() != 0) {
 				matchingRef.addAll(copyElementList(ref
 						.getChildren(currentRefName)));
 				matchingComp.addAll(copyElementList(comp
@@ -270,8 +208,13 @@ public class IXMLComparerImpl {
 				}
 			}
 		}
+		
 		double currentNodeSim = compareElements(ref, comp,
-				1.0);
+				currentWeight);
+		if(currentNodeSim != -1){
+			currentNodeSim *= currentLevelWeight;
+			adjustNodeSimilarity = true;
+		}
 		matchingRef = clearNullValues(matchingRef);
 		matchingComp = clearNullValues(matchingComp);
 
@@ -303,10 +246,11 @@ public class IXMLComparerImpl {
 		for (Double s : similarities) {
 			sim += s;
 		}
-		if(currentNodeSim != -1){
+		if(adjustNodeSimilarity){
 			sim = sim * similarities.size() / (similarities.size() + 1);
 			sim  += currentNodeSim / (similarities.size() + 1);
 		}
+		this.similarities = similarities;
 		return sim;
 	}
 
@@ -437,5 +381,90 @@ public class IXMLComparerImpl {
 
 	public List<Double> getSimilarities() {
 		return similarities;
+	}
+	
+	/**
+	 * @deprecated
+	 * @param rootRef
+	 * @param rootComp
+	 * @return
+	 */
+	private double traverseGraph(Element rootRef, Element rootComp) {
+		List<Double> similarity = new ArrayList<Double>();
+		double currentLevelWeight = calcLevelWeight(rootRef, rootComp);
+		List<Element> refFirstLevelChildren = rootRef.getChildren();
+		boolean adjustNodeSimilarity = false;
+		List<Element> matchingRef = new ArrayList<Element>();
+		List<Element> matchingComp = new ArrayList<Element>();
+
+		// get all elements with equal names which exist in both files
+		List<String> refElementNames = new ArrayList<String>();
+		for (int i = 0; i < refFirstLevelChildren.size(); i++) {
+			Element currentRef = refFirstLevelChildren.get(i);
+			String currentRefName = currentRef.getName();
+			refElementNames.add(currentRefName);
+			if (getElementCount(refElementNames, currentRefName) == 1 && rootComp.getChildren(currentRefName).size() != 0) {
+				matchingRef.addAll(rootRef
+						.getChildren(currentRefName));
+				matchingComp.addAll(rootComp
+						.getChildren(currentRefName));
+			}
+		}
+
+		// look for equal elements and remove them from the matched pool
+		for (int i = 0; i < matchingRef.size(); i++) {
+			Element currentRef = matchingRef.get(i);
+			for (int j = 0; j < matchingComp.size(); j++) {
+				Element currentComp = matchingComp.get(j);
+				if (currentComp == null) {
+					continue;
+				}
+				XMLOutputter xmlOut = new XMLOutputter();
+				String refString = xmlOut.outputString(currentRef);
+				String compString = xmlOut.outputString(currentComp);
+				boolean equals = refString.equals(compString);
+				if (equals) {
+					similarity.add(currentLevelWeight);
+					matchingRef.set(i, null);
+					matchingComp.set(j, null);
+					break;
+				}
+			}
+		}
+		double currentNodeSim = compareElements(rootRef, rootComp,
+				currentLevelWeight);
+		if(currentNodeSim != -1){
+			currentNodeSim *= currentLevelWeight;
+			adjustNodeSimilarity = true;
+		}
+		matchingRef = clearNullValues(matchingRef);
+		matchingComp = clearNullValues(matchingComp);
+		int minSize = Math.min(matchingRef.size(), matchingComp.size());
+		
+		for (int i = 0; i < minSize; i++) {
+			Element currentRef = matchingRef.get(i);
+			Element currentComp = matchingComp.get(i);
+			// Liste von Knoten
+			if (hasChildren(currentRef) && hasChildren(currentComp)) {
+				similarity.add(compareElementsRecursively(currentRef,
+						currentComp, currentLevelWeight));
+			}
+			// einzelnes Feld
+			else if (!hasChildren(currentRef) && !hasChildren(currentComp)) {
+				similarity.add(compareElements(currentRef, currentComp,
+						currentLevelWeight));
+			}
+			
+		}
+		double sim = 0.0;
+		for (Double s : similarity) {
+			sim += s;
+		}
+		if(adjustNodeSimilarity){
+			sim = sim * similarity.size() / (similarity.size() + 1);
+			sim  += currentNodeSim / (similarity.size() + 1);
+		}
+		similarities = similarity;
+		return sim;
 	}
 }
