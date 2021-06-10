@@ -46,14 +46,11 @@ public class IJSONvergleicherImpl extends JsonNodeFactory implements
 
 	private IJSONParseError parseError;
 
-	private IFileImporter iFileImporter;
-
 	private IConfig iConfig;
 
 	public IJSONvergleicherImpl(IFileImporter fileImporter) {
 		this.errorListe = new ArrayList<>();
 		this.parseError = null;
-		this.iFileImporter = fileImporter;
 		this.iConfig = fileImporter.getConfig();
 	}
 

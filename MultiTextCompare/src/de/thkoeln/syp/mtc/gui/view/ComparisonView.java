@@ -18,7 +18,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextPane;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.AttributeSet;
@@ -182,7 +181,7 @@ public class ComparisonView extends JFrame {
 
 					diffHelper.computeDisplayDiff(matchedDiffFiles);
 				} catch (IOException e) {
-					logger.setMessage(e.toString(), logger.LEVEL_ERROR);
+					logger.setMessage(e.toString(), Logger.LEVEL_ERROR);
 				}
 				return null;
 			}
@@ -254,7 +253,7 @@ public class ComparisonView extends JFrame {
 		try {
 			this.setIconImage(ImageIO.read(new File("res/icon.png")));
 		} catch (IOException e) {
-			logger.setMessage(e.toString(), logger.LEVEL_ERROR);
+			logger.setMessage(e.toString(), Logger.LEVEL_ERROR);
 		}
 
 		Management.getInstance().setComparisonController(

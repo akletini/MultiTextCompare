@@ -9,7 +9,6 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IParseError;
-import de.thkoeln.syp.mtc.datenhaltung.api.IXMLParseError;
 
 public interface IXMLvergleicher {
   

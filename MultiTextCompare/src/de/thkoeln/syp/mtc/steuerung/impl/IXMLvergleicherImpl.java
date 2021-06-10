@@ -35,15 +35,11 @@ import de.thkoeln.syp.mtc.steuerung.services.IXMLvergleicher;
 
 public class IXMLvergleicherImpl implements IXMLvergleicher {
 	
-	private Document doc;
-	
 	private SAXBuilder builder;
 	
 	private List<IParseError> errorListe;
 	
 	private IXMLParseError parseError;
-	
-	private IFileImporter iFileImporter;
 	
 	private IConfig iConfig;
 
@@ -51,7 +47,6 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 		this.builder = null;
 		this.errorListe = new ArrayList<>();
 		this.parseError = null;
-		this.iFileImporter = fileImporter;
 		this.iConfig = fileImporter.getConfig();
 	}
 	
@@ -195,7 +190,7 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 			 builder = new SAXBuilder();
 			 try{
 				 
-				 doc = builder.build(file);
+				builder.build(file);
 				 
 			 } catch (FileNotFoundException e) {
 				 System.out.println("File < " + file.getName() + " > not found.");
@@ -219,7 +214,7 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 			 try{
 				 
 				builder = new SAXBuilder(XMLReaders.XSDVALIDATING);
-				doc = builder.build(file);
+				builder.build(file);
 				
 			 } catch (FileNotFoundException e) {
 				 System.out.println("File < " + file.getName() + " > not found.");	 
@@ -242,7 +237,7 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 			// DTD
 			 try{
 				 builder = new SAXBuilder(XMLReaders.DTDVALIDATING);
-				 doc = builder.build(file);
+				 builder.build(file);
 			 } catch (FileNotFoundException e) {
 				 System.out.println("File < " + file.getName() + " > not found.");	 
 			 } catch (JDOMParseException jde){			
@@ -269,7 +264,7 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 				 XMLReaderJDOMFactory schemafac = new XMLReaderXSDFactory(xsdfile);
 				 
 				 builder = new SAXBuilder(schemafac);
-				 doc = builder.build(file);
+				 builder.build(file);
 			 } catch (FileNotFoundException e) {
 				 System.out.println("File < " + file.getName() + " > not found.");	 
 			 } catch (JDOMParseException jde){			

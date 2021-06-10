@@ -419,7 +419,7 @@ public class ConfigView extends JFrame {
 		try {
 			this.setIconImage(ImageIO.read(new File("res/icon.png")));
 		} catch (IOException e) {
-			logger.setMessage(e.toString(), logger.LEVEL_ERROR);
+			logger.setMessage(e.toString(), Logger.LEVEL_ERROR);
 		}
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -433,7 +433,7 @@ public class ConfigView extends JFrame {
 			textFieldLookahead.setText(lookeheadText);
 
 		} catch (NumberFormatException e) {
-			logger.setMessage(e.toString(), logger.LEVEL_ERROR);
+			logger.setMessage(e.toString(), Logger.LEVEL_ERROR);
 		}
 	}
 
@@ -662,7 +662,7 @@ public class ConfigView extends JFrame {
 			return inputLookahead;
 		} catch (NumberFormatException e) {
 			textFieldLookahead.setText("" + configLookahead);
-			logger.setMessage("Invalid lookahead value", logger.LEVEL_ERROR);
+			logger.setMessage("Invalid lookahead value", Logger.LEVEL_ERROR);
 		}
 		return configLookahead;
 	}
@@ -684,7 +684,7 @@ public class ConfigView extends JFrame {
 			return inputLookahead;
 		} catch (NumberFormatException e) {
 			textFieldMaxLength.setText("" + configLineLength);
-			logger.setMessage("Invalid line length value", logger.LEVEL_ERROR);
+			logger.setMessage("Invalid line length value", Logger.LEVEL_ERROR);
 		}
 		return configLineLength;
 	}

@@ -39,7 +39,6 @@ import de.thkoeln.syp.mtc.gui.view.FileSelectionView;
 import de.thkoeln.syp.mtc.gui.view.FileView;
 import de.thkoeln.syp.mtc.gui.view.HelpView;
 import de.thkoeln.syp.mtc.gui.view.MainView;
-import de.thkoeln.syp.mtc.gui.view.ParseErrorView;
 import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
 
 public class MainController {
@@ -100,7 +99,7 @@ public class MainController {
 			if (Management.getInstance().getHelpView() == null)
 				management.setHelpView(new HelpView());
 			management.setHelpView(null);
-			logger.setMessage("Opening help file...", logger.LEVEL_INFO);
+			logger.setMessage("Opening help file...", Logger.LEVEL_INFO);
 		}
 	}
 
@@ -204,7 +203,7 @@ public class MainController {
 
 			if (management.getMainView().getTableMatrix() == null) {
 				logger.setMessage("Please create a comparison first",
-						logger.LEVEL_WARNING);
+						Logger.LEVEL_WARNING);
 				return;
 			}
 
@@ -220,7 +219,7 @@ public class MainController {
 				management.getMainView().setTitle(
 						"MultiTextCompare - " + currentComparison.getName());
 				logger.setMessage("Successfully saved comparison to "
-						+ currentComparison.getName(), logger.LEVEL_INFO);
+						+ currentComparison.getName(), Logger.LEVEL_INFO);
 				return;
 			}
 
@@ -241,7 +240,7 @@ public class MainController {
 			} catch (IOException ioe) {
 				logger.setMessage(
 						"Could not locate the MultiTextCompare logo. It was either moved or deleted",
-						logger.LEVEL_ERROR);
+						Logger.LEVEL_ERROR);
 			}
 
 			if (fd.getFiles().length == 1) {
@@ -268,7 +267,7 @@ public class MainController {
 				}
 
 				logger.setMessage("Successfully saved comparison",
-						logger.LEVEL_INFO);
+						Logger.LEVEL_INFO);
 			}
 
 		}
@@ -294,7 +293,7 @@ public class MainController {
 				fout.close();
 				oos.close();
 			} catch (IOException e) {
-				logger.setMessage(e.toString(), logger.LEVEL_ERROR);
+				logger.setMessage(e.toString(), Logger.LEVEL_ERROR);
 			}
 		}
 
@@ -336,7 +335,7 @@ public class MainController {
 				} catch (IOException ioe) {
 					logger.setMessage(
 							"Failed to locate MultiTextCompare logo. It has either been moved or deleted",
-							logger.LEVEL_ERROR);
+							Logger.LEVEL_ERROR);
 				}
 
 				File[] files = fd.getFiles();
@@ -348,7 +347,7 @@ public class MainController {
 				if (!comparison.getAbsolutePath().endsWith(".mtc")) {
 					logger.setMessage(
 							"Wrong file type. Only files with the extension .mtc are allowed!",
-							logger.LEVEL_WARNING);
+							Logger.LEVEL_WARNING);
 					return;
 				}
 			}
@@ -401,10 +400,10 @@ public class MainController {
 				fis.close();
 				ois.close();
 				
-				logger.setMessage("Successfully loaded comparison " + comparison.getName(), logger.LEVEL_INFO);
+				logger.setMessage("Successfully loaded comparison " + comparison.getName(), Logger.LEVEL_INFO);
 
 			} catch (IOException | ClassNotFoundException ex) {
-				logger.setMessage(ex.toString(), logger.LEVEL_ERROR);
+				logger.setMessage(ex.toString(), Logger.LEVEL_ERROR);
 			}
 		}
 
@@ -426,7 +425,7 @@ public class MainController {
 			} catch (IOException e) {
 				logger.setMessage(
 						"There were files that could not be deleted from the \"TempFiles\" directory. Please close them and try again",
-						logger.LEVEL_ERROR);
+						Logger.LEVEL_ERROR);
 			}
 		}
 
@@ -481,7 +480,7 @@ public class MainController {
 			if (Management.getInstance().getHelpView() == null)
 				management.setHelpView(new HelpView());
 			management.setHelpView(null);
-			logger.setMessage("Opening help file...", logger.LEVEL_INFO);
+			logger.setMessage("Opening help file...", Logger.LEVEL_INFO);
 		}
 	}
 
@@ -520,7 +519,7 @@ public class MainController {
 	class MenuSaveConfigListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			management.saveConfig();
-			logger.setMessage("Configuration has been saved", logger.LEVEL_INFO);
+			logger.setMessage("Configuration has been saved", Logger.LEVEL_INFO);
 		}
 	}
 
@@ -546,7 +545,7 @@ public class MainController {
 			} catch (IOException ioe) {
 				logger.setMessage(
 						"Failed to locate MultiTextCompare logo. It has either been moved or deleted",
-						logger.LEVEL_ERROR);
+						Logger.LEVEL_ERROR);
 			}
 			if (fd.getFiles().length == 1) {
 				// neue config ziehen
@@ -555,7 +554,7 @@ public class MainController {
 				if (!newConfig.getAbsolutePath().endsWith(".properties")) {
 					logger.setMessage(
 							"Wrong file type. Only files with the extension .properties are allowed!",
-							logger.LEVEL_WARNING);
+							Logger.LEVEL_WARNING);
 					return;
 				}
 
@@ -628,7 +627,7 @@ public class MainController {
 				configView.setTitle("Settings using " + config.getPath());
 				configView.repaint();
 				
-				logger.setMessage("Successfully loaded configuration " + config.getPath(), logger.LEVEL_INFO);
+				logger.setMessage("Successfully loaded configuration " + config.getPath(), Logger.LEVEL_INFO);
 			}
 		}
 	}
@@ -663,7 +662,7 @@ public class MainController {
 				fileView.setTitle(logFile.getName());
 				management.getFileView().setVisible(true);
 			} catch (IOException ioe) {
-				logger.setMessage(ioe.toString(), logger.LEVEL_ERROR);
+				logger.setMessage(ioe.toString(), Logger.LEVEL_ERROR);
 			}
 		}
 	}

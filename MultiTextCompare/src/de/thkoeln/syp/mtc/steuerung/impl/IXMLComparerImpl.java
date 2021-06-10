@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jdom2.Attribute;
-import org.jdom2.CDATA;
 import org.jdom2.Comment;
 import org.jdom2.Content;
 import org.jdom2.Document;
@@ -299,9 +298,6 @@ public class IXMLComparerImpl {
 		return compareStrings(ref.getText(), comp.getText());
 	}
 
-	private double compareCDATA(CDATA ref, CDATA comp) {
-		return compareStrings(ref.getTextNormalize(), comp.getTextNormalize());
-	}
 
 	private double compareStrings(String ref, String comp) {
 		double similarity = 1.0;
@@ -383,88 +379,5 @@ public class IXMLComparerImpl {
 		return similarities;
 	}
 	
-	/**
-	 * @deprecated
-	 * @param rootRef
-	 * @param rootComp
-	 * @return
-	 */
-	private double traverseGraph(Element rootRef, Element rootComp) {
-		List<Double> similarity = new ArrayList<Double>();
-		double currentLevelWeight = calcLevelWeight(rootRef, rootComp);
-		List<Element> refFirstLevelChildren = rootRef.getChildren();
-		boolean adjustNodeSimilarity = false;
-		List<Element> matchingRef = new ArrayList<Element>();
-		List<Element> matchingComp = new ArrayList<Element>();
-
-		// get all elements with equal names which exist in both files
-		List<String> refElementNames = new ArrayList<String>();
-		for (int i = 0; i < refFirstLevelChildren.size(); i++) {
-			Element currentRef = refFirstLevelChildren.get(i);
-			String currentRefName = currentRef.getName();
-			refElementNames.add(currentRefName);
-			if (getElementCount(refElementNames, currentRefName) == 1 && rootComp.getChildren(currentRefName).size() != 0) {
-				matchingRef.addAll(rootRef
-						.getChildren(currentRefName));
-				matchingComp.addAll(rootComp
-						.getChildren(currentRefName));
-			}
-		}
-
-		// look for equal elements and remove them from the matched pool
-		for (int i = 0; i < matchingRef.size(); i++) {
-			Element currentRef = matchingRef.get(i);
-			for (int j = 0; j < matchingComp.size(); j++) {
-				Element currentComp = matchingComp.get(j);
-				if (currentComp == null) {
-					continue;
-				}
-				XMLOutputter xmlOut = new XMLOutputter();
-				String refString = xmlOut.outputString(currentRef);
-				String compString = xmlOut.outputString(currentComp);
-				boolean equals = refString.equals(compString);
-				if (equals) {
-					similarity.add(currentLevelWeight);
-					matchingRef.set(i, null);
-					matchingComp.set(j, null);
-					break;
-				}
-			}
-		}
-		double currentNodeSim = compareElements(rootRef, rootComp,
-				currentLevelWeight);
-		if(currentNodeSim != -1){
-			currentNodeSim *= currentLevelWeight;
-			adjustNodeSimilarity = true;
-		}
-		matchingRef = clearNullValues(matchingRef);
-		matchingComp = clearNullValues(matchingComp);
-		int minSize = Math.min(matchingRef.size(), matchingComp.size());
-		
-		for (int i = 0; i < minSize; i++) {
-			Element currentRef = matchingRef.get(i);
-			Element currentComp = matchingComp.get(i);
-			// Liste von Knoten
-			if (hasChildren(currentRef) && hasChildren(currentComp)) {
-				similarity.add(compareElementsRecursively(currentRef,
-						currentComp, currentLevelWeight));
-			}
-			// einzelnes Feld
-			else if (!hasChildren(currentRef) && !hasChildren(currentComp)) {
-				similarity.add(compareElements(currentRef, currentComp,
-						currentLevelWeight));
-			}
-			
-		}
-		double sim = 0.0;
-		for (Double s : similarity) {
-			sim += s;
-		}
-		if(adjustNodeSimilarity){
-			sim = sim * similarity.size() / (similarity.size() + 1);
-			sim  += currentNodeSim / (similarity.size() + 1);
-		}
-		similarities = similarity;
-		return sim;
-	}
+	
 }

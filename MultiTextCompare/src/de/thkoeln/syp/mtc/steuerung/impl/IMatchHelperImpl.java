@@ -11,7 +11,6 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.text.diff.StringsComparator;
@@ -269,29 +268,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 		return null;
 	}
 
-	/**
-	 * Prueft ob es bereits ein Match fuer eine der uebergebenen Zeilen gibt
-	 * 
-	 * @param left
-	 *            Zeile der linken Datei
-	 * @param right
-	 *            Zeile der rechten Datei
-	 * @return true wenn noch kein Match existiert, sonst false
-	 */
-	private boolean notMatchedYet(Integer left, Integer right) {
 
-		List<Integer> leftIndeces = new LinkedList<Integer>(), rightIndeces = new LinkedList<Integer>();
-		for (IMatch match : matches) {
-			leftIndeces.add(match.getLeftRow());
-			rightIndeces.add(match.getRightRow());
-		}
-		if (leftIndeces.contains(left) || rightIndeces.contains(right)){
-			return false;
-		}
-		else {
-			return true;
-		}
-	}
 
 	/**
 	 * Zaehlt die Anzahl der Zeilen von file und schreibt diese Zeilen in list

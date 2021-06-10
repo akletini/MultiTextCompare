@@ -5,7 +5,6 @@ import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -25,12 +24,11 @@ import de.thkoeln.syp.mtc.gui.view.FileView;
 // Extra Klasse fuer die Klickbarkeit der Matrix
 public class MouseAdapterMatrix extends MouseAdapter {
 	private Management management;
-	private List<File> selectedFiles, referenceFiles;
+	private List<File> selectedFiles;
 	private List<Integer> fileIndices;
 	private Set<Entry<File, File>> tempFiles;
 	boolean kreuzKlick;
 	private boolean controlMode;
-	private int selectedRow = -1, selectedColumn = -1;
 	private Logger logger;
 	private ReferenceCell referenceCell;
 
@@ -40,7 +38,6 @@ public class MouseAdapterMatrix extends MouseAdapter {
 		tempFiles = management.getFileImporter().getTempFilesMap().entrySet();
 		selectedFiles = new ArrayList<File>();
 		fileIndices = new ArrayList<Integer>();
-		referenceFiles = new ArrayList<File>();
 		controlMode = false;
 		referenceCell = new ReferenceCell(-1, -1);
 	}
@@ -53,7 +50,7 @@ public class MouseAdapterMatrix extends MouseAdapter {
 		if (management.isNewSelection())
 			logger.setMessage(
 					"It is not possible to show side-by-side comparisons after altering the file selection. Please generate a new matrix.",
-					logger.LEVEL_WARNING);
+					Logger.LEVEL_WARNING);
 		else {
 
 			// Klick in der Matrix (Kreuzung)
@@ -96,7 +93,7 @@ public class MouseAdapterMatrix extends MouseAdapter {
 									selectedFiles, fileIndices));
 						}
 						logger.setMessage("Comparison is now visible",
-								logger.LEVEL_INFO);
+								Logger.LEVEL_INFO);
 						selectedFiles.clear();
 						fileIndices.clear();
 						kreuzKlick = false;
@@ -140,7 +137,7 @@ public class MouseAdapterMatrix extends MouseAdapter {
 														.get(columnIndex)
 														.split("\\|")[0].trim()
 												+ " have been selected as reference.",
-										logger.LEVEL_INFO);
+										Logger.LEVEL_INFO);
 							}
 						}
 
@@ -180,7 +177,7 @@ public class MouseAdapterMatrix extends MouseAdapter {
 							fileIndices.remove(0);
 						}
 						logger.setMessage("Comparison is now visible",
-								logger.LEVEL_INFO);
+								Logger.LEVEL_INFO);
 
 						kreuzKlick = false;
 					}
@@ -211,7 +208,7 @@ public class MouseAdapterMatrix extends MouseAdapter {
 							fileView.setVisible(true);
 
 						} catch (IOException ex) {
-							logger.setMessage(ex.toString(), logger.LEVEL_ERROR);
+							logger.setMessage(ex.toString(), Logger.LEVEL_ERROR);
 						}
 					}
 				}
@@ -256,7 +253,7 @@ public class MouseAdapterMatrix extends MouseAdapter {
 		if (columnIndex == rowIndex) {
 			logger.setMessage(management.getCurrentFileSelection()
 					.get(rowIndex).split("\\|")[0].trim()
-					+ " has been selected.", logger.LEVEL_INFO);
+					+ " has been selected.", Logger.LEVEL_INFO);
 			// Sonstige Logausgabe
 		} else {
 			logger.setMessage(
@@ -265,7 +262,7 @@ public class MouseAdapterMatrix extends MouseAdapter {
 							+ " and "
 							+ management.getCurrentFileSelection()
 									.get(columnIndex).split("\\|")[0]
-							+ " have been selected.", logger.LEVEL_INFO);
+							+ " have been selected.", Logger.LEVEL_INFO);
 		}
 	}
 

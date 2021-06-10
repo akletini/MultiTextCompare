@@ -22,7 +22,7 @@ public class Main {
 					logger = management.getLogger();
 					if (management.getFileImporter().getConfig().getOpenLastComparison()) {
 						management.getMainController().new MenuLoadComparisonListener().actionPerformed(null);
-						logger.setMessage("Successfully opened last comparison", logger.LEVEL_INFO);
+						logger.setMessage("Successfully opened last comparison", Logger.LEVEL_INFO);
 					}
 					
 					Runtime.getRuntime().addShutdownHook(new Thread(){
@@ -31,7 +31,7 @@ public class Main {
 						}
 					});
 				} catch (Exception e) {
-					logger.setMessage(e.toString(), logger.LEVEL_ERROR);
+					logger.setMessage(e.toString(), Logger.LEVEL_ERROR);
 				}
 			}
 		});

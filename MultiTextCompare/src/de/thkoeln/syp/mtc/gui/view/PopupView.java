@@ -51,7 +51,7 @@ public class PopupView extends JFrame {
 		try {
 			this.setIconImage(ImageIO.read(new File("res/icon.png")));
 		} catch (IOException e) {
-			logger.setMessage(e.toString(), logger.LEVEL_ERROR);
+			logger.setMessage(e.toString(), Logger.LEVEL_ERROR);
 		}
 		popupController = new PopupController(this);
 	}

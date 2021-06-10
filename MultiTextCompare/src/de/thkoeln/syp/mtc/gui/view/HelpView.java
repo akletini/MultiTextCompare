@@ -24,7 +24,7 @@ public class HelpView extends JFrame {
 			Desktop d = Desktop.getDesktop();
 			d.open(helpFile);
 		} catch (IOException e) {
-			logger.setMessage(e.toString(), logger.LEVEL_ERROR);
+			logger.setMessage(e.toString(), Logger.LEVEL_ERROR);
 		}
 	}
 }

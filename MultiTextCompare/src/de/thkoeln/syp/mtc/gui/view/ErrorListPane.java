@@ -3,7 +3,6 @@ package de.thkoeln.syp.mtc.gui.view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -12,7 +11,6 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -72,7 +70,7 @@ public class ErrorListPane extends JFrame {
 		try {
 			this.setIconImage(ImageIO.read(new File("res/icon.png")));
 		} catch (IOException e) {
-			logger.setMessage(e.toString(), logger.LEVEL_ERROR);
+			logger.setMessage(e.toString(), Logger.LEVEL_ERROR);
 		}
 	}
 

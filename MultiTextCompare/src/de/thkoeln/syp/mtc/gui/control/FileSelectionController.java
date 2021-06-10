@@ -22,12 +22,10 @@ import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JList;
-import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.SwingWorker;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
-import de.thkoeln.syp.mtc.datenhaltung.api.IJSONParseError;
 import de.thkoeln.syp.mtc.datenhaltung.api.IMatrix;
 import de.thkoeln.syp.mtc.datenhaltung.api.IParseError;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IComparisonImpl;
@@ -46,7 +44,6 @@ public class FileSelectionController extends JFrame {
 	 */
 	private static final long serialVersionUID = -4028005317141193789L;
 	private Management management;
-	private JPanel panel;
 	private FileDialog fd;
 	private JFileChooser fc;
 	private File[] selection;
@@ -71,7 +68,6 @@ public class FileSelectionController extends JFrame {
 		logger = management.getLogger();
 
 		// Panel & neue Matrix fuer den naechsten Vergleich
-		panel = new JPanel();
 		matrix = new IMatrixImpl();
 		lastComparisonFiles = new ArrayList<File>();
 
@@ -110,7 +106,7 @@ public class FileSelectionController extends JFrame {
 
 	class SearchListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			logger.setMessage("Searching for files..", logger.LEVEL_INFO);
+			logger.setMessage("Searching for files..", Logger.LEVEL_INFO);
 
 			class rootSearchThread extends SwingWorker<String, Void> {
 				List<File> reference;
@@ -131,7 +127,7 @@ public class FileSelectionController extends JFrame {
 					try {
 						fileImporter.getRootImporter().join();
 					} catch (InterruptedException e) {
-						logger.setMessage(e.toString(), logger.LEVEL_ERROR);
+						logger.setMessage(e.toString(), Logger.LEVEL_ERROR);
 					}
 					return null;
 				}
@@ -143,7 +139,7 @@ public class FileSelectionController extends JFrame {
 					if (fileImporter.getTextdateien().equals(reference)) {
 						new PopupView("Attention", "No more files found");
 						logger.setMessage("No more files found \n",
-								logger.LEVEL_INFO);
+								Logger.LEVEL_INFO);
 						return;
 					}
 
@@ -164,7 +160,7 @@ public class FileSelectionController extends JFrame {
 					}
 					int foundFiles = fileImporter.getTextdateien().size();
 					logger.setMessage("Found " + foundFiles + " files! "
-							+ timeDiffAsString + "\n", logger.LEVEL_INFO);
+							+ timeDiffAsString + "\n", Logger.LEVEL_INFO);
 
 					fileImporter.getConfig().setFilename(
 							management.getFileSelectionView()
@@ -192,7 +188,7 @@ public class FileSelectionController extends JFrame {
 			try {
 				fd.setIconImage(ImageIO.read(new File("res/icon.png")));
 			} catch (IOException ioe) {
-				logger.setMessage(ioe.toString(), logger.LEVEL_ERROR);
+				logger.setMessage(ioe.toString(), Logger.LEVEL_ERROR);
 			}
 
 			// Die Dateien dem FileImporter uebergeben
@@ -256,7 +252,7 @@ public class FileSelectionController extends JFrame {
 					
 				}
 			} catch (Exception ex) {
-				logger.setMessage(ex.toString(), logger.LEVEL_ERROR);
+				logger.setMessage(ex.toString(), Logger.LEVEL_ERROR);
 				management.getFileSelectionView().getBtnCompare()
 						.setEnabled(true);
 			}
@@ -309,7 +305,7 @@ public class FileSelectionController extends JFrame {
 				fileImporter.deleteTempFiles();
 				fileImporter.createTempFiles();
 				xmlvergleicher.clearErrorList();
-				logger.setMessage("Start comparing...", logger.LEVEL_INFO);
+				logger.setMessage("Start comparing...", Logger.LEVEL_INFO);
 				start_time = System.nanoTime();
 
 				// XML Vergleich
@@ -319,7 +315,7 @@ public class FileSelectionController extends JFrame {
 					management.setCurrentErrorList(xmlvergleicher.getErrorList());
 					for (IParseError error : xmlvergleicher.getErrorList())
 						logger.setMessage(error.getMessage(),
-								logger.LEVEL_WARNING);
+								Logger.LEVEL_WARNING);
 					management.getErrorListPane().updateList();
 				}
 
@@ -329,7 +325,7 @@ public class FileSelectionController extends JFrame {
 							.jsonPrepare(fileImporter.getTempFilesMap())));
 					for (IParseError error : jsonvergleicher.getErrorList())
 						logger.setMessage(error.getMessage(),
-								logger.LEVEL_WARNING);
+								Logger.LEVEL_WARNING);
 					management.setCurrentErrorList(jsonvergleicher.getErrorList());
 					management.getErrorListPane().updateList();
 				}
@@ -523,13 +519,13 @@ public class FileSelectionController extends JFrame {
 									+ " files has been created, but the file selection contained "
 									+ xmlvergleicher.getErrorList().size()
 									+ " XML errors." + timeDiffAsString,
-							logger.LEVEL_INFO);
+							Logger.LEVEL_INFO);
 				}
 
 				else {
 					logger.setMessage("A matrix with " + anzDateien
 							+ " files has been created successfully!"
-							+ timeDiffAsString, logger.LEVEL_INFO);
+							+ timeDiffAsString, Logger.LEVEL_INFO);
 				}
 				management.getFileSelectionView().getBtnCompare()
 				.setEnabled(true);
@@ -571,7 +567,7 @@ public class FileSelectionController extends JFrame {
 					management.getFileView().setVisible(true);
 
 				} catch (IOException e) {
-					logger.setMessage(e.toString(), logger.LEVEL_ERROR);
+					logger.setMessage(e.toString(), Logger.LEVEL_ERROR);
 				}
 
 			}

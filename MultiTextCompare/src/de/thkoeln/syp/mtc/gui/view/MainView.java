@@ -50,7 +50,6 @@ import de.thkoeln.syp.mtc.datenhaltung.impl.IComparisonImpl;
 import de.thkoeln.syp.mtc.gui.control.Logger;
 import de.thkoeln.syp.mtc.gui.control.MainController;
 import de.thkoeln.syp.mtc.gui.control.Management;
-import de.thkoeln.syp.mtc.gui.control.MainController.MenuLoadComparisonListener;
 import de.thkoeln.syp.mtc.gui.resources.DefaultTableHeaderCellRenderer;
 import de.thkoeln.syp.mtc.gui.resources.MouseAdapterMatrix;
 import de.thkoeln.syp.mtc.gui.resources.RowNumberTable;
@@ -114,7 +113,7 @@ public class MainView extends JFrame {
 			iconMinus = new ImageIcon(ImageIO.read(new File("res/minus.png")));
 			iconError = new ImageIcon(ImageIO.read(new File("res/parseError.png")));
 		} catch (IOException e1) {
-			logger.setMessage(e1.toString(), logger.LEVEL_ERROR);
+			logger.setMessage(e1.toString(), Logger.LEVEL_ERROR);
 		}
 
 		// Panel
@@ -245,7 +244,7 @@ public class MainView extends JFrame {
 		try {
 			this.setIconImage(ImageIO.read(new File("res/icon.png")));
 		} catch (IOException e) {
-			logger.setMessage(e.toString(), logger.LEVEL_ERROR);
+			logger.setMessage(e.toString(), Logger.LEVEL_ERROR);
 		}
 		this.setFocusable(false);
 
@@ -349,7 +348,7 @@ public class MainView extends JFrame {
 						if (index != -1)
 							logger.setMessage(
 									"It is not possible to display the file names after altering the file selection.",
-									logger.LEVEL_WARNING);
+									Logger.LEVEL_WARNING);
 						return null;
 					}
 
@@ -373,8 +372,6 @@ public class MainView extends JFrame {
 		scrollPaneMatrix = new JScrollPane(tableMatrix);
 
 		scrollPaneMatrix.addMouseWheelListener(new MouseWheelListener() {
-			final JScrollBar verticalScrollBar = scrollPaneMatrix
-					.getVerticalScrollBar();
 			final JScrollBar horizontalScrollBar = scrollPaneMatrix
 					.getHorizontalScrollBar();
 

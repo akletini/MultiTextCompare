@@ -11,7 +11,6 @@ import java.util.UUID;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
 
@@ -50,11 +49,6 @@ public class IJSONComparerImpl {
 		return similarity;
 	}
 
-	private void print(List<Double> list) {
-		for (Double d : list) {
-			System.out.println(d);
-		}
-	}
 
 	private double sumSimilarities(List<Double> similarities) {
 		double similarity = 0.0;
@@ -342,7 +336,7 @@ public class IJSONComparerImpl {
 		return i;
 	}
 
-	public boolean existsInBoth(String refKey, JsonNode right) {
+	private boolean existsInBoth(String refKey, JsonNode right) {
 		Iterator<String> fieldNamesComp = right.fieldNames();
 		ArrayList<String> fields = iteratorToList(fieldNamesComp);
 		for (String field : fields) {

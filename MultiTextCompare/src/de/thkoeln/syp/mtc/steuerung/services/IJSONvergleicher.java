@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import de.thkoeln.syp.mtc.datenhaltung.api.IJSONParseError;
 import de.thkoeln.syp.mtc.datenhaltung.api.IParseError;
 
 public interface IJSONvergleicher {

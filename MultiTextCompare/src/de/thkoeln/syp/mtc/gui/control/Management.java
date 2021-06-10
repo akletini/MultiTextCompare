@@ -376,7 +376,7 @@ public class Management {
 		} catch (IOException ioe) {
 			logger.setMessage(
 					"Failed to locate MultiTextCompare logo. It has either been moved or deleted",
-					logger.LEVEL_ERROR);
+					Logger.LEVEL_ERROR);
 		}
 
 		if (fd.getFiles().length == 1) {
@@ -404,10 +404,10 @@ public class Management {
 
 				configView.setTitle("Settings using " + config.getPath());
 				configView.repaint();
-				logger.setMessage("Configuration has been saved", logger.LEVEL_INFO);
+				logger.setMessage("Configuration has been saved", Logger.LEVEL_INFO);
 			} catch (IOException e1) {
 				logger.setMessage("Something went wrong, please try again",
-						logger.LEVEL_ERROR);
+						Logger.LEVEL_ERROR);
 			}
 		}
 	}
