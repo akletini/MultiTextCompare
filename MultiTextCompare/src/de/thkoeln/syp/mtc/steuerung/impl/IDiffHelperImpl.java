@@ -34,8 +34,8 @@ public class IDiffHelperImpl implements IDiffHelper {
 	}
 
 	/**
-	 * Die Methode ermittelt die Differenzen zwischen den bergebenen Dateien
-	 * und markiert diese durch die Klasse FileCommandsVisitor
+	 * Die Methode ermittelt die Differenzen zwischen den bergebenen Dateien und
+	 * markiert diese durch die Klasse FileCommandsVisitor
 	 * 
 	 * @param files
 	 *            Die Dateien, deren Diff gebildet werden soll
@@ -288,8 +288,7 @@ public class IDiffHelperImpl implements IDiffHelper {
 
 	@Override
 	public void setFileImporter(IFileImporter fileImporter) {
-		
-		
+
 	}
 }
 
@@ -713,23 +712,25 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 	 * behebt den Fehler
 	 */
 	private void removeWrongTriggersOnShortLines() {
-		String colorLeftIndex, colorMiddleIndex, colorRightIndex;
+		String characterLeft, characterMiddle, characterRight;
 
 		for (int i = 0; i < leftLines.size(); i++) {
-			int numberOfDigits = (int) (Math.log10(i + 1) + 1);
+
 			// Check index coloration
-			colorLeftIndex = leftLines.get(i).getDiffedLine().get(0)
-					.getCharColor();
-			colorMiddleIndex = middleLines.get(i).getDiffedLine().get(0)
-					.getCharColor();
-			colorRightIndex = rightLines.get(i).getDiffedLine().get(0)
-					.getCharColor();
-
-			if (colorLeftIndex.equals(DIFFTORIGHT)
-					&& colorMiddleIndex.equals(UNCHANGED)
-					&& colorRightIndex.equals(DIFFTOLEFT)) {
-
-				for (int j = 0; j < numberOfDigits; j++) {
+			List<IDiffChar> leftLine = leftLines.get(i).getDiffedLine();
+			List<IDiffChar> middleLine = middleLines.get(i).getDiffedLine();
+			List<IDiffChar> rightLine = rightLines.get(i).getDiffedLine();
+			for (int j = 0; j < Math.min(
+					Math.min(leftLine.size(), middleLine.size()),
+					rightLine.size()); j++) {
+				characterLeft = leftLines.get(i).getDiffedLine().get(j)
+						.getCurrentChar().toString();
+				characterMiddle = middleLines.get(i).getDiffedLine().get(j)
+						.getCurrentChar().toString();
+				characterRight = rightLines.get(i).getDiffedLine().get(j)
+						.getCurrentChar().toString();
+				if (characterLeft.equals(characterMiddle)
+						&& characterMiddle.equals(characterRight)) {
 					leftLines.get(i).getDiffedLine().get(j)
 							.setCharColor(UNCHANGED);
 					middleLines.get(i).getDiffedLine().get(j)
@@ -740,6 +741,13 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 			}
 
 		}
+	}
+
+	private int numberOfSpaces(int current, int max) {
+		int numOfDigitsCurrent = String.valueOf(current).length();
+		int numOfDigitsMax = String.valueOf(max).length();
+
+		return numOfDigitsMax - numOfDigitsCurrent;
 	}
 
 	public List<IDiffLine> getLeftLines() {
