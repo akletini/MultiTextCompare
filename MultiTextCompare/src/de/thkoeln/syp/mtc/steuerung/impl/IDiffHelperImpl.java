@@ -2,12 +2,7 @@ package de.thkoeln.syp.mtc.steuerung.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -30,17 +25,16 @@ public class IDiffHelperImpl implements IDiffHelper {
 	private List<IDiffLine> rightLines;
 
 	private final double minCommonality = 0.4;
-	
-	private IFileImporter fileImporter;
 
 	public IDiffHelperImpl() {
 		leftLines = new ArrayList<IDiffLine>();
 		middleLines = new ArrayList<IDiffLine>();
 		rightLines = new ArrayList<IDiffLine>();
+
 	}
 
 	/**
-	 * Die Methode ermittelt die Differenzen zwischen den übergebenen Dateien
+	 * Die Methode ermittelt die Differenzen zwischen den bergebenen Dateien
 	 * und markiert diese durch die Klasse FileCommandsVisitor
 	 * 
 	 * @param files
@@ -49,15 +43,11 @@ public class IDiffHelperImpl implements IDiffHelper {
 	 */
 	@Override
 	public void computeDisplayDiff(File[] files) throws IOException {
-		int maxLength = getMaxLengthOfFiles(files);
-		int maxLineSize = fileImporter.getConfig().getMaxLineLength();
-		if(maxLineSize == 0) {
-			maxLineSize = Integer.MAX_VALUE;
-		}
 		// Read both files with line iterator.
 		if (files.length == 2) {
 			LineIterator file1 = FileUtils.lineIterator(files[0], "UTF-8");
 			LineIterator file2 = FileUtils.lineIterator(files[1], "UTF-8");
+
 			// Initialize visitor.
 			FileCommandVisitor fileCommandVisitor = new FileCommandVisitor();
 			int lineNum = 0;
@@ -71,30 +61,23 @@ public class IDiffHelperImpl implements IDiffHelper {
 				 * line comparison moves to next line.
 				 */
 				lineNum++;
-				int numofSpaces = numberOfSpaces(lineNum, maxLength);
-				String spaces = "";
-				for(int i = 0; i < numofSpaces + 1; i++){
-					spaces += " ";
-				}
 
 				String left = (file1.hasNext() ? file1.nextLine() : "") + "\n";
 				String right = (file2.hasNext() ? file2.nextLine() : "") + "\n";
-				
-				int lineSize = left.length() + right.length();
 
 				// Prepare diff comparator with lines from both files.
 				StringsComparator comparator = new StringsComparator(left,
 						right);
 
-				if ( lineSize < maxLineSize && (comparator.getScript().getLCSLength() > (Math.max(
-						left.length(), right.length()) * minCommonality))) {
+				if (comparator.getScript().getLCSLength() > (Math.max(
+						left.length(), right.length()) * minCommonality)) {
 					/*
 					 * If both lines have atleast 40% commonality then only
 					 * compare with each other so that they are aligned with
 					 * each other in final diff.
 					 */
-					left = lineNum + spaces + left;
-					right = lineNum + spaces + right;
+					left = lineNum + "  " + left;
+					right = lineNum + "  " + right;
 					comparator = new StringsComparator(left, right);
 					comparator.getScript().visit(fileCommandVisitor);
 				} else {
@@ -104,8 +87,8 @@ public class IDiffHelperImpl implements IDiffHelper {
 					 * other in final diff instead they show up on separate
 					 * lines.
 					 */
-					left = lineNum + spaces + left;
-					right = lineNum + spaces + right;
+					left = lineNum + "  " + left;
+					right = lineNum + "  " + right;
 					StringsComparator leftComparator = new StringsComparator(
 							left, "");
 					leftComparator.getScript().visit(fileCommandVisitor);
@@ -117,8 +100,6 @@ public class IDiffHelperImpl implements IDiffHelper {
 			fileCommandVisitor.generatePrimaryDiff(2);
 			leftLines = fileCommandVisitor.getLeftLines();
 			rightLines = fileCommandVisitor.getRightLines();
-			file1.close();
-			file2.close();
 		} else {
 			final LineIterator file1 = FileUtils
 					.lineIterator(files[0], "UTF-8");
@@ -130,7 +111,6 @@ public class IDiffHelperImpl implements IDiffHelper {
 			// Initialize visitor.
 			FileCommandVisitor fileCommandVisitor = new FileCommandVisitor();
 			int lineNum = 0;
-			
 
 			// Read file line by line so that comparison can be done line by
 			// line.
@@ -141,34 +121,27 @@ public class IDiffHelperImpl implements IDiffHelper {
 				 * line comparison moves to next line.
 				 */
 				lineNum++;
-				int numofSpaces = numberOfSpaces(lineNum, maxLength);
-				String spaces = "";
-				for(int i = 0; i < numofSpaces + 1; i++){
-					spaces += " ";
-				}
 
 				String left = (file1.hasNext() ? file1.nextLine() : "") + "\n";
 				String middle = (file2.hasNext() ? file2.nextLine() : "")
 						+ "\n";
 				String right = (file3.hasNext() ? file3.nextLine() : "") + "\n";
-				
-				int lineSizeLeftMid = left.length() + middle.length();
-				int lineSizeLeftRight = left.length() + right.length();
+
 				// Prepare diff comparator with lines from both files.
 				StringsComparator comparator1 = new StringsComparator(left,
 						middle);
 				StringsComparator comparator2 = new StringsComparator(left,
 						right);
 
-				if (lineSizeLeftMid < maxLineSize && (comparator1.getScript().getLCSLength() > (Math.max(
-						left.length(), middle.length()) * minCommonality))) {
+				if (comparator1.getScript().getLCSLength() > (Math.max(
+						left.length(), middle.length()) * minCommonality)) {
 					/*
 					 * If both lines have atleast 40% commonality then only
 					 * compare with each other so that they are aligned with
 					 * each other in final diff.
 					 */
-					left = lineNum + spaces + left;
-					middle = lineNum + spaces + middle;
+					left = lineNum + "  " + left;
+					middle = lineNum + "  " + middle;
 
 					comparator1 = new StringsComparator(left, middle);
 					comparator1.getScript().visit(fileCommandVisitor);
@@ -180,8 +153,8 @@ public class IDiffHelperImpl implements IDiffHelper {
 					 * other in final diff instead they show up on separate
 					 * lines.
 					 */
-					left = lineNum + spaces + left;
-					middle = lineNum + spaces + middle;
+					left = lineNum + "  " + left;
+					middle = lineNum + "  " + middle;
 
 					StringsComparator leftComparator = new StringsComparator(
 							left, "");
@@ -192,14 +165,14 @@ public class IDiffHelperImpl implements IDiffHelper {
 
 				}
 
-				if (lineSizeLeftRight < maxLineSize && (comparator2.getScript().getLCSLength() > (Math.max(
-						left.length(), right.length()) * minCommonality))) {
+				if (comparator2.getScript().getLCSLength() > (Math.max(
+						left.length(), right.length()) * minCommonality)) {
 					/*
 					 * If both lines have atleast 40% commonality then only
 					 * compare with each other so that they are aligned with
 					 * each other in final diff.
 					 */
-					right = lineNum + spaces + right;
+					right = lineNum + "  " + right;
 
 					comparator2 = new StringsComparator(left, right);
 					comparator2.getScript().visit(fileCommandVisitor);
@@ -210,7 +183,7 @@ public class IDiffHelperImpl implements IDiffHelper {
 					 * other in final diff instead they show up on separate
 					 * lines.
 					 */
-					right = lineNum + spaces + right;
+					right = lineNum + "  " + right;
 
 					StringsComparator leftComparator = new StringsComparator(
 							left, "");
@@ -224,16 +197,12 @@ public class IDiffHelperImpl implements IDiffHelper {
 
 			fileCommandVisitor.generatePrimaryDiff(3);
 			fileCommandVisitor.setDurchgang(2);
-			generateOuterDiff(files, maxLength ,fileCommandVisitor);
+			generateOuterDiff(files, fileCommandVisitor);
 			fileCommandVisitor.generateFinalDiff();
 
 			leftLines = fileCommandVisitor.getLeftLines();
 			middleLines = fileCommandVisitor.getMiddleLines();
 			rightLines = fileCommandVisitor.getRightLines();
-			
-			file1.close();
-			file2.close();
-			file3.close();			
 		}
 	}
 
@@ -247,14 +216,14 @@ public class IDiffHelperImpl implements IDiffHelper {
 	 *            Diff gebildet wurde
 	 * @throws IOException
 	 */
-	private void generateOuterDiff(File[] files, int maxLength,
+	private void generateOuterDiff(File[] files,
 			FileCommandVisitor fileCommandVisitor) throws IOException {
 		LineIterator file1 = FileUtils.lineIterator(files[1], "UTF-8");
 		LineIterator file2 = FileUtils.lineIterator(files[2], "UTF-8");
 
 		// Initialize visitor.
 		int lineNum = 0;
-		int maxLineSize = fileImporter.getConfig().getMaxLineLength();
+
 		// Read file line by line so that comparison can be done line by
 		// line.
 		while (file1.hasNext() || file2.hasNext()
@@ -265,26 +234,22 @@ public class IDiffHelperImpl implements IDiffHelper {
 			 * comparison moves to next line.
 			 */
 			lineNum++;
-			int numofSpaces = numberOfSpaces(lineNum, maxLength);
-			String spaces = "";
-			for(int i = 0; i < numofSpaces + 1; i++){
-				spaces += " ";
-			}
+
 			String middle = (file1.hasNext() ? file1.nextLine() : "") + "\n";
 			String right = (file2.hasNext() ? file2.nextLine() : "") + "\n";
-			int lineSizeMidRight = middle.length() + right.length();
+
 			// Prepare diff comparator with lines from both files.
 			StringsComparator comparator = new StringsComparator(middle, right);
 
-			if (lineSizeMidRight < maxLineSize && (comparator.getScript().getLCSLength() > (Math.max(
-					middle.length(), right.length()) * minCommonality))) {
+			if (comparator.getScript().getLCSLength() > (Math.max(
+					middle.length(), right.length()) * minCommonality)) {
 				/*
 				 * If both lines have atleast 40% commonality then only compare
 				 * with each other so that they are aligned with each other in
 				 * final diff.
 				 */
-				right = lineNum + spaces + right;
-				middle = lineNum + spaces + middle;
+				right = lineNum + "  " + right;
+				middle = lineNum + "  " + middle;
 				comparator = new StringsComparator(middle, right);
 				comparator.getScript().visit(fileCommandVisitor);
 			} else {
@@ -293,8 +258,8 @@ public class IDiffHelperImpl implements IDiffHelper {
 				 * with empty line so that they are not aligned to each other in
 				 * final diff instead they show up on separate lines.
 				 */
-				right = lineNum + spaces + right;
-				middle = lineNum + spaces + middle;
+				right = lineNum + "  " + right;
+				middle = lineNum + "  " + middle;
 				StringsComparator leftComparator = new StringsComparator(
 						middle, "");
 				leftComparator.getScript().visit(fileCommandVisitor);
@@ -303,32 +268,7 @@ public class IDiffHelperImpl implements IDiffHelper {
 				rightComparator.getScript().visit(fileCommandVisitor);
 			}
 		}
-		file1.close();
-		file2.close();
-	}
-	
-	private int getMaxLengthOfFiles(File[] files){
-		Integer[] fileSizes = new Integer[files.length];
-		
-		for(int i = 0; i < files.length; i++){
-			 List<String> fileStream;
-			try {
-				fileStream = Files.readAllLines(Paths.get(files[i].getAbsolutePath()), StandardCharsets.UTF_8);
-				fileSizes[i] = fileStream.size();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			    
-		}
-		return Collections.max(Arrays.asList(fileSizes));
-	}
-	
-	private int numberOfSpaces(int current, int max){
-		int numOfDigitsCurrent = String.valueOf(current).length();
-		int numOfDigitsMax = String.valueOf(max).length();
-		
-		return numOfDigitsMax - numOfDigitsCurrent;
+
 	}
 
 	@Override
@@ -345,10 +285,11 @@ public class IDiffHelperImpl implements IDiffHelper {
 	public List<IDiffLine> getMiddleLines() {
 		return middleLines;
 	}
-	
+
 	@Override
-	public void setFileImporter(IFileImporter fileImporter){
-		this.fileImporter = fileImporter;
+	public void setFileImporter(IFileImporter fileImporter) {
+		
+		
 	}
 }
 
@@ -430,7 +371,7 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 
 	/**
 	 * der betroffene Buchstabe Wird aufgerufen wenn der Buchstabe c in einer
-	 * Vergleichsdatei präsent ist aber nicht in der Referenz
+	 * Vergleichsdatei prsent ist aber nicht in der Referenz
 	 * 
 	 * @param c
 	 *            der "gediffte" Buchstabe
@@ -452,7 +393,7 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 
 	/**
 	 * der betroffene Buchstabe Wird aufgerufen wenn der Buchstabe c in einer
-	 * Referenzdatei präsent ist aber nicht in der Vergleichsdatei
+	 * Referenzdatei prsent ist aber nicht in der Vergleichsdatei
 	 * 
 	 * @param c
 	 *            der "gediffte" Buchstabe
@@ -473,12 +414,12 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 
 	/**
 	 * Erstellt aus dem ganzheitlichen Diff eines jeweiligen Files eine
-	 * zugehörige zeilenweise Speichermöglichkeit
+	 * zugehrige zeilenweise Speichermglichkeit
 	 * 
 	 * @param file
 	 *            Die Datei dessen Diff verarbeitet werden soll
 	 * @param lines
-	 *            Die Liste deren Zeilen befüllt werden sollen
+	 *            Die Liste deren Zeilen befllt werden sollen
 	 */
 	private void writeToDiffLines(List<IDiffChar> file, List<IDiffLine> lines) {
 		String diffedFile = "";
@@ -509,7 +450,7 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 	 * Reihenfolge ab
 	 * 
 	 * @param numberOfFiles
-	 *            die Anzahl der übergebenen Dateien für die Diff-Bildung
+	 *            die Anzahl der bergebenen Dateien fr die Diff-Bildung
 	 */
 	protected void generatePrimaryDiff(int numberOfFiles) {
 
@@ -534,8 +475,8 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 	}
 
 	/**
-	 * Führt Operationen aus damit der Vergleich der mittleren und rechten Datei
-	 * dargestellt werden können
+	 * Fhrt Operationen aus damit der Vergleich der mittleren und rechten Datei
+	 * dargestellt werden knnen
 	 */
 	protected void generateFinalDiff() {
 		writeToDiffLines(middleFile2, middleLines2);
@@ -585,7 +526,7 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 			mergedLine = new ArrayList<IDiffChar>();
 
 			for (int j = 0; j < upper.size(); j++) {
-				// unverändert
+				// unverndert
 				if (upper.get(j).getCharColor().equals("WHITE")
 						&& lower.get(j).getCharColor().equals("WHITE")) {
 					mergedLine.add(new IDiffCharImpl(upper.get(j)

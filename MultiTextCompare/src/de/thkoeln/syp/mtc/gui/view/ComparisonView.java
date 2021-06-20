@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map.Entry;
 
 import javax.imageio.ImageIO;
@@ -27,11 +28,13 @@ import javax.swing.text.StyleContext;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IDiffChar;
 import de.thkoeln.syp.mtc.datenhaltung.api.IDiffLine;
+import de.thkoeln.syp.mtc.datenhaltung.impl.IDiffCharImpl;
+import de.thkoeln.syp.mtc.datenhaltung.impl.IDiffLineImpl;
 import de.thkoeln.syp.mtc.gui.control.ComparisonController;
-import de.thkoeln.syp.mtc.gui.control.Logger;
 import de.thkoeln.syp.mtc.gui.control.Management;
 import de.thkoeln.syp.mtc.gui.resources.NoWrapJTextPane;
 import de.thkoeln.syp.mtc.gui.resources.ScrollBarSynchronizer;
+import de.thkoeln.syp.mtc.logging.Logger;
 import de.thkoeln.syp.mtc.steuerung.impl.IDiffHelperImpl;
 import de.thkoeln.syp.mtc.steuerung.impl.IMatchHelperImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IDiffHelper;
@@ -289,13 +292,57 @@ public class ComparisonView extends JFrame {
 
 	// Befuellt eine TextPane
 	private void diffWriter(List<IDiffLine> lineList, JTextPane textPane) {
+		int lineIndex = 1;
+		
 		for (IDiffLine diffLine : lineList) {
-			for (IDiffChar diffChar : diffLine.getDiffedLine()) {
+			int numberOfSpaces = numberOfSpaces(lineIndex, lineList.size());
+			int indexOfFirstSpace = 0;
+			int lineLength = diffLine.getDiffedLine().size();
+			IDiffLine copyLine = copyList(diffLine);
+			// get index of first space
+			int i = 0;
+			ListIterator<IDiffChar> charIterator = diffLine.getDiffedLine().listIterator();
+			while (charIterator.hasNext()) {
+				IDiffChar diffChar = charIterator.next();
+				if(diffChar.getCurrentChar().toString().equals(" ")){
+					indexOfFirstSpace = i;
+					break;
+				}
+			}
+			// add additional spaces
+			charIterator = copyLine.getDiffedLine().listIterator(indexOfFirstSpace);
+			for (i = 0; i < numberOfSpaces; i++) {
+				
+				charIterator.add(new IDiffCharImpl(" ".charAt(0), "WHITE"));
+			}
+			
+			// write lines to TextPane
+			for (i = 0; i < lineLength + numberOfSpaces; i++) {
+				IDiffChar diffChar = copyLine.getDiffedLine().get(i);
 				appendToPane(textPane, diffChar.getCurrentChar().toString(),
 						stringToColor(diffChar.getCharColor()));
 			}
+			lineIndex++;
 		}
 	}
+	
+	private IDiffLine copyList(IDiffLine diffLine){
+		IDiffLine copy = new IDiffLineImpl();
+		for(int i = 0; i < diffLine.getDiffedLine().size(); i++){
+			IDiffChar c = diffLine.getDiffedLine().get(i);
+			copy.getDiffedLine().add(new IDiffCharImpl(new Character(c.getCurrentChar()), c.getCharColor()));
+		}
+		return copy;
+	}
+	
+	private int numberOfSpaces(int current, int max){
+		int numOfDigitsCurrent = String.valueOf(current).length();
+		int numOfDigitsMax = String.valueOf(max).length();
+		
+		return numOfDigitsMax - numOfDigitsCurrent;
+	}
+
+
 
 	// Wandelt String mit Farbbezeichnung in Color um
 	private Color stringToColor(String string) {
