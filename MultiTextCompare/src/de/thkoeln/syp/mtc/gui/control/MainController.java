@@ -34,11 +34,12 @@ import de.thkoeln.syp.mtc.datenhaltung.impl.IMatrixImpl;
 import de.thkoeln.syp.mtc.gui.resources.RowNumberTable;
 import de.thkoeln.syp.mtc.gui.view.AboutView;
 import de.thkoeln.syp.mtc.gui.view.ConfigView;
-import de.thkoeln.syp.mtc.gui.view.ErrorListPane;
+import de.thkoeln.syp.mtc.gui.view.ErrorListView;
 import de.thkoeln.syp.mtc.gui.view.FileSelectionView;
 import de.thkoeln.syp.mtc.gui.view.FileView;
 import de.thkoeln.syp.mtc.gui.view.HelpView;
 import de.thkoeln.syp.mtc.gui.view.MainView;
+import de.thkoeln.syp.mtc.logging.Logger;
 import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
 
 public class MainController {
@@ -179,9 +180,9 @@ public class MainController {
 		
 		public void actionPerformed(ActionEvent e){
 			if(management.getErrorListPane() == null){
-				management.setErrorListPane(new ErrorListPane());
+				management.setErrorListPane(new ErrorListView());
 			}
-			ErrorListPane elp = management.getErrorListPane();
+			ErrorListView elp = management.getErrorListPane();
 			elp.getErrorList().clear();
 			List<IParseError> errorFiles = management.getCurrentErrorList();
 			for(IParseError error : errorFiles) {

@@ -21,9 +21,9 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IParseError;
-import de.thkoeln.syp.mtc.gui.control.Logger;
 import de.thkoeln.syp.mtc.gui.control.Management;
 import de.thkoeln.syp.mtc.gui.resources.TextLineNumber;
+import de.thkoeln.syp.mtc.logging.Logger;
 
 public class ParseErrorView extends JFrame {
 	/**

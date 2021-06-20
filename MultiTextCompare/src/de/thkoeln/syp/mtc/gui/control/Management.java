@@ -17,12 +17,13 @@ import de.thkoeln.syp.mtc.gui.control.FileSelectionController.CompareListener.Co
 import de.thkoeln.syp.mtc.gui.view.AboutView;
 import de.thkoeln.syp.mtc.gui.view.ComparisonView;
 import de.thkoeln.syp.mtc.gui.view.ConfigView;
-import de.thkoeln.syp.mtc.gui.view.ErrorListPane;
+import de.thkoeln.syp.mtc.gui.view.ErrorListView;
 import de.thkoeln.syp.mtc.gui.view.FileSelectionView;
 import de.thkoeln.syp.mtc.gui.view.FileView;
 import de.thkoeln.syp.mtc.gui.view.HelpView;
 import de.thkoeln.syp.mtc.gui.view.MainView;
 import de.thkoeln.syp.mtc.gui.view.ParseErrorView;
+import de.thkoeln.syp.mtc.logging.Logger;
 import de.thkoeln.syp.mtc.steuerung.impl.IFileImporterImpl;
 import de.thkoeln.syp.mtc.steuerung.impl.IJSONvergleicherImpl;
 import de.thkoeln.syp.mtc.steuerung.impl.ITextvergleicherImpl;
@@ -42,7 +43,7 @@ public class Management {
 	private MainView mainView;
 	private AboutView aboutView;
 	private FileView fileView;
-	private ErrorListPane errorListPane;
+	private ErrorListView errorListPane;
 	private ParseErrorView parseErrorView;
 
 	private FileSelectionController fileSelectionController;
@@ -75,7 +76,7 @@ public class Management {
 
 		comparisons = new ArrayList<IComparisonImpl>();
 		currentErrorList = new ArrayList<>();
-		errorListPane = new ErrorListPane();
+		errorListPane = new ErrorListView();
 		isMatrixGreyedOut = false;
 		currentComparison = null;
 	}
@@ -490,11 +491,11 @@ public class Management {
 		this.currentErrorList = list;
 	}
 
-	public ErrorListPane getErrorListPane() {
+	public ErrorListView getErrorListPane() {
 		return errorListPane;
 	}
 
-	public void setErrorListPane(ErrorListPane errorListPane) {
+	public void setErrorListPane(ErrorListView errorListPane) {
 		this.errorListPane = errorListPane;
 	}
 

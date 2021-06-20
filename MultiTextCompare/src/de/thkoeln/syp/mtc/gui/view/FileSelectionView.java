@@ -21,8 +21,8 @@ import javax.swing.border.EmptyBorder;
 
 import net.miginfocom.swing.MigLayout;
 import de.thkoeln.syp.mtc.gui.control.FileSelectionController;
-import de.thkoeln.syp.mtc.gui.control.Logger;
 import de.thkoeln.syp.mtc.gui.control.Management;
+import de.thkoeln.syp.mtc.logging.Logger;
 
 public class FileSelectionView extends JFrame {
 	/**

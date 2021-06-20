@@ -3,9 +3,9 @@ package de.thkoeln.syp.mtc;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import de.thkoeln.syp.mtc.gui.control.Logger;
 import de.thkoeln.syp.mtc.gui.control.Management;
 import de.thkoeln.syp.mtc.gui.view.MainView;
+import de.thkoeln.syp.mtc.logging.Logger;
 
 public class Main {
 	

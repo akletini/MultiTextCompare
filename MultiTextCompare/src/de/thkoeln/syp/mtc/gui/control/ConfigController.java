@@ -8,6 +8,7 @@ import java.io.File;
 import javax.swing.JFileChooser;
 
 import de.thkoeln.syp.mtc.gui.view.ConfigView;
+import de.thkoeln.syp.mtc.logging.Logger;
 
 public class ConfigController {
 	private Management management;

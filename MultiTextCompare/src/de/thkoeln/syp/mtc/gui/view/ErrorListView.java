@@ -19,10 +19,10 @@ import javax.swing.JScrollPane;
 
 import net.miginfocom.swing.MigLayout;
 import de.thkoeln.syp.mtc.datenhaltung.api.IParseError;
-import de.thkoeln.syp.mtc.gui.control.Logger;
 import de.thkoeln.syp.mtc.gui.control.Management;
+import de.thkoeln.syp.mtc.logging.Logger;
 
-public class ErrorListPane extends JFrame {
+public class ErrorListView extends JFrame {
 
 	/**
 	 * 
@@ -36,7 +36,7 @@ public class ErrorListPane extends JFrame {
 	private Management management;
 	private Logger logger;
 
-	public ErrorListPane() {
+	public ErrorListView() {
 		
 		panel = new JPanel();
 		errorList = new DefaultListModel<String>();

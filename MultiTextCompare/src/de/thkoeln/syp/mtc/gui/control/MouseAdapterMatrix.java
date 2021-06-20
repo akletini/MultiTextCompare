@@ -1,4 +1,4 @@
-package de.thkoeln.syp.mtc.gui.resources;
+package de.thkoeln.syp.mtc.gui.control;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -16,10 +16,9 @@ import java.util.Set;
 
 import javax.swing.JTable;
 
-import de.thkoeln.syp.mtc.gui.control.Logger;
-import de.thkoeln.syp.mtc.gui.control.Management;
 import de.thkoeln.syp.mtc.gui.view.ComparisonView;
 import de.thkoeln.syp.mtc.gui.view.FileView;
+import de.thkoeln.syp.mtc.logging.Logger;
 
 // Extra Klasse fuer die Klickbarkeit der Matrix
 public class MouseAdapterMatrix extends MouseAdapter {

@@ -47,12 +47,12 @@ import net.miginfocom.swing.MigLayout;
 import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
 import de.thkoeln.syp.mtc.datenhaltung.api.IMatrix;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IComparisonImpl;
-import de.thkoeln.syp.mtc.gui.control.Logger;
 import de.thkoeln.syp.mtc.gui.control.MainController;
 import de.thkoeln.syp.mtc.gui.control.Management;
+import de.thkoeln.syp.mtc.gui.control.MouseAdapterMatrix;
 import de.thkoeln.syp.mtc.gui.resources.DefaultTableHeaderCellRenderer;
-import de.thkoeln.syp.mtc.gui.resources.MouseAdapterMatrix;
 import de.thkoeln.syp.mtc.gui.resources.RowNumberTable;
+import de.thkoeln.syp.mtc.logging.Logger;
 
 public class MainView extends JFrame {
 	/**

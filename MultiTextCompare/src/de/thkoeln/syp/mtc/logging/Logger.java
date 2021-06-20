@@ -1,4 +1,4 @@
-package de.thkoeln.syp.mtc.gui.control;
+package de.thkoeln.syp.mtc.logging;
 
 import java.awt.Color;
 import java.io.BufferedWriter;
@@ -15,6 +15,7 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 
+import de.thkoeln.syp.mtc.gui.control.Management;
 import de.thkoeln.syp.mtc.gui.view.MainView;
 
 public class Logger {

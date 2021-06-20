@@ -6,8 +6,8 @@ import java.io.IOException;
 
 import javax.swing.JFrame;
 
-import de.thkoeln.syp.mtc.gui.control.Logger;
 import de.thkoeln.syp.mtc.gui.control.Management;
+import de.thkoeln.syp.mtc.logging.Logger;
 
 public class HelpView extends JFrame {
 	

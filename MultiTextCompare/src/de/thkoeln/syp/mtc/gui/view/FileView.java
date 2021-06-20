@@ -14,9 +14,9 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.ScrollPaneConstants;
 
-import de.thkoeln.syp.mtc.gui.control.Logger;
 import de.thkoeln.syp.mtc.gui.control.Management;
 import de.thkoeln.syp.mtc.gui.resources.TextLineNumber;
+import de.thkoeln.syp.mtc.logging.Logger;
 
 public class FileView extends JFrame {
 	/**
