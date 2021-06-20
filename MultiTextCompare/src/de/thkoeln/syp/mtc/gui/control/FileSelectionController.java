@@ -534,6 +534,7 @@ public class FileSelectionController extends JFrame {
 				.setEnabled(true);
 				management.getFileSelectionView().getBtnDelete()
 				.setEnabled(true);
+				management.setIsMatrixGreyedOut(false);
 				progressBar.setToolTipText(null);
 				progressBar.setVisible(false);
 			}
