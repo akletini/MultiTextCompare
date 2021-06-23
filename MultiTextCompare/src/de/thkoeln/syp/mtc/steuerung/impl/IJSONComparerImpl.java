@@ -36,16 +36,14 @@ public class IJSONComparerImpl {
 	}
 
 	public double compare(File ref, File comp) throws IOException {
-		String jsonFileRef = new IJSONvergleicherImpl().jsonFileToString(ref);
-		String jsonFileComp = new IJSONvergleicherImpl().jsonFileToString(comp);
+		String jsonFileRef = new IJSONHandlerImpl().jsonFileToString(ref);
+		String jsonFileComp = new IJSONHandlerImpl().jsonFileToString(comp);
 		rootNodeRef = objectMapper.readTree(jsonFileRef);
 		rootNodeComp = objectMapper.readTree(jsonFileComp);
 		calcLevelWeight(rootNodeRef, rootNodeComp);
 		List<Double> similarities = traverseGraph(rootNodeRef, rootNodeComp);
 		double similarity = sumSimilarities(similarities);
-		// print(similarities);
-		// StringBuilder b = new StringBuilder();
-		// processNode(rootNodeRef, b, 0);
+
 		return similarity;
 	}
 
@@ -370,54 +368,6 @@ public class IJSONComparerImpl {
 		}
 	}
 
-	// /////////////////////////////////////////////////////////////////////////////////
-
-	private void processNode(JsonNode jsonNode, StringBuilder yaml, int depth) {
-		if (jsonNode.isValueNode()) {
-			System.out.println("Value " + jsonNode.asText() + " depth : "
-					+ depth);
-		} else if (jsonNode.isArray()) {
-			System.out.println("Array " + jsonNode.asText());
-			for (JsonNode arrayItem : jsonNode) {
-				System.out.println("array item " + arrayItem.asText()
-						+ " depth : " + depth);
-				appendNodeToYaml(arrayItem, yaml, depth, true);
-			}
-		} else if (jsonNode.isObject()) {
-			System.out.println("Object " + jsonNode + " depth : " + depth);
-			appendNodeToYaml(jsonNode, yaml, depth, false);
-		}
-	}
-
-	private void appendNodeToYaml(JsonNode node, StringBuilder yaml, int depth,
-			boolean isArrayItem) {
-		Iterator<Entry<String, JsonNode>> fields = node.fields();
-		boolean isFirst = true;
-		while (fields.hasNext()) {
-			Entry<String, JsonNode> jsonField = fields.next();
-			addFieldNameToYaml(yaml, jsonField.getKey(), depth, isArrayItem
-					&& isFirst);
-			processNode(jsonField.getValue(), yaml, depth + 1);
-			isFirst = false;
-		}
-
-	}
-
-	private void addFieldNameToYaml(StringBuilder yaml, String fieldName,
-			int depth, boolean isFirstInArray) {
-		if (yaml.length() > 0) {
-			yaml.append(NEW_LINE);
-			int requiredDepth = (isFirstInArray) ? depth - 1 : depth;
-			for (int i = 0; i < requiredDepth; i++) {
-				yaml.append(YAML_PREFIX);
-			}
-			if (isFirstInArray) {
-				yaml.append(ARRAY_PREFIX);
-			}
-		}
-		yaml.append(fieldName);
-		yaml.append(FIELD_DELIMITER);
-	}
 
 	private ArrayNode clearUUIDFields(ArrayNode original, String uuid) {
 		ArrayNode returnArray = objectMapper.createArrayNode();

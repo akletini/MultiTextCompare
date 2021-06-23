@@ -1,5 +1,6 @@
 package de.thkoeln.syp.mtc.gui.control;
 
+import java.awt.Desktop;
 import java.awt.FileDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -66,6 +67,7 @@ public class MainController {
 		mainView.addMenuSaveConfigListener(new MenuSaveConfigListener());
 		mainView.addMenuAboutListener(new MenuAboutListener());
 		mainView.addMenuHelpListener(new MenuHelpListener());
+		mainView.addMenuShowJavadocListener(new JavadocListener());
 		mainView.addMenuShowInfosListener(new MenuShowInfosListener());
 		mainView.addMenuShowWarningsListener(new MenuShowWarningsListener());
 		mainView.addMenuShowErrorsListener(new MenuShowErrorsListener());
@@ -101,6 +103,19 @@ public class MainController {
 				management.setHelpView(new HelpView());
 			management.setHelpView(null);
 			logger.setMessage("Opening help file...", Logger.LEVEL_INFO);
+		}
+	}
+	
+	class JavadocListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			File helpFile = new File(System.getProperty("user.dir")
+					+ File.separator + "doc" + File.separator + "index.html");
+			try {
+				Desktop d = Desktop.getDesktop();
+				d.open(helpFile);
+			} catch (IOException ex) {
+				logger.setMessage(ex.toString(), Logger.LEVEL_ERROR);
+			}
 		}
 	}
 

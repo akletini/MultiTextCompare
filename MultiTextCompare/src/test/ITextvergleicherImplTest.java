@@ -70,7 +70,7 @@ public class ITextvergleicherImplTest {
 		for (int i = 0; i < paarungen.size(); i++) {
 			aehnlichkeit[i] = paarungen.get(i).getValue();
 		}
-		assertEquals(0.5, aehnlichkeit[4], 0.0000001);
+		assertEquals(0.518, aehnlichkeit[4], 0.001);
 	}
 
 }

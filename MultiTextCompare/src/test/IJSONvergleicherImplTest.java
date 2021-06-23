@@ -15,9 +15,9 @@ import org.junit.Test;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
 import de.thkoeln.syp.mtc.steuerung.impl.IFileImporterImpl;
-import de.thkoeln.syp.mtc.steuerung.impl.IJSONvergleicherImpl;
+import de.thkoeln.syp.mtc.steuerung.impl.IJSONHandlerImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
-import de.thkoeln.syp.mtc.steuerung.services.IJSONvergleicher;
+import de.thkoeln.syp.mtc.steuerung.services.IJSONHandler;
 
 public class IJSONvergleicherImplTest {
 	static File testdatei;
@@ -27,7 +27,7 @@ public class IJSONvergleicherImplTest {
 	static File testMap3;
 	static File testMap4;
 	
-	static IJSONvergleicher iJSON;
+	static IJSONHandler iJSON;
 	static IConfig config;
 	static IFileImporter fileImporter;
 	
@@ -38,7 +38,7 @@ public class IJSONvergleicherImplTest {
 	public static void beforeAllTests() {
 		IFileImporter fileImporter = new IFileImporterImpl();
 
-		iJSON = new IJSONvergleicherImpl(fileImporter);
+		iJSON = new IJSONHandlerImpl(fileImporter);
 		
 		
 	}

@@ -35,9 +35,9 @@ import de.thkoeln.syp.mtc.gui.view.FileView;
 import de.thkoeln.syp.mtc.gui.view.PopupView;
 import de.thkoeln.syp.mtc.logging.Logger;
 import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
-import de.thkoeln.syp.mtc.steuerung.services.IJSONvergleicher;
+import de.thkoeln.syp.mtc.steuerung.services.IJSONHandler;
 import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
-import de.thkoeln.syp.mtc.steuerung.services.IXMLvergleicher;
+import de.thkoeln.syp.mtc.steuerung.services.IXMLHandler;
 
 public class FileSelectionController extends JFrame {
 	/**
@@ -52,8 +52,8 @@ public class FileSelectionController extends JFrame {
 	private IMatrix matrix;
 	private IFileImporter fileImporter;
 	private ITextvergleicher textvergleicher;
-	private IXMLvergleicher xmlvergleicher;
-	private IJSONvergleicher jsonvergleicher;
+	private IXMLHandler xmlvergleicher;
+	private IJSONHandler jsonvergleicher;
 	private int mode;
 
 	private Logger logger;

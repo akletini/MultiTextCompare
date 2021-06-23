@@ -26,9 +26,9 @@ import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
 import de.thkoeln.syp.mtc.datenhaltung.api.IParseError;
 import de.thkoeln.syp.mtc.datenhaltung.api.IXMLElementComparator;
 import de.thkoeln.syp.mtc.steuerung.impl.IFileImporterImpl;
-import de.thkoeln.syp.mtc.steuerung.impl.IXMLvergleicherImpl;
+import de.thkoeln.syp.mtc.steuerung.impl.IXMLHandlerImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
-import de.thkoeln.syp.mtc.steuerung.services.IXMLvergleicher;
+import de.thkoeln.syp.mtc.steuerung.services.IXMLHandler;
 
 
 public class IXMLVergleicherImplTest {
@@ -43,7 +43,7 @@ public class IXMLVergleicherImplTest {
 	static Document testdateiDoc;
 	static Document erwartetesErgebnissDoc;
 	
-	static IXMLvergleicher iXML;
+	static IXMLHandler iXML;
 	static IConfig config;
 	static IFileImporter fileImporter;
 	
@@ -70,7 +70,7 @@ public class IXMLVergleicherImplTest {
 		fileImporter.getConfig().setXmlSortAttributes(true);
 		fileImporter.getConfig().setXmlValidation(0);
 		
-		iXML = new IXMLvergleicherImpl(fileImporter);
+		iXML = new IXMLHandlerImpl(fileImporter);
 		xout = new XMLOutputter(Format.getRawFormat());
 		
 	}

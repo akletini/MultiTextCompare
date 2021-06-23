@@ -7,7 +7,7 @@ import java.util.Map;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IParseError;
 
-public interface IJSONvergleicher {
+public interface IJSONHandler {
   
   boolean parseFile(File file);
   

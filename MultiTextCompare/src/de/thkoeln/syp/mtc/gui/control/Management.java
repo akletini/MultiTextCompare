@@ -25,13 +25,13 @@ import de.thkoeln.syp.mtc.gui.view.MainView;
 import de.thkoeln.syp.mtc.gui.view.ParseErrorView;
 import de.thkoeln.syp.mtc.logging.Logger;
 import de.thkoeln.syp.mtc.steuerung.impl.IFileImporterImpl;
-import de.thkoeln.syp.mtc.steuerung.impl.IJSONvergleicherImpl;
+import de.thkoeln.syp.mtc.steuerung.impl.IJSONHandlerImpl;
 import de.thkoeln.syp.mtc.steuerung.impl.ITextvergleicherImpl;
-import de.thkoeln.syp.mtc.steuerung.impl.IXMLvergleicherImpl;
+import de.thkoeln.syp.mtc.steuerung.impl.IXMLHandlerImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
-import de.thkoeln.syp.mtc.steuerung.services.IJSONvergleicher;
+import de.thkoeln.syp.mtc.steuerung.services.IJSONHandler;
 import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
-import de.thkoeln.syp.mtc.steuerung.services.IXMLvergleicher;
+import de.thkoeln.syp.mtc.steuerung.services.IXMLHandler;
 
 public class Management {
 	private static Management instance;
@@ -62,8 +62,8 @@ public class Management {
 
 	private IFileImporter fileImporter;
 	private ITextvergleicher textvergleicher;
-	private IXMLvergleicher xmlvergleicher;
-	private IJSONvergleicher jsonvergleicher;
+	private IXMLHandler xmlvergleicher;
+	private IJSONHandler jsonvergleicher;
 
 	private CompareThread compareThread;
 	private ExecutorService executorService;
@@ -71,8 +71,8 @@ public class Management {
 	private Management() {
 		fileImporter = new IFileImporterImpl();
 		textvergleicher = new ITextvergleicherImpl();
-		xmlvergleicher = new IXMLvergleicherImpl(fileImporter);
-		jsonvergleicher = new IJSONvergleicherImpl(fileImporter);
+		xmlvergleicher = new IXMLHandlerImpl(fileImporter);
+		jsonvergleicher = new IJSONHandlerImpl(fileImporter);
 
 		comparisons = new ArrayList<IComparisonImpl>();
 		currentErrorList = new ArrayList<>();
@@ -184,19 +184,19 @@ public class Management {
 		this.textvergleicher = textVergleicher;
 	}
 
-	public IXMLvergleicher getXmlvergleicher() {
+	public IXMLHandler getXmlvergleicher() {
 		return xmlvergleicher;
 	}
 
-	public void setXmlvergleicher(IXMLvergleicher xmlVergleicher) {
+	public void setXmlvergleicher(IXMLHandler xmlVergleicher) {
 		this.xmlvergleicher = xmlVergleicher;
 	}
 
-	public IJSONvergleicher getJsonvergleicher() {
+	public IJSONHandler getJsonvergleicher() {
 		return jsonvergleicher;
 	}
 
-	public void setJsonvergleicher(IJSONvergleicher jsonVergleicher) {
+	public void setJsonvergleicher(IJSONHandler jsonVergleicher) {
 		this.jsonvergleicher = jsonVergleicher;
 	}
 

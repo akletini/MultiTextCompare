@@ -32,10 +32,10 @@ import de.thkoeln.syp.mtc.datenhaltung.api.IParseError;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IJSONParseErrorImpl;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IJSONSortNodeFactoryImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
-import de.thkoeln.syp.mtc.steuerung.services.IJSONvergleicher;
+import de.thkoeln.syp.mtc.steuerung.services.IJSONHandler;
 
-public class IJSONvergleicherImpl extends JsonNodeFactory implements
-		IJSONvergleicher {
+public class IJSONHandlerImpl extends JsonNodeFactory implements
+		IJSONHandler {
 
 	/**
 	 * 
@@ -48,13 +48,13 @@ public class IJSONvergleicherImpl extends JsonNodeFactory implements
 
 	private IConfig iConfig;
 
-	public IJSONvergleicherImpl(IFileImporter fileImporter) {
+	public IJSONHandlerImpl(IFileImporter fileImporter) {
 		this.errorListe = new ArrayList<>();
 		this.parseError = null;
 		this.iConfig = fileImporter.getConfig();
 	}
 
-	public IJSONvergleicherImpl() {
+	public IJSONHandlerImpl() {
 
 	}
 

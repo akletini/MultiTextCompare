@@ -31,9 +31,9 @@ import de.thkoeln.syp.mtc.datenhaltung.api.IXMLElementComparator;
 import de.thkoeln.syp.mtc.datenhaltung.api.IXMLParseError;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IXMLParseErrorImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
-import de.thkoeln.syp.mtc.steuerung.services.IXMLvergleicher;
+import de.thkoeln.syp.mtc.steuerung.services.IXMLHandler;
 
-public class IXMLvergleicherImpl implements IXMLvergleicher {
+public class IXMLHandlerImpl implements IXMLHandler {
 	
 	private SAXBuilder builder;
 	
@@ -43,7 +43,7 @@ public class IXMLvergleicherImpl implements IXMLvergleicher {
 	
 	private IConfig iConfig;
 
-	public IXMLvergleicherImpl(IFileImporter fileImporter){
+	public IXMLHandlerImpl(IFileImporter fileImporter){
 		this.builder = null;
 		this.errorListe = new ArrayList<>();
 		this.parseError = null;

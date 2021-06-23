@@ -76,7 +76,8 @@ public class MainView extends JFrame {
 	private JMenuItem saveConfig, saveConfigAs, loadConfig, settings;
 	private JMenuItem clearLog, showLog;
 	private JCheckBoxMenuItem info, warning, error;
-	private JMenuItem about, tutorial;
+	private JMenuItem about, tutorial, javadoc;
+
 	private JProgressBar progressBar;
 	private Logger logger;
 	private IConfig config;
@@ -149,6 +150,7 @@ public class MainView extends JFrame {
 		error.setState(config.getShowErrors());
 		showLog = new JMenuItem("Show Log");
 		menuBar.add(menuLogging);
+		javadoc = new JMenuItem("Show docs");
 
 		menuHelp = new JMenu("    Help    ");
 		about = new JMenuItem("About", iconInfo);
@@ -182,6 +184,8 @@ public class MainView extends JFrame {
 		// Help
 		menuHelp.add(about);
 		menuHelp.add(tutorial);
+		menuHelp.add(javadoc);
+		
 
 		// Toolbar inkl. Buttons
 		toolBar = new JToolBar();
@@ -479,6 +483,15 @@ public class MainView extends JFrame {
 	public JProgressBar getProgressBar() {
 		return progressBar;
 	}
+	
+	public JMenuItem getJavadoc() {
+		return javadoc;
+	}
+
+	public void setJavadoc(JMenuItem javadoc) {
+		this.javadoc = javadoc;
+	}
+
 
 	// Setter
 
@@ -600,6 +613,10 @@ public class MainView extends JFrame {
 
 	public void addMenuSaveConfigListener(ActionListener e) {
 		saveConfig.addActionListener(e);
+	}
+	
+	public void addMenuShowJavadocListener(ActionListener e) {
+		javadoc.addActionListener(e);
 	}
 
 }
