@@ -19,6 +19,13 @@ import de.thkoeln.syp.mtc.datenhaltung.api.IMatch;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IMatchImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IMatchHelper;
 
+/**
+ * Klasse für das Zeilenmatching für die Diff-Anzeige und den Vergleich über
+ * Line Compare.
+ * 
+ * @author Allen Kletinitch
+ *
+ */
 public class IMatchHelperImpl implements IMatchHelper {
 
 	private List<IMatch> matches, oldIndeces, potentialMatches;
@@ -38,7 +45,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 	private int leftSize = 0, rightSize = 0;
 
 	public IMatchHelperImpl() {
-		
+
 	}
 
 	/**
@@ -49,6 +56,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 	 *            Referenzdatei
 	 * @param b
 	 *            Vergleichsdatei
+	 * @return Objekt mit den beiden String-Arrays der gematchten Zeilen
 	 */
 	@Override
 	public Object[] matchLines(File a, File b) throws IOException {
@@ -65,11 +73,10 @@ public class IMatchHelperImpl implements IMatchHelper {
 			leftFile = new ArrayList<String>();
 			rightFile = new ArrayList<String>();
 
-
 			lineCountLeft = getLineCounts(a, leftFile);
 			lineCountRight = getLineCounts(b, rightFile);
-			
-			if(lineCountRight < lineCountLeft){
+
+			if (lineCountRight < lineCountLeft) {
 				int temp = lineCountLeft;
 				lineCountLeft = lineCountRight;
 				lineCountRight = temp;
@@ -78,7 +85,8 @@ public class IMatchHelperImpl implements IMatchHelper {
 			}
 
 			if (lineCountLeft == 0 || lineCountRight == 0) {
-				return new Object[]{leftFile.toArray(new String[0]), rightFile.toArray(new String[0])};
+				return new Object[] { leftFile.toArray(new String[0]),
+						rightFile.toArray(new String[0]) };
 			}
 
 			int lastMatchedIndex = 0, lookaheadExtensionOnMatch = 0;
@@ -86,33 +94,31 @@ public class IMatchHelperImpl implements IMatchHelper {
 			for (int i = 0; i < lineCountLeft; i++) {
 				reference = leftFile.get(i);
 				// ob es in der rechten Datei ein Match gibt
-				int maxSearchIndex = i + LOOKAHEAD + 1 + lookaheadExtensionOnMatch;
+				int maxSearchIndex = i + LOOKAHEAD + 1
+						+ lookaheadExtensionOnMatch;
 
 				if (LOOKAHEAD != 0) {
 					if (maxSearchIndex >= lineCountRight) {
 						maxSearchIndex = lineCountRight;
 					}
-						for (int j = lastMatchedIndex; j < maxSearchIndex; j++) {
-							comp = rightFile.get(j);
-							int LCS = getLCSLengthFromComparison(reference,
-									comp);
-							if (isMatchable(LCS, reference, comp)) {
-								lastMatchedIndex = j + 1;
-								lookaheadExtensionOnMatch = 1;
-								matches.add(new IMatchImpl(i, j, reference,
-										comp));
-								oldIndeces.add(new IMatchImpl(i, j, reference,
-										comp));
-								break;
-							}
-
+					for (int j = lastMatchedIndex; j < maxSearchIndex; j++) {
+						comp = rightFile.get(j);
+						int LCS = getLCSLengthFromComparison(reference, comp);
+						if (isMatchable(LCS, reference, comp)) {
+							lastMatchedIndex = j + 1;
+							lookaheadExtensionOnMatch = 1;
+							matches.add(new IMatchImpl(i, j, reference, comp));
+							oldIndeces
+									.add(new IMatchImpl(i, j, reference, comp));
+							break;
 						}
-					
+
+					}
+
 				} else {
 					for (int j = lastMatchedIndex; j < lineCountRight; j++) {
 						comp = rightFile.get(j);
-						int LCS = getLCSLengthFromComparison(reference,
-								comp);
+						int LCS = getLCSLengthFromComparison(reference, comp);
 						if (isMatchable(LCS, reference, comp)) {
 							lastMatchedIndex = j + 1;
 							lookaheadExtensionOnMatch = 1;
@@ -133,19 +139,30 @@ public class IMatchHelperImpl implements IMatchHelper {
 				alignMatches(matches);
 				fillInMatches(a, b);
 				fillInBetweenMatches(oldIndeces);
-				if(swapped){
+				if (swapped) {
 					swapBack();
 				}
-				if(!isLineCompare){
+				if (!isLineCompare) {
 					writeArrayToFile(a, b);
 				}
-				return new Object[]{leftFileLines, rightFileLines};
+				return new Object[] { leftFileLines, rightFileLines };
 			} else {
-				return new Object[]{leftFile.toArray(new String[0]), rightFile.toArray(new String[0])};
+				return new Object[] { leftFile.toArray(new String[0]),
+						rightFile.toArray(new String[0]) };
 			}
 		}
 	}
 
+	/**
+	 * Führt das Best-Match Verfahren aus falls dieses ausgewählt ist.
+	 * 
+	 * @param a
+	 *            Referenzdatei
+	 * @param b
+	 *            Vergleichsdatei
+	 * @return Objekt mit den beiden String-Arrays der gematchten Zeilen
+	 * @throws IOException
+	 */
 	public Object[] matchBestLines(File a, File b) throws IOException {
 
 		String reference = "", comp = "";
@@ -160,9 +177,8 @@ public class IMatchHelperImpl implements IMatchHelper {
 
 		lineCountLeft = getLineCounts(a, leftFile);
 		lineCountRight = getLineCounts(b, rightFile);
-		
-		
-		if(lineCountRight < lineCountLeft){
+
+		if (lineCountRight < lineCountLeft) {
 			int temp = lineCountLeft;
 			lineCountLeft = lineCountRight;
 			lineCountRight = temp;
@@ -171,9 +187,9 @@ public class IMatchHelperImpl implements IMatchHelper {
 		}
 
 		if (lineCountLeft == 0 || lineCountRight == 0) {
-			return new Object[]{leftFile.toArray(new String[0]), rightFile.toArray(new String[0])};
+			return new Object[] { leftFile.toArray(new String[0]),
+					rightFile.toArray(new String[0]) };
 		}
-
 
 		int lastMatchedIndex = 0;
 		// Schaue f�r jede Zeile der linken Datei
@@ -186,37 +202,9 @@ public class IMatchHelperImpl implements IMatchHelper {
 				if (maxSearchIndex >= lineCountRight) {
 					maxSearchIndex = lineCountRight;
 				}
-					for (int j = lastMatchedIndex; j < maxSearchIndex; j++) {
-						comp = rightFile.get(j);
-						int LCS = getLCSLengthFromComparison(reference,
-								comp);
-						if (isMatchable(LCS, reference, comp)) {
-							IMatch matchCandidate = new IMatchImpl(i, j,
-									reference, comp);
-							matchCandidate.setMatchLCS(LCS);
-							potentialMatches.add(matchCandidate);
-						}
-
-					}
-					IMatch bestMatch = getBestMatch();
-					if (bestMatch != null) {
-						lastMatchedIndex = bestMatch.getRightRow() + 1;
-						matches.add(new IMatchImpl(bestMatch.getLeftRow(),
-								bestMatch.getRightRow(), bestMatch
-										.getValueLeft(), bestMatch
-										.getValueRight()));
-						oldIndeces.add(new IMatchImpl(bestMatch.getLeftRow(),
-								bestMatch.getRightRow(), bestMatch
-										.getValueLeft(), bestMatch
-										.getValueRight()));
-						potentialMatches.clear();
-					}
-
-			} else {
-				for (int j = lastMatchedIndex; j < lineCountRight; j++) {
+				for (int j = lastMatchedIndex; j < maxSearchIndex; j++) {
 					comp = rightFile.get(j);
-					int LCS = getLCSLengthFromComparison(reference,
-							comp);
+					int LCS = getLCSLengthFromComparison(reference, comp);
 					if (isMatchable(LCS, reference, comp)) {
 						IMatch matchCandidate = new IMatchImpl(i, j, reference,
 								comp);
@@ -229,13 +217,35 @@ public class IMatchHelperImpl implements IMatchHelper {
 				if (bestMatch != null) {
 					lastMatchedIndex = bestMatch.getRightRow() + 1;
 					matches.add(new IMatchImpl(bestMatch.getLeftRow(),
-							bestMatch.getRightRow(), bestMatch
-									.getValueLeft(), bestMatch
-									.getValueRight()));
+							bestMatch.getRightRow(), bestMatch.getValueLeft(),
+							bestMatch.getValueRight()));
 					oldIndeces.add(new IMatchImpl(bestMatch.getLeftRow(),
-							bestMatch.getRightRow(), bestMatch
-									.getValueLeft(), bestMatch
-									.getValueRight()));
+							bestMatch.getRightRow(), bestMatch.getValueLeft(),
+							bestMatch.getValueRight()));
+					potentialMatches.clear();
+				}
+
+			} else {
+				for (int j = lastMatchedIndex; j < lineCountRight; j++) {
+					comp = rightFile.get(j);
+					int LCS = getLCSLengthFromComparison(reference, comp);
+					if (isMatchable(LCS, reference, comp)) {
+						IMatch matchCandidate = new IMatchImpl(i, j, reference,
+								comp);
+						matchCandidate.setMatchLCS(LCS);
+						potentialMatches.add(matchCandidate);
+					}
+
+				}
+				IMatch bestMatch = getBestMatch();
+				if (bestMatch != null) {
+					lastMatchedIndex = bestMatch.getRightRow() + 1;
+					matches.add(new IMatchImpl(bestMatch.getLeftRow(),
+							bestMatch.getRightRow(), bestMatch.getValueLeft(),
+							bestMatch.getValueRight()));
+					oldIndeces.add(new IMatchImpl(bestMatch.getLeftRow(),
+							bestMatch.getRightRow(), bestMatch.getValueLeft(),
+							bestMatch.getValueRight()));
 					potentialMatches.clear();
 				}
 			}
@@ -248,18 +258,24 @@ public class IMatchHelperImpl implements IMatchHelper {
 			alignMatches(matches);
 			fillInMatches(a, b);
 			fillInBetweenMatches(oldIndeces);
-			if(swapped){
+			if (swapped) {
 				swapBack();
 			}
-			if(!isLineCompare){
+			if (!isLineCompare) {
 				writeArrayToFile(a, b);
 			}
 		} else {
-			return new Object[]{leftFile.toArray(new String[0]), rightFile.toArray(new String[0])};
+			return new Object[] { leftFile.toArray(new String[0]),
+					rightFile.toArray(new String[0]) };
 		}
-		return new Object[]{leftFileLines, rightFileLines};
+		return new Object[] { leftFileLines, rightFileLines };
 	}
 
+	/**
+	 * Sortiert die potentiellen Matches nach der besten LCS
+	 * 
+	 * @return Das Match mit der besten LCS
+	 */
 	private IMatch getBestMatch() {
 		if (potentialMatches.size() > 0) {
 			Collections.sort(potentialMatches, new SortByLCS());
@@ -267,8 +283,6 @@ public class IMatchHelperImpl implements IMatchHelper {
 		}
 		return null;
 	}
-
-
 
 	/**
 	 * Zaehlt die Anzahl der Zeilen von file und schreibt diese Zeilen in list
@@ -662,60 +676,71 @@ public class IMatchHelperImpl implements IMatchHelper {
 	public void setSearchBestMatch(boolean searchBestMatch) {
 		this.searchBestMatch = searchBestMatch;
 	}
+
 	@Override
-	public void isLineCompare(boolean isLineCompare){
+	public void isLineCompare(boolean isLineCompare) {
 		this.isLineCompare = isLineCompare;
 	}
-	
-	private void swapFiles(){
-			List<String> tempList;			
-			tempList = leftFile;
-			leftFile = rightFile;
-			rightFile = tempList;
-		
+
+	private void swapFiles() {
+		List<String> tempList;
+		tempList = leftFile;
+		leftFile = rightFile;
+		rightFile = tempList;
+
 	}
-	
-	private void swapBack(){
+
+	private void swapBack() {
 		String[] temp;
 		temp = leftFileLines;
 		leftFileLines = rightFileLines;
 		rightFileLines = temp;
 	}
 
-	 class SortByLCS implements Comparator<IMatch> {
+	/**
+	 * Sortiert Matches nach der besten nach Länge normierten LCS für das
+	 * Best-Match Verfahren.
+	 * 
+	 * @author Allen Kletinitch
+	 *
+	 */
+	class SortByLCS implements Comparator<IMatch> {
 
 		@Override
 		public int compare(IMatch o1, IMatch o2) {
-			
-			double maxLineSize1 = (double) Math.max(o1.getValueLeft().length(), o1.getValueRight().length());
-			double maxLineSize2 = (double) Math.max(o2.getValueLeft().length(), o2.getValueRight().length());
-			
-			if (((o2.getMatchLCS() / maxLineSize2) - o1.getMatchLCS() / maxLineSize1) == 0) {
-				if(hasPriorMatch(o1)){
+
+			double maxLineSize1 = (double) Math.max(o1.getValueLeft().length(),
+					o1.getValueRight().length());
+			double maxLineSize2 = (double) Math.max(o2.getValueLeft().length(),
+					o2.getValueRight().length());
+
+			if (((o2.getMatchLCS() / maxLineSize2) - o1.getMatchLCS()
+					/ maxLineSize1) == 0) {
+				if (hasPriorMatch(o1)) {
 					return -1;
-				}
-				else if(hasPriorMatch(o2)){
+				} else if (hasPriorMatch(o2)) {
 					return 1;
 				}
 				return o2.getRightRow() - o1.getRightRow();
 			}
-			
-			if((o2.getMatchLCS() / maxLineSize2) > (o1.getMatchLCS() / maxLineSize1)){
+
+			if ((o2.getMatchLCS() / maxLineSize2) > (o1.getMatchLCS() / maxLineSize1)) {
 				return 1;
 			}
 			return -1;
 		}
-		
-		private boolean hasPriorMatch(IMatch currentMatch){
+
+		private boolean hasPriorMatch(IMatch currentMatch) {
 			boolean hasPriorMatch = false;
 			List<IMatch> matches = IMatchHelperImpl.this.getMatches();
-			for(IMatch match : matches){
-				if((match.getRightRow() == currentMatch.getRightRow() -1) && (match.getLeftRow() == currentMatch.getLeftRow() -1)){
+			for (IMatch match : matches) {
+				if ((match.getRightRow() == currentMatch.getRightRow() - 1)
+						&& (match.getLeftRow() == currentMatch.getLeftRow() - 1)) {
 					hasPriorMatch = true;
 					break;
 				}
 			}
-			
+
 			return hasPriorMatch;
 		}
 

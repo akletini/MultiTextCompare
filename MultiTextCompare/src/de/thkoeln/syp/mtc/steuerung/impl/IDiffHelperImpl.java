@@ -16,8 +16,15 @@ import de.thkoeln.syp.mtc.datenhaltung.api.IDiffLine;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IDiffCharImpl;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IDiffLineImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IDiffHelper;
-import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
 
+/**
+ * Berechnet die Diff (Difference) zwischen zwei oder drei Dateien und speichert
+ * diese in jeweiligen Listen mit den farbannotierten Zeichen der einzelnen
+ * Zeilen
+ * 
+ * @author Allen Kletinitch
+ *
+ */
 public class IDiffHelperImpl implements IDiffHelper {
 
 	private List<IDiffLine> leftLines;
@@ -34,8 +41,8 @@ public class IDiffHelperImpl implements IDiffHelper {
 	}
 
 	/**
-	 * Die Methode ermittelt die Differenzen zwischen den bergebenen Dateien und
-	 * markiert diese durch die Klasse FileCommandsVisitor
+	 * Die Methode ermittelt die Differenzen zwischen den uebergebenen Dateien
+	 * und markiert diese durch die Klasse FileCommandsVisitor
 	 * 
 	 * @param files
 	 *            Die Dateien, deren Diff gebildet werden soll
@@ -271,25 +278,30 @@ public class IDiffHelperImpl implements IDiffHelper {
 
 	}
 
+	/**
+	 * Gibt die Liste der verarbeiteten Zeilen in der linken Datei zurueck
+	 */
 	@Override
 	public List<IDiffLine> getLeftLines() {
 		return leftLines;
 	}
 
+	/**
+	 * Gibt die Liste der verarbeiteten Zeilen in der rechts Datei zurueck
+	 */
 	@Override
 	public List<IDiffLine> getRightLines() {
 		return rightLines;
 	}
 
+	/**
+	 * Gibt die Liste der verarbeiteten Zeilen in der mittleren Datei zurueck
+	 */
 	@Override
 	public List<IDiffLine> getMiddleLines() {
 		return middleLines;
 	}
 
-	@Override
-	public void setFileImporter(IFileImporter fileImporter) {
-
-	}
 }
 
 /*
@@ -743,12 +755,6 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 		}
 	}
 
-	private int numberOfSpaces(int current, int max) {
-		int numOfDigitsCurrent = String.valueOf(current).length();
-		int numOfDigitsMax = String.valueOf(max).length();
-
-		return numOfDigitsMax - numOfDigitsCurrent;
-	}
 
 	public List<IDiffLine> getLeftLines() {
 		return leftLines;

@@ -34,8 +34,14 @@ import de.thkoeln.syp.mtc.datenhaltung.impl.IJSONSortNodeFactoryImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
 import de.thkoeln.syp.mtc.steuerung.services.IJSONHandler;
 
-public class IJSONHandlerImpl extends JsonNodeFactory implements
-		IJSONHandler {
+/**
+ * Bereitet JSON-Dateien für den Vergleich vor. Verantwortlich für das Parsen,
+ * Sortieren und Manipulieren.
+ * 
+ * @author Matthias Pooth
+ *
+ */
+public class IJSONHandlerImpl extends JsonNodeFactory implements IJSONHandler {
 
 	/**
 	 * 

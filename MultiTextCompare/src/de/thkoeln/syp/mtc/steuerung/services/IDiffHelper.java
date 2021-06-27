@@ -16,5 +16,4 @@ public interface IDiffHelper {
 
 	void computeDisplayDiff(File[] files) throws IOException;
 	
-	void setFileImporter(IFileImporter fileImporter);
 }

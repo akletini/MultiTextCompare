@@ -33,6 +33,13 @@ import de.thkoeln.syp.mtc.datenhaltung.impl.IXMLParseErrorImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
 import de.thkoeln.syp.mtc.steuerung.services.IXMLHandler;
 
+/**
+ * Bereitet XML-Dateien für den Vergleich vor. Verantwortlich für das Parsen,
+ * Sortieren und Manipulieren.
+ * 
+ * @author Matthias Pooth
+ *
+ */
 public class IXMLHandlerImpl implements IXMLHandler {
 	
 	private SAXBuilder builder;

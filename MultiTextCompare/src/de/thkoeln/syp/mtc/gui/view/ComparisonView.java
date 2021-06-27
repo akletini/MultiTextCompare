@@ -72,7 +72,6 @@ public class ComparisonView extends JFrame {
 		matchHelper = new IMatchHelperImpl();
 		selection = new ArrayList<File>();
 		temp = new ArrayList<File>();
-		diffHelper.setFileImporter(management.getFileImporter());
 
 		// Dateinamen werden ermittelt fuer die Anzeige im Frame Titel
 		fileName1 = management.getFileSelectionView().getModel()

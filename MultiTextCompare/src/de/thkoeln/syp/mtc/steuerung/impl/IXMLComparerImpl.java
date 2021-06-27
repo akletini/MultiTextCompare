@@ -16,6 +16,12 @@ import org.jdom2.output.XMLOutputter;
 
 import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
 
+/**
+ * Verantwortlich für den strukturellen Vergleich von XML-Dateien
+ * 
+ * @author Allen Kletinitch
+ *
+ */
 public class IXMLComparerImpl {
 
 	private int maxLineLength;
@@ -28,6 +34,18 @@ public class IXMLComparerImpl {
 		this.maxLineLength = maxLineLength;
 	}
 
+	/**
+	 * Hauptmethode des XML-Vergleichs. Liest die beiden Dateibäume der
+	 * uebergebenen Dateien ein und ruft Methoden zur Berechnung der
+	 * Aehnlichkeit auf
+	 * 
+	 * @param ref
+	 *            Referenzdatei
+	 * @param comp
+	 *            Vergleichsdatei
+	 * @return Aehnlichkeit der beiden Dateien
+	 * @throws IOException
+	 */
 	public double compare(File ref, File comp) throws IOException,
 			JDOMException {
 		Document docRef, docComp;
@@ -43,8 +61,17 @@ public class IXMLComparerImpl {
 		return similarity;
 	}
 
-	
-
+	/**
+	 * Berechnet die Aehnlichkeit von Elementen
+	 * 
+	 * @param ref
+	 *            Referenzknoten
+	 * @param comp
+	 *            Vergleichsknoten
+	 * @param currentLevelWeight
+	 *            Gewicht fuer Knoten der aktuellen Ebene
+	 * @return Aehnlichkeit der beiden Knoten
+	 */
 	private double compareElements(Element ref, Element comp,
 			double currentLevelWeight) {
 		boolean compareComments = true;
@@ -54,74 +81,70 @@ public class IXMLComparerImpl {
 		double textWeight = 0.5;
 		double attributeWeight = 0.5;
 		double totalSimilarity = 0, textSimilarity, attributeSimilarity;
-		commentFound = false; 
-		// BETA
+		commentFound = false;
+
 		List<Content> refContent = ref.getContent();
 		List<Content> compContent = comp.getContent();
-		double contentSim = currentLevelWeight * compareContent(refContent, compContent);
-		if(textPresent && commentFound && attributesPresent){
+		double contentSim = currentLevelWeight
+				* compareContent(refContent, compContent);
+		if (textPresent && commentFound && attributesPresent) {
 			textWeight = 1.0 / 3.0;
 			attributeWeight = textWeight;
 			contentWeight = attributeWeight;
 		}
 		String refNorm = ref.getTextNormalize();
 		String compNorm = comp.getTextNormalize();
-		double stringSimilarity = compareStrings(refNorm,
-				compNorm);
-		
-		textSimilarity = currentLevelWeight * textWeight
-				* stringSimilarity;
+		double stringSimilarity = compareStrings(refNorm, compNorm);
+
+		textSimilarity = currentLevelWeight * textWeight * stringSimilarity;
 		attributeSimilarity = currentLevelWeight
 				* attributeWeight
 				* calcAttributeSimilarity(ref.getAttributes(),
 						comp.getAttributes());
 		contentSim = contentWeight * contentSim;
 
-		if(!compareComments){
+		if (!compareComments) {
 			if (attributesPresent && textPresent) {
 				totalSimilarity = textSimilarity + attributeSimilarity;
-			}
-			else if (attributesPresent && !textPresent) {
-				totalSimilarity = 2* attributeSimilarity;
-			}
-			else if (!attributesPresent && !textPresent) {
-				totalSimilarity =  -1;
-			}
-			else {
+			} else if (attributesPresent && !textPresent) {
+				totalSimilarity = 2 * attributeSimilarity;
+			} else if (!attributesPresent && !textPresent) {
+				totalSimilarity = -1;
+			} else {
 				totalSimilarity = 2 * textSimilarity;
 			}
-		}
-		else {
+		} else {
 			// attribute + text + kein Kommentar
 			if (attributesPresent && textPresent && !commentFound) {
 				totalSimilarity = textSimilarity + attributeSimilarity;
-			} 
+			}
 			// attribute + text + kommentar
-			else if(attributesPresent && textPresent && commentFound){
-				totalSimilarity = textSimilarity + attributeSimilarity + contentSim;
+			else if (attributesPresent && textPresent && commentFound) {
+				totalSimilarity = textSimilarity + attributeSimilarity
+						+ contentSim;
 			}
 			// keine attribute + text + kein kommentar
-			else if(!attributesPresent && textPresent && !commentFound){
+			else if (!attributesPresent && textPresent && !commentFound) {
 				totalSimilarity = 2 * textSimilarity;
 			}
 			// keine attribute + text + kommentar
-			else if(!attributesPresent && textPresent && commentFound){
+			else if (!attributesPresent && textPresent && commentFound) {
 				totalSimilarity = textSimilarity + contentSim;
 			}
 			// attribute + kein text + kein Kommentar
 			else if (attributesPresent && !textPresent && !commentFound) {
 				totalSimilarity = 2 * attributeSimilarity;
-			} 
+			}
 			// attribute + kein text + kommentar
-			else if(attributesPresent && !textPresent && commentFound){
+			else if (attributesPresent && !textPresent && commentFound) {
 				totalSimilarity = attributeSimilarity + contentSim;
 			}
 			// keine attribute + kein text + kein kommentar
-			else if(!attributesPresent && !textPresent && !commentFound){
+			else if (!attributesPresent && !textPresent && !commentFound) {
 				totalSimilarity = -1;
 			}
 			// keine attribute + kein text + kommentar
-			else if(!attributesPresent && !textPresent && commentFound){
+			else if (!attributesPresent && !textPresent && commentFound) {
 				totalSimilarity = 2 * contentSim;
 			}
 		}
@@ -129,6 +152,15 @@ public class IXMLComparerImpl {
 		return totalSimilarity;
 	}
 
+	/**
+	 * Berechnet die Aehnlichkeit von zwei Attributlisten
+	 * 
+	 * @param refAttr
+	 *            Referenzattribute
+	 * @param compAttr
+	 *            Vergleichsattribute
+	 * @return Aehnlichkeit der Attributslisten
+	 */
 	private double calcAttributeSimilarity(List<Attribute> refAttr,
 			List<Attribute> compAttr) {
 		List<Attribute> matchingRef = new ArrayList<Attribute>();
@@ -164,6 +196,18 @@ public class IXMLComparerImpl {
 		return similarity;
 	}
 
+	/**
+	 * Ruft wo noetig die compareElements-Methode auf und matcht wo moeglich
+	 * Elementeintraege in Elementlisten
+	 * 
+	 * @param ref
+	 *            Referenzknoten
+	 * @param comp
+	 *            Vergleichsknoten
+	 * @param currentLevelWeight
+	 *            Gewicht der Knoten in aktueller Ebene
+	 * @return Aehnlichkeit der beiden Knoten
+	 */
 	private double compareElementsRecursively(Element ref, Element comp,
 			double currentLevelWeight) {
 		List<Double> similarities = new ArrayList<Double>();
@@ -179,11 +223,10 @@ public class IXMLComparerImpl {
 			Element currentRef = ref.getChildren().get(i);
 			String currentRefName = currentRef.getName();
 			matchedElementNames.add(currentRefName);
-			if (getElementCount(matchedElementNames, currentRefName) == 1 && comp.getChildren(currentRefName).size() != 0) {
-				matchingRef.addAll(copyElementList(ref
-						.getChildren(currentRefName)));
-				matchingComp.addAll(copyElementList(comp
-						.getChildren(currentRefName)));
+			if (getElementCount(matchedElementNames, currentRefName) == 1
+					&& comp.getChildren(currentRefName).size() != 0) {
+				matchingRef.addAll(ref.getChildren(currentRefName));
+				matchingComp.addAll(comp.getChildren(currentRefName));
 			}
 		}
 
@@ -207,10 +250,9 @@ public class IXMLComparerImpl {
 				}
 			}
 		}
-		
-		double currentNodeSim = compareElements(ref, comp,
-				currentWeight);
-		if(currentNodeSim != -1){
+
+		double currentNodeSim = compareElements(ref, comp, currentWeight);
+		if (currentNodeSim != -1) {
 			currentNodeSim *= currentLevelWeight;
 			adjustNodeSimilarity = true;
 		}
@@ -225,10 +267,10 @@ public class IXMLComparerImpl {
 			Element currentComp = matchingComp.get(i);
 
 			if (hasChildren(currentRef) && hasChildren(currentComp)) {
-				double similarity = currentLevelWeight 
+				double similarity = currentLevelWeight
 						* compareElementsRecursively(currentRef, currentComp,
 								currentWeight);
-			
+
 				similarities.add(similarity);
 			} else if (hasChildren(currentRef) && !hasChildren(currentComp)) {
 
@@ -245,18 +287,27 @@ public class IXMLComparerImpl {
 		for (Double s : similarities) {
 			sim += s;
 		}
-		if(adjustNodeSimilarity){
+		if (adjustNodeSimilarity) {
 			sim = sim * similarities.size() / (similarities.size() + 1);
-			sim  += currentNodeSim / (similarities.size() + 1);
+			sim += currentNodeSim / (similarities.size() + 1);
 		}
 		this.similarities = similarities;
 		return sim;
 	}
 
+	/**
+	 * Vergleicht den textuellen Inhalt von Kommentaren
+	 * 
+	 * @param refContent
+	 *            Contentliste des Referenzknotens
+	 * @param compContent
+	 *            Contentliste des Vergleichsknotens
+	 * @return Aehnlichkeit der Kommentare
+	 */
 	private double compareContent(List<Content> refContent,
 			List<Content> compContent) {
 		boolean useComments = true;
-		
+
 		double totalCommentsLeft = getCommentCount(refContent);
 		double totalCommentsRight = getCommentCount(compContent);
 		double maxSize = Math.max(totalCommentsLeft, totalCommentsRight);
@@ -273,32 +324,53 @@ public class IXMLComparerImpl {
 			}
 		}
 		double sim = 0;
-		if(useComments){
-			if(maxSize != 0){
+		if (useComments) {
+			if (maxSize != 0) {
 				sim += sumSimilarities(similaritiesComment) / maxSize;
 				commentFound = true;
 			}
 		}
 		return sim;
 	}
-	
-	
 
+	/**
+	 * Gibt die Anzahl der Kommentare in einer Contentliste zurueck
+	 * 
+	 * @param content
+	 * @return
+	 */
 	private double getCommentCount(List<Content> content) {
 		double count = 0.0;
-		for(Object o : content){
-			if(o instanceof Comment){
+		for (Object o : content) {
+			if (o instanceof Comment) {
 				count++;
 			}
 		}
 		return (double) count;
 	}
 
+	/**
+	 * Gibt die Äehnlichkeit zweier Kommentare zurueck
+	 * 
+	 * @param ref
+	 *            Referenzkommentar
+	 * @param comp
+	 *            Vergleichskommentar
+	 * @return
+	 */
 	private double compareComments(Comment ref, Comment comp) {
 		return compareStrings(ref.getText(), comp.getText());
 	}
 
-
+	/**
+	 * Vergleicht zwei Strings und gibt deren Aehnlichkeit zurueck
+	 * 
+	 * @param ref
+	 *            Referenzstring
+	 * @param comp
+	 *            Vergleichsstring
+	 * @return Aehnlichkeit der Strings
+	 */
 	private double compareStrings(String ref, String comp) {
 		double similarity = 1.0;
 		double maxLength = Math.max(ref.length(), comp.length());
@@ -309,6 +381,15 @@ public class IXMLComparerImpl {
 		return similarity;
 	}
 
+	/**
+	 * Berechnet das Gewicht für die Knoten der aktuellen Ebene
+	 * 
+	 * @param rootRef
+	 *            Referenzknoten
+	 * @param rootComp
+	 *            Vergleichsknoten
+	 * @return Das aktuelle Gewicht fuer Knoten der Ebene
+	 */
 	private double calcLevelWeight(Element ref, Element comp) {
 		double levelWeight = 0.0;
 		int nodeCountLeft = ref.getChildren().size();
@@ -318,6 +399,12 @@ public class IXMLComparerImpl {
 		return levelWeight;
 	}
 
+	/**
+	 * Prueft ob ein Element Kinder hat
+	 * 
+	 * @param e
+	 * @return
+	 */
 	private boolean hasChildren(Element e) {
 		if (e.getChildren().size() == 0) {
 			return false;
@@ -325,13 +412,25 @@ public class IXMLComparerImpl {
 		return true;
 	}
 
+	/**
+	 * Prueft ob ein Element Attribute hat
+	 * 
+	 * @param e
+	 * @return
+	 */
 	private boolean hasAttributes(Element e) {
 		if (e.getAttributes().size() == 0) {
 			return false;
 		}
 		return true;
 	}
-	
+
+	/**
+	 * Prueft ob ein Element Text hat
+	 * 
+	 * @param e
+	 * @return
+	 */
 	private boolean hasText(Element e) {
 		if (e.getTextNormalize().equals("")) {
 			return false;
@@ -339,6 +438,12 @@ public class IXMLComparerImpl {
 		return true;
 	}
 
+	/**
+	 * Summiert alle Teilaehnlichkeiten einer Liste auf
+	 * 
+	 * @param similarities
+	 * @return Gesamtaehnlichkeit
+	 */
 	private double sumSimilarities(List<Double> similarities) {
 		double similarity = 0.0;
 		for (Double d : similarities) {
@@ -347,6 +452,12 @@ public class IXMLComparerImpl {
 		return similarity;
 	}
 
+	/**
+	 * Kopiert Elementliste und lässt null-Knoten aus
+	 * 
+	 * @param original
+	 * @return
+	 */
 	private List<Element> clearNullValues(List<Element> original) {
 		List<Element> returnList = new ArrayList<Element>();
 		for (Element e : original) {
@@ -357,14 +468,15 @@ public class IXMLComparerImpl {
 		return returnList;
 	}
 
-	private List<Element> copyElementList(List<Element> original) {
-		List<Element> returnList = new ArrayList<Element>();
-		for (Element e : original) {
-			returnList.add(e);
-		}
-		return returnList;
-	}
-
+	/**
+	 * Zaehlt wie oft ein Element mit einem bestimmten Namen in einer Liste
+	 * auftaucht
+	 * 
+	 * @param original
+	 *            Liste die durchsucht werden soll
+	 * @param name
+	 * @return Die Anzahl der Elemente mit dem Nanem
+	 */
 	private int getElementCount(List<String> original, String name) {
 		int count = 0;
 		for (String s : original) {
@@ -378,6 +490,5 @@ public class IXMLComparerImpl {
 	public List<Double> getSimilarities() {
 		return similarities;
 	}
-	
-	
+
 }

@@ -14,11 +14,13 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 
 import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
 
+/**
+ * Verantwortlich für den strukturellen Vergleich von JSON-Dateien
+ * 
+ * @author Allen Kletinitch
+ *
+ */
 public class IJSONComparerImpl {
-	private static final String NEW_LINE = "\n";
-	private static final String FIELD_DELIMITER = ": ";
-	private static final String ARRAY_PREFIX = "- ";
-	private static final String YAML_PREFIX = "  ";
 
 	private final String uuid = UUID.randomUUID().toString();
 
@@ -29,25 +31,44 @@ public class IJSONComparerImpl {
 
 	private ITextvergleicher textComparer;
 	private int maxLineLength;
+	private List<Double> similarities;
 
 	public IJSONComparerImpl(int maxLineLength) {
 		textComparer = new ITextvergleicherImpl();
+		similarities = new ArrayList<Double>();
 		this.maxLineLength = maxLineLength;
 	}
 
+	/**
+	 * Hauptmethode des JSON-Vergleichs. Liest die beiden Dateibäume der
+	 * uebergebenen Dateien ein und ruft Methoden zur Berechnung der
+	 * Aehnlichkeit auf
+	 * 
+	 * @param ref
+	 *            Referenzdatei
+	 * @param comp
+	 *            Vergleichsdatei
+	 * @return Aehnlichkeit der beiden Dateien
+	 * @throws IOException
+	 */
 	public double compare(File ref, File comp) throws IOException {
 		String jsonFileRef = new IJSONHandlerImpl().jsonFileToString(ref);
 		String jsonFileComp = new IJSONHandlerImpl().jsonFileToString(comp);
 		rootNodeRef = objectMapper.readTree(jsonFileRef);
 		rootNodeComp = objectMapper.readTree(jsonFileComp);
 		calcLevelWeight(rootNodeRef, rootNodeComp);
-		List<Double> similarities = traverseGraph(rootNodeRef, rootNodeComp);
+		similarities = traverseGraph(rootNodeRef, rootNodeComp);
 		double similarity = sumSimilarities(similarities);
 
 		return similarity;
 	}
 
-
+	/**
+	 * Summiert alle Werte von similarities auf
+	 * 
+	 * @param similarities
+	 * @return die Gesamtähnlichkeit
+	 */
 	private double sumSimilarities(List<Double> similarities) {
 		double similarity = 0.0;
 		for (Double d : similarities) {
@@ -56,7 +77,16 @@ public class IJSONComparerImpl {
 		return similarity;
 	}
 
-	public List<Double> traverseGraph(JsonNode rootRef, JsonNode rootComp) {
+	/**
+	 * Traversiert die beiden Baumgraphen der eingelesenen Vergleichsdateien
+	 * 
+	 * @param rootRef
+	 *            Wurzelknoten der Referenzdatei
+	 * @param rootComp
+	 *            Wurzelknoten der Vergleichsdatei
+	 * @return Liste der Ähnlichkeiten für jeden Knoten der ersten Ebene
+	 */
+	private List<Double> traverseGraph(JsonNode rootRef, JsonNode rootComp) {
 		List<Double> similarity = new ArrayList<Double>();
 		double currentLevelWeight = calcLevelWeight(rootRef, rootComp);
 		Iterator<String> fieldNames = rootRef.fieldNames();
@@ -94,6 +124,17 @@ public class IJSONComparerImpl {
 		return similarity;
 	}
 
+	/**
+	 * Vergleicht die Ähnlichkeit zweier Value-Knoten
+	 * 
+	 * @param fieldValueRef
+	 *            Referenknoten
+	 * @param fieldValueComp
+	 *            Vergleichsknoten
+	 * @param currentLevelWeight
+	 *            Gewichtung der aktuellen Ebene
+	 * @return Ähnlichkeit der beiden Knoten
+	 */
 	private double compareValues(JsonNode fieldValueRef,
 			JsonNode fieldValueComp, double currentLevelWeight) {
 		double similarity = 0;
@@ -113,6 +154,17 @@ public class IJSONComparerImpl {
 		return similarity;
 	}
 
+	/**
+	 * Vergleicht die Ähnlichkeit zweier Object-Knoten
+	 * 
+	 * @param fieldValueRef
+	 *            Referenknoten
+	 * @param fieldValueComp
+	 *            Vergleichsknoten
+	 * @param currentLevelWeight
+	 *            Gewichtung der aktuellen Ebene
+	 * @return Ähnlichkeit der beiden Knoten
+	 */
 	private double compareObjects(JsonNode fieldValueRef,
 			JsonNode fieldValueComp, double currentLevelWeight) {
 		Iterator<String> itRef = fieldValueRef.fieldNames();
@@ -185,12 +237,23 @@ public class IJSONComparerImpl {
 		return sim;
 	}
 
+	/**
+	 * Vergleicht die Ähnlichkeit zweier Array-Knoten
+	 * 
+	 * @param fieldValueRef
+	 *            Referenknoten
+	 * @param fieldValueComp
+	 *            Vergleichsknoten
+	 * @param currentLevelWeight
+	 *            Gewichtung der aktuellen Ebene
+	 * @return Ähnlichkeit der beiden Knoten
+	 */
 	private double compareArrays(JsonNode fieldValueRef,
 			JsonNode fieldValueComp, double currentLevelWeight) {
 		double similarity = 0.0;
 		double maxArraySize = Math.max(fieldValueRef.size(),
 				fieldValueComp.size());
-
+		double currentWeight = calcLevelWeight(fieldValueRef, fieldValueComp);
 		// array matching
 		if (fieldValueRef.isArray() && fieldValueComp.isArray()) {
 
@@ -221,7 +284,6 @@ public class IJSONComparerImpl {
 			fieldValueComp = compArray;
 		}
 
-
 		int lastMatchedIndex = 0;
 		for (int i = 0; i < fieldValueRef.size(); i++) {
 			JsonNode currentRefNode = fieldValueRef.get(i);
@@ -238,7 +300,7 @@ public class IJSONComparerImpl {
 					} else if (currentCompNode.isArray()) {
 						similarity += currentLevelWeight = compareValues(
 								currentRefNode, currentCompNode,
-								calcLevelWeight(fieldValueRef, fieldValueComp));
+								currentWeight);
 					} else if (currentCompNode.isObject()) {
 						// Type mismatch
 					}
@@ -246,14 +308,13 @@ public class IJSONComparerImpl {
 					if (currentCompNode.isValueNode()) {
 						similarity += currentLevelWeight = compareValues(
 								currentCompNode, currentRefNode,
-								calcLevelWeight(fieldValueRef, fieldValueComp));
+								currentWeight);
 					} else if (currentCompNode.isArray()) {
 						similarity += currentLevelWeight
 								* compareArrays(
 										currentRefNode,
 										currentCompNode,
-										calcLevelWeight(fieldValueRef,
-												fieldValueComp));
+										currentWeight);
 						lastMatchedIndex = j + 1;
 						break;
 					} else if (currentCompNode.isObject()) {
@@ -268,13 +329,11 @@ public class IJSONComparerImpl {
 
 						if (objectsShareFields(currentRefNode, currentCompNode)) {
 
-							double objectsim = (1 / maxArraySize)
-									* currentLevelWeight
+							double objectsim = currentLevelWeight
 									* compareObjects(
 											currentRefNode,
 											currentCompNode,
-											calcLevelWeight(fieldValueRef,
-													fieldValueComp));
+											currentWeight);
 							similarity += objectsim;
 							lastMatchedIndex = j + 1;
 							break;
@@ -286,6 +345,15 @@ public class IJSONComparerImpl {
 		return similarity;
 	}
 
+	/**
+	 * Prüft ob zwei Objekt-Knoten die gleichen Felder haben
+	 * 
+	 * @param ref
+	 *            Referenzknoten
+	 * @param comp
+	 *            Vergleichsknoten
+	 * @return true wenn die Felder gleich sind, sonst false
+	 */
 	private boolean objectsShareFields(JsonNode ref, JsonNode comp) {
 		Iterator<String> itRef = ref.fieldNames();
 		Iterator<String> itComp = comp.fieldNames();
@@ -309,7 +377,16 @@ public class IJSONComparerImpl {
 		return false;
 	}
 
-	public double calcLevelWeight(JsonNode rootRef, JsonNode rootComp) {
+	/**
+	 * Berechnet das Gewicht für die Knoten der aktuellen Ebene
+	 * 
+	 * @param rootRef
+	 *            Referenzknoten
+	 * @param rootComp
+	 *            Vergleichsknoten
+	 * @return Das aktuelle Gewicht fuer Knoten der Ebene
+	 */
+	private double calcLevelWeight(JsonNode rootRef, JsonNode rootComp) {
 		double weight = 0;
 		if (rootRef.isObject() && rootComp.isObject()) {
 			int nodeCountLeft = getIteratorSize(rootRef.fields());
@@ -325,6 +402,12 @@ public class IJSONComparerImpl {
 		return weight;
 	}
 
+	/**
+	 * Berechnet wie viele Elemente im Iterator sind
+	 * 
+	 * @param iterator
+	 * @return die Anzahl der Elemente in iterator
+	 */
 	private int getIteratorSize(Iterator<?> iterator) {
 		int i = 0;
 		while (iterator.hasNext()) {
@@ -334,6 +417,13 @@ public class IJSONComparerImpl {
 		return i;
 	}
 
+	/**
+	 * Prüft ob ein Feld mit dem Namen refKey im Knoten right existiert
+	 * 
+	 * @param refKey
+	 * @param right
+	 * @return true wenn der Knoten in right existiert
+	 */
 	private boolean existsInBoth(String refKey, JsonNode right) {
 		Iterator<String> fieldNamesComp = right.fieldNames();
 		ArrayList<String> fields = iteratorToList(fieldNamesComp);
@@ -345,6 +435,12 @@ public class IJSONComparerImpl {
 		return false;
 	}
 
+	/**
+	 * Speichert Elemente eines Iterators in einer Liste und gibt diese zurück
+	 * 
+	 * @param iterator
+	 * @return Liste mit Elementen des Iterators
+	 */
 	private ArrayList<String> iteratorToList(Iterator<String> iterator) {
 		ArrayList<String> actualList = new ArrayList<String>();
 		while (iterator.hasNext()) {
@@ -353,6 +449,15 @@ public class IJSONComparerImpl {
 		return actualList;
 	}
 
+	/**
+	 * Berechnet die String-Aehnlichkeit für ref und comp unter Beachtung des
+	 * aktuellen Gewichts
+	 * 
+	 * @param ref Referenzstring
+	 * @param comp Vergleichsstring
+	 * @param weight aktuelles Gewicht
+	 * @return Aehnlichkeit der beiden Strings
+	 */
 	private double calcSimilarity(String ref, String comp, double weight) {
 		double longestLength = (double) Math.max(ref.length(), comp.length());
 		double levenshteinDist = (double) textComparer
@@ -368,7 +473,12 @@ public class IJSONComparerImpl {
 		}
 	}
 
-
+	/**
+	 * Ersetzt Array-Felder mit UUIDs durch neue Array-Knoten
+	 * @param original Das zu bearbeitende Array
+	 * @param uuid aktuelle UUID
+	 * @return verändertes Array
+	 */
 	private ArrayNode clearUUIDFields(ArrayNode original, String uuid) {
 		ArrayNode returnArray = objectMapper.createArrayNode();
 		for (int i = 0; i < original.size(); i++) {
@@ -377,5 +487,9 @@ public class IJSONComparerImpl {
 			}
 		}
 		return returnArray;
+	}
+	
+	public List<Double> getSimiList(){
+		return similarities;
 	}
 }

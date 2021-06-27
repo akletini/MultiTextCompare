@@ -29,6 +29,14 @@ import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
 import de.thkoeln.syp.mtc.steuerung.services.IMatchHelper;
 import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
 
+/**
+ * Verwaltet alle Vergleichsalgorithmen und das Setup von Vergleichen. Dabei
+ * werden die Dateien von IFileImporter nach Vergleichen aufgeteilt und nach
+ * Gewicht sortiert auf verfügbare CPU-Threads verteilt.
+ * 
+ * @author Allen Kletinitch
+ *
+ */
 public class ITextvergleicherImpl implements ITextvergleicher {
 
 	private IFileImporter fileImporter;
@@ -158,6 +166,10 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 
 	}
 
+	/**
+	 * Ruft den strukturellen Vergleich für JSON-Dateien auf und speichert das
+	 * Ergebnis
+	 */
 	@Override
 	public void compareJSON(List<IComparisonImpl> batch) {
 		i = 0;
@@ -180,6 +192,10 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 
 	}
 
+	/**
+	 * Ruft den strukturellen Vergleich für JSON-Dateien auf und speichert das
+	 * Ergebnis
+	 */
 	@Override
 	public void compareXML(List<IComparisonImpl> batch) {
 		final int MAXLINELENGTH = fileImporter.getConfig().getMaxLineLength();
@@ -195,8 +211,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 				compareThread.publishData(i);
 			} catch (JDOMException e) {
 				// occurs due to xml files with errors being compared
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				Logger logger = Management.getInstance().getLogger();
 				logger.setMessage(e.toString(), Logger.LEVEL_ERROR);
 			}
@@ -334,7 +349,6 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 			double lengthOfLongestString = (double) longestString;
 			double levenshteinDist;
 
-			
 			levenshteinDist = calculateLevenshteinDist(ref, comp, MAXLINELENGTH);
 
 			if (lengthOfLongestString != 0) {
@@ -411,6 +425,17 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		return paarungen;
 	}
 
+	/**
+	 * Errechnet für einen Vergleich das Gewicht. Das Gewicht ist die Anzahl
+	 * aller Zeichen in beiden zu vergleichenden Dateien
+	 * 
+	 * @param ref
+	 *            Referenzdatei
+	 * @param comp
+	 *            Vergleichsdatei
+	 * @return Das Gewicht des Vergleichs
+	 * @throws IOException
+	 */
 	private int getWeightFromComparison(File ref, File comp) throws IOException {
 		String line = "";
 		int weight = 0;
@@ -428,6 +453,10 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		return weight;
 	}
 
+	/**
+	 * Erstellt Batches je nach Anzahl der verfügbaren CPU-Threads und teils
+	 * Vergleiche gleichmäßig auf diesen auf.
+	 */
 	@Override
 	public void createBatches() {
 		batches = new ArrayList<IMatrixImpl>();
@@ -437,6 +466,10 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 
 	}
 
+	/**
+	 * Fügt Batches nach Vergleich in eine einzige Liste zusammen und sortiert
+	 * diese nach ihrer ID
+	 */
 	@Override
 	public void mergeBatches() {
 		paarungen.clear();
@@ -453,6 +486,16 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		Collections.sort(paarungen, new SortIAehnlichkeitByID());
 	}
 
+	/**
+	 * Verteilt Vergleiche nach dem Round Robin Prinzip auf die verfügbaren
+	 * Batches in Abhaengigkeit der Vergleichsgewichte
+	 * 
+	 * @param iterable
+	 *            Listen mit den zu verteilenden Vergleichen
+	 * @param partitions
+	 *            Anzahl der Batches
+	 * @return
+	 */
 	public List<IMatrixImpl> distributeBatches(List<IComparisonImpl> iterable,
 			int partitions) {
 		batches = new ArrayList<>(partitions);
@@ -520,6 +563,12 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		this.fileImporter = fileImporter;
 	}
 
+	/**
+	 * Sortiert Vergleiche nach ihrer ID
+	 * 
+	 * @author Allen Kletinitch
+	 *
+	 */
 	class SortIAehnlichkeitByID implements Comparator<IComparison> {
 
 		@Override
@@ -529,6 +578,12 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 
 	}
 
+	/**
+	 * Sortiert Vergleiche nach ihrem Gewicht
+	 * 
+	 * @author Allen Kletinitch
+	 *
+	 */
 	class SortIAehnlichkeitByWeight implements Comparator<IComparison> {
 
 		@Override

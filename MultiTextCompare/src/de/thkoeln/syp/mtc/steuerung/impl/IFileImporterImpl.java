@@ -20,6 +20,13 @@ import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IConfigImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
 
+/**
+ * Verwaltet die zu vergleichenden Textdateien und die Konfiguration der
+ * Anwendung.
+ * 
+ * @author Luca Uckermann
+ *
+ */
 public class IFileImporterImpl implements IFileImporter {
 
 	private IConfig iConfig;
