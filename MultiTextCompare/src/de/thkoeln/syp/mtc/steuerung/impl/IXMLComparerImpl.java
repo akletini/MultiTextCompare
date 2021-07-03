@@ -11,6 +11,7 @@ import org.jdom2.Content;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
+import org.jdom2.Namespace;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.XMLOutputter;
 
@@ -29,7 +30,7 @@ public class IXMLComparerImpl {
 	private ITextvergleicher textvergleicher;
 	private IFileImporter fileImporter;
 	private List<Double> similarities;
-	private boolean commentFound;
+	private boolean commentFound, rootHasNamespaces;
 
 	public IXMLComparerImpl(IFileImporter fileImporter) {
 		textvergleicher = new ITextvergleicherImpl();
@@ -59,6 +60,8 @@ public class IXMLComparerImpl {
 
 		rootRef = docRef.getRootElement();
 		rootComp = docComp.getRootElement();
+		
+		rootHasNamespaces = rootHasNameSpace(rootRef, rootComp);
 
 		double similarity = compareElementsRecursively(rootRef, rootComp, 1.0);
 		return similarity;
@@ -77,7 +80,8 @@ public class IXMLComparerImpl {
 	 */
 	private double compareElements(Element ref, Element comp,
 			double currentLevelWeight) {
-		boolean compareComments = fileImporter.getConfig().getXmlCompareComments();
+		boolean compareComments = fileImporter.getConfig()
+				.getXmlCompareComments();
 		boolean attributesPresent = hasAttributes(ref) || hasAttributes(comp);
 		boolean textPresent = hasText(ref) || hasText(comp);
 		double contentWeight = 0.5;
@@ -184,6 +188,7 @@ public class IXMLComparerImpl {
 		for (Attribute refAttribute : refAttr) {
 			for (Attribute compAttribute : compAttr) {
 				if (refAttribute.getName().equals(compAttribute.getName())) {
+					
 					matchingRef.add(refAttribute);
 					matchingComp.add(compAttribute);
 				}
@@ -227,9 +232,12 @@ public class IXMLComparerImpl {
 			String currentRefName = currentRef.getName();
 			matchedElementNames.add(currentRefName);
 			if (getElementCount(matchedElementNames, currentRefName) == 1
-					&& comp.getChildren(currentRefName).size() != 0) {
-				matchingRef.addAll(ref.getChildren(currentRefName));
-				matchingComp.addAll(comp.getChildren(currentRefName));
+					&& comp.getChildren(currentRefName,
+							currentRef.getNamespace()).size() != 0) {
+				matchingRef.addAll(ref.getChildren(currentRefName,
+						currentRef.getNamespace()));
+				matchingComp.addAll(comp.getChildren(currentRefName,
+						currentRef.getNamespace()));
 			}
 		}
 
@@ -258,6 +266,7 @@ public class IXMLComparerImpl {
 		if (currentNodeSim != -1) {
 			currentNodeSim *= currentLevelWeight;
 			adjustNodeSimilarity = true;
+
 		}
 		matchingRef = clearNullValues(matchingRef);
 		matchingComp = clearNullValues(matchingComp);
@@ -290,7 +299,7 @@ public class IXMLComparerImpl {
 		for (Double s : similarities) {
 			sim += s;
 		}
-		if (adjustNodeSimilarity) {
+		if (adjustNodeSimilarity && !rootHasNamespaces) {
 			sim = sim * similarities.size() / (similarities.size() + 1);
 			sim += currentNodeSim / (similarities.size() + 1);
 		}
@@ -309,7 +318,8 @@ public class IXMLComparerImpl {
 	 */
 	private double compareContent(List<Content> refContent,
 			List<Content> compContent) {
-		boolean useComments = true;
+		boolean useComments = fileImporter.getConfig()
+				.getXmlCompareComments();
 
 		double totalCommentsLeft = getCommentCount(refContent);
 		double totalCommentsRight = getCommentCount(compContent);
@@ -488,6 +498,21 @@ public class IXMLComparerImpl {
 			}
 		}
 		return count;
+	}
+	
+	private boolean rootHasNameSpace(Element rootRef, Element rootComp){
+		boolean hasNS = false;
+		
+	    if(!rootRef.getAttributes().isEmpty() || !rootComp.getAttributes().isEmpty()){
+			Attribute refAttr = rootRef.getAttributes().get(0);
+			Attribute compAttr = rootComp.getAttributes().get(0);
+			
+			if(!refAttr.getNamespacesInScope().isEmpty() && !compAttr.getNamespacesInScope().isEmpty()){
+				return true;
+			}
+		}
+		
+		return hasNS;
 	}
 
 	public List<Double> getSimilarities() {

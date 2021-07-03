@@ -52,8 +52,8 @@ public class FileSelectionController extends JFrame {
 	private IMatrix matrix;
 	private IFileImporter fileImporter;
 	private ITextvergleicher textvergleicher;
-	private IXMLHandler xmlvergleicher;
-	private IJSONHandler jsonvergleicher;
+	private IXMLHandler xmlHandler;
+	private IJSONHandler jsonHandler;
 	private int mode;
 
 	private Logger logger;
@@ -64,8 +64,8 @@ public class FileSelectionController extends JFrame {
 		management.setFileSelectionController(this);
 		fileImporter = management.getFileImporter();
 		textvergleicher = management.getTextvergleicher();
-		xmlvergleicher = management.getXmlvergleicher();
-		jsonvergleicher = management.getJsonvergleicher();
+		xmlHandler = management.getXmlHandler();
+		jsonHandler = management.getJsonHandler();
 		logger = management.getLogger();
 
 		// Panel & neue Matrix fuer den naechsten Vergleich
@@ -305,16 +305,17 @@ public class FileSelectionController extends JFrame {
 
 				fileImporter.deleteTempFiles();
 				fileImporter.createTempFiles();
-				xmlvergleicher.clearErrorList();
+				xmlHandler.clearErrorList();
 				logger.setMessage("Start comparing...", Logger.LEVEL_INFO);
 				start_time = System.nanoTime();
 
 				// XML Vergleich
 				if (mode == 1) {
-					fileImporter.setTempFiles((xmlvergleicher
+					xmlHandler.setExternalXSD(management.getExternalXSD());
+					fileImporter.setTempFiles((xmlHandler
 							.xmlPrepare(fileImporter.getTempFilesMap())));
-					management.setCurrentErrorList(xmlvergleicher.getErrorList());
-					for (IParseError error : xmlvergleicher.getErrorList())
+					management.setCurrentErrorList(xmlHandler.getErrorList());
+					for (IParseError error : xmlHandler.getErrorList())
 						logger.setMessage(error.getMessage(),
 								Logger.LEVEL_WARNING);
 					management.getErrorListPane().updateList();
@@ -322,12 +323,12 @@ public class FileSelectionController extends JFrame {
 
 				// JSON Vergleich
 				else if (mode == 2) {
-					fileImporter.setTempFiles((jsonvergleicher
+					fileImporter.setTempFiles((jsonHandler
 							.jsonPrepare(fileImporter.getTempFilesMap())));
-					for (IParseError error : jsonvergleicher.getErrorList())
+					for (IParseError error : jsonHandler.getErrorList())
 						logger.setMessage(error.getMessage(),
 								Logger.LEVEL_WARNING);
-					management.setCurrentErrorList(jsonvergleicher.getErrorList());
+					management.setCurrentErrorList(jsonHandler.getErrorList());
 					management.getErrorListPane().updateList();
 				}
 
@@ -513,12 +514,12 @@ public class FileSelectionController extends JFrame {
 					timeDiffAsString = " (time taken: " + time_difference
 							+ "ms)";
 				}
-				if (!xmlvergleicher.getErrorList().isEmpty()) {
+				if (!xmlHandler.getErrorList().isEmpty()) {
 					logger.setMessage(
 							"A matrix with "
 									+ anzDateien
 									+ " files has been created, but the file selection contained "
-									+ xmlvergleicher.getErrorList().size()
+									+ xmlHandler.getErrorList().size()
 									+ " XML errors." + timeDiffAsString,
 							Logger.LEVEL_INFO);
 				}

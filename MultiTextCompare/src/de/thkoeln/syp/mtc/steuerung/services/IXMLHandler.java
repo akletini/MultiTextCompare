@@ -16,7 +16,7 @@ public interface IXMLHandler {
   
   Document sortElements(Document doc, Comparator<Element> comparator);
   
-  boolean parseFile(File file, int mode);
+  boolean parseFile(File file, int mode, File externalXSD);
   
   String deleteAttributes(String xmlFile);
   
@@ -31,4 +31,6 @@ public interface IXMLHandler {
   void clearErrorList();
   
   Map<File, File> xmlPrepare(Map<File, File> tempFiles);
+  
+  void setExternalXSD(File externalXSD);
 }

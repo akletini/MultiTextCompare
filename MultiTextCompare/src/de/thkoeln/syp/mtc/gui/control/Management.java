@@ -59,11 +59,12 @@ public class Management {
 	private int referenceRow, referenceCol;
 	private File currentComparison;
 	private List<IParseError> currentErrorList;
+	private File externalXSD;
 
 	private IFileImporter fileImporter;
 	private ITextvergleicher textvergleicher;
-	private IXMLHandler xmlvergleicher;
-	private IJSONHandler jsonvergleicher;
+	private IXMLHandler xmlHandler;
+	private IJSONHandler jsonHandler;
 
 	private CompareThread compareThread;
 	private ExecutorService executorService;
@@ -71,8 +72,8 @@ public class Management {
 	private Management() {
 		fileImporter = new IFileImporterImpl();
 		textvergleicher = new ITextvergleicherImpl();
-		xmlvergleicher = new IXMLHandlerImpl(fileImporter);
-		jsonvergleicher = new IJSONHandlerImpl(fileImporter);
+		xmlHandler = new IXMLHandlerImpl(fileImporter);
+		jsonHandler = new IJSONHandlerImpl(fileImporter);
 
 		comparisons = new ArrayList<IComparisonImpl>();
 		currentErrorList = new ArrayList<>();
@@ -184,20 +185,20 @@ public class Management {
 		this.textvergleicher = textVergleicher;
 	}
 
-	public IXMLHandler getXmlvergleicher() {
-		return xmlvergleicher;
+	public IXMLHandler getXmlHandler() {
+		return xmlHandler;
 	}
 
-	public void setXmlvergleicher(IXMLHandler xmlVergleicher) {
-		this.xmlvergleicher = xmlVergleicher;
+	public void setXmlHandler(IXMLHandler xmlHandler) {
+		this.xmlHandler = xmlHandler;
 	}
 
-	public IJSONHandler getJsonvergleicher() {
-		return jsonvergleicher;
+	public IJSONHandler getJsonHandler() {
+		return jsonHandler;
 	}
 
-	public void setJsonvergleicher(IJSONHandler jsonVergleicher) {
-		this.jsonvergleicher = jsonVergleicher;
+	public void setJsonHandler(IJSONHandler jsonHandler) {
+		this.jsonHandler = jsonHandler;
 	}
 
 	public Logger getLogger() {
@@ -337,10 +338,10 @@ public class Management {
 			config.setXmlValidation(1);
 			break;
 		case "External XSD":
-			config.setXmlValidation(2);
+			config.setXmlValidation(3);
 			break;
 		case "DTD":
-			config.setXmlValidation(3);
+			config.setXmlValidation(2);
 			break;
 		default:
 			config.setXmlValidation(0);
@@ -357,6 +358,16 @@ public class Management {
 		default:
 			config.setXmlPrint(0);
 			break;
+		}
+		
+		boolean setXSDSuccess = false;
+		if(config.getXmlValidation() == 3){
+			setXSDSuccess = setExternalXSD();
+			if(!setXSDSuccess){
+				config.setXmlValidation(0);
+				configView.getComboBoxXmlValidation().setSelectedIndex(0);
+				logger.setMessage("Error setting XSD", Logger.LEVEL_WARNING);
+			}
 		}
 
 		fileImporter.exportConfigdatei();
@@ -439,6 +450,36 @@ public class Management {
 		}
 		return new String(buf);
 	}
+	
+	private boolean setExternalXSD(){
+		
+		IFileImporter fileImporter = getFileImporter();
+		FileDialog fd = new FileDialog(getMainView(), "Set external XSD",
+				FileDialog.LOAD);
+		fd.setLocationRelativeTo(null);
+		fd.setMultipleMode(false);
+		fd.setDirectory(fileImporter.getConfig().getRootDir());
+		fd.setVisible(true);
+		try {
+			fd.setIconImage(ImageIO.read(new File("res/icon.png")));
+		} catch (IOException ioe) {
+			logger.setMessage(
+					"Failed to locate MultiTextCompare logo. It has either been moved or deleted",
+					Logger.LEVEL_ERROR);
+		}
+		
+		if(fd.getFiles().length == 1){
+			File xsd = fd.getFiles()[0];
+			if(xsd.getName().endsWith(".xsd")){
+				setExternalXSD(xsd);
+				logger.setMessage("Successfully set external XSD", Logger.LEVEL_INFO);
+				return true;
+			}
+			return false;
+		} else {
+			return false;
+		}
+	}
 
 	public boolean isReferenceSet() {
 		return isReferenceSet;
@@ -510,6 +551,14 @@ public class Management {
 
 	public void setParseErrorView(ParseErrorView parseErrorView) {
 		this.parseErrorView = parseErrorView;
+	}
+
+	public File getExternalXSD() {
+		return externalXSD;
+	}
+
+	public void setExternalXSD(File externalXSD) {
+		this.externalXSD = externalXSD;
 	}
 
 }

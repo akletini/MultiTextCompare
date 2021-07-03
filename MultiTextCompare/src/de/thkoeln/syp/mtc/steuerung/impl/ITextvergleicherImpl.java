@@ -173,6 +173,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	@Override
 	public void compareJSON(List<IComparisonImpl> batch) {
 		i = 0;
+		// this line will cause unit tests to fail
 		compareThread = Management.getInstance().getCompareThread();
 		final int MAXLINELENGTH = fileImporter.getConfig().getMaxLineLength();
 		for (IComparisonImpl a : batch) {
@@ -199,6 +200,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	@Override
 	public void compareXML(List<IComparisonImpl> batch) {
 		i = 0;
+		// this line will cause unit tests to fail
 		compareThread = Management.getInstance().getCompareThread();
 		for (IComparisonImpl a : batch) {
 			try {

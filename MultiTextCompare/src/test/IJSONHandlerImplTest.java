@@ -19,7 +19,7 @@ import de.thkoeln.syp.mtc.steuerung.impl.IJSONHandlerImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
 import de.thkoeln.syp.mtc.steuerung.services.IJSONHandler;
 
-public class IJSONvergleicherImplTest {
+public class IJSONHandlerImplTest {
 	static File testdatei;
 	static File erwarteteErgebnisse;
 	static File testMap1;

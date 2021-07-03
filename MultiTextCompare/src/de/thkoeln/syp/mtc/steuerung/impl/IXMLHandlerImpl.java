@@ -49,6 +49,8 @@ public class IXMLHandlerImpl implements IXMLHandler {
 	private IXMLParseError parseError;
 	
 	private IConfig iConfig;
+	
+	private File externalXSD;
 
 	public IXMLHandlerImpl(IFileImporter fileImporter){
 		this.builder = null;
@@ -94,7 +96,7 @@ public class IXMLHandlerImpl implements IXMLHandler {
 			
 		for(Map.Entry<File, File> entry : tempFiles.entrySet()) {
 
-			if(!this.parseFile(entry.getKey(), mode)){
+			if(!this.parseFile(entry.getKey(), mode, externalXSD)){
 				//korrekt
 				
 				Document xml = null;
@@ -188,7 +190,7 @@ public class IXMLHandlerImpl implements IXMLHandler {
 	 * @return boolean
 	 * 			  Wenn ein Parse-Error aufgetreten ist true, sonst false.
 	 */
-	public boolean parseFile(File file, int mode){
+	public boolean parseFile(File file, int mode, File externalXSD){
 		boolean parseErrorOccurred = false;
 		
 		//int mode = 3; // 0: None | 1: internal XSD | 2: DTD
@@ -265,10 +267,9 @@ public class IXMLHandlerImpl implements IXMLHandler {
 			// external XSD
 			 try{ 
 				//XSDFILE DUMMY xsdfile = iConfig.getValue();
-				 File xsdfile = new File(System.getProperty("user.dir")
-							+ File.separator + "/src/test/testFiles/XMLTestFiles/TestFileExternalXSD.xsd");
+				 this.externalXSD = externalXSD;
 				
-				 XMLReaderJDOMFactory schemafac = new XMLReaderXSDFactory(xsdfile);
+				 XMLReaderJDOMFactory schemafac = new XMLReaderXSDFactory(externalXSD);
 				 
 				 builder = new SAXBuilder(schemafac);
 				 builder.build(file);
@@ -829,6 +830,11 @@ public class IXMLHandlerImpl implements IXMLHandler {
 	public List<IParseError> getErrorList(){
 		return errorListe;
 	}
+	
+	public void setExternalXSD(File externalXSD) {
+		this.externalXSD = externalXSD;
+	}
+
 
 }
 	
