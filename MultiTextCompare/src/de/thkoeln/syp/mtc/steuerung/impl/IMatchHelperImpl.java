@@ -191,12 +191,12 @@ public class IMatchHelperImpl implements IMatchHelper {
 					rightFile.toArray(new String[0]) };
 		}
 
-		int lastMatchedIndex = 0;
+		int lastMatchedIndex = 0, lookaheadExtensionOnMatch = 0;
 		// Schaue f�r jede Zeile der linken Datei
 		for (int i = 0; i < lineCountLeft; i++) {
 			reference = leftFile.get(i);
 			// ob es in der rechten Datei ein Match gibt
-			int maxSearchIndex = i + LOOKAHEAD + 1;
+			int maxSearchIndex = i + LOOKAHEAD + 1 + lookaheadExtensionOnMatch;
 
 			if (LOOKAHEAD != 0) {
 				if (maxSearchIndex >= lineCountRight) {
@@ -223,6 +223,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 							bestMatch.getRightRow(), bestMatch.getValueLeft(),
 							bestMatch.getValueRight()));
 					potentialMatches.clear();
+					lookaheadExtensionOnMatch = 1;
 				}
 
 			} else {
@@ -247,6 +248,7 @@ public class IMatchHelperImpl implements IMatchHelper {
 							bestMatch.getRightRow(), bestMatch.getValueLeft(),
 							bestMatch.getValueRight()));
 					potentialMatches.clear();
+					lookaheadExtensionOnMatch = 1;
 				}
 			}
 		}

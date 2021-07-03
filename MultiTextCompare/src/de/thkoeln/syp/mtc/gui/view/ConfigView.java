@@ -48,7 +48,9 @@ public class ConfigView extends JFrame {
 			checkBoxSortElements, checkBoxSortAttibutes,
 			checkBoxDeleteAttributes, checkBoxDeleteComments, checkBoxOnlyTags,
 			checkBoxMatchLines, checkBoxBestMatch, checkBoxSortKeys,
-			checkBoxDeleteValues, checkBoxXMLSemantic, checkBoxJSONSemantic, checkBoxOpenLastComparison;
+			checkBoxDeleteValues, checkBoxXMLSemantic, checkBoxJSONSemantic,
+			checkBoxOpenLastComparison, checkBoxKeepJsonArrayOrder,
+			checkBoxCompareXMLComments;
 
 	private JLabel labelBlankLines, lblKeepPunctuation, lblKeepCapitalization,
 			labelWhitespace, comparisonModeLabel, lblRootPath,
@@ -57,8 +59,8 @@ public class ConfigView extends JFrame {
 			lblOnlyTags, lblMatching, lblMatchLines, lblLookForBest,
 			lblMatchAt, lblSortKeys, lblDeleteValues, lblXmlParameters,
 			lblJsonParameters, lblLookahead, lblMaxLineLength, lblXmlSemantic,
-			lblJsonSemantic, lblOpenLastComparison;
-
+			lblJsonSemantic, lblOpenLastComparison, lblKeepJsonArrayOrder,
+			lblCompareXMLComments;
 
 	private JComboBox<?> comboBoxComparisonModes, comboBoxXMLValidation,
 			comboBoxXMLPrint;
@@ -115,7 +117,8 @@ public class ConfigView extends JFrame {
 		panelGeneral.add(whitespaceCheck, "cell 1 3,alignx left,aligny top");
 
 		labelWhitespace = new JLabel("Keep whitespaces");
-		labelWhitespace.setToolTipText("Decides if whitespaces will be deleted for any comparison");
+		labelWhitespace
+				.setToolTipText("Decides if whitespaces will be deleted for any comparison");
 		panelGeneral.add(labelWhitespace, "cell 5 3,alignx left,aligny center");
 
 		blanklinesCheck = new JCheckBox("");
@@ -124,7 +127,8 @@ public class ConfigView extends JFrame {
 		panelGeneral.add(blanklinesCheck, "cell 1 4");
 
 		labelBlankLines = new JLabel("Keep blank lines");
-		labelBlankLines.setToolTipText("Decides if blank lines will be deleted for any comparison");
+		labelBlankLines
+				.setToolTipText("Decides if blank lines will be deleted for any comparison");
 		panelGeneral.add(labelBlankLines, "cell 5 4,alignx left");
 
 		checkBoxKeepPunctuation = new JCheckBox("");
@@ -133,7 +137,8 @@ public class ConfigView extends JFrame {
 		panelGeneral.add(checkBoxKeepPunctuation, "cell 1 5");
 
 		lblKeepPunctuation = new JLabel("Keep punctuation");
-		lblKeepPunctuation.setToolTipText("Decides if punctuation will be deleted for any comparison");
+		lblKeepPunctuation
+				.setToolTipText("Decides if punctuation will be deleted for any comparison");
 		panelGeneral.add(lblKeepPunctuation, "cell 5 5,alignx left");
 
 		checkBoxKeepCapitalization = new JCheckBox("");
@@ -143,7 +148,8 @@ public class ConfigView extends JFrame {
 
 		lblKeepCapitalization = new JLabel("Keep capitalization");
 		lblKeepCapitalization.setHorizontalAlignment(SwingConstants.LEFT);
-		lblKeepCapitalization.setToolTipText("If disabled all characters will be set to lowercase");
+		lblKeepCapitalization
+				.setToolTipText("If disabled all characters will be set to lowercase");
 		panelGeneral.add(lblKeepCapitalization, "cell 5 6,alignx left");
 
 		textFieldMaxLength = new JTextField();
@@ -152,9 +158,10 @@ public class ConfigView extends JFrame {
 				"cell 1 7, alignx center,aligny center, grow");
 
 		lblMaxLineLength = new JLabel("Maximum line length");
-		lblMaxLineLength.setToolTipText("<html>If a line contains more characters than specified here the comparison will be aborted and valued at zero similarity<br>"
-				+ "If set to  0, the line length will not be limited<br>"
-				+ "May greatly improve performance for comparisons</html>");
+		lblMaxLineLength
+				.setToolTipText("<html>If a line contains more characters than specified here the comparison will be aborted and valued at zero similarity<br>"
+						+ "If set to  0, the line length will not be limited<br>"
+						+ "May greatly improve performance for comparisons</html>");
 		panelGeneral.add(lblMaxLineLength, "cell 5 7,alignx left");
 
 		String[] comparisonModes = { "Compare characters", "Compare lines" };
@@ -166,33 +173,41 @@ public class ConfigView extends JFrame {
 
 		comparisonModeLabel = new JLabel("Comparison mode");
 		comparisonModeLabel.setHorizontalAlignment(SwingConstants.LEFT);
-		comparisonModeLabel.setToolTipText("<html>Sets the comparison mode.<br>"
-				+ "<i>Compare lines</i>: Compares files on a line-by-line base. Is affected by the \"Match lines\" setting in the \"Matching\" options menu<br>"
-				+ "<i>Compare characters</i>: Compares all characters present in the files</html>");
+		comparisonModeLabel
+				.setToolTipText("<html>Sets the comparison mode.<br>"
+						+ "<i>Compare lines</i>: Compares files on a line-by-line base. Is affected by the \"Match lines\" setting in the \"Matching\" options menu<br>"
+						+ "<i>Compare characters</i>: Compares all characters present in the files</html>");
 		panelGeneral.add(comparisonModeLabel, "cell 5 8,alignx left");
 
 		btnSetRootPath = new JButton();
 		if (config.getRootDir() != null) {
 			btnSetRootPath.setText(config.getRootDir());
 		}
-		btnSetRootPath.setToolTipText("If the wildcard search is used, this is the directory below which all files are located");
+		btnSetRootPath
+				.setToolTipText("If the wildcard search is used, this is the directory below which all files are located");
 		panelGeneral.add(btnSetRootPath, "cell 5 10,alignx left");
-		
+
+		lblRootPath = new JLabel("Root search path");
+		lblRootPath.setFont(new Font("Tahoma", Font.BOLD, 13));
+		panelGeneral.add(lblRootPath, "cell 1 10");
+
 		checkBoxOpenLastComparison = new JCheckBox("");
 		checkBoxOpenLastComparison.setBackground(white);
 		checkBoxOpenLastComparison.setSelected(config.getOpenLastComparison());
 		panelGeneral.add(checkBoxOpenLastComparison, "cell 1 11");
-		
-		lblOpenLastComparison = new JLabel("Open last saved comparison on startup");
-		if(!config.getLastComparisonPath().equals("")){
-			lblOpenLastComparison.setText(lblOpenLastComparison.getText() + ". Currently: " + config.getLastComparisonPath());
+
+		lblOpenLastComparison = new JLabel(
+				"Open last saved comparison on startup");
+		if (!config.getLastComparisonPath().equals("")) {
+			lblOpenLastComparison.setText(lblOpenLastComparison.getText()
+					+ ". Currently: " + config.getLastComparisonPath());
 		}
 		panelGeneral.add(lblOpenLastComparison, "cell 5 11,alignx left");
 
 		// ////////////////////////XML//////////////////////////////
 		panelXML.setLayout(new MigLayout("",
 				"[][164.00px][][][31.00][grow,fill]",
-				"[][20.00px][10px:10px:10px][][][][][][][][][77.00]"));
+				"[][20.00px][10px:10px:10px][][][][][][][][][][77.00]"));
 
 		String[] validations = { "None", "Internal XSD", "External XSD", "DTD" };
 
@@ -204,7 +219,8 @@ public class ConfigView extends JFrame {
 		panelXML.add(comboBoxXMLValidation, "cell 1 3,alignx left, grow");
 
 		lblValidation = new JLabel("Validation");
-		lblValidation.setToolTipText("Select if or how XML-files should be validated");
+		lblValidation
+				.setToolTipText("Select if or how XML-files should be validated");
 		panelXML.add(lblValidation, "cell 5 3");
 
 		String[] prints = { "Pretty", "Raw", "Compact" };
@@ -219,62 +235,75 @@ public class ConfigView extends JFrame {
 		checkBoxSortElements = new JCheckBox("");
 		checkBoxSortElements.setBackground(white);
 		checkBoxSortElements.setSelected(config.getXmlSortElements());
-		panelXML.add(checkBoxSortElements, "cell 1 6");
+		panelXML.add(checkBoxSortElements, "cell 1 5");
 
 		lblSortElements = new JLabel("Sort elements");
-		lblSortElements.setToolTipText("If selected, XML files will be sorted alphabetically");
-		panelXML.add(lblSortElements, "cell 5 6");
+		lblSortElements
+				.setToolTipText("If selected, XML files will be sorted alphabetically");
+		panelXML.add(lblSortElements, "cell 5 5");
 
 		checkBoxSortAttibutes = new JCheckBox("");
 		checkBoxSortAttibutes.setBackground(white);
 		checkBoxSortAttibutes.setSelected(config.getXmlSortAttributes());
-		panelXML.add(checkBoxSortAttibutes, "cell 1 7");
+		panelXML.add(checkBoxSortAttibutes, "cell 1 6");
 
 		lblSortAttributes = new JLabel("Sort attributes");
-		lblSortAttributes.setToolTipText("If selected, attributes will be sorted alphabetically");
-		panelXML.add(lblSortAttributes, "cell 5 7");
+		lblSortAttributes
+				.setToolTipText("If selected, attributes will be sorted alphabetically");
+		panelXML.add(lblSortAttributes, "cell 5 6");
 
 		checkBoxDeleteAttributes = new JCheckBox("");
 		checkBoxDeleteAttributes.setBackground(white);
 		checkBoxDeleteAttributes.setSelected(config.getXmlDeleteAttributes());
-		panelXML.add(checkBoxDeleteAttributes, "cell 1 8");
+		panelXML.add(checkBoxDeleteAttributes, "cell 1 7");
 
 		lblDeleteAttributes = new JLabel("Delete attributes");
-		lblDeleteAttributes.setToolTipText("If selected, attributes will be deleted for comparisons");
-		panelXML.add(lblDeleteAttributes, "cell 5 8");
+		lblDeleteAttributes
+				.setToolTipText("If selected, attributes will be deleted for comparisons");
+		panelXML.add(lblDeleteAttributes, "cell 5 7");
 
 		checkBoxDeleteComments = new JCheckBox("");
 		checkBoxDeleteComments.setBackground(white);
 		checkBoxDeleteComments.setSelected(config.getXmlDeleteComments());
-		panelXML.add(checkBoxDeleteComments, "cell 1 9");
+		panelXML.add(checkBoxDeleteComments, "cell 1 8");
 
 		lblDeleteComments = new JLabel("Delete comments");
-		lblDeleteComments.setToolTipText("If selected, comments will be deleted for comparisons");
-		panelXML.add(lblDeleteComments, "cell 5 9");
+		lblDeleteComments
+				.setToolTipText("If selected, comments will be deleted for comparisons");
+		panelXML.add(lblDeleteComments, "cell 5 8");
 
 		checkBoxOnlyTags = new JCheckBox("");
 		checkBoxOnlyTags.setBackground(white);
 		checkBoxOnlyTags.setSelected(config.getXmlOnlyTags());
-		panelXML.add(checkBoxOnlyTags, "cell 1 10");
+		panelXML.add(checkBoxOnlyTags, "cell 1 9");
 
 		lblOnlyTags = new JLabel("Only Tags");
-		lblOnlyTags.setToolTipText("If selected, only tags will be considered for comparison");
-		panelXML.add(lblOnlyTags, "cell 5 10");
+		lblOnlyTags
+				.setToolTipText("If selected, only tags will be considered for comparison");
+		panelXML.add(lblOnlyTags, "cell 5 9");
 
 		checkBoxXMLSemantic = new JCheckBox("");
 		checkBoxXMLSemantic.setBackground(white);
 		checkBoxXMLSemantic.setSelected(config.isXmlUseSemanticComparison());
-		panelXML.add(checkBoxXMLSemantic, "cell 1 5");
+		panelXML.add(checkBoxXMLSemantic, "cell 1 10");
 
 		lblXmlSemantic = new JLabel("Use semantic comparison");
 		lblXmlSemantic.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblXmlSemantic.setToolTipText("If selected, XML-files will be compared on a structural level rather than on a line-by-line or character basis");
-		panelXML.add(lblXmlSemantic, "cell 5 5");
+		lblXmlSemantic
+				.setToolTipText("If selected, XML-files will be compared on a structural level rather than on a line-by-line or character basis");
+		panelXML.add(lblXmlSemantic, "cell 5 10");
 
-		lblRootPath = new JLabel("Root search path");
-		lblRootPath.setFont(new Font("Tahoma", Font.BOLD, 13));
-		panelGeneral.add(lblRootPath, "cell 1 10");
-
+		
+		checkBoxCompareXMLComments = new JCheckBox("");
+		checkBoxCompareXMLComments.setBackground(white);
+		checkBoxCompareXMLComments.setSelected(config.getXmlCompareComments());
+		panelXML.add(checkBoxCompareXMLComments, "cell 1 11");
+		
+		lblCompareXMLComments = new JLabel("Compare comments");
+		lblCompareXMLComments
+				.setToolTipText("If selected, comments will be compared in semantic comparison");
+		panelXML.add(lblCompareXMLComments, "cell 5 11");
+		
 		// ////////////////////////Matching//////////////////////////////
 		panelMatching.setLayout(new MigLayout("",
 				"[][164.00][][][31.00][grow,fill]",
@@ -290,7 +319,8 @@ public class ConfigView extends JFrame {
 		panelMatching.add(checkBoxMatchLines, "cell 1 3");
 
 		lblMatchLines = new JLabel("Match lines");
-		lblMatchLines.setToolTipText("<html>If enabled, similar lines will be aligned in the diff view and if <i>Compare lines is enabled</i></html>");
+		lblMatchLines
+				.setToolTipText("<html>If enabled, similar lines will be aligned in the diff view and if <i>Compare lines is enabled</i></html>");
 		panelMatching.add(lblMatchLines, "cell 5 3");
 
 		checkBoxBestMatch = new JCheckBox("");
@@ -299,7 +329,8 @@ public class ConfigView extends JFrame {
 		panelMatching.add(checkBoxBestMatch, "cell 1 4");
 
 		lblLookForBest = new JLabel("Look for best match");
-		lblLookForBest.setToolTipText("Will match most similar line within the lookahead instead of stopping at the first match. May slow down the comparison");
+		lblLookForBest
+				.setToolTipText("Will match most similar line within the lookahead instead of stopping at the first match. May slow down the comparison");
 		panelMatching.add(lblLookForBest, "cell 5 4");
 		matchAtSlider = new JSlider(JSlider.HORIZONTAL, 0, 100,
 				(int) (config.getMatchAt() * 100));
@@ -354,25 +385,7 @@ public class ConfigView extends JFrame {
 		lblJsonParameters = new JLabel("JSON parameters");
 		lblJsonParameters.setFont(new Font("Tahoma", Font.BOLD, 13));
 		panelJSON.add(lblJsonParameters, "cell 1 1");
-
-		checkBoxSortKeys = new JCheckBox("");
-		checkBoxSortKeys.setBackground(white);
-		checkBoxSortKeys.setSelected(config.getJsonSortKeys());
-		panelJSON.add(checkBoxSortKeys, "cell 1 4");
-
-		lblSortKeys = new JLabel("Sort keys");
-		lblSortKeys.setToolTipText("If ticked files will be sorted alphabetically");
-		panelJSON.add(lblSortKeys, "cell 5 4");
-
-		checkBoxDeleteValues = new JCheckBox("");
-		checkBoxDeleteValues.setBackground(white);
-		checkBoxDeleteValues.setSelected(config.getJsonDeleteValues());
-		panelJSON.add(checkBoxDeleteValues, "cell 1 5");
-
-		lblDeleteValues = new JLabel("Delete values");
-		lblDeleteValues.setToolTipText("If ticked only keys will be compared");
-		panelJSON.add(lblDeleteValues, "cell 5 5");
-
+		
 		checkBoxJSONSemantic = new JCheckBox("");
 		checkBoxJSONSemantic.setBackground(white);
 		checkBoxJSONSemantic.setSelected(config.isJsonUseSemanticComparison());
@@ -380,8 +393,39 @@ public class ConfigView extends JFrame {
 
 		lblJsonSemantic = new JLabel("Use semantic comparison");
 		lblJsonSemantic.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblJsonSemantic.setToolTipText("If this is ticked, JSON-files will be compared on a structural level rather than on a line-by-line or character basis");
+		lblJsonSemantic
+				.setToolTipText("If ticked, JSON-files will be compared on a structural level rather than on a line-by-line or character basis");
 		panelJSON.add(lblJsonSemantic, "cell 5 3");
+
+		
+		lblKeepJsonArrayOrder = new JLabel("Keep JSON-Array order");
+		lblKeepJsonArrayOrder.setToolTipText("If ticked, JSON-Arrays will not be sorted");
+		panelJSON.add(lblKeepJsonArrayOrder, "cell 5 4");
+
+		checkBoxKeepJsonArrayOrder = new JCheckBox("");
+		checkBoxKeepJsonArrayOrder.setBackground(white);
+		checkBoxKeepJsonArrayOrder.setSelected(config.getJsonKeepArrayOrder());
+		panelJSON.add(checkBoxKeepJsonArrayOrder, "cell 1 4");
+
+		lblSortKeys = new JLabel("Sort keys");
+		lblSortKeys
+				.setToolTipText("If ticked, files will be sorted alphabetically");
+		panelJSON.add(lblSortKeys, "cell 5 5");
+		
+		checkBoxSortKeys = new JCheckBox("");
+		checkBoxSortKeys.setBackground(white);
+		checkBoxSortKeys.setSelected(config.getJsonSortKeys());
+		panelJSON.add(checkBoxSortKeys, "cell 1 5");
+
+		checkBoxDeleteValues = new JCheckBox("");
+		checkBoxDeleteValues.setBackground(white);
+		checkBoxDeleteValues.setSelected(config.getJsonDeleteValues());
+		panelJSON.add(checkBoxDeleteValues, "cell 1 6");
+
+		lblDeleteValues = new JLabel("Delete values");
+		lblDeleteValues.setToolTipText("If ticked, only keys will be compared");
+		panelJSON.add(lblDeleteValues, "cell 5 6");
+
 
 		// //////////////////////////////////////////////////////////////
 		tabbedPane.add(scrollGeneral, "    General    ");
@@ -712,13 +756,30 @@ public class ConfigView extends JFrame {
 	public void setTextFieldMaxLength(JTextField textFieldMaxLength) {
 		this.textFieldMaxLength = textFieldMaxLength;
 	}
-	
+
 	public JCheckBox getCheckBoxOpenLastComparison() {
 		return checkBoxOpenLastComparison;
 	}
 
-	public void setCheckBoxOpenLastComparison(JCheckBox checkBoxOpenLastComparison) {
+	public void setCheckBoxOpenLastComparison(
+			JCheckBox checkBoxOpenLastComparison) {
 		this.checkBoxOpenLastComparison = checkBoxOpenLastComparison;
+	}
+	
+	public JCheckBox getCheckBoxKeepJsonArrayOrder() {
+		return checkBoxKeepJsonArrayOrder;
+	}
+
+	public JCheckBox getCheckBoxCompareXMLComments() {
+		return checkBoxCompareXMLComments;
+	}
+
+	public void setCheckBoxKeepJsonArrayOrder(JCheckBox checkBoxKeepJsonArrayOrder) {
+		this.checkBoxKeepJsonArrayOrder = checkBoxKeepJsonArrayOrder;
+	}
+
+	public void setCheckBoxCompareXMLComments(JCheckBox checkBoxCompareXMLComments) {
+		this.checkBoxCompareXMLComments = checkBoxCompareXMLComments;
 	}
 
 	// Button listeners

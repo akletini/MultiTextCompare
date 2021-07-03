@@ -1,6 +1,6 @@
 package test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,7 +10,9 @@ import org.jdom2.JDOMException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.thkoeln.syp.mtc.steuerung.impl.IFileImporterImpl;
 import de.thkoeln.syp.mtc.steuerung.impl.IXMLComparerImpl;
+import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
 
 public class IXMLComparerImplTest {
 	
@@ -20,7 +22,9 @@ public class IXMLComparerImplTest {
 	
 	@BeforeClass
 	public static void beforeAllTests(){
-		xmlCompare = new IXMLComparerImpl(0);
+		IFileImporter fileImporter = new IFileImporterImpl();
+		fileImporter.getConfig().setMaxLineLength(0);
+		xmlCompare = new IXMLComparerImpl(fileImporter);
 		attrTest1 = new File(System.getProperty("user.dir")
 				+ File.separator + "/src/test/testFiles/IXMLCompareTestFiles/TestAttributes1.xml");
 		attrTest2 = new File(System.getProperty("user.dir")

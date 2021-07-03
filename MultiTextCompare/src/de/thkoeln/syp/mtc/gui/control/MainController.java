@@ -105,7 +105,7 @@ public class MainController {
 			logger.setMessage("Opening help file...", Logger.LEVEL_INFO);
 		}
 	}
-	
+
 	class JavadocListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			File helpFile = new File(System.getProperty("user.dir")
@@ -190,18 +190,19 @@ public class MainController {
 			}
 		}
 	}
-	
+
 	class ToolbarShowParseErrorListListener implements ActionListener {
-		
-		public void actionPerformed(ActionEvent e){
-			if(management.getErrorListPane() == null){
+
+		public void actionPerformed(ActionEvent e) {
+			if (management.getErrorListPane() == null) {
 				management.setErrorListPane(new ErrorListView());
 			}
 			ErrorListView elp = management.getErrorListPane();
 			elp.getErrorList().clear();
 			List<IParseError> errorFiles = management.getCurrentErrorList();
-			for(IParseError error : errorFiles) {
-				elp.getErrorList().addElement(error.getFile().getAbsolutePath());
+			for (IParseError error : errorFiles) {
+				elp.getErrorList()
+						.addElement(error.getFile().getAbsolutePath());
 			}
 			elp.setVisible(true);
 		}
@@ -369,7 +370,8 @@ public class MainController {
 			}
 			// open on startup
 			else {
-				comparison = new File(management.getFileImporter().getConfig().getLastComparisonPath());
+				comparison = new File(management.getFileImporter().getConfig()
+						.getLastComparisonPath());
 			}
 
 			try {
@@ -415,8 +417,9 @@ public class MainController {
 
 				fis.close();
 				ois.close();
-				
-				logger.setMessage("Successfully loaded comparison " + comparison.getName(), Logger.LEVEL_INFO);
+
+				logger.setMessage("Successfully loaded comparison "
+						+ comparison.getName(), Logger.LEVEL_INFO);
 
 			} catch (IOException | ClassNotFoundException ex) {
 				logger.setMessage(ex.toString(), Logger.LEVEL_ERROR);
@@ -619,6 +622,8 @@ public class MainController {
 						config.getXmlDeleteComments());
 				configView.getCheckBoxXmlOnlyTags().setSelected(
 						config.getXmlOnlyTags());
+				configView.getCheckBoxCompareXMLComments().setSelected(
+						config.getXmlCompareComments());
 
 				// json
 				configView.getCheckBoxJSONSemantic().setSelected(
@@ -627,6 +632,8 @@ public class MainController {
 						config.getJsonSortKeys());
 				configView.getCheckBoxJsonDeleteValues().setSelected(
 						config.getJsonDeleteValues());
+				configView.getCheckBoxKeepJsonArrayOrder().setSelected(
+						config.getJsonKeepArrayOrder());
 
 				// matching
 				configView.getCheckBoxBestMatch().setSelected(
@@ -642,8 +649,10 @@ public class MainController {
 
 				configView.setTitle("Settings using " + config.getPath());
 				configView.repaint();
-				
-				logger.setMessage("Successfully loaded configuration " + config.getPath(), Logger.LEVEL_INFO);
+
+				logger.setMessage(
+						"Successfully loaded configuration " + config.getPath(),
+						Logger.LEVEL_INFO);
 			}
 		}
 	}

@@ -72,10 +72,12 @@ public class IFileImporterImpl implements IFileImporter {
 		prop.setProperty(PROP_XMLDELETECOMMENTS, "false");
 		prop.setProperty(PROP_XMLONLYTAGS, "false");
 		prop.setProperty(PROP_XMLUSESEMANTICCOMPARE, "true");
+		prop.setProperty(PROP_XMLCOMPARECOMMENTS, "true");
 
 		prop.setProperty(PROP_JSONSORTKEYS, "true");
 		prop.setProperty(PROP_JSONDELETEVALUES, "false");
 		prop.setProperty(PROP_JSONUSESEMANTICCOMPARE, "true");
+		prop.setProperty(PROP_JSONKEEPARRAYORDER, "false");
 
 		prop.setProperty(PROP_SHOWINFOS, "true");
 		prop.setProperty(PROP_SHOWWARNINGS, "true");
@@ -251,6 +253,8 @@ public class IFileImporterImpl implements IFileImporter {
 				.getProperty(PROP_XMLONLYTAGS)));
 		iConfig.setXmlUseSemanticComparison(Boolean.parseBoolean(prop
 				.getProperty(PROP_XMLUSESEMANTICCOMPARE)));
+		iConfig.setXmlCompareComments(Boolean.parseBoolean(prop
+				.getProperty(PROP_XMLCOMPARECOMMENTS)));
 
 		iConfig.setJsonSortKeys(Boolean.parseBoolean(prop
 				.getProperty(PROP_JSONSORTKEYS)));
@@ -258,6 +262,8 @@ public class IFileImporterImpl implements IFileImporter {
 				.getProperty(PROP_JSONDELETEVALUES)));
 		iConfig.setJsonUseSemanticComparison(Boolean.parseBoolean(prop
 				.getProperty(PROP_JSONUSESEMANTICCOMPARE)));
+		iConfig.setJsonKeepArrayOrder(Boolean.parseBoolean(prop
+				.getProperty(PROP_JSONKEEPARRAYORDER)));
 
 		iConfig.setShowInfos(Boolean.parseBoolean(prop
 				.getProperty(PROP_SHOWINFOS)));
@@ -389,6 +395,8 @@ public class IFileImporterImpl implements IFileImporter {
 					Boolean.toString(iConfig.getXmlOnlyTags()));
 			prop.setProperty(PROP_XMLUSESEMANTICCOMPARE,
 					Boolean.toString(iConfig.isXmlUseSemanticComparison()));
+			prop.setProperty(PROP_XMLCOMPARECOMMENTS,
+					Boolean.toString(iConfig.getXmlCompareComments()));
 
 			prop.setProperty(PROP_JSONSORTKEYS,
 					Boolean.toString(iConfig.getJsonSortKeys()));
@@ -396,6 +404,8 @@ public class IFileImporterImpl implements IFileImporter {
 					Boolean.toString(iConfig.getJsonDeleteValues()));
 			prop.setProperty(PROP_JSONUSESEMANTICCOMPARE,
 					Boolean.toString(iConfig.isJsonUseSemanticComparison()));
+			prop.setProperty(PROP_JSONKEEPARRAYORDER,
+					Boolean.toString(iConfig.getJsonKeepArrayOrder()));
 
 			prop.setProperty(PROP_SHOWINFOS,
 					Boolean.toString(iConfig.getShowInfos()));

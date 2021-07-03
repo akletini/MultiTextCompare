@@ -129,5 +129,13 @@ public interface IConfig {
 
 	void setLastComparisonPath(String lastComparisonPath);
 
+	boolean getJsonKeepArrayOrder();
+
+	void setJsonKeepArrayOrder(boolean keepArrayOrder);
+
+	boolean getXmlCompareComments();
+
+	void setXmlCompareComments(boolean xmlcompareComments);
+
 	
 }

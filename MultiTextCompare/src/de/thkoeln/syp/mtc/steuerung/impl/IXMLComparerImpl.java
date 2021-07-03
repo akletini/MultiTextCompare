@@ -14,6 +14,7 @@ import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.XMLOutputter;
 
+import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
 import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
 
 /**
@@ -26,12 +27,14 @@ public class IXMLComparerImpl {
 
 	private int maxLineLength;
 	private ITextvergleicher textvergleicher;
+	private IFileImporter fileImporter;
 	private List<Double> similarities;
 	private boolean commentFound;
 
-	public IXMLComparerImpl(int maxLineLength) {
+	public IXMLComparerImpl(IFileImporter fileImporter) {
 		textvergleicher = new ITextvergleicherImpl();
-		this.maxLineLength = maxLineLength;
+		this.fileImporter = fileImporter;
+		this.maxLineLength = fileImporter.getConfig().getMaxLineLength();
 	}
 
 	/**
@@ -74,7 +77,7 @@ public class IXMLComparerImpl {
 	 */
 	private double compareElements(Element ref, Element comp,
 			double currentLevelWeight) {
-		boolean compareComments = true;
+		boolean compareComments = fileImporter.getConfig().getXmlCompareComments();
 		boolean attributesPresent = hasAttributes(ref) || hasAttributes(comp);
 		boolean textPresent = hasText(ref) || hasText(comp);
 		double contentWeight = 0.5;

@@ -198,14 +198,13 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	 */
 	@Override
 	public void compareXML(List<IComparisonImpl> batch) {
-		final int MAXLINELENGTH = fileImporter.getConfig().getMaxLineLength();
 		i = 0;
 		compareThread = Management.getInstance().getCompareThread();
 		for (IComparisonImpl a : batch) {
 			try {
 				i++;
 				IXMLComparerImpl xmlComparer = new IXMLComparerImpl(
-						MAXLINELENGTH);
+						fileImporter);
 				double similarity = xmlComparer.compare(a.getFrom(), a.getTo());
 				a.setValue(similarity);
 				compareThread.publishData(i);

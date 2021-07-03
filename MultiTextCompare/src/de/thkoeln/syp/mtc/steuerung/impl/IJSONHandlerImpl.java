@@ -285,13 +285,15 @@ public class IJSONHandlerImpl extends JsonNodeFactory implements IJSONHandler {
 		String sortedJSONString = "";
 
 		try {
-
 			root = mapper.readTree(jsonString);
-			Iterator<String> fieldNames = root.fieldNames();
-			while (fieldNames.hasNext()) {
-				String fieldName = fieldNames.next();
-				JsonNode fieldValue = root.get(fieldName);
-				sortArraysRecursively(fieldValue);
+			
+			if (!iConfig.getJsonKeepArrayOrder()) {
+				Iterator<String> fieldNames = root.fieldNames();
+				while (fieldNames.hasNext()) {
+					String fieldName = fieldNames.next();
+					JsonNode fieldValue = root.get(fieldName);
+					sortArraysRecursively(fieldValue);
+				}
 			}
 			sortedJSONString = mapper.writeValueAsString(root);
 

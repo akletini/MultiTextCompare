@@ -296,7 +296,7 @@ public class Management {
 		config.setMatchingLookahead(configView.getTextFieldLookaheadValue());
 		config.setBestMatch(configView.getCheckBoxBestMatch().isSelected());
 
-		//xml
+		// xml
 		config.setXmlSortElements(configView.getCheckBoxXmlSortElements()
 				.isSelected());
 		config.setXmlSortAttributes((configView.getCheckBoxXmlSortAttributes()
@@ -308,14 +308,18 @@ public class Management {
 		config.setXmlOnlyTags(configView.getCheckBoxXmlOnlyTags().isSelected());
 		config.setXmlUseSemanticComparison(configView.getCheckBoxXMLSemantic()
 				.isSelected());
+		config.setXmlCompareComments(configView.getCheckBoxCompareXMLComments()
+				.isSelected());
 
-		//json
+		// json
 		config.setJsonSortKeys(configView.getCheckBoxJsonSortKeys()
 				.isSelected());
 		config.setJsonDeleteValues(configView.getCheckBoxJsonDeleteValues()
 				.isSelected());
 		config.setJsonUseSemanticComparison(configView
 				.getCheckBoxJSONSemantic().isSelected());
+		config.setJsonKeepArrayOrder(configView.getCheckBoxKeepJsonArrayOrder()
+				.isSelected());
 
 		switch (configView.getComboBoxComparisonModes().getSelectedItem()
 				.toString()) {
@@ -405,7 +409,8 @@ public class Management {
 
 				configView.setTitle("Settings using " + config.getPath());
 				configView.repaint();
-				logger.setMessage("Configuration has been saved", Logger.LEVEL_INFO);
+				logger.setMessage("Configuration has been saved",
+						Logger.LEVEL_INFO);
 			} catch (IOException e1) {
 				logger.setMessage("Something went wrong, please try again",
 						Logger.LEVEL_ERROR);
@@ -425,8 +430,8 @@ public class Management {
 
 	// Gibt passenden Buchstaben fuer Index
 	private String intToFilename(int n) {
-		char[] buf = new char[(int) Math.floor(Math
-				.log(25 * (n + 1)) / Math.log(26))];
+		char[] buf = new char[(int) Math.floor(Math.log(25 * (n + 1))
+				/ Math.log(26))];
 		for (int i = buf.length - 1; i >= 0; i--) {
 			n--;
 			buf[i] = (char) ('A' + n % 26);

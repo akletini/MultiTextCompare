@@ -23,11 +23,11 @@ public class IConfigImpl implements IConfig {
 	
 	// XML spezifische Parameter
 	private boolean xmlSortElements, xmlSortAttributes, xmlDeleteAttributes,
-			xmlDeleteComments, xmlOnlyTags, xmlUseSemanticComparison;
+			xmlDeleteComments, xmlOnlyTags, xmlUseSemanticComparison, xmlcompareComments;
 	private int xmlValidation, xmlPrint;
 
 	// JSON spezifische Parameter
-	private boolean jsonSortKeys, jsonDeleteValues, jsonUseSemanticComparison;
+	private boolean jsonSortKeys, jsonDeleteValues, jsonUseSemanticComparison, jsonKeepArrayOrder;
 
 	@Override
 	public void setCompareLines(boolean compareLines) {
@@ -314,6 +314,22 @@ public class IConfigImpl implements IConfig {
 	@Override
 	public void setLastComparisonPath(String lastComparisonPath) {
 		this.lastComparisonPath = lastComparisonPath;
+	}
+	@Override
+	public boolean getJsonKeepArrayOrder() {
+		return jsonKeepArrayOrder;
+	}
+	@Override
+	public void setJsonKeepArrayOrder(boolean keepArrayOrder) {
+		this.jsonKeepArrayOrder = keepArrayOrder;
+	}
+	@Override
+	public boolean getXmlCompareComments() {
+		return xmlcompareComments;
+	}
+	@Override
+	public void setXmlCompareComments(boolean xmlcompareComments) {
+		this.xmlcompareComments = xmlcompareComments;
 	}
 	
 	
