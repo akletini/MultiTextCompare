@@ -42,6 +42,11 @@ import de.thkoeln.syp.mtc.gui.view.MainView;
 import de.thkoeln.syp.mtc.logging.Logger;
 import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
 
+/**
+ * Enthaelt ActionListener fuer alle Buttons des Hauptmenues.
+ * @author Allen Kletinitch
+ *
+ */
 public class MainController {
 	private Management management;
 	private Logger logger;

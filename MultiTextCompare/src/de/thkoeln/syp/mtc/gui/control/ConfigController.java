@@ -10,6 +10,11 @@ import javax.swing.JFileChooser;
 import de.thkoeln.syp.mtc.gui.view.ConfigView;
 import de.thkoeln.syp.mtc.logging.Logger;
 
+/**
+ * Controller fuer das Konfigurationsmenue
+ * @author Allen Kletinitch
+ *
+ */
 public class ConfigController {
 	private Management management;
 	private ConfigView configView;

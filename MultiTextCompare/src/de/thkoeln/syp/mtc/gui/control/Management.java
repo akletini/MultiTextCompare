@@ -33,6 +33,13 @@ import de.thkoeln.syp.mtc.steuerung.services.IJSONHandler;
 import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
 import de.thkoeln.syp.mtc.steuerung.services.IXMLHandler;
 
+/**
+ * Zentrale Verwalungsklasse für die Steuerungsklassen. Enthaelt u.a. auch
+ * zentrale Variablen. Die Verwaltung geschieht im Singleton-Entwurfsmuster.
+ * 
+ * @author Allen Kletinitch
+ *
+ */
 public class Management {
 	private static Management instance;
 
@@ -359,11 +366,11 @@ public class Management {
 			config.setXmlPrint(0);
 			break;
 		}
-		
+
 		boolean setXSDSuccess = false;
-		if(config.getXmlValidation() == 3){
+		if (config.getXmlValidation() == 3) {
 			setXSDSuccess = setExternalXSD();
-			if(!setXSDSuccess){
+			if (!setXSDSuccess) {
 				config.setXmlValidation(0);
 				configView.getComboBoxXmlValidation().setSelectedIndex(0);
 				logger.setMessage("Error setting XSD", Logger.LEVEL_WARNING);
@@ -450,9 +457,9 @@ public class Management {
 		}
 		return new String(buf);
 	}
-	
-	private boolean setExternalXSD(){
-		
+
+	private boolean setExternalXSD() {
+
 		IFileImporter fileImporter = getFileImporter();
 		FileDialog fd = new FileDialog(getMainView(), "Set external XSD",
 				FileDialog.LOAD);
@@ -467,12 +474,13 @@ public class Management {
 					"Failed to locate MultiTextCompare logo. It has either been moved or deleted",
 					Logger.LEVEL_ERROR);
 		}
-		
-		if(fd.getFiles().length == 1){
+
+		if (fd.getFiles().length == 1) {
 			File xsd = fd.getFiles()[0];
-			if(xsd.getName().endsWith(".xsd")){
+			if (xsd.getName().endsWith(".xsd")) {
 				setExternalXSD(xsd);
-				logger.setMessage("Successfully set external XSD", Logger.LEVEL_INFO);
+				logger.setMessage("Successfully set external XSD",
+						Logger.LEVEL_INFO);
 				return true;
 			}
 			return false;

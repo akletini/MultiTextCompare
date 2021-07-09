@@ -25,10 +25,13 @@ import de.thkoeln.syp.mtc.gui.control.Management;
 import de.thkoeln.syp.mtc.gui.resources.TextLineNumber;
 import de.thkoeln.syp.mtc.logging.Logger;
 
+/**
+ * Anzeige der Fehlerliste beim Parsen
+ * @author Allen Kletinitch
+ *
+ */
 public class ParseErrorView extends JFrame {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -1453797887570422728L;
 	private JTextPane textPane;
 	private JScrollPane scroll;

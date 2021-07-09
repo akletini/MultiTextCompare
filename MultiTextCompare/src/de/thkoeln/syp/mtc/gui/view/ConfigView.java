@@ -31,11 +31,13 @@ import de.thkoeln.syp.mtc.gui.control.ConfigController;
 import de.thkoeln.syp.mtc.gui.control.Management;
 import de.thkoeln.syp.mtc.logging.Logger;
 
+/**
+ * Visualisierung des Config-Panels
+ * @author Allen Kletinitch
+ *
+ */
 public class ConfigView extends JFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 7166501486094263080L;
 	private Management management;
 	private IConfig config;

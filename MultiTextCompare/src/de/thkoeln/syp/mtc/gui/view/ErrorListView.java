@@ -22,11 +22,13 @@ import de.thkoeln.syp.mtc.datenhaltung.api.IParseError;
 import de.thkoeln.syp.mtc.gui.control.Management;
 import de.thkoeln.syp.mtc.logging.Logger;
 
+/**
+ * Visualisierung des Fehlerliste
+ * @author Allen Kletinitch
+ *
+ */
 public class ErrorListView extends JFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -7789052817218164171L;
 	private DefaultListModel<String> errorList;
 	private JList<String> listFilePath;

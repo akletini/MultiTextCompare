@@ -20,7 +20,11 @@ import de.thkoeln.syp.mtc.gui.view.ComparisonView;
 import de.thkoeln.syp.mtc.gui.view.FileView;
 import de.thkoeln.syp.mtc.logging.Logger;
 
-// Extra Klasse fuer die Klickbarkeit der Matrix
+/**
+ * Extra Klasse fuer die Klickbarkeit der Matrix bzw. die Auswahl der Diff-Dateien.
+ * @author Allen Kletinitch
+ *
+ */
 public class MouseAdapterMatrix extends MouseAdapter {
 	private Management management;
 	private List<File> selectedFiles;

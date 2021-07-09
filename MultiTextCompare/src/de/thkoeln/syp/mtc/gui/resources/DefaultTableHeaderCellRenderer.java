@@ -13,6 +13,11 @@ import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 
+/**
+ * Custom Renderer fuer die Kopfzeile der Matrix
+ * @author Allen Kletinitch
+ *
+ */
 public class DefaultTableHeaderCellRenderer extends DefaultTableCellRenderer {
 
 	/**

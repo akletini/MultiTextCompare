@@ -24,10 +24,13 @@ import de.thkoeln.syp.mtc.gui.control.FileSelectionController;
 import de.thkoeln.syp.mtc.gui.control.Management;
 import de.thkoeln.syp.mtc.logging.Logger;
 
+/**
+ * Visualisierung der Dateiauswahl
+ * @author Allen Kletinitch
+ *
+ */
 public class FileSelectionView extends JFrame {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 422706508260142301L;
 	private Management management;
 	private JPanel panel;

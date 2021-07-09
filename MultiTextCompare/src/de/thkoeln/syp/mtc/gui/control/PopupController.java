@@ -5,6 +5,11 @@ import java.awt.event.ActionListener;
 
 import de.thkoeln.syp.mtc.gui.view.PopupView;
 
+/**
+ * Controller fuer Popup-Menues
+ * @author Allen Kletinitch
+ *
+ */
 public class PopupController {
 	private PopupView popupView;
 

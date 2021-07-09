@@ -18,10 +18,13 @@ import de.thkoeln.syp.mtc.gui.control.Management;
 import de.thkoeln.syp.mtc.gui.resources.TextLineNumber;
 import de.thkoeln.syp.mtc.logging.Logger;
 
+/**
+ * Klasse um Dateien aus dem Dateisystem zu lesen und anzuzeigen
+ * @author Allen Kletinitch
+ *
+ */
 public class FileView extends JFrame {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1950432104929262839L;
 	private JTextPane textPane;
 	private JScrollPane scroll;

@@ -17,10 +17,13 @@ import de.thkoeln.syp.mtc.gui.control.Management;
 import de.thkoeln.syp.mtc.gui.control.PopupController;
 import de.thkoeln.syp.mtc.logging.Logger;
 
+/**
+ * Visualisierung der Popups
+ * @author Allen Kletinitch
+ *
+ */
 public class PopupView extends JFrame {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 2476545478556069504L;
 	private JPanel panel;
 	private JLabel label;

@@ -39,6 +39,11 @@ import de.thkoeln.syp.mtc.steuerung.services.IJSONHandler;
 import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
 import de.thkoeln.syp.mtc.steuerung.services.IXMLHandler;
 
+/**
+ * Controller fuer die Dateiauswahl. Ruft auch Methoden für die Vergleichsoperationen auf. 
+ * @author Allen Kletinitch
+ *
+ */
 public class FileSelectionController extends JFrame {
 	/**
 	 * 

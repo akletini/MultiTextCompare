@@ -54,10 +54,13 @@ import de.thkoeln.syp.mtc.gui.resources.DefaultTableHeaderCellRenderer;
 import de.thkoeln.syp.mtc.gui.resources.RowNumberTable;
 import de.thkoeln.syp.mtc.logging.Logger;
 
+/**
+ * Visualisierung des Hauptmenues
+ * @author Allen Kletinitch
+ *
+ */
 public class MainView extends JFrame {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 8634086168819911638L;
 	private Management management;
 	private JLabel quickAccess;

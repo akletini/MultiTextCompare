@@ -9,6 +9,11 @@ import javax.swing.JFrame;
 import de.thkoeln.syp.mtc.gui.control.Management;
 import de.thkoeln.syp.mtc.logging.Logger;
 
+/**
+ * Handler um die Anleitung zu oeffnen
+ * @author Allen Kletinitch
+ *
+ */
 public class HelpView extends JFrame {
 	
 	private static final long serialVersionUID = -8187518366010915651L;

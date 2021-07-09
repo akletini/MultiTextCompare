@@ -20,11 +20,14 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 
+/**
+ * "Verwandelt" eine Tabelle in eine Matrix 
+ * @author Allen Kletinitch
+ * 
+ */
 public class RowNumberTable extends JTable implements ChangeListener,
 		PropertyChangeListener, TableModelListener {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -5736931872898571250L;
 	private JTable main;
 	private String[] filenames;

@@ -5,9 +5,12 @@ import java.awt.event.AdjustmentListener;
 
 import javax.swing.JScrollBar;
 
-// Extraklasse um die Scrollbars der einzelnen ScrollPanes zu
-// synchronisieren
-
+/**
+ * Extraklasse um die Scrollbars der einzelnen ScrollPanes zu synchronisieren
+ * 
+ * @author Allen Kletinitch
+ *
+ */
 public class ScrollBarSynchronizer implements AdjustmentListener {
 	JScrollBar[] scrollBars;
 

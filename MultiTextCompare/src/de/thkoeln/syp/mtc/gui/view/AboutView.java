@@ -11,10 +11,13 @@ import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
 
+/**
+ * Visualisierung des About-Panels
+ * @author Allen Kletinitch
+ *
+ */
 public class AboutView extends JFrame {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = -8398864952376075615L;
 	private JPanel panel;
 	private JLabel lblHeader;

@@ -40,10 +40,13 @@ import de.thkoeln.syp.mtc.steuerung.impl.IMatchHelperImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IDiffHelper;
 import de.thkoeln.syp.mtc.steuerung.services.IMatchHelper;
 
+/**
+ * Visualisierung der Diff-Panels
+ * @author Allen Kletinitch
+ *
+ */
 public class ComparisonView extends JFrame {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -4623247136191282712L;
 	private Management management;
 	private File[] selectedTempFiles, matchedDiffFiles;

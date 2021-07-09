@@ -18,6 +18,11 @@ import javax.swing.text.StyleContext;
 import de.thkoeln.syp.mtc.gui.control.Management;
 import de.thkoeln.syp.mtc.gui.view.MainView;
 
+/**
+ * Custom Logging-Komponente fuer MultiTextCompare
+ * @author Allen Kletinitch
+ *
+ */
 public class Logger {
 	private Management management;
 	public static final int LEVEL_INFO = 0;

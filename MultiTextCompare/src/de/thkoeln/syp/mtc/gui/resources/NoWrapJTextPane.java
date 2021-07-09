@@ -4,7 +4,11 @@ import java.awt.Dimension;
 
 import javax.swing.JTextPane;
 
-//Extra JTextPane Klasse, die "Word Wrapping" verhindert
+/**
+ * Extra JTextPane Klasse, die "Word Wrapping" verhindert
+ * @author Allen Kletinitch
+ *
+ */
 public class NoWrapJTextPane extends JTextPane {
 	/**
 	 * 

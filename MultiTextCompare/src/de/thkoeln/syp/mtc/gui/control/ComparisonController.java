@@ -7,6 +7,11 @@ import javax.swing.JScrollBar;
 
 import de.thkoeln.syp.mtc.gui.view.ComparisonView;
 
+/**
+ * Controller fuer Diff-Panels
+ * @author Allen Kletinitch
+ *
+ */
 public class ComparisonController {
 
 	private Management management;
