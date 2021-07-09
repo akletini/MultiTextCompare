@@ -284,10 +284,6 @@ public class IXMLComparerImpl {
 								currentWeight);
 
 				similarities.add(similarity);
-			} else if (hasChildren(currentRef) && !hasChildren(currentComp)) {
-
-			} else if (hasChildren(currentRef) && !hasChildren(currentComp)) {
-
 			} else if (!hasChildren(currentRef) && !hasChildren(currentComp)) {
 				double similarity = currentLevelWeight
 						* compareElements(currentRef, currentComp,
@@ -299,7 +295,7 @@ public class IXMLComparerImpl {
 		for (Double s : similarities) {
 			sim += s;
 		}
-		if (adjustNodeSimilarity && !rootHasNamespaces) {
+		if (adjustNodeSimilarity && !rootHasNamespaces && !(ref.isRootElement() && comp.isRootElement())) {
 			sim = sim * similarities.size() / (similarities.size() + 1);
 			sim += currentNodeSim / (similarities.size() + 1);
 		}
@@ -503,7 +499,7 @@ public class IXMLComparerImpl {
 	private boolean rootHasNameSpace(Element rootRef, Element rootComp){
 		boolean hasNS = false;
 		
-	    if(!rootRef.getAttributes().isEmpty() || !rootComp.getAttributes().isEmpty()){
+	    if(!rootRef.getAttributes().isEmpty() && !rootComp.getAttributes().isEmpty()){
 			Attribute refAttr = rootRef.getAttributes().get(0);
 			Attribute compAttr = rootComp.getAttributes().get(0);
 			
