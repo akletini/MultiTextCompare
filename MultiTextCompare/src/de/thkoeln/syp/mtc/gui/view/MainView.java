@@ -65,7 +65,7 @@ public class MainView extends JFrame {
 	private JTable tableMatrix;
 	private JToolBar toolBar;
 	private JButton btnDateiauswahl, btnKonfig, btnDeleteLog, btnZoomIn,
-			btnZoomOut, btnHilfe, btnAbout, btnParseErrorList;
+			btnZoomOut, btnHilfe, btnParseErrorList;
 	private JScrollPane scrollPaneMatrix, scrollPaneFiles;
 	private RowNumberTable rowTable;
 	private JTextPane textArea;
@@ -150,7 +150,7 @@ public class MainView extends JFrame {
 		error.setState(config.getShowErrors());
 		showLog = new JMenuItem("Show Log");
 		menuBar.add(menuLogging);
-		javadoc = new JMenuItem("Show docs");
+		javadoc = new JMenuItem("Show JavaDoc");
 
 		menuHelp = new JMenu("    Help    ");
 		about = new JMenuItem("About", iconInfo);
@@ -220,10 +220,6 @@ public class MainView extends JFrame {
 		btnHilfe = new JButton(iconQuestion);
 		btnHilfe.setToolTipText("Open help document");
 		toolBar.add(btnHilfe);
-		toolBar.addSeparator();
-		btnAbout = new JButton(iconInfo);
-		btnAbout.setToolTipText("More on MultiTextCompare");
-		toolBar.add(btnAbout);
 		progressBar = new JProgressBar();
 		toolBar.add(progressBar);
 		progressBar.setVisible(false);
@@ -529,9 +525,7 @@ public class MainView extends JFrame {
 		btnHilfe.addActionListener(e);
 	}
 
-	public void addAboutListener(ActionListener e) {
-		btnAbout.addActionListener(e);
-	}
+
 
 	public void addToolbarLogClearListener(ActionListener e) {
 		btnDeleteLog.addActionListener(e);

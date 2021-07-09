@@ -55,7 +55,7 @@ public class IFileImporterImpl implements IFileImporter {
 		prop.setProperty(PROP_PUNCTUATION, "true");
 		prop.setProperty(PROP_CAPITALIZATION, "true");
 		prop.setProperty(PROP_COMPARELINES, "true");
-		prop.setProperty(PROP_MAXLINELENGTH, "300");
+		prop.setProperty(PROP_MAXLINELENGTH, "0");
 		prop.setProperty(PROP_OPENLASTCOMPARISON, "false");
 		prop.setProperty(PROP_LASTCOMPARISONPATH, "");
 

@@ -22,7 +22,6 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import org.apache.commons.io.FileUtils;
@@ -54,7 +53,6 @@ public class MainController {
 		mainView.addFileSelectionListener(new FileSelectionListener());
 		mainView.addConfigListener(new ConfigListener());
 		mainView.addHelpListener(new HelpListener());
-		mainView.addAboutListener(new AboutListener());
 		mainView.addZoomListener(new ZoomListener());
 		mainView.addMenuSaveComparisonListener(new MenuSaveComparisonListener());
 		mainView.addMenuSaveAsComparisonListener(new MenuSaveComparisonListener());
@@ -698,8 +696,7 @@ public class MainController {
 			int maximumHeight = 100;
 			int currentRowHeight = 0, updatedRowHeight = 0;
 			JTable tableMatrix = management.getMainView().getTableMatrix();
-			JScrollPane matrixScroll = management.getMainView()
-					.getMatrixScrollpane();
+
 			RowNumberTable rowNumb = management.getMainView()
 					.getRowNumberTable();
 

@@ -22,7 +22,6 @@ public class PopupView extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 2476545478556069504L;
-	private PopupController popupController;
 	private JPanel panel;
 	private JLabel label;
 	private JLabel labelSpace;
@@ -53,7 +52,7 @@ public class PopupView extends JFrame {
 		} catch (IOException e) {
 			logger.setMessage(e.toString(), Logger.LEVEL_ERROR);
 		}
-		popupController = new PopupController(this);
+		new PopupController(this);
 	}
 
 	public void addOkListener(ActionListener e) {

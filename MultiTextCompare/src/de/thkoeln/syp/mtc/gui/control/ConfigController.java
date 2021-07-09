@@ -47,12 +47,22 @@ public class ConfigController {
 	// Default Button: Enfernt alle Häkchen, setzt ComboBoxes auf 0
 	class DefaultListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			configView.getCheckBoxWhitespaces().setSelected(false);
-			configView.getCheckBoxBlankLines().setSelected(false);
-			configView.getCheckBoxPunctuation().setSelected(false);
-			configView.getCheckBoxCaps().setSelected(false);
-			configView.getComboBoxComparisonModes().setSelectedIndex(0);
+			// General
+			configView.getCheckBoxWhitespaces().setSelected(true);
+			configView.getCheckBoxBlankLines().setSelected(true);
+			configView.getCheckBoxPunctuation().setSelected(true);
+			configView.getCheckBoxCaps().setSelected(true);
+			configView.getComboBoxComparisonModes().setSelectedIndex(1);
+			configView.getTextFieldMaxLength().setText("0");
+			configView.getCheckBoxOpenLastComparison().setSelected(false);
+			
+			// Matching
 			configView.getCheckBoxLineMatch().setSelected(false);
+			configView.getCheckBoxBestMatch().setSelected(false);
+			configView.getMatchAtSlider().setValue(85);
+			configView.getTextFieldLookahead().setText("50");
+			
+			// XML
 			configView.getComboBoxXmlValidation().setSelectedIndex(0);
 			configView.getComboBoxXmlPrint().setSelectedIndex(0);
 			configView.getCheckBoxXmlSortElements().setSelected(false);
@@ -60,12 +70,14 @@ public class ConfigController {
 			configView.getCheckBoxXmlDeleteAttribute().setSelected(false);
 			configView.getCheckBoxXmlDeleteComments().setSelected(false);
 			configView.getCheckBoxXmlOnlyTags().setSelected(false);
+			configView.getCheckBoxXMLSemantic().setSelected(true);
+			configView.getCheckBoxCompareXMLComments().setSelected(true);
+			
+			// JSON
+			configView.getCheckBoxJSONSemantic().setSelected(true);
+			configView.getCheckBoxKeepJsonArrayOrder().setSelected(false);
 			configView.getCheckBoxJsonSortKeys().setSelected(false);
 			configView.getCheckBoxJsonDeleteValues().setSelected(false);
-			configView.getCheckBoxBestMatch().setSelected(false);
-			configView.getComboBoxComparisonModes().setSelectedIndex(0);
-			configView.getCheckBoxJSONSemantic().setSelected(false);
-			configView.getCheckBoxXMLSemantic().setSelected(false);
 		}
 	}
 
