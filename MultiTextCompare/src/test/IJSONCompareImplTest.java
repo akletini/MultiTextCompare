@@ -8,18 +8,18 @@ import java.io.IOException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import de.thkoeln.syp.mtc.steuerung.impl.IJSONComparerImpl;
+import de.thkoeln.syp.mtc.steuerung.impl.IJSONCompareImpl;
 
 public class IJSONCompareImplTest {
 
-	static IJSONComparerImpl jsonCompare;
+	static IJSONCompareImpl jsonCompare;
 	static File testRef, test2, test3, test4, test5, test6, test7, test8,
 			test9;
 	static File recTest1, recTest2;
 
 	@BeforeClass
 	public static void beforeAllTests() {
-		jsonCompare = new IJSONComparerImpl(0);
+		jsonCompare = new IJSONCompareImpl(0);
 		testRef = new File(System.getProperty("user.dir") + File.separator
 				+ "/src/test/testFiles/IJSONCompareTestFiles/test1.json");
 		test2 = new File(System.getProperty("user.dir") + File.separator

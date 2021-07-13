@@ -11,12 +11,12 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.thkoeln.syp.mtc.steuerung.impl.IFileImporterImpl;
-import de.thkoeln.syp.mtc.steuerung.impl.IXMLComparerImpl;
+import de.thkoeln.syp.mtc.steuerung.impl.IXMLCompareImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
 
 public class IXMLComparerImplTest {
 	
-	static IXMLComparerImpl xmlCompare;
+	static IXMLCompareImpl xmlCompare;
 	static File attrTest1, attrTest2,attrTest3, attrTest4, attrTest5, attrTest6,attrTest7, attrTest8;
 	static File recTest1, recTest2;
 	static File comTest1, comTest2, comTest3;
@@ -29,7 +29,7 @@ public class IXMLComparerImplTest {
 	public static void beforeAllTests(){
 		IFileImporter fileImporter = new IFileImporterImpl();
 		fileImporter.getConfig().setMaxLineLength(0);
-		xmlCompare = new IXMLComparerImpl(fileImporter);
+		xmlCompare = new IXMLCompareImpl(fileImporter);
 		attrTest1 = new File(System.getProperty("user.dir")
 				+ File.separator + "/src/test/testFiles/IXMLCompareTestFiles/TestAttributes1.xml");
 		attrTest2 = new File(System.getProperty("user.dir")
@@ -175,7 +175,7 @@ public class IXMLComparerImplTest {
 		IFileImporter fileImporter = new IFileImporterImpl();
 		fileImporter.getConfig().setMaxLineLength(0);
 		fileImporter.getConfig().setXmlCompareComments(false);
-		IXMLComparerImpl xmlCompare = new IXMLComparerImpl(fileImporter);
+		IXMLCompareImpl xmlCompare = new IXMLCompareImpl(fileImporter);
 		xmlCompare.compare(comTest1, comTest2);
 		List<Double> similarities = xmlCompare.getSimilarities();
 		assertEquals(0.5, similarities.get(0).doubleValue(), 0.001);
@@ -186,7 +186,7 @@ public class IXMLComparerImplTest {
 		IFileImporter fileImporter = new IFileImporterImpl();
 		fileImporter.getConfig().setMaxLineLength(0);
 		fileImporter.getConfig().setXmlCompareComments(true);
-		IXMLComparerImpl xmlCompare = new IXMLComparerImpl(fileImporter);
+		IXMLCompareImpl xmlCompare = new IXMLCompareImpl(fileImporter);
 		double val = xmlCompare.compare(comTest1, comTest3);
 		assertEquals(0.75, val, 0.001);
 	}
@@ -276,7 +276,7 @@ public class IXMLComparerImplTest {
 		IFileImporter fileImporter = new IFileImporterImpl();
 		fileImporter.getConfig().setMaxLineLength(0);
 		fileImporter.getConfig().setXmlCompareComments(false);
-		IXMLComparerImpl xmlCompare = new IXMLComparerImpl(fileImporter);
+		IXMLCompareImpl xmlCompare = new IXMLCompareImpl(fileImporter);
 		xmlCompare.compare(comTestNS1, comTestNS2);
 		List<Double> similarities = xmlCompare.getSimilarities();
 		assertEquals(0.5, similarities.get(0).doubleValue(), 0.001);
@@ -287,7 +287,7 @@ public class IXMLComparerImplTest {
 		IFileImporter fileImporter = new IFileImporterImpl();
 		fileImporter.getConfig().setMaxLineLength(0);
 		fileImporter.getConfig().setXmlCompareComments(true);
-		IXMLComparerImpl xmlCompare = new IXMLComparerImpl(fileImporter);
+		IXMLCompareImpl xmlCompare = new IXMLCompareImpl(fileImporter);
 		double val = xmlCompare.compare(comTestNS1, comTestNS3);
 		assertEquals(0.75, val, 0.001);
 	}

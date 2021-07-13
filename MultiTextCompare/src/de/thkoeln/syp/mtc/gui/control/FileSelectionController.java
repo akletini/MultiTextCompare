@@ -284,6 +284,7 @@ public class FileSelectionController extends JFrame {
 			long start_time;
 			Management management;
 			JProgressBar progressBar;
+			boolean abort = false;
 
 			public void publishData(int i) {
 				publish(i);
@@ -364,6 +365,10 @@ public class FileSelectionController extends JFrame {
 				if (mode == 2
 						&& fileImporter.getConfig()
 								.isJsonUseSemanticComparison()) {
+					if(!jsonHandler.getErrorList().isEmpty()){
+						abort = true;
+						return null;
+					}
 					for (int i = 0; i < textvergleicher.getBatches().size(); i++) {
 						final List<IComparisonImpl> currentBatch = textvergleicher
 								.getBatches().get(i).getInhalt();
@@ -389,6 +394,12 @@ public class FileSelectionController extends JFrame {
 				} else if (mode == 1
 						&& fileImporter.getConfig()
 								.isXmlUseSemanticComparison()) {
+					
+					if(!xmlHandler.getErrorList().isEmpty()){
+						abort = true;
+						return null;
+					}
+					
 					for (int i = 0; i < textvergleicher.getBatches().size(); i++) {
 						final List<IComparisonImpl> currentBatch = textvergleicher
 								.getBatches().get(i).getInhalt();
@@ -482,6 +493,20 @@ public class FileSelectionController extends JFrame {
 			@Override
 			protected void done() {
 				progressBar.setValue(progressBar.getMaximum());
+				
+				if(abort){
+					logger.setMessage("Parse errors present, please remove or correct these files to use semantic comparison", Logger.LEVEL_WARNING);
+					management.getFileSelectionView().getBtnCompare()
+					.setEnabled(true);
+					management.getFileSelectionView().getBtnAddFiles()
+					.setEnabled(true);
+					management.getFileSelectionView().getBtnDelete()
+					.setEnabled(true);
+					management.setIsMatrixGreyedOut(false);
+					progressBar.setToolTipText(null);
+					progressBar.setVisible(false);
+					return;
+				}
 
 				if (anzDateien < 2) {
 					new PopupView("Error",

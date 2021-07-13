@@ -3,6 +3,8 @@ package de.thkoeln.syp.mtc.gui.view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -11,6 +13,7 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -21,6 +24,7 @@ import net.miginfocom.swing.MigLayout;
 import de.thkoeln.syp.mtc.datenhaltung.api.IParseError;
 import de.thkoeln.syp.mtc.gui.control.Management;
 import de.thkoeln.syp.mtc.logging.Logger;
+import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
 
 /**
  * Visualisierung des Fehlerliste
@@ -35,6 +39,7 @@ public class ErrorListView extends JFrame {
 	private JPanel panel;
 	private JLabel labelTitle, labelErrorCount;
 	private JScrollPane scrollPane;
+	private JButton delButton;
 	private Management management;
 	private Logger logger;
 
@@ -59,6 +64,9 @@ public class ErrorListView extends JFrame {
 		labelErrorCount = new JLabel("Current error count: " + listFilePath.getModel().getSize());
 		labelErrorCount.setFont(new Font("Tahoma", Font.BOLD, 11));
 		panel.add(labelErrorCount, "flowx,cell 0 2");
+		delButton = new JButton("Delete from selection");
+		delButton.addActionListener(new DeleteFromImports());
+		panel.add(delButton, "flowx,cell 0 2"); 
 		
 		scrollPane = new JScrollPane(listFilePath);
 		panel.add(scrollPane, "flowx,cell 0 1");
@@ -94,6 +102,27 @@ public class ErrorListView extends JFrame {
 		this.errorList = errorList;
 	}
 
+
+
+class DeleteFromImports implements ActionListener {
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		IFileImporter fileImporter = management.getFileImporter();
+		
+		List<IParseError> errorFiles = management.getCurrentErrorList();
+		for(IParseError error : errorFiles){
+			fileImporter.deleteImport(error.getFile());
+		}
+		management.setNewSelection(true);
+		errorList.clear();
+		labelErrorCount.setText("Current error count: 0");
+		
+		management.getFileSelectionController().updateListFilePath();
+		
+	}
+	
+}
 }
 
 class ErrorViewListener extends MouseAdapter {
