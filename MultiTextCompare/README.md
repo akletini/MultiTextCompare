@@ -6,7 +6,11 @@
 - JDK 7u75 mit gesetztem JAVA_HOME
 - Git >2.26
 
-Note: Java 1.7 ist empfohlen, Java 1.8 ist die höchste getestete Java-Version um die Anwendung über die JAR-Datei zu starten.
+---
+
+**Note**: Java 1.7 ist empfohlen, Java 1.8 ist die höchste getestete Java-Version um die Anwendung über die JAR-Datei zu starten.
+
+---
 
 ## Setup
 
@@ -16,11 +20,11 @@ Clonen Sie folgendes Repository:
 $ git clone https://gerona.nt.fh-koeln.de/gitlab/syp20/team06.git
 ```
 
-oder verwenden Sie das per Google Drive übertragene Workspace
+oder verwenden Sie das per Google Drive übertragene Workspace.
 
 ## Run-Commands
 
-Starten Sie den MTC wie folgt falls Sie eine 64 Bit JVM verwenden:
+Starten Sie MultiTextCompare wie folgt falls Sie eine 64 Bit JVM verwenden:
 
 ```
 $ java -jar MultiTextCompare.jar
@@ -36,6 +40,12 @@ $ java -Xms512m -Xmx2g -XX:MaxHeapSize=1g -jar MultiTextCompare.jar
 auch umgangen werden.
 
 Falls die Anwendung über Eclipse gestartet wird, kann die Limitation der Ressourcen unter Run -> Run configuration -> VM arguments = [-Xms512m -Xmx2g -XX:MaxHeapSize=1g] geändert werden.
+
+---
+
+**Note**: Bei einem Start über die JAR-Datei muss diese im Verzeichnis `MultiTextCompare` liegen.
+
+---
 
 ## Code-Base
 

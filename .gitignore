@@ -104,5 +104,5 @@ MultiTextCompare/out/*
 MultiTextCompare/src/test/testFiles/config.properties
 MultiTextCompare/Beispiel/*
 MultiTextCompare/doc/*
-MTC.jar
+*.jar
 
