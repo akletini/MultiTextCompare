@@ -57,6 +57,6 @@ Die Konfigurationsdatei liegt standardmässig unter `MultiTextCompare/configs/co
 
 Aus den Javadoc Kommentaren kann in Eclipse über einen Rechtsklick auf `MultiTextCompare -> Export -> Java -> Javadoc` eine aktuelle HTML Dokumentation erzeugt werden. Diese sollte in den Ordner `MultiTextCompare/doc/*` exportiert werden und kann über die Anwendung MultiTextCompare selbst eingesehen werden..
 
-Aus den JUnit Testfällen kann in Eclipse über einen Rechtsklick auf den Ordner `MultiTextCompare -> Export -> General -> Ant Buildfiles` eine aktuelle HTML Dokumentation erzeugt werden. Diese sollte in den Ordner `MultiTextCompare/junit/*` exportiert werden.
+Aus den JUnit Testfällen kann in Eclipse über einen Rechtsklick auf den Ordner `MultiTextCompare -> Export -> General -> Ant Buildfiles` eine `build.xml`-Datei erzeugt werden. Eine aktuelle HTML Dokumentation kann durch einen Rechtsklick auf diese Datei und `Run As -> Ant Build` generiert werden. Diese sollte in den Ordner `MultiTextCompare/junit/*` exportiert werden.
 
 Eine ausführbare JAR-Datei kann über `MultiTextComapre -> Export -> Java -> Runnable JAR file` erzeugt werden.

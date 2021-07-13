@@ -69,6 +69,11 @@
         <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
         <antcall target="build"/>
     </target>
+    <target name="ConfigView">
+        <java classname="de.thkoeln.syp.mtc.gui.view.ConfigView" failonerror="true" fork="yes">
+            <classpath refid="MultiTextCompare.classpath"/>
+        </java>
+    </target>
     <target name="FileComparerTest">
         <mkdir dir="${junit.output.dir}"/>
         <junit fork="yes" printsummary="withOutAndErr">
@@ -111,6 +116,22 @@
             <classpath refid="MultiTextCompare.classpath"/>
         </junit>
     </target>
+    <target name="IJSONCompareImplTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="test.IJSONCompareImplTest" todir="${junit.output.dir}"/>
+            <classpath refid="MultiTextCompare.classpath"/>
+        </junit>
+    </target>
+    <target name="IJSONHandlerImplTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="test.IJSONHandlerImplTest" todir="${junit.output.dir}"/>
+            <classpath refid="MultiTextCompare.classpath"/>
+        </junit>
+    </target>
     <target name="IMatchHelperTest">
         <mkdir dir="${junit.output.dir}"/>
         <junit fork="yes" printsummary="withOutAndErr">
@@ -135,11 +156,51 @@
             <classpath refid="MultiTextCompare.classpath"/>
         </junit>
     </target>
-    <target name="IXMLVergleicherImplTest">
+    <target name="ITextvergleicherImplTest.test_vergleichZeichenmenge">
         <mkdir dir="${junit.output.dir}"/>
         <junit fork="yes" printsummary="withOutAndErr">
             <formatter type="xml"/>
-            <test name="test.IXMLVergleicherImplTest" todir="${junit.output.dir}"/>
+            <test name="test.ITextvergleicherImplTest" todir="${junit.output.dir}"/>
+            <classpath refid="MultiTextCompare.classpath"/>
+        </junit>
+    </target>
+    <target name="IXMLComparerImplTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="test.IXMLComparerImplTest" todir="${junit.output.dir}"/>
+            <classpath refid="MultiTextCompare.classpath"/>
+        </junit>
+    </target>
+    <target name="IXMLComparerImplTest.test_differentElementValuesOneWithoutAttributesIsSymmetrical">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="test.IXMLComparerImplTest" todir="${junit.output.dir}"/>
+            <classpath refid="MultiTextCompare.classpath"/>
+        </junit>
+    </target>
+    <target name="IXMLComparerImplTest.test_equalElementValuesOneWithoutAttributesIsSymmetrical">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="test.IXMLComparerImplTest" todir="${junit.output.dir}"/>
+            <classpath refid="MultiTextCompare.classpath"/>
+        </junit>
+    </target>
+    <target name="IXMLHandlerImplTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="test.IXMLHandlerImplTest" todir="${junit.output.dir}"/>
+            <classpath refid="MultiTextCompare.classpath"/>
+        </junit>
+    </target>
+    <target name="IXMLHandlerImplTest.test_parseFile_ExternalXSD_Successful">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="test.IXMLHandlerImplTest" todir="${junit.output.dir}"/>
             <classpath refid="MultiTextCompare.classpath"/>
         </junit>
     </target>
@@ -151,6 +212,7 @@
     </target>
     <target name="Main (2)">
         <java classname="de.thkoeln.syp.mtc.Main" failonerror="true" fork="yes">
+            <jvmarg line="-Xms512m -Xmx4000m -XX:MaxHeapSize=1g"/>
             <classpath refid="MultiTextCompare.classpath"/>
         </java>
     </target>
@@ -170,10 +232,12 @@
             <formatter type="xml"/>
             <test name="test.IDiffHelperImplTest" todir="${junit.output.dir}"/>
             <test name="test.IFileImporterImplTest" todir="${junit.output.dir}"/>
-            <test name="test.IJSONvergleicherImplTest" todir="${junit.output.dir}"/>
+            <test name="test.IJSONCompareImplTest" todir="${junit.output.dir}"/>
+            <test name="test.IJSONHandlerImplTest" todir="${junit.output.dir}"/>
             <test name="test.IMatchHelperTest" todir="${junit.output.dir}"/>
             <test name="test.ITextvergleicherImplTest" todir="${junit.output.dir}"/>
-            <test name="test.IXMLVergleicherImplTest" todir="${junit.output.dir}"/>
+            <test name="test.IXMLComparerImplTest" todir="${junit.output.dir}"/>
+            <test name="test.IXMLHandlerImplTest" todir="${junit.output.dir}"/>
             <classpath refid="MultiTextCompare.classpath"/>
         </junit>
     </target>

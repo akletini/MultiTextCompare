@@ -20,7 +20,7 @@ import de.thkoeln.syp.mtc.datenhaltung.impl.IMatchImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IMatchHelper;
 
 /**
- * Klasse für das Zeilenmatching für die Diff-Anzeige und den Vergleich über
+ * Klasse fuer das Zeilenmatching in der Diff-Anzeige und den Vergleich ueber
  * Line Compare.
  * 
  * @author Allen Kletinitch
