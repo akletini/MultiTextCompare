@@ -6,6 +6,13 @@ import java.util.List;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IMatch;
 
+/**
+ * Klasse für das Zeilenmatching für die Diff-Anzeige und den Vergleich über
+ * Line Compare.
+ * 
+ * @author Allen Kletinitch
+ *
+ */
 public interface IMatchHelper {
 
 	Object[] matchLines(File a, File b) throws IOException;

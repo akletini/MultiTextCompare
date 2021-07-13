@@ -10,6 +10,13 @@ import org.jdom2.Element;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IParseError;
 
+/**
+ * Bereitet XML-Dateien für den Vergleich vor. Verantwortlich für das Parsen,
+ * Sortieren und Manipulieren.
+ * 
+ * @author Matthias Pooth
+ *
+ */
 public interface IXMLHandler {
   
   Document sortAttributes(Document doc);

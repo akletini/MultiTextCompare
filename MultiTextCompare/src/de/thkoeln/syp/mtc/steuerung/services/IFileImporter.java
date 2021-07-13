@@ -6,6 +6,13 @@ import java.util.Map;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
 
+/**
+ * Verwaltet die zu vergleichenden Textdateien und die Konfiguration der
+ * Anwendung.
+ * 
+ * @author Luca Uckermann
+ *
+ */
 public interface IFileImporter {
 	final String PROP_ROOT = "rootDirectory";
 	final String PROP_FILENAME = "filename";

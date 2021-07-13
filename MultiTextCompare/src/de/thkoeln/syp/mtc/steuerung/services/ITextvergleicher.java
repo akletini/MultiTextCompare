@@ -7,6 +7,14 @@ import java.util.Map;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IComparisonImpl;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IMatrixImpl;
 
+/**
+ * Verwaltet alle Vergleichsalgorithmen und das Setup von Vergleichen. Dabei
+ * werden die Dateien von IFileImporter nach Vergleichen aufgeteilt und nach
+ * Gewicht sortiert auf verfügbare CPU-Threads verteilt.
+ * 
+ * @author Allen Kletinitch
+ *
+ */
 public interface ITextvergleicher {
 
 	List<IComparisonImpl> getVergleiche(List<File> files);

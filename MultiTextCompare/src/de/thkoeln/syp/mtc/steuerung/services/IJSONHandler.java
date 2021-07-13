@@ -7,6 +7,13 @@ import java.util.Map;
 
 import de.thkoeln.syp.mtc.datenhaltung.api.IParseError;
 
+/**
+ * Bereitet JSON-Dateien für den Vergleich vor. Verantwortlich für das Parsen,
+ * Sortieren und Manipulieren.
+ * 
+ * @author Matthias Pooth
+ *
+ */
 public interface IJSONHandler {
   
   boolean parseFile(File file);
