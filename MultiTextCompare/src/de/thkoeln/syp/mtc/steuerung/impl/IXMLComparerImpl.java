@@ -29,7 +29,7 @@ public class IXMLComparerImpl {
 	private ITextvergleicher textvergleicher;
 	private IFileImporter fileImporter;
 	private List<Double> similarities;
-	private boolean commentFound, rootHasNamespaces;
+	private boolean commentFound, rootHasNamespaces, rootHasComments;
 
 	public IXMLComparerImpl(IFileImporter fileImporter) {
 		textvergleicher = new ITextvergleicherImpl();
@@ -63,6 +63,7 @@ public class IXMLComparerImpl {
 		rootHasNamespaces = rootHasNameSpace(rootRef, rootComp);
 
 		double similarity = compareElementsRecursively(rootRef, rootComp, 1.0);
+		
 		return similarity;
 	}
 
@@ -92,7 +93,7 @@ public class IXMLComparerImpl {
 		List<Content> refContent = ref.getContent();
 		List<Content> compContent = comp.getContent();
 		double contentSim = currentLevelWeight
-				* compareContent(refContent, compContent);
+				* compareContent(refContent, compContent, ref, comp);
 		if (textPresent && commentFound && attributesPresent) {
 			textWeight = 1.0 / 3.0;
 			attributeWeight = textWeight;
@@ -294,10 +295,17 @@ public class IXMLComparerImpl {
 		for (Double s : similarities) {
 			sim += s;
 		}
+		// In JDOM ist ein Namespace auch nur ein Attribut, der Namespace soll aber nicht als Content-Node gewertet werden
 		if (adjustNodeSimilarity && !rootHasNamespaces && !(ref.isRootElement() && comp.isRootElement())) {
 			sim = sim * similarities.size() / (similarities.size() + 1);
 			sim += currentNodeSim / (similarities.size() + 1);
+		} 
+		// Falls Kommentare unter dem Wurzelknoten existieren, sollen diese wie Content behandelt werden
+		else if(adjustNodeSimilarity && rootHasComments  && !rootHasNamespaces && (ref.isRootElement() && comp.isRootElement())){
+			sim = sim * similarities.size() / (similarities.size() + 1);
+			sim += currentNodeSim / (similarities.size() + 1);
 		}
+		
 		this.similarities = similarities;
 		return sim;
 	}
@@ -312,12 +320,17 @@ public class IXMLComparerImpl {
 	 * @return Aehnlichkeit der Kommentare
 	 */
 	private double compareContent(List<Content> refContent,
-			List<Content> compContent) {
+			List<Content> compContent, Element refNode, Element compNode) {
 		boolean useComments = fileImporter.getConfig()
 				.getXmlCompareComments();
 
 		double totalCommentsLeft = getCommentCount(refContent);
 		double totalCommentsRight = getCommentCount(compContent);
+		
+		if((totalCommentsLeft != 0.0 || totalCommentsRight != 0.0) && refNode.isRootElement() && compNode.isRootElement()){
+			rootHasComments = true;
+		}
+		
 		double maxSize = Math.max(totalCommentsLeft, totalCommentsRight);
 		List<Double> similaritiesComment = new ArrayList<Double>();
 		for (int i = 0; i < refContent.size(); i++) {
@@ -512,6 +525,12 @@ public class IXMLComparerImpl {
 
 	public List<Double> getSimilarities() {
 		return similarities;
+	}
+	
+	private void print(){
+		for(Double d : similarities){
+			System.out.println(d);
+		}
 	}
 
 }
