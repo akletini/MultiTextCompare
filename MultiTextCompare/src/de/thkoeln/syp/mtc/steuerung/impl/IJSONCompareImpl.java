@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
+import de.thkoeln.syp.mtc.steuerung.services.IJSONCompare;
 import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
 
 /**
@@ -19,7 +20,7 @@ import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
  * @author Allen Kletinitch
  *
  */
-public class IJSONComparerImpl {
+public class IJSONCompareImpl implements IJSONCompare {
 
 	private final String uuid = UUID.randomUUID().toString();
 
@@ -32,7 +33,7 @@ public class IJSONComparerImpl {
 	private int maxLineLength;
 	private List<Double> similarities;
 
-	public IJSONComparerImpl(int maxLineLength) {
+	public IJSONCompareImpl(int maxLineLength) {
 		textComparer = new ITextvergleicherImpl();
 		similarities = new ArrayList<Double>();
 		this.maxLineLength = maxLineLength;
@@ -50,6 +51,7 @@ public class IJSONComparerImpl {
 	 * @return Aehnlichkeit der beiden Dateien
 	 * @throws IOException
 	 */
+	@Override
 	public double compare(File ref, File comp) throws IOException {
 		String jsonFileRef = new IJSONHandlerImpl().jsonFileToString(ref);
 		String jsonFileComp = new IJSONHandlerImpl().jsonFileToString(comp);

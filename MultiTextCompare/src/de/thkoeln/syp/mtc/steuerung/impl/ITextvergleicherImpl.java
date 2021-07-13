@@ -26,8 +26,10 @@ import de.thkoeln.syp.mtc.gui.control.FileSelectionController.CompareListener.Co
 import de.thkoeln.syp.mtc.gui.control.Management;
 import de.thkoeln.syp.mtc.logging.Logger;
 import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
+import de.thkoeln.syp.mtc.steuerung.services.IJSONCompare;
 import de.thkoeln.syp.mtc.steuerung.services.IMatchHelper;
 import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
+import de.thkoeln.syp.mtc.steuerung.services.IXMLCompare;
 
 /**
  * Verwaltet alle Vergleichsalgorithmen und das Setup von Vergleichen. Dabei
@@ -175,18 +177,18 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		i = 0;
 		// this line will cause unit tests to fail
 		compareThread = Management.getInstance().getCompareThread();
+		Logger logger = Management.getInstance().getLogger();
 		final int MAXLINELENGTH = fileImporter.getConfig().getMaxLineLength();
 		for (IComparisonImpl a : batch) {
 			try {
 				i++;
-				IJSONComparerImpl jsonComparer = new IJSONComparerImpl(
+				IJSONCompare jsonComparer = new IJSONCompareImpl(
 						MAXLINELENGTH);
 				double similarity = jsonComparer
 						.compare(a.getFrom(), a.getTo());
 				a.setValue(similarity);
 				compareThread.publishData(i);
 			} catch (IOException e) {
-				Logger logger = Management.getInstance().getLogger();
 				logger.setMessage(e.toString(), Logger.LEVEL_ERROR);
 			}
 		}
@@ -205,7 +207,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		for (IComparisonImpl a : batch) {
 			try {
 				i++;
-				IXMLComparerImpl xmlComparer = new IXMLComparerImpl(
+				IXMLCompare xmlComparer = new IXMLCompareImpl(
 						fileImporter);
 				double similarity = xmlComparer.compare(a.getFrom(), a.getTo());
 				a.setValue(similarity);

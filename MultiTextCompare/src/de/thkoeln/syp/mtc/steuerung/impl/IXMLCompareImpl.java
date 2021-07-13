@@ -16,6 +16,7 @@ import org.jdom2.output.XMLOutputter;
 
 import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
 import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
+import de.thkoeln.syp.mtc.steuerung.services.IXMLCompare;
 
 /**
  * Verantwortlich für den strukturellen Vergleich von XML-Dateien
@@ -23,7 +24,7 @@ import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
  * @author Allen Kletinitch
  *
  */
-public class IXMLComparerImpl {
+public class IXMLCompareImpl implements IXMLCompare{
 
 	private int maxLineLength;
 	private ITextvergleicher textvergleicher;
@@ -31,7 +32,7 @@ public class IXMLComparerImpl {
 	private List<Double> similarities;
 	private boolean commentFound, rootHasNamespaces, rootHasComments;
 
-	public IXMLComparerImpl(IFileImporter fileImporter) {
+	public IXMLCompareImpl(IFileImporter fileImporter) {
 		textvergleicher = new ITextvergleicherImpl();
 		this.fileImporter = fileImporter;
 		this.maxLineLength = fileImporter.getConfig().getMaxLineLength();
@@ -49,6 +50,7 @@ public class IXMLComparerImpl {
 	 * @return Aehnlichkeit der beiden Dateien
 	 * @throws IOException
 	 */
+	@Override
 	public double compare(File ref, File comp) throws IOException,
 			JDOMException {
 		Document docRef, docComp;
@@ -527,10 +529,5 @@ public class IXMLComparerImpl {
 		return similarities;
 	}
 	
-	private void print(){
-		for(Double d : similarities){
-			System.out.println(d);
-		}
-	}
 
 }
