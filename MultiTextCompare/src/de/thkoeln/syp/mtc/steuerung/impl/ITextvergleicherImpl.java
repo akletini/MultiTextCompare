@@ -110,8 +110,8 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 				a.setValue(similarity);
 				compareThread.publishData(i);
 			} catch (IOException e) {
-
-				e.printStackTrace();
+				Logger logger = Management.getInstance().getLogger();
+				logger.setMessage(e.toString(), Logger.LEVEL_ERROR);
 			}
 		}
 
