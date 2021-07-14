@@ -28,6 +28,7 @@ import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
 
 /**
  * Visualisierung des Fehlerliste
+ * 
  * @author Allen Kletinitch
  *
  */
@@ -44,7 +45,7 @@ public class ErrorListView extends JFrame {
 	private Logger logger;
 
 	public ErrorListView() {
-		
+
 		panel = new JPanel();
 		errorList = new DefaultListModel<String>();
 
@@ -60,17 +61,17 @@ public class ErrorListView extends JFrame {
 		listFilePath = new JList<String>(errorList);
 		listFilePath.setBackground(Color.WHITE);
 		listFilePath.addMouseListener(new ErrorViewListener());
-		
-		labelErrorCount = new JLabel("Current error count: " + listFilePath.getModel().getSize());
+
+		labelErrorCount = new JLabel("Current error count: "
+				+ listFilePath.getModel().getSize());
 		labelErrorCount.setFont(new Font("Tahoma", Font.BOLD, 11));
 		panel.add(labelErrorCount, "flowx,cell 0 2");
 		delButton = new JButton("Delete from selection");
 		delButton.addActionListener(new DeleteFromImports());
-		panel.add(delButton, "flowx,cell 0 2"); 
-		
+		panel.add(delButton, "flowx,cell 0 2");
+
 		scrollPane = new JScrollPane(listFilePath);
 		panel.add(scrollPane, "flowx,cell 0 1");
-
 
 		add(panel);
 		setMinimumSize(new Dimension(700, 400));
@@ -102,27 +103,27 @@ public class ErrorListView extends JFrame {
 		this.errorList = errorList;
 	}
 
+	class DeleteFromImports implements ActionListener {
 
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			management = Management.getInstance();
+			IFileImporter fileImporter = management.getFileImporter();
 
-class DeleteFromImports implements ActionListener {
-	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		IFileImporter fileImporter = management.getFileImporter();
-		
-		List<IParseError> errorFiles = management.getCurrentErrorList();
-		for(IParseError error : errorFiles){
-			fileImporter.deleteImport(error.getFile());
+			List<IParseError> errorFiles = management.getCurrentErrorList();
+			if (!errorFiles.isEmpty()) {
+				for (IParseError error : errorFiles) {
+					fileImporter.deleteImport(error.getFile());
+				}
+				management.setNewSelection(true);
+				errorList.clear();
+				labelErrorCount.setText("Current error count: 0");
+
+				management.getFileSelectionController().updateListFilePath();
+			}
 		}
-		management.setNewSelection(true);
-		errorList.clear();
-		labelErrorCount.setText("Current error count: 0");
-		
-		management.getFileSelectionController().updateListFilePath();
-		
+
 	}
-	
-}
 }
 
 class ErrorViewListener extends MouseAdapter {
@@ -149,11 +150,9 @@ class ErrorViewListener extends MouseAdapter {
 				}
 			}
 			management.setParseErrorView(new ParseErrorView(selectedFile,
-						clickedError));
+					clickedError));
 
 		}
 	}
-	
 
 }
-
