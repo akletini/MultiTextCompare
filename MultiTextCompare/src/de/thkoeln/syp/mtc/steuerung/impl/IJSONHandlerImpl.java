@@ -449,6 +449,11 @@ public class IJSONHandlerImpl extends JsonNodeFactory implements IJSONHandler {
 	public void addErrorToErrorList(IJSONParseError error) {
 		errorListe.add(error);
 	}
+	
+	@Override
+	public void setConfig(IConfig config){
+		this.iConfig = config;
+	}
 
 	class JsonArrayComparator implements Comparator<JsonNode> {
 

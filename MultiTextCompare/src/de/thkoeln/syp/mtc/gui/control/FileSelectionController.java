@@ -329,6 +329,7 @@ public class FileSelectionController extends JFrame {
 
 				// JSON Vergleich
 				else if (mode == 2) {
+					jsonHandler.setConfig(fileImporter.getConfig());
 					fileImporter.setTempFiles((jsonHandler
 							.jsonPrepare(fileImporter.getTempFilesMap())));
 					for (IParseError error : jsonHandler.getErrorList())

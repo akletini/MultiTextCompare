@@ -366,6 +366,8 @@ public class Management {
 			config.setXmlPrint(0);
 			break;
 		}
+		
+		config.setRootDir(configView.getBtnSetRootPath().getText());
 
 		boolean setXSDSuccess = false;
 		if (config.getXmlValidation() == 3) {

@@ -651,6 +651,7 @@ public class MainController {
 				mainView.getError().setState(config.getShowErrors());
 
 				configView.setTitle("Settings using " + config.getPath());
+				configView.getBtnSetRootPath().setText(config.getRootDir());
 				configView.repaint();
 
 				logger.setMessage(
