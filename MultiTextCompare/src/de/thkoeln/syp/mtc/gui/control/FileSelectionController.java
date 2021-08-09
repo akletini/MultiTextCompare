@@ -182,7 +182,8 @@ public class FileSelectionController extends JFrame {
 
 	class AddFilesListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-
+			ClassLoader classLoader = Thread.currentThread()
+					.getContextClassLoader();
 			// Windows Dateiauswahl
 			fd = new FileDialog(management.getFileSelectionView(),
 					"File selection", FileDialog.LOAD);
@@ -192,7 +193,8 @@ public class FileSelectionController extends JFrame {
 			fd.setFile("*" + getFileExt());
 			fd.setVisible(true);
 			try {
-				fd.setIconImage(ImageIO.read(new File("res/icon.png")));
+				fd.setIconImage(ImageIO.read(classLoader
+						.getResourceAsStream("icon.png")));
 			} catch (IOException ioe) {
 				logger.setMessage(ioe.toString(), Logger.LEVEL_ERROR);
 			}
@@ -284,14 +286,14 @@ public class FileSelectionController extends JFrame {
 			long start_time;
 			Management management;
 			JProgressBar progressBar;
-			boolean abort = false;
+			boolean abort = false, fileNotFound = false;
 
 			public void publishData(int i) {
 				publish(i);
 			}
 
 			@Override
-			protected Void doInBackground() throws Exception {
+			protected Void doInBackground() throws InterruptedException {
 
 				management = Management.getInstance();
 				progressBar = management.getMainView().getProgressBar();
@@ -310,13 +312,16 @@ public class FileSelectionController extends JFrame {
 				}
 
 				fileImporter.deleteTempFiles();
-				fileImporter.createTempFiles();
+				try {
+					fileImporter.createTempFiles();
+				
 				xmlHandler.clearErrorList();
 				logger.setMessage("Start comparing...", Logger.LEVEL_INFO);
 				start_time = System.nanoTime();
 
 				// XML Vergleich
 				if (mode == 1) {
+					xmlHandler.setConfig(fileImporter.getConfig());
 					xmlHandler.setExternalXSD(management.getExternalXSD());
 					fileImporter.setTempFiles((xmlHandler
 							.xmlPrepare(fileImporter.getTempFilesMap())));
@@ -352,7 +357,11 @@ public class FileSelectionController extends JFrame {
 						.getFileImporter().getTempFilesMap());
 				textvergleicher.getVergleiche(textvergleicher.getTempFiles());
 				textvergleicher.createBatches();
-
+				} catch (IOException e) {
+					logger.setMessage(e.toString(), Logger.LEVEL_ERROR);
+					fileNotFound = true;
+					return null;
+				}
 				progressBar.setVisible(true);
 				progressBar.setStringPainted(true);
 				progressBar.setMinimum(0);
@@ -479,6 +488,7 @@ public class FileSelectionController extends JFrame {
 						}
 					}
 				}
+				
 				management.setNewSelection(false);
 				return null;
 			}
@@ -494,7 +504,9 @@ public class FileSelectionController extends JFrame {
 			@Override
 			protected void done() {
 				progressBar.setValue(progressBar.getMaximum());
-				
+				if(fileNotFound){
+					return;
+				}
 				if(abort){
 					logger.setMessage("Parse errors present, please remove or correct these files to use semantic comparison", Logger.LEVEL_WARNING);
 					management.getFileSelectionView().getBtnCompare()

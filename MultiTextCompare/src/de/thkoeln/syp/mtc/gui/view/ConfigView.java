@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.IOException;
 import java.util.Hashtable;
 
@@ -463,7 +462,7 @@ public class ConfigView extends JFrame {
 		setSize(800, 500);
 		setLocationRelativeTo(null);
 		try {
-			this.setIconImage(ImageIO.read(new File("res/icon.png")));
+			this.setIconImage(ImageIO.read(Thread.currentThread().getContextClassLoader().getResourceAsStream("icon.png")));
 		} catch (IOException e) {
 			logger.setMessage(e.toString(), Logger.LEVEL_ERROR);
 		}

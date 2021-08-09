@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -44,6 +46,7 @@ import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
 
 /**
  * Enthaelt ActionListener fuer alle Buttons des Hauptmenues.
+ * 
  * @author Allen Kletinitch
  *
  */
@@ -111,8 +114,13 @@ public class MainController {
 
 	class JavadocListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			File helpFile = new File(System.getProperty("user.dir")
-					+ File.separator + "doc" + File.separator + "index.html");
+			URL path = Thread.currentThread().getContextClassLoader()
+					.getResource("doc/index.html");
+			File helpFile = null;
+			try {
+				helpFile = new File(path.toURI());
+			} catch (URISyntaxException e1) {
+			}
 			try {
 				Desktop d = Desktop.getDesktop();
 				d.open(helpFile);
@@ -215,6 +223,8 @@ public class MainController {
 
 		public void actionPerformed(ActionEvent e) {
 			// init
+			ClassLoader classloader = Thread.currentThread()
+					.getContextClassLoader();
 			List<IComparisonImpl> matrix = management.getComparisons();
 			DefaultListModel<String> fileSelection = management
 					.getCurrentFileSelection();
@@ -227,28 +237,57 @@ public class MainController {
 				return;
 			}
 
-			// differentiate save and save as
-			if (management.getCurrentComparison() != null) {
-				File currentComparison = management.getCurrentComparison();
-				saveComparison(currentComparison.getAbsolutePath()
-						+ File.separator + currentComparison.getName(), matrix,
-						fileSelection, tempFileMap);
-				copyTempFiles(currentComparison.getAbsolutePath()
-						+ File.separator + "TempFiles");
-				management.setCurrentComparison(currentComparison);
-				management.getMainView().setTitle(
-						"MultiTextCompare - " + currentComparison.getName());
-				logger.setMessage("Successfully saved comparison to "
-						+ currentComparison.getName(), Logger.LEVEL_INFO);
-				return;
-			}
-
 			// create comparison directory
 			String compPath = System.getProperty("user.dir") + File.separator
 					+ "comparisons";
 			File compDir = new File(compPath);
 			compDir.mkdir();
 
+			if (management.getCurrentComparison() != null
+					&& e.getSource().equals(
+							management.getMainView().getMenuSave())) {
+				File currentComp = management.getCurrentComparison();
+				if (currentComp.exists()) {
+					if (currentComp.getAbsolutePath().endsWith(".mtc")) {
+						saveComparison(
+								currentComp.getAbsolutePath().split(".mtc")[0],
+								matrix, fileSelection, tempFileMap);
+						copyTempFiles(new File(currentComp.getParent())
+								.getAbsolutePath()
+								+ File.separator
+								+ "TempFiles");
+					} else {
+						System.out.println(currentComp.getAbsolutePath() + File.separator + currentComp.getName());
+						saveComparison(
+								currentComp.getAbsolutePath() + File.separator + currentComp.getParent(),
+								matrix, fileSelection, tempFileMap);
+						copyTempFiles(new File(currentComp.getAbsolutePath())
+								.getAbsolutePath()
+								+ File.separator
+								+ "TempFiles");
+					}
+					management.setCurrentComparison(currentComp);
+					management.getMainView().setTitle(
+							"MultiTextCompare - " + currentComp.getName());
+					management
+							.getFileImporter()
+							.getConfig()
+							.setLastComparisonPath(
+									currentComp.getAbsolutePath());
+
+					logger.setMessage("Successfully saved comparison to "
+							+ currentComp.getName(), Logger.LEVEL_INFO);
+
+					if (management.getConfigView() != null) {
+						management.getConfigView().dispose();
+						management.saveConfig();
+						management.setConfigView(new ConfigView());
+						management.getConfigView().setVisible(true);
+						management.getConfigView().toBack();
+					}
+					return;
+				}
+			}
 			FileDialog fd = new FileDialog(management.getMainView(),
 					"Save comparison as", FileDialog.SAVE);
 			fd.setLocationRelativeTo(null);
@@ -256,7 +295,8 @@ public class MainController {
 			fd.setDirectory(compPath);
 			fd.setVisible(true);
 			try {
-				fd.setIconImage(ImageIO.read(new File("res/icon.png")));
+				fd.setIconImage(ImageIO.read(classloader
+						.getResourceAsStream("icon.png")));
 			} catch (IOException ioe) {
 				logger.setMessage(
 						"Could not locate the MultiTextCompare logo. It was either moved or deleted",
@@ -264,6 +304,46 @@ public class MainController {
 			}
 
 			if (fd.getFiles().length == 1) {
+
+				// differentiate save and save as
+				if (management.getCurrentComparison() != null
+						&& e.getSource().equals(
+								management.getMainView().getMenuSaveAs())) {
+					File currentComparison = new File(
+							fd.getFiles()[0].getAbsolutePath());
+					currentComparison.mkdir();
+					saveComparison(currentComparison.getAbsolutePath()
+							+ File.separator + currentComparison.getName(),
+							matrix, fileSelection, tempFileMap);
+					copyTempFiles(currentComparison.getAbsolutePath()
+							+ File.separator + "TempFiles");
+					management.setCurrentComparison(currentComparison);
+					management.getMainView()
+							.setTitle(
+									"MultiTextCompare - "
+											+ currentComparison.getName());
+					management
+							.getFileImporter()
+							.getConfig()
+							.setLastComparisonPath(
+									currentComparison.getAbsolutePath()
+											+ File.separator
+											+ currentComparison.getName()
+											+ ".mtc");
+
+					logger.setMessage("Successfully saved comparison to "
+							+ currentComparison.getName(), Logger.LEVEL_INFO);
+
+					if (management.getConfigView() != null) {
+						management.getConfigView().dispose();
+						management.saveConfig();
+						management.setConfigView(new ConfigView());
+						management.getConfigView().setVisible(true);
+						management.getConfigView().toBack();
+					}
+					return;
+				}
+
 				File comparison = new File(fd.getFiles()[0].getAbsolutePath());
 				comparison.mkdir();
 
@@ -275,8 +355,12 @@ public class MainController {
 				management.setCurrentComparison(comparison);
 				management.getMainView().setTitle(
 						"MultiTextCompare - " + comparison.getName());
-				management.getFileImporter().getConfig()
-						.setLastComparisonPath(comparison.getAbsolutePath());
+				management
+						.getFileImporter()
+						.getConfig()
+						.setLastComparisonPath(
+								comparison.getAbsolutePath() + File.separator
+										+ comparison.getName() + ".mtc");
 
 				if (management.getConfigView() != null) {
 					management.getConfigView().dispose();
@@ -328,12 +412,15 @@ public class MainController {
 			}
 
 		}
+
 	}
 
 	public class MenuLoadComparisonListener implements ActionListener {
 
 		@SuppressWarnings("unchecked")
 		public void actionPerformed(ActionEvent e) {
+			ClassLoader classloader = Thread.currentThread()
+					.getContextClassLoader();
 			List<IComparisonImpl> matrix = new ArrayList<IComparisonImpl>();
 			DefaultListModel<String> fileSelection = new DefaultListModel<String>();
 			Map<File, File> tempFileMap = new LinkedHashMap<File, File>();
@@ -344,14 +431,15 @@ public class MainController {
 				String compPath = System.getProperty("user.dir")
 						+ File.separator + "comparisons";
 				FileDialog fd = new FileDialog(management.getMainView(),
-						"Save comparison as", FileDialog.LOAD);
+						"Load comparison", FileDialog.LOAD);
 				fd.setLocationRelativeTo(null);
 				fd.setFile("*.mtc");
 				fd.setMultipleMode(false);
 				fd.setDirectory(compPath);
 				fd.setVisible(true);
 				try {
-					fd.setIconImage(ImageIO.read(new File("res/icon.png")));
+					fd.setIconImage(ImageIO.read(classloader
+							.getResourceAsStream("icon.png")));
 				} catch (IOException ioe) {
 					logger.setMessage(
 							"Failed to locate MultiTextCompare logo. It has either been moved or deleted",
@@ -550,6 +638,8 @@ public class MainController {
 			if (Management.getInstance().getConfigView() == null) {
 				management.setConfigView(new ConfigView());
 			}
+			ClassLoader classloader = Thread.currentThread()
+					.getContextClassLoader();
 			ConfigView configView = management.getConfigView();
 			configView.setVisible(false);
 			MainView mainView = management.getMainView();
@@ -563,7 +653,8 @@ public class MainController {
 			fd.setFile("*" + ".properties");
 			fd.setVisible(true);
 			try {
-				fd.setIconImage(ImageIO.read(new File("res/icon.png")));
+				fd.setIconImage(ImageIO.read(classloader
+						.getResourceAsStream("icon.png")));
 			} catch (IOException ioe) {
 				logger.setMessage(
 						"Failed to locate MultiTextCompare logo. It has either been moved or deleted",
@@ -653,6 +744,7 @@ public class MainController {
 				configView.setTitle("Settings using " + config.getPath());
 				configView.getBtnSetRootPath().setText(config.getRootDir());
 				configView.repaint();
+				management.updateRootPath();
 
 				logger.setMessage(
 						"Successfully loaded configuration " + config.getPath(),

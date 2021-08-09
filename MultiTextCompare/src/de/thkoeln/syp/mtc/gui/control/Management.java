@@ -67,6 +67,7 @@ public class Management {
 	private File currentComparison;
 	private List<IParseError> currentErrorList;
 	private File externalXSD;
+	private boolean saveComparisonAs;
 
 	private IFileImporter fileImporter;
 	private ITextvergleicher textvergleicher;
@@ -75,7 +76,8 @@ public class Management {
 
 	private CompareThread compareThread;
 	private ExecutorService executorService;
-
+	private ClassLoader classloader;
+	
 	private Management() {
 		fileImporter = new IFileImporterImpl();
 		textvergleicher = new ITextvergleicherImpl();
@@ -87,6 +89,9 @@ public class Management {
 		errorListPane = new ErrorListView();
 		isMatrixGreyedOut = false;
 		currentComparison = null;
+		classloader = Thread.currentThread()
+				.getContextClassLoader();
+		
 	}
 
 	public static Management getInstance() {
@@ -397,7 +402,7 @@ public class Management {
 		fd.setDirectory(configDir);
 		fd.setVisible(true);
 		try {
-			fd.setIconImage(ImageIO.read(new File("res/icon.png")));
+			fd.setIconImage(ImageIO.read(classloader.getResourceAsStream("res/icon.png")));
 		} catch (IOException ioe) {
 			logger.setMessage(
 					"Failed to locate MultiTextCompare logo. It has either been moved or deleted",
@@ -470,7 +475,7 @@ public class Management {
 		fd.setDirectory(fileImporter.getConfig().getRootDir());
 		fd.setVisible(true);
 		try {
-			fd.setIconImage(ImageIO.read(new File("res/icon.png")));
+			fd.setIconImage(ImageIO.read(classloader.getResourceAsStream("res/icon.png")));
 		} catch (IOException ioe) {
 			logger.setMessage(
 					"Failed to locate MultiTextCompare logo. It has either been moved or deleted",
@@ -569,6 +574,14 @@ public class Management {
 
 	public void setExternalXSD(File externalXSD) {
 		this.externalXSD = externalXSD;
+	}
+
+	public boolean getSaveComparisonAs() {
+		return saveComparisonAs;
+	}
+
+	public void setSaveComparisonAs(boolean saveComparisonAs) {
+		this.saveComparisonAs = saveComparisonAs;
 	}
 
 }

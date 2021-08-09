@@ -8,6 +8,7 @@ import java.util.Map;
 import org.jdom2.Document;
 import org.jdom2.Element;
 
+import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
 import de.thkoeln.syp.mtc.datenhaltung.api.IParseError;
 
 /**
@@ -40,4 +41,6 @@ public interface IXMLHandler {
   Map<File, File> xmlPrepare(Map<File, File> tempFiles);
   
   void setExternalXSD(File externalXSD);
+  
+  void setConfig(IConfig config);
 }

@@ -196,7 +196,7 @@ public class IFileImporterImplTest {
 	}
 
 	@Test
-	public void test_createTempFiles() {
+	public void test_createTempFiles() throws IOException {
 		assertTrue(fileImporter.createTempFiles());
 
 		assertEquals(fileImporter.getTextdateien().size(), fileImporter
@@ -233,7 +233,7 @@ public class IFileImporterImplTest {
 	}
 
 	@Test
-	public void test_createDiffTempFiles() {
+	public void test_createDiffTempFiles() throws IOException {
 		assertTrue(fileImporter.createTempFiles());
 		assertTrue(fileImporter.createDiffTempFiles(fileImporter
 				.getTempFilesMap()));
@@ -245,7 +245,7 @@ public class IFileImporterImplTest {
 	}
 
 	@Test
-	public void test_deleteTempFiles() {
+	public void test_deleteTempFiles() throws IOException {
 		assertTrue(fileImporter.createTempFiles());
 		assertNotEquals(Collections.EMPTY_MAP, fileImporter.getTempFilesMap());
 

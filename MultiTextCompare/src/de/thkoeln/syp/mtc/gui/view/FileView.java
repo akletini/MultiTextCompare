@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Point;
-import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -65,7 +64,7 @@ public class FileView extends JFrame {
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		try {
-			this.setIconImage(ImageIO.read(new File("res/icon.png")));
+			this.setIconImage(ImageIO.read(Thread.currentThread().getContextClassLoader().getResourceAsStream("icon.png")));
 		} catch (IOException e) {
 			logger.setMessage(e.toString(), Logger.LEVEL_ERROR);
 		}

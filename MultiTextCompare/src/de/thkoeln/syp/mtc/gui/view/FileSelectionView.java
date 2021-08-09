@@ -3,7 +3,6 @@ package de.thkoeln.syp.mtc.gui.view;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
-import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -138,7 +137,7 @@ public class FileSelectionView extends JFrame {
 		this.pack();
 		this.setLocationRelativeTo(null);
 		try {
-			this.setIconImage(ImageIO.read(new File("res/icon.png")));
+			this.setIconImage(ImageIO.read(Thread.currentThread().getContextClassLoader().getResourceAsStream("icon.png")));
 		} catch (IOException e) {
 			logger.setMessage(e.toString(), Logger.LEVEL_ERROR);
 		}

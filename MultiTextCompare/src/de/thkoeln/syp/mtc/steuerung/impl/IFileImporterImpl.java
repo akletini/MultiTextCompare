@@ -568,9 +568,10 @@ public class IFileImporterImpl implements IFileImporter {
 	 * 
 	 *         false: falls beim Erstellen der temporaeren Dateien ein Fehler
 	 *         auftritt
+	 * @throws IOException 
 	 */
 	@Override
-	public boolean createTempFiles() {
+	public boolean createTempFiles() throws IOException {
 		BufferedReader reader;
 		BufferedWriter writer;
 		int index = 1;
@@ -584,7 +585,7 @@ public class IFileImporterImpl implements IFileImporter {
 					+ Integer.toString(index);
 			File temp = new File(path);
 
-			try {
+	
 				if (temp.exists()) {
 					temp.delete();
 				}
@@ -605,10 +606,7 @@ public class IFileImporterImpl implements IFileImporter {
 
 				reader.close();
 				writer.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-				return false;
-			}
+			
 		}
 
 		return true;

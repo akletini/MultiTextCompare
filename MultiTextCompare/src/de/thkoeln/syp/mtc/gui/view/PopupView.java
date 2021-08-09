@@ -3,7 +3,6 @@ package de.thkoeln.syp.mtc.gui.view;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -51,7 +50,7 @@ public class PopupView extends JFrame {
 		this.getRootPane().setDefaultButton(btnOk);
 		this.setVisible(true);
 		try {
-			this.setIconImage(ImageIO.read(new File("res/icon.png")));
+			this.setIconImage(ImageIO.read(Thread.currentThread().getContextClassLoader().getResourceAsStream("icon.png")));
 		} catch (IOException e) {
 			logger.setMessage(e.toString(), Logger.LEVEL_ERROR);
 		}

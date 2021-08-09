@@ -1,7 +1,6 @@
 package de.thkoeln.syp.mtc.gui.view;
 
 import java.awt.Font;
-import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -61,7 +60,7 @@ public class AboutView extends JFrame {
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		try {
-			this.setIconImage(ImageIO.read(new File("res/icon.png")));
+			this.setIconImage(ImageIO.read(Thread.currentThread().getContextClassLoader().getResourceAsStream("icon.png")));
 		} catch (IOException e) {
 		}
 

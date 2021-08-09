@@ -2,6 +2,7 @@ package de.thkoeln.syp.mtc;
 
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import de.thkoeln.syp.mtc.gui.control.Management;
 import de.thkoeln.syp.mtc.gui.view.MainView;
@@ -14,8 +15,14 @@ public class Main {
 			private Management management;
 			private Logger logger;
 			public void run() {
-				try {
-					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+				
+					try {
+						UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+					} catch (ClassNotFoundException | InstantiationException
+							| IllegalAccessException
+							| UnsupportedLookAndFeelException e) {
+						logger.setMessage(e.toString(), Logger.LEVEL_ERROR);
+					}
 					management = Management.getInstance();
 					management.setMainView(new MainView());					
 					management.getMainView().setVisible(true);
@@ -30,10 +37,9 @@ public class Main {
 							management.getLogger().writeToLogFile("Exit Application MultiTextCompare\n\n", true);
 						}
 					});
-				} catch (Exception e) {
-					logger.setMessage(e.toString(), Logger.LEVEL_ERROR);
-				}
+				
 			}
 		});
 	}
 }
+

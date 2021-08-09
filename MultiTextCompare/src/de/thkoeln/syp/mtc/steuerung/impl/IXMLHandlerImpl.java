@@ -834,6 +834,10 @@ public class IXMLHandlerImpl implements IXMLHandler {
 	public void setExternalXSD(File externalXSD) {
 		this.externalXSD = externalXSD;
 	}
+	
+	public void setConfig(IConfig config){
+		this.iConfig = config;
+	}
 
 
 }

@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -56,11 +55,12 @@ import de.thkoeln.syp.mtc.logging.Logger;
 
 /**
  * Visualisierung des Hauptmenues
+ * 
  * @author Allen Kletinitch
  *
  */
 public class MainView extends JFrame {
-	
+
 	private static final long serialVersionUID = 8634086168819911638L;
 	private Management management;
 	private JLabel quickAccess;
@@ -96,26 +96,32 @@ public class MainView extends JFrame {
 		logger.writeToLogFile(
 				"Open Application MultiTextCompare (" + formatter.format(date)
 						+ ")", true);
+		ClassLoader classLoader = Thread.currentThread()
+				.getContextClassLoader();
+
 		// Icons
 		Icon iconCompare = null, iconConfig = null, iconQuestion = null, iconInfo = null, iconSave = null, iconImport = null, iconDelete = null, iconPlus = null, iconMinus = null, iconError = null;
 		try {
-			iconCompare = new ImageIcon(ImageIO.read(new File(
-					"res/fileIconSmall.png")));
-			iconConfig = new ImageIcon(ImageIO.read(new File(
-					"res/settingsSmall.png")));
-			iconQuestion = new ImageIcon(ImageIO.read(new File(
-					"res/questionSmall.png")));
-			iconInfo = new ImageIcon(
-					ImageIO.read(new File("res/infoSmall.png")));
-			iconSave = new ImageIcon(
-					ImageIO.read(new File("res/saveSmall.png")));
-			iconImport = new ImageIcon(ImageIO.read(new File(
-					"res/importSmall.png")));
-			iconDelete = new ImageIcon(ImageIO.read(new File(
-					"res/deleteSmall.png")));
-			iconPlus = new ImageIcon(ImageIO.read(new File("res/plus.png")));
-			iconMinus = new ImageIcon(ImageIO.read(new File("res/minus.png")));
-			iconError = new ImageIcon(ImageIO.read(new File("res/parseError.png")));
+			iconCompare = new ImageIcon(ImageIO.read(classLoader
+					.getResourceAsStream("fileIconSmall.png")));
+			iconConfig = new ImageIcon(ImageIO.read(classLoader
+					.getResourceAsStream("settingsSmall.png")));
+			iconQuestion = new ImageIcon(ImageIO.read(classLoader
+					.getResourceAsStream("questionSmall.png")));
+			iconInfo = new ImageIcon(ImageIO.read(classLoader
+					.getResourceAsStream("infoSmall.png")));
+			iconSave = new ImageIcon(ImageIO.read(classLoader
+					.getResourceAsStream("saveSmall.png")));
+			iconImport = new ImageIcon(ImageIO.read(classLoader
+					.getResourceAsStream("importSmall.png")));
+			iconDelete = new ImageIcon(ImageIO.read(classLoader
+					.getResourceAsStream("deleteSmall.png")));
+			iconPlus = new ImageIcon(ImageIO.read(classLoader
+					.getResourceAsStream("plus.png")));
+			iconMinus = new ImageIcon(ImageIO.read(classLoader
+					.getResourceAsStream("minus.png")));
+			iconError = new ImageIcon(ImageIO.read(classLoader
+					.getResourceAsStream("parseError.png")));
 		} catch (IOException e1) {
 			logger.setMessage(e1.toString(), Logger.LEVEL_ERROR);
 		}
@@ -188,7 +194,6 @@ public class MainView extends JFrame {
 		menuHelp.add(about);
 		menuHelp.add(tutorial);
 		menuHelp.add(javadoc);
-		
 
 		// Toolbar inkl. Buttons
 		toolBar = new JToolBar();
@@ -245,7 +250,8 @@ public class MainView extends JFrame {
 		this.setContentPane(panel);
 		this.setJMenuBar(menuBar);
 		try {
-			this.setIconImage(ImageIO.read(new File("res/icon.png")));
+			this.setIconImage(ImageIO.read(classLoader
+					.getResourceAsStream("icon.png")));
 		} catch (IOException e) {
 			logger.setMessage(e.toString(), Logger.LEVEL_ERROR);
 		}
@@ -482,15 +488,22 @@ public class MainView extends JFrame {
 	public JProgressBar getProgressBar() {
 		return progressBar;
 	}
-	
+
 	public JMenuItem getJavadoc() {
 		return javadoc;
+	}
+
+	public JMenuItem getMenuSave() {
+		return saveComparison;
+	}
+
+	public JMenuItem getMenuSaveAs() {
+		return saveComparisonAs;
 	}
 
 	public void setJavadoc(JMenuItem javadoc) {
 		this.javadoc = javadoc;
 	}
-
 
 	// Setter
 
@@ -527,8 +540,6 @@ public class MainView extends JFrame {
 	public void addHelpListener(ActionListener e) {
 		btnHilfe.addActionListener(e);
 	}
-
-
 
 	public void addToolbarLogClearListener(ActionListener e) {
 		btnDeleteLog.addActionListener(e);
@@ -611,7 +622,7 @@ public class MainView extends JFrame {
 	public void addMenuSaveConfigListener(ActionListener e) {
 		saveConfig.addActionListener(e);
 	}
-	
+
 	public void addMenuShowJavadocListener(ActionListener e) {
 		javadoc.addActionListener(e);
 	}

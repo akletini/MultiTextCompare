@@ -45,7 +45,8 @@ public class ErrorListView extends JFrame {
 	private Logger logger;
 
 	public ErrorListView() {
-
+		ClassLoader classLoader = Thread.currentThread()
+				.getContextClassLoader();
 		panel = new JPanel();
 		errorList = new DefaultListModel<String>();
 
@@ -79,7 +80,8 @@ public class ErrorListView extends JFrame {
 		setLocationRelativeTo(null);
 		setTitle("Parse Error Overview");
 		try {
-			this.setIconImage(ImageIO.read(new File("res/icon.png")));
+			this.setIconImage(ImageIO.read(classLoader
+					.getResourceAsStream("icon.png")));
 		} catch (IOException e) {
 			logger.setMessage(e.toString(), Logger.LEVEL_ERROR);
 		}

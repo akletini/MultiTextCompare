@@ -1,6 +1,7 @@
 package de.thkoeln.syp.mtc.steuerung.services;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -81,7 +82,7 @@ public interface IFileImporter {
 
 	boolean deleteImport(File f);
 
-	boolean createTempFiles();
+	boolean createTempFiles() throws IOException;
 
 	boolean normTempFiles();
 
