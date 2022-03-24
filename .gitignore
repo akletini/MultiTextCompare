@@ -95,13 +95,13 @@ hs_err_pid*
 # End of https://www.toptal.com/developers/gitignore/api/java,eclipse
 
 ### MTC ###
-MultiTextCompare/config.properties
-MultiTextCompare/logs/*
-MultiTextCompare/configs/*
-MultiTextCompare/comparisons/*
-MultiTextCompare/TempFiles/*
-MultiTextCompare/out/*
-MultiTextCompare/src/test/testFiles/config.properties
-MultiTextCompare/Beispiel/*
+/config.properties
+logs/*
+configs/*
+comparisons/*
+TempFiles/*
+out/*
+src/test/testFiles/config.properties
+Beispiel/*
 *.jar
 
