@@ -95,7 +95,7 @@ hs_err_pid*
 # End of https://www.toptal.com/developers/gitignore/api/java,eclipse
 
 ### MTC ###
-/config.properties
+config.properties
 logs/*
 configs/*
 comparisons/*
