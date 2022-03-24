@@ -1,0 +1,4 @@
+<xsd:enumeration value="default unit2">
+<xsd:enumeration values="entity_mapping">
+
+xsd:enumeration value="value_type">

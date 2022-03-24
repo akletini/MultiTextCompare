@@ -1,0 +1,62 @@
+00:00:00 | Exit Application MultiTextCompare
+
+
+13:56:06 | Open Application MultiTextCompare (25.07.2021)
+13:56:09 | Exit Application MultiTextCompare
+
+
+13:56:19 | Open Application MultiTextCompare (25.07.2021)
+13:56:19 | Opening help file...
+13:56:23 | Exit Application MultiTextCompare
+
+
+14:01:51 | Open Application MultiTextCompare (25.07.2021)
+14:01:58 | Exit Application MultiTextCompare
+
+
+14:02:07 | Open Application MultiTextCompare (25.07.2021)
+14:02:10 | Exit Application MultiTextCompare
+
+
+14:02:29 | Open Application MultiTextCompare (25.07.2021)
+14:03:51 | Exit Application MultiTextCompare
+
+
+14:03:53 | Open Application MultiTextCompare (25.07.2021)
+14:05:10 | Open Application MultiTextCompare (25.07.2021)
+14:05:13 | Exit Application MultiTextCompare
+
+
+14:06:39 | Open Application MultiTextCompare (25.07.2021)
+14:06:41 | Exit Application MultiTextCompare
+
+
+14:06:57 | Open Application MultiTextCompare (25.07.2021)
+14:08:06 | Exit Application MultiTextCompare
+
+
+14:10:51 | Open Application MultiTextCompare (25.07.2021)
+14:10:52 | Opening help file...
+14:10:55 | Exit Application MultiTextCompare
+
+
+14:12:08 | Open Application MultiTextCompare (25.07.2021)
+14:12:15 | Exit Application MultiTextCompare
+
+
+14:12:27 | Open Application MultiTextCompare (25.07.2021)
+14:12:38 | Exit Application MultiTextCompare
+
+
+14:15:24 | Open Application MultiTextCompare (25.07.2021)
+14:17:04 | Exit Application MultiTextCompare
+
+
+14:17:06 | Open Application MultiTextCompare (25.07.2021)
+14:17:22 | Exit Application MultiTextCompare
+
+
+14:17:33 | Open Application MultiTextCompare (25.07.2021)
+14:17:46 | Exit Application MultiTextCompare
+
+

@@ -1,0 +1,881 @@
+00:00:15 | Searching for files..
+00:00:15 | Found 31 files!  (seek time: 35.1877ms)
+
+00:00:15 | Start comparing...
+00:00:18 | A matrix with 31 files has been created successfully! (time taken: 2.67s)
+00:00:33 | Exit Application MultiTextCompare
+
+
+14:56:54 | Open Application MultiTextCompare (22.04.2021)
+14:57:08 | Searching for files..
+14:57:08 | Found 4 files!  (seek time: 34.4873ms)
+
+14:57:11 | Start comparing...
+14:57:11 | A matrix with 4 files has been created successfully! (time taken: 79.5732ms)
+14:57:50 | Exit Application MultiTextCompare
+
+
+14:57:51 | Open Application MultiTextCompare (22.04.2021)
+14:57:58 | Searching for files..
+14:57:58 | Found 4 files!  (seek time: 35.5873ms)
+
+14:57:58 | Start comparing...
+14:57:58 | A matrix with 4 files has been created successfully! (time taken: 45.5049ms)
+14:58:06 | C & D  have been selected. Total: 2
+14:58:06 | Comparison is now visible
+14:58:26 | Configuration has been saved
+14:58:27 | C & D  have been selected. Total: 2
+14:58:27 | Comparison is now visible
+14:59:16 | Configuration has been saved
+14:59:55 | Exit Application MultiTextCompare
+
+
+15:00:14 | Open Application MultiTextCompare (22.04.2021)
+15:00:16 | Searching for files..
+15:00:16 | Found 4 files!  (seek time: 34.8228ms)
+
+15:00:17 | Start comparing...
+15:00:17 | A matrix with 4 files has been created successfully! (time taken: 47.1783ms)
+15:00:24 | Configuration has been saved
+15:00:28 | C & D  have been selected. Total: 2
+15:00:28 | Comparison is now visible
+15:00:50 | Configuration has been saved
+15:00:51 | C & D  have been selected. Total: 2
+15:00:51 | Comparison is now visible
+15:00:59 | Configuration has been saved
+15:01:02 | C & D  have been selected. Total: 2
+15:01:02 | Comparison is now visible
+15:01:07 | Configuration has been saved
+15:01:08 | C & D  have been selected. Total: 2
+15:01:08 | Comparison is now visible
+15:02:12 | Exit Application MultiTextCompare
+
+
+15:02:22 | Open Application MultiTextCompare (22.04.2021)
+15:02:24 | Searching for files..
+15:02:24 | Found 4 files!  (seek time: 35.4434ms)
+
+15:02:25 | Start comparing...
+15:02:25 | A matrix with 4 files has been created successfully! (time taken: 54.1257ms)
+15:02:30 | Configuration has been saved
+15:02:31 | C & D  have been selected. Total: 2
+15:03:35 | Open Application MultiTextCompare (22.04.2021)
+15:03:37 | Searching for files..
+15:03:37 | Found 4 files!  (seek time: 34.2368ms)
+
+15:03:38 | Start comparing...
+15:03:38 | A matrix with 4 files has been created successfully! (time taken: 51.3994ms)
+15:03:42 | C & D  have been selected. Total: 2
+15:04:33 | Open Application MultiTextCompare (22.04.2021)
+15:05:25 | Searching for files..
+15:05:25 | Found 4 files!  (seek time: 34.8231ms)
+
+15:05:26 | Start comparing...
+15:05:26 | A matrix with 4 files has been created successfully! (time taken: 55.1906ms)
+15:05:27 | C & D  have been selected. Total: 2
+15:06:37 | Open Application MultiTextCompare (22.04.2021)
+15:06:42 | Configuration has been saved
+15:06:44 | Searching for files..
+15:06:44 | Found 4 files!  (seek time: 34.2591ms)
+
+15:06:44 | Start comparing...
+15:06:44 | A matrix with 4 files has been created successfully! (time taken: 43.187ms)
+15:06:48 | Configuration has been saved
+15:06:49 | C & D  have been selected. Total: 2
+15:06:49 | Comparison is now visible
+15:07:05 | Configuration has been saved
+15:07:06 | C & D  have been selected. Total: 2
+15:07:06 | Comparison is now visible
+15:07:14 | Exit Application MultiTextCompare
+
+
+15:07:21 | Open Application MultiTextCompare (22.04.2021)
+15:07:23 | Searching for files..
+15:07:23 | Found 4 files!  (seek time: 34.5147ms)
+
+15:07:24 | Start comparing...
+15:07:24 | A matrix with 4 files has been created successfully! (time taken: 51.6234ms)
+15:07:35 | Configuration has been saved
+15:07:37 | C & D  have been selected. Total: 2
+15:07:42 | Open Application MultiTextCompare (22.04.2021)
+15:07:55 | Searching for files..
+15:07:55 | Found 4 files!  (seek time: 34.5813ms)
+
+15:07:56 | Start comparing...
+15:07:56 | A matrix with 4 files has been created successfully! (time taken: 45.4458ms)
+15:07:57 | C & D  have been selected. Total: 2
+15:07:57 | Comparison is now visible
+15:08:39 | Exit Application MultiTextCompare
+
+
+17:33:23 | Open Application MultiTextCompare (22.04.2021)
+17:33:25 | Searching for files..
+17:33:25 | Found 4 files!  (seek time: 34.5633ms)
+
+17:33:26 | Start comparing...
+17:33:26 | A matrix with 4 files has been created successfully! (time taken: 47.8242ms)
+17:33:31 | C & D  have been selected. Total: 2
+17:33:31 | Comparison is now visible
+17:33:42 | Exit Application MultiTextCompare
+
+
+17:33:45 | Open Application MultiTextCompare (22.04.2021)
+17:33:47 | Searching for files..
+17:33:47 | Found 4 files!  (seek time: 34.3841ms)
+
+17:33:48 | Start comparing...
+17:33:48 | A matrix with 4 files has been created successfully! (time taken: 47.7328ms)
+17:33:49 | C & D  have been selected. Total: 2
+17:33:49 | Comparison is now visible
+17:33:53 | Exit Application MultiTextCompare
+
+
+17:34:34 | Open Application MultiTextCompare (22.04.2021)
+17:34:36 | Searching for files..
+17:34:36 | Found 4 files!  (seek time: 34.6211ms)
+
+17:34:36 | Start comparing...
+17:34:36 | A matrix with 4 files has been created successfully! (time taken: 51.9154ms)
+17:34:37 | C & D  have been selected. Total: 2
+17:39:56 | Open Application MultiTextCompare (22.04.2021)
+17:42:49 | Exit Application MultiTextCompare
+
+
+17:44:14 | Open Application MultiTextCompare (22.04.2021)
+17:44:21 | Searching for files..
+17:44:21 | Found 31 files!  (seek time: 34.6469ms)
+
+17:44:22 | Start comparing...
+17:44:25 | A matrix with 31 files has been created successfully! (time taken: 3.36s)
+17:45:55 | Exit Application MultiTextCompare
+
+
+17:52:47 | Open Application MultiTextCompare (22.04.2021)
+17:52:48 | Exit Application MultiTextCompare
+
+
+17:53:12 | Open Application MultiTextCompare (22.04.2021)
+17:53:28 | Exit Application MultiTextCompare
+
+
+17:54:34 | Open Application MultiTextCompare (22.04.2021)
+17:55:47 | Exit Application MultiTextCompare
+
+
+17:56:45 | Open Application MultiTextCompare (22.04.2021)
+17:56:56 | Exit Application MultiTextCompare
+
+
+18:01:15 | Open Application MultiTextCompare (22.04.2021)
+18:01:29 | Searching for files..
+18:01:29 | Found 31 files!  (seek time: 34.3821ms)
+
+18:01:34 | Exit Application MultiTextCompare
+
+
+18:02:25 | Open Application MultiTextCompare (22.04.2021)
+18:02:33 | Exit Application MultiTextCompare
+
+
+18:02:56 | Open Application MultiTextCompare (22.04.2021)
+18:03:17 | Exit Application MultiTextCompare
+
+
+18:03:49 | Open Application MultiTextCompare (22.04.2021)
+18:03:57 | Exit Application MultiTextCompare
+
+
+18:04:01 | Open Application MultiTextCompare (22.04.2021)
+18:04:06 | Exit Application MultiTextCompare
+
+
+18:05:29 | Open Application MultiTextCompare (22.04.2021)
+18:05:33 | Exit Application MultiTextCompare
+
+
+18:05:59 | Open Application MultiTextCompare (22.04.2021)
+18:06:02 | Exit Application MultiTextCompare
+
+
+18:06:32 | Open Application MultiTextCompare (22.04.2021)
+18:06:39 | Exit Application MultiTextCompare
+
+
+18:07:27 | Open Application MultiTextCompare (22.04.2021)
+18:09:26 | Exit Application MultiTextCompare
+
+
+18:11:29 | Open Application MultiTextCompare (22.04.2021)
+18:12:43 | Open Application MultiTextCompare (22.04.2021)
+18:12:46 | Exit Application MultiTextCompare
+
+
+18:12:47 | Exit Application MultiTextCompare
+
+
+18:13:35 | Open Application MultiTextCompare (22.04.2021)
+18:13:38 | Exit Application MultiTextCompare
+
+
+18:14:37 | Open Application MultiTextCompare (22.04.2021)
+18:14:50 | Exit Application MultiTextCompare
+
+
+18:15:34 | Open Application MultiTextCompare (22.04.2021)
+18:15:39 | Exit Application MultiTextCompare
+
+
+18:16:04 | Open Application MultiTextCompare (22.04.2021)
+18:16:09 | Exit Application MultiTextCompare
+
+
+18:16:27 | Open Application MultiTextCompare (22.04.2021)
+18:17:30 | Exit Application MultiTextCompare
+
+
+18:17:53 | Open Application MultiTextCompare (22.04.2021)
+18:18:03 | Exit Application MultiTextCompare
+
+
+18:18:42 | Open Application MultiTextCompare (22.04.2021)
+18:19:36 | Exit Application MultiTextCompare
+
+
+18:19:57 | Open Application MultiTextCompare (22.04.2021)
+18:20:08 | Exit Application MultiTextCompare
+
+
+18:20:11 | Open Application MultiTextCompare (22.04.2021)
+18:20:19 | Exit Application MultiTextCompare
+
+
+18:20:21 | Open Application MultiTextCompare (22.04.2021)
+18:20:23 | Searching for files..
+18:20:23 | Found 31 files!  (seek time: 34.1177ms)
+
+18:20:52 | Exit Application MultiTextCompare
+
+
+18:21:03 | Open Application MultiTextCompare (22.04.2021)
+18:21:05 | Searching for files..
+18:21:05 | Found 31 files!  (seek time: 34.5917ms)
+
+18:21:05 | Start comparing...
+18:21:09 | A matrix with 31 files has been created successfully! (time taken: 3.56s)
+18:21:26 | Exit Application MultiTextCompare
+
+
+19:31:35 | Open Application MultiTextCompare (22.04.2021)
+19:31:37 | Searching for files..
+19:31:37 | Found 31 files!  (seek time: 35.6796ms)
+
+19:31:40 | Start comparing...
+19:31:44 | A matrix with 31 files has been created successfully! (time taken: 3.6s)
+19:36:07 | Exit Application MultiTextCompare
+
+
+19:45:46 | Open Application MultiTextCompare (22.04.2021)
+19:45:47 | Searching for files..
+19:45:47 | Found 31 files!  (seek time: 35.7992ms)
+
+19:45:48 | Start comparing...
+19:45:52 | A matrix with 31 files has been created successfully! (time taken: 3.66s)
+19:46:14 | Start comparing...
+19:46:16 | A matrix with 4 files has been created successfully! (time taken: 1.71s)
+19:49:52 | Open Application MultiTextCompare (22.04.2021)
+19:49:54 | Searching for files..
+19:49:55 | Found 31 files!  (seek time: 35.2855ms)
+
+19:49:55 | Start comparing...
+19:49:59 | A matrix with 31 files has been created successfully! (time taken: 3.73s)
+20:00:50 | Open Application MultiTextCompare (22.04.2021)
+20:00:51 | Searching for files..
+20:00:51 | Found 31 files!  (seek time: 34.8702ms)
+
+20:00:52 | Start comparing...
+20:00:56 | A matrix with 31 files has been created successfully! (time taken: 3.78s)
+20:01:18 | Open Application MultiTextCompare (22.04.2021)
+20:01:19 | Searching for files..
+20:01:19 | Found 31 files!  (seek time: 35.4799ms)
+
+20:01:20 | Start comparing...
+20:01:24 | A matrix with 31 files has been created successfully! (time taken: 3.82s)
+20:01:54 | Open Application MultiTextCompare (22.04.2021)
+20:01:56 | Searching for files..
+20:01:56 | Found 31 files!  (seek time: 36.4484ms)
+
+20:01:56 | Start comparing...
+20:02:00 | A matrix with 31 files has been created successfully! (time taken: 3.85s)
+20:02:13 | Exit Application MultiTextCompare
+
+
+20:02:26 | Open Application MultiTextCompare (22.04.2021)
+20:02:28 | Searching for files..
+20:02:28 | Found 31 files!  (seek time: 34.5491ms)
+
+20:02:28 | Start comparing...
+20:02:32 | A matrix with 31 files has been created successfully! (time taken: 4.12s)
+20:03:03 | Exit Application MultiTextCompare
+
+
+20:09:58 | Open Application MultiTextCompare (22.04.2021)
+20:09:59 | Searching for files..
+20:10:00 | Found 31 files!  (seek time: 35.1318ms)
+
+20:10:00 | Start comparing...
+20:10:04 | A matrix with 31 files has been created successfully! (time taken: 3.92s)
+20:10:07 | B & P  have been selected. Total: 2
+20:10:08 | Comparison is now visible
+20:10:52 | A & P  have been selected. Total: 2
+20:10:53 | Comparison is now visible
+20:10:57 | O & P  have been selected. Total: 2
+20:11:00 | Comparison is now visible
+20:11:15 | Configuration has been saved
+20:11:16 | O & P  have been selected. Total: 2
+20:11:18 | Comparison is now visible
+20:11:30 | Configuration has been saved
+20:11:31 | O & P  have been selected. Total: 2
+20:11:32 | Comparison is now visible
+20:11:41 | Configuration has been saved
+20:11:42 | O & P  have been selected. Total: 2
+20:11:44 | Comparison is now visible
+20:11:51 | Configuration has been saved
+20:11:51 | O & P  have been selected. Total: 2
+20:11:52 | Comparison is now visible
+20:12:04 | Configuration has been saved
+20:12:05 | O & P  have been selected. Total: 2
+20:12:06 | Comparison is now visible
+20:12:16 | Configuration has been saved
+20:12:16 | O & P  have been selected. Total: 2
+20:12:17 | Comparison is now visible
+20:14:20 | P & O  have been selected. Total: 2
+20:14:22 | Comparison is now visible
+20:14:57 | Configuration has been saved
+20:14:59 | P & O  have been selected. Total: 2
+20:15:02 | Comparison is now visible
+20:15:25 | Configuration has been saved
+20:15:26 | P & O  have been selected. Total: 2
+20:15:29 | Comparison is now visible
+20:16:13 | Exit Application MultiTextCompare
+
+
+20:56:46 | Open Application MultiTextCompare (22.04.2021)
+20:56:48 | Searching for files..
+20:56:48 | Found 31 files!  (seek time: 35.2792ms)
+
+20:56:48 | Start comparing...
+20:58:16 | Open Application MultiTextCompare (22.04.2021)
+20:58:17 | Exit Application MultiTextCompare
+
+
+20:58:19 | Searching for files..
+20:58:19 | Found 31 files!  (seek time: 35.1768ms)
+
+20:58:20 | Start comparing...
+20:58:52 | Open Application MultiTextCompare (22.04.2021)
+20:58:54 | Searching for files..
+20:58:54 | Found 31 files!  (seek time: 34.175201ms)
+
+20:58:55 | Start comparing...
+21:02:52 | Open Application MultiTextCompare (22.04.2021)
+21:02:54 | Searching for files..
+21:02:54 | Found 31 files!  (seek time: 36.4632ms)
+
+21:02:55 | Start comparing...
+21:04:50 | Open Application MultiTextCompare (22.04.2021)
+21:04:51 | Searching for files..
+21:04:51 | Found 31 files!  (seek time: 35.274199ms)
+
+21:04:52 | Start comparing...
+21:04:56 | A matrix with 31 files has been created successfully! (time taken: 4.32s)
+21:05:56 | Open Application MultiTextCompare (22.04.2021)
+21:05:58 | Searching for files..
+21:05:58 | Found 31 files!  (seek time: 34.9217ms)
+
+21:05:59 | Start comparing...
+21:06:00 | Exit Application MultiTextCompare
+
+
+21:06:04 | A matrix with 31 files has been created successfully! (time taken: 4.61s)
+21:06:23 | A & D  have been selected. Total: 2
+21:06:23 | Comparison is now visible
+21:07:12 | Exit Application MultiTextCompare
+
+
+21:07:32 | Open Application MultiTextCompare (22.04.2021)
+21:07:33 | Searching for files..
+21:07:33 | Found 31 files!  (seek time: 34.627001ms)
+
+21:07:34 | Start comparing...
+21:07:39 | A matrix with 31 files has been created successfully! (time taken: 4.59s)
+21:07:54 | Exit Application MultiTextCompare
+
+
+21:21:22 | Open Application MultiTextCompare (22.04.2021)
+21:21:24 | Searching for files..
+21:21:24 | Found 31 files!  (seek time: 34.988601ms)
+
+21:21:25 | Start comparing...
+21:21:58 | Exit Application MultiTextCompare
+
+
+21:22:18 | Open Application MultiTextCompare (22.04.2021)
+21:22:19 | Searching for files..
+21:22:19 | Found 31 files!  (seek time: 34.9499ms)
+
+21:22:20 | Start comparing...
+21:23:43 | A matrix with 31 files has been created successfully! (time taken: 83.29s)
+21:24:29 | Exit Application MultiTextCompare
+
+
+21:24:30 | Open Application MultiTextCompare (22.04.2021)
+21:24:32 | Searching for files..
+21:24:32 | Found 31 files!  (seek time: 35.8603ms)
+
+21:24:33 | Start comparing...
+21:24:37 | A matrix with 31 files has been created successfully! (time taken: 4.74s)
+21:26:56 | Open Application MultiTextCompare (22.04.2021)
+21:26:57 | Searching for files..
+21:26:57 | Found 31 files!  (seek time: 36.1475ms)
+
+21:26:58 | Start comparing...
+21:27:03 | A matrix with 31 files has been created successfully! (time taken: 4.78s)
+21:27:34 | Exit Application MultiTextCompare
+
+
+21:27:44 | Open Application MultiTextCompare (22.04.2021)
+21:27:46 | Searching for files..
+21:27:46 | Found 31 files!  (seek time: 34.916599ms)
+
+21:27:47 | Start comparing...
+21:30:10 | Open Application MultiTextCompare (22.04.2021)
+21:30:12 | Searching for files..
+21:30:12 | Found 31 files!  (seek time: 33.9628ms)
+
+21:30:12 | Start comparing...
+21:31:00 | Open Application MultiTextCompare (22.04.2021)
+21:31:02 | Searching for files..
+21:31:02 | Found 31 files!  (seek time: 34.395001ms)
+
+21:31:03 | Start comparing...
+21:32:07 | Open Application MultiTextCompare (22.04.2021)
+21:32:10 | Exit Application MultiTextCompare
+
+
+21:32:19 | Open Application MultiTextCompare (22.04.2021)
+21:32:21 | Searching for files..
+21:32:21 | Found 31 files!  (seek time: 35.5484ms)
+
+21:32:22 | Start comparing...
+21:34:18 | Open Application MultiTextCompare (22.04.2021)
+21:34:19 | Searching for files..
+21:34:19 | Found 31 files!  (seek time: 34.730301ms)
+
+21:34:20 | Start comparing...
+21:34:25 | A matrix with 31 files has been created successfully! (time taken: 5.0s)
+21:36:08 | Open Application MultiTextCompare (22.04.2021)
+21:36:12 | Searching for files..
+21:36:12 | Found 31 files!  (seek time: 36.0152ms)
+
+21:36:13 | Start comparing...
+21:36:18 | A matrix with 31 files has been created successfully! (time taken: 4.79s)
+21:38:03 | Open Application MultiTextCompare (22.04.2021)
+21:38:04 | Exit Application MultiTextCompare
+
+
+21:38:06 | Searching for files..
+21:38:06 | Found 31 files!  (seek time: 34.9157ms)
+
+21:38:07 | Start comparing...
+21:39:40 | Open Application MultiTextCompare (22.04.2021)
+21:39:41 | Searching for files..
+21:39:41 | Found 31 files!  (seek time: 34.6209ms)
+
+21:39:42 | Start comparing...
+21:39:47 | A matrix with 31 files has been created successfully! (time taken: 4.82s)
+21:40:02 | Exit Application MultiTextCompare
+
+
+21:41:03 | Exit Application MultiTextCompare
+
+
+21:41:04 | Open Application MultiTextCompare (22.04.2021)
+21:41:06 | Searching for files..
+21:41:06 | Found 31 files!  (seek time: 35.022901ms)
+
+21:41:07 | Start comparing...
+21:41:11 | A matrix with 31 files has been created successfully! (time taken: 4.82s)
+21:42:44 | Open Application MultiTextCompare (22.04.2021)
+21:42:45 | Searching for files..
+21:42:45 | Found 31 files!  (seek time: 34.3955ms)
+
+21:42:46 | Start comparing...
+21:42:51 | A matrix with 31 files has been created successfully! (time taken: 4.79s)
+21:43:29 | Open Application MultiTextCompare (22.04.2021)
+21:43:32 | Exit Application MultiTextCompare
+
+
+21:43:33 | Searching for files..
+21:43:33 | Found 31 files!  (seek time: 34.8738ms)
+
+21:43:49 | Start comparing...
+21:45:24 | A matrix with 31 files has been created successfully! (time taken: 94.57s)
+21:46:30 | Open Application MultiTextCompare (22.04.2021)
+21:46:32 | Searching for files..
+21:46:32 | Found 31 files!  (seek time: 34.9065ms)
+
+21:46:33 | Start comparing...
+21:48:07 | A matrix with 31 files has been created successfully! (time taken: 94.56s)
+21:49:16 | Exit Application MultiTextCompare
+
+
+21:49:22 | Open Application MultiTextCompare (22.04.2021)
+21:49:24 | Searching for files..
+21:49:24 | Found 31 files!  (seek time: 36.2212ms)
+
+21:49:25 | Start comparing...
+21:51:00 | A matrix with 31 files has been created successfully! (time taken: 95.55s)
+21:52:37 | Open Application MultiTextCompare (22.04.2021)
+21:52:40 | Exit Application MultiTextCompare
+
+
+21:52:41 | Searching for files..
+21:52:41 | Found 31 files!  (seek time: 35.1509ms)
+
+21:52:42 | Start comparing...
+21:55:12 | Open Application MultiTextCompare (22.04.2021)
+21:55:14 | Searching for files..
+21:55:14 | Found 31 files!  (seek time: 34.805799ms)
+
+21:55:15 | Start comparing...
+21:56:37 | Open Application MultiTextCompare (22.04.2021)
+21:56:38 | Searching for files..
+21:56:38 | Found 31 files!  (seek time: 35.896201ms)
+
+21:56:39 | Start comparing...
+21:56:44 | A matrix with 31 files has been created successfully! (time taken: 5.16s)
+21:57:01 | Start comparing...
+21:57:05 | Exit Application MultiTextCompare
+
+
+21:57:06 | Open Application MultiTextCompare (22.04.2021)
+21:57:08 | Searching for files..
+21:57:08 | Found 31 files!  (seek time: 35.7422ms)
+
+21:57:09 | Start comparing...
+21:57:14 | A matrix with 31 files has been created successfully! (time taken: 5.24s)
+22:00:54 | Open Application MultiTextCompare (22.04.2021)
+22:01:00 | Searching for files..
+22:01:00 | Found 31 files!  (seek time: 36.0848ms)
+
+22:01:01 | Start comparing...
+22:01:06 | A matrix with 31 files has been created successfully! (time taken: 5.35s)
+22:01:18 | Exit Application MultiTextCompare
+
+
+22:12:42 | Open Application MultiTextCompare (22.04.2021)
+22:12:43 | Searching for files..
+22:12:44 | Found 31 files!  (seek time: 35.3163ms)
+
+22:12:44 | Start comparing...
+22:12:44 | A matrix with 31 files has been created successfully! (time taken: 202.0401ms)
+22:12:51 | Exit Application MultiTextCompare
+
+
+22:15:58 | Open Application MultiTextCompare (22.04.2021)
+22:16:00 | Searching for files..
+22:16:00 | Found 31 files!  (seek time: 34.7465ms)
+
+22:16:01 | Start comparing...
+22:16:35 | Open Application MultiTextCompare (22.04.2021)
+22:16:37 | Searching for files..
+22:16:37 | Found 31 files!  (seek time: 34.5143ms)
+
+22:16:37 | Start comparing...
+22:16:38 | A matrix with 31 files has been created successfully! (time taken: 431.663501ms)
+22:17:44 | H & L  have been selected. Total: 2
+22:17:44 | Comparison is now visible
+22:17:57 | D & L  have been selected. Total: 2
+22:17:57 | Comparison is now visible
+22:18:00 | C & T  have been selected. Total: 2
+22:18:00 | Comparison is now visible
+22:18:06 | D & E  have been selected. Total: 2
+22:18:06 | Comparison is now visible
+22:18:41 | Open Application MultiTextCompare (22.04.2021)
+22:18:43 | Searching for files..
+22:18:43 | Found 31 files!  (seek time: 34.213401ms)
+
+22:18:44 | Start comparing...
+22:18:50 | A matrix with 31 files has been created successfully! (time taken: 5.5s)
+22:18:55 | C & I  have been selected. Total: 2
+22:18:55 | Comparison is now visible
+22:19:18 | Exit Application MultiTextCompare
+
+
+22:20:34 | Exit Application MultiTextCompare
+
+
+22:24:29 | Open Application MultiTextCompare (22.04.2021)
+22:24:30 | Searching for files..
+22:24:30 | Found 31 files!  (seek time: 37.302401ms)
+
+22:24:31 | Start comparing...
+22:24:32 | A matrix with 31 files has been created successfully! (time taken: 432.388299ms)
+22:24:39 | Exit Application MultiTextCompare
+
+
+22:26:40 | Open Application MultiTextCompare (22.04.2021)
+22:26:41 | Searching for files..
+22:26:41 | Found 31 files!  (seek time: 35.0478ms)
+
+22:26:42 | Start comparing...
+22:26:47 | A matrix with 31 files has been created successfully! (time taken: 5.05s)
+22:27:31 | Start comparing...
+22:27:36 | A matrix with 31 files has been created successfully! (time taken: 4.65s)
+22:27:44 | Start comparing...
+22:27:49 | A matrix with 31 files has been created successfully! (time taken: 4.89s)
+22:28:00 | Exit Application MultiTextCompare
+
+
+22:28:11 | Open Application MultiTextCompare (22.04.2021)
+22:28:13 | Searching for files..
+22:28:13 | Found 31 files!  (seek time: 35.0417ms)
+
+22:28:14 | Start comparing...
+22:33:43 | Open Application MultiTextCompare (22.04.2021)
+22:33:45 | Searching for files..
+22:33:45 | Found 31 files!  (seek time: 36.5986ms)
+
+22:33:45 | Start comparing...
+22:33:51 | A matrix with 31 files has been created successfully! (time taken: 5.21s)
+22:33:53 | Exit Application MultiTextCompare
+
+
+22:34:24 | Open Application MultiTextCompare (22.04.2021)
+22:34:27 | Searching for files..
+22:34:27 | Found 31 files!  (seek time: 34.814ms)
+
+22:34:28 | Start comparing...
+22:34:33 | A matrix with 31 files has been created successfully! (time taken: 5.28s)
+22:35:28 | Searching for files..
+22:35:28 | Found 50 files!  (seek time: 35.051899ms)
+
+22:35:30 | Start comparing...
+22:35:30 | Error on line 40 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileDTDFaulty.xml: The element type "ARTIKEL" must be terminated by the matching end-tag "</ARTIKEL>".
+22:35:30 | Error on line 15 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileFaultyXML.xml: Element type "PREISment4" must be followed by either attribute specifications, ">" or "/>".
+22:35:30 | Error on line 13 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileMap3.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+22:35:30 | Error on line 13 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileMap4.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+22:35:30 | Error on line 40 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileDTDFaulty.xml: The element type "ARTIKEL" must be terminated by the matching end-tag "</ARTIKEL>".
+22:35:30 | Error on line 15 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileFaultyXML.xml: Element type "PREISment4" must be followed by either attribute specifications, ">" or "/>".
+22:35:30 | Error on line 13 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileMap3.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+22:35:30 | Error on line 13 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileMap4.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+22:36:22 | A matrix with 50 files has been created, but the file selection contained 8 XML errors. (time taken: 52.49s)
+22:36:34 | Exit Application MultiTextCompare
+
+
+22:39:42 | Open Application MultiTextCompare (22.04.2021)
+22:39:44 | Searching for files..
+22:39:44 | Found 50 files!  (seek time: 35.0163ms)
+
+22:39:46 | Searching for files..
+22:39:46 | Found 31 files!  (seek time: 35.2984ms)
+
+22:39:47 | Start comparing...
+22:39:53 | A matrix with 31 files has been created successfully! (time taken: 5.88s)
+22:45:21 | Exit Application MultiTextCompare
+
+
+22:45:23 | Open Application MultiTextCompare (22.04.2021)
+22:45:25 | Searching for files..
+22:45:25 | Found 31 files!  (seek time: 34.2128ms)
+
+22:45:26 | Start comparing...
+22:45:32 | A matrix with 31 files has been created successfully! (time taken: 5.71s)
+22:47:09 | Open Application MultiTextCompare (22.04.2021)
+22:47:11 | Searching for files..
+22:47:11 | Found 31 files!  (seek time: 35.0612ms)
+
+22:47:12 | Start comparing...
+22:47:17 | A matrix with 31 files has been created successfully! (time taken: 5.78s)
+22:47:20 | Exit Application MultiTextCompare
+
+
+22:47:25 | I & O  have been selected. Total: 2
+22:47:26 | Comparison is now visible
+22:48:16 | Open Application MultiTextCompare (22.04.2021)
+22:48:18 | Searching for files..
+22:48:18 | Found 31 files!  (seek time: 34.400899ms)
+
+22:48:18 | Start comparing...
+22:48:24 | A matrix with 31 files has been created successfully! (time taken: 5.96s)
+22:48:32 | Exit Application MultiTextCompare
+
+
+22:48:33 | Exit Application MultiTextCompare
+
+
+22:49:15 | Open Application MultiTextCompare (22.04.2021)
+22:49:19 | Searching for files..
+22:49:19 | Found 31 files!  (seek time: 35.7425ms)
+
+22:49:21 | Start comparing...
+22:49:26 | A matrix with 31 files has been created successfully! (time taken: 5.88s)
+22:51:19 | Open Application MultiTextCompare (22.04.2021)
+22:51:21 | Searching for files..
+22:51:21 | Found 31 files!  (seek time: 35.0177ms)
+
+22:51:21 | Start comparing...
+22:51:28 | A matrix with 31 files has been created successfully! (time taken: 6.31s)
+22:51:37 | Start comparing...
+22:51:43 | A matrix with 31 files has been created successfully! (time taken: 6.14s)
+22:53:08 | Exit Application MultiTextCompare
+
+
+22:53:31 | Open Application MultiTextCompare (22.04.2021)
+22:53:33 | Searching for files..
+22:53:33 | Found 31 files!  (seek time: 35.249501ms)
+
+22:53:34 | Start comparing...
+22:53:39 | A matrix with 31 files has been created successfully! (time taken: 4.51s)
+22:53:46 | Start comparing...
+22:53:50 | A matrix with 31 files has been created successfully! (time taken: 4.45s)
+22:53:59 | Start comparing...
+22:54:04 | A matrix with 31 files has been created successfully! (time taken: 4.49s)
+22:54:30 | Open Application MultiTextCompare (22.04.2021)
+22:54:32 | Exit Application MultiTextCompare
+
+
+22:54:33 | Searching for files..
+22:54:33 | Found 31 files!  (seek time: 35.070901ms)
+
+22:54:34 | Start comparing...
+22:54:40 | A matrix with 31 files has been created successfully! (time taken: 5.62s)
+22:54:44 | Start comparing...
+22:54:50 | A matrix with 31 files has been created successfully! (time taken: 5.73s)
+22:55:29 | Searching for files..
+22:55:30 | Found 605 files!  (seek time: 36.6615ms)
+
+22:55:35 | Start comparing...
+22:57:50 | Open Application MultiTextCompare (22.04.2021)
+22:57:52 | Searching for files..
+22:57:52 | Found 605 files!  (seek time: 74.0577ms)
+
+22:57:54 | Start comparing...
+22:58:43 | Open Application MultiTextCompare (22.04.2021)
+22:58:44 | Searching for files..
+22:58:44 | Found 1815 files!  (seek time: 248.099899ms)
+
+22:58:46 | Start comparing...
+23:01:30 | Open Application MultiTextCompare (22.04.2021)
+23:01:32 | Searching for files..
+23:01:32 | Found 1822 files!  (seek time: 246.6658ms)
+
+23:01:36 | Start comparing...
+23:08:21 | Open Application MultiTextCompare (22.04.2021)
+23:08:23 | Searching for files..
+23:08:23 | Found 605 files!  (seek time: 77.3034ms)
+
+23:08:27 | Start comparing...
+23:11:33 | Open Application MultiTextCompare (22.04.2021)
+23:11:42 | Searching for files..
+23:11:42 | Found 605 files!  (seek time: 76.148401ms)
+
+23:11:48 | Start comparing...
+23:40:43 | Open Application MultiTextCompare (22.04.2021)
+23:40:54 | Searching for files..
+23:40:54 | Found 55 files!  (seek time: 354.2257ms)
+
+23:40:56 | Start comparing...
+23:40:56 | Error on line 40 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileDTDFaulty.xml: The element type "ARTIKEL" must be terminated by the matching end-tag "</ARTIKEL>".
+23:40:56 | Error on line 15 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileFaultyXML.xml: Element type "PREISment4" must be followed by either attribute specifications, ">" or "/>".
+23:40:56 | Error on line 13 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileMap3.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+23:40:56 | Error on line 13 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileMap4.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+23:40:56 | Error on line 40 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileDTDFaulty.xml: The element type "ARTIKEL" must be terminated by the matching end-tag "</ARTIKEL>".
+23:40:56 | Error on line 15 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileFaultyXML.xml: Element type "PREISment4" must be followed by either attribute specifications, ">" or "/>".
+23:40:56 | Error on line 13 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileMap3.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+23:40:56 | Error on line 13 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileMap4.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+23:40:56 | Error on line 20 of document file:/F:/Home/SYP2020/xmlDemoFiles/DemoFileDamaged.xml: The element type "STAMENGE" must be terminated by the matching end-tag "</STAMENGE>".
+23:41:31 | A matrix with 55 files has been created, but the file selection contained 9 XML errors. (time taken: 35.39s)
+23:50:51 | Exit Application MultiTextCompare
+
+
+23:51:00 | Open Application MultiTextCompare (22.04.2021)
+23:51:08 | Searching for files..
+23:51:08 | Found 10 files!  (seek time: 34.806599ms)
+
+23:51:40 | Searching for files..
+23:51:40 | Found 50 files!  (seek time: 35.901601ms)
+
+23:51:42 | Start comparing...
+23:51:42 | Error on line 40 of document file:/C:/Users/allen/Desktop/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileDTDFaulty.xml: The element type "ARTIKEL" must be terminated by the matching end-tag "</ARTIKEL>".
+23:51:42 | Error on line 15 of document file:/C:/Users/allen/Desktop/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileFaultyXML.xml: Element type "PREISment4" must be followed by either attribute specifications, ">" or "/>".
+23:51:42 | Error on line 13 of document file:/C:/Users/allen/Desktop/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileMap3.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+23:51:42 | Error on line 13 of document file:/C:/Users/allen/Desktop/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileMap4.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+23:51:42 | Error on line 40 of document file:/C:/Users/allen/Desktop/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileDTDFaulty.xml: The element type "ARTIKEL" must be terminated by the matching end-tag "</ARTIKEL>".
+23:51:42 | Error on line 15 of document file:/C:/Users/allen/Desktop/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileFaultyXML.xml: Element type "PREISment4" must be followed by either attribute specifications, ">" or "/>".
+23:51:42 | Error on line 13 of document file:/C:/Users/allen/Desktop/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileMap3.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+23:51:42 | Error on line 13 of document file:/C:/Users/allen/Desktop/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileMap4.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+23:52:15 | A matrix with 50 files has been created, but the file selection contained 8 XML errors. (time taken: 33.15s)
+23:52:27 | Start comparing...
+23:52:27 | Error on line 40 of document file:/C:/Users/allen/Desktop/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileDTDFaulty.xml: The element type "ARTIKEL" must be terminated by the matching end-tag "</ARTIKEL>".
+23:52:27 | Error on line 15 of document file:/C:/Users/allen/Desktop/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileFaultyXML.xml: Element type "PREISment4" must be followed by either attribute specifications, ">" or "/>".
+23:52:27 | Error on line 13 of document file:/C:/Users/allen/Desktop/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileMap3.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+23:52:27 | Error on line 13 of document file:/C:/Users/allen/Desktop/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileMap4.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+23:52:27 | Error on line 40 of document file:/C:/Users/allen/Desktop/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileDTDFaulty.xml: The element type "ARTIKEL" must be terminated by the matching end-tag "</ARTIKEL>".
+23:52:27 | Error on line 15 of document file:/C:/Users/allen/Desktop/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileFaultyXML.xml: Element type "PREISment4" must be followed by either attribute specifications, ">" or "/>".
+23:52:27 | Error on line 13 of document file:/C:/Users/allen/Desktop/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileMap3.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+23:52:27 | Error on line 13 of document file:/C:/Users/allen/Desktop/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileMap4.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+23:53:01 | A matrix with 50 files has been created, but the file selection contained 8 XML errors. (time taken: 34.02s)
+23:53:47 | Start comparing...
+23:53:47 | Error on line 40 of document file:/C:/Users/allen/Desktop/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileDTDFaulty.xml: The element type "ARTIKEL" must be terminated by the matching end-tag "</ARTIKEL>".
+23:53:47 | Error on line 15 of document file:/C:/Users/allen/Desktop/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileFaultyXML.xml: Element type "PREISment4" must be followed by either attribute specifications, ">" or "/>".
+23:53:47 | Error on line 13 of document file:/C:/Users/allen/Desktop/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileMap3.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+23:53:47 | Error on line 13 of document file:/C:/Users/allen/Desktop/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileMap4.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+23:53:47 | Error on line 40 of document file:/C:/Users/allen/Desktop/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileDTDFaulty.xml: The element type "ARTIKEL" must be terminated by the matching end-tag "</ARTIKEL>".
+23:53:47 | Error on line 15 of document file:/C:/Users/allen/Desktop/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileFaultyXML.xml: Element type "PREISment4" must be followed by either attribute specifications, ">" or "/>".
+23:53:47 | Error on line 13 of document file:/C:/Users/allen/Desktop/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileMap3.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+23:53:47 | Error on line 13 of document file:/C:/Users/allen/Desktop/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileMap4.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+23:54:19 | A matrix with 50 files has been created, but the file selection contained 8 XML errors. (time taken: 31.97s)
+23:56:38 | Start comparing...
+23:56:38 | Error on line 40 of document file:/C:/Users/allen/Desktop/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileDTDFaulty.xml: The element type "ARTIKEL" must be terminated by the matching end-tag "</ARTIKEL>".
+23:56:38 | Error on line 15 of document file:/C:/Users/allen/Desktop/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileFaultyXML.xml: Element type "PREISment4" must be followed by either attribute specifications, ">" or "/>".
+23:56:38 | Error on line 13 of document file:/C:/Users/allen/Desktop/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileMap3.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+23:56:38 | Error on line 13 of document file:/C:/Users/allen/Desktop/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileMap4.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+23:56:38 | Error on line 40 of document file:/C:/Users/allen/Desktop/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileDTDFaulty.xml: The element type "ARTIKEL" must be terminated by the matching end-tag "</ARTIKEL>".
+23:56:38 | Error on line 15 of document file:/C:/Users/allen/Desktop/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileFaultyXML.xml: Element type "PREISment4" must be followed by either attribute specifications, ">" or "/>".
+23:56:38 | Error on line 13 of document file:/C:/Users/allen/Desktop/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileMap3.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+23:56:38 | Error on line 13 of document file:/C:/Users/allen/Desktop/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileMap4.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+23:57:09 | A matrix with 50 files has been created, but the file selection contained 8 XML errors. (time taken: 31.45s)
+23:58:03 | Exit Application MultiTextCompare
+
+
+23:58:06 | Open Application MultiTextCompare (22.04.2021)
+23:58:26 | Searching for files..
+23:58:26 | Found 50 files!  (seek time: 35.3538ms)
+
+23:58:27 | Start comparing...
+23:58:27 | Error on line 40 of document file:/C:/Users/allen/Desktop/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileDTDFaulty.xml: The element type "ARTIKEL" must be terminated by the matching end-tag "</ARTIKEL>".
+23:58:27 | Error on line 15 of document file:/C:/Users/allen/Desktop/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileFaultyXML.xml: Element type "PREISment4" must be followed by either attribute specifications, ">" or "/>".
+23:58:27 | Error on line 13 of document file:/C:/Users/allen/Desktop/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileMap3.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+23:58:27 | Error on line 13 of document file:/C:/Users/allen/Desktop/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileMap4.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+23:58:27 | Error on line 40 of document file:/C:/Users/allen/Desktop/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileDTDFaulty.xml: The element type "ARTIKEL" must be terminated by the matching end-tag "</ARTIKEL>".
+23:58:27 | Error on line 15 of document file:/C:/Users/allen/Desktop/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileFaultyXML.xml: Element type "PREISment4" must be followed by either attribute specifications, ">" or "/>".
+23:58:27 | Error on line 13 of document file:/C:/Users/allen/Desktop/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileMap3.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+23:58:27 | Error on line 13 of document file:/C:/Users/allen/Desktop/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileMap4.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+23:59:03 | A matrix with 50 files has been created, but the file selection contained 8 XML errors. (time taken: 36.09s)
+23:59:06 | Exit Application MultiTextCompare
+
+
+23:59:39 | Open Application MultiTextCompare (22.04.2021)
+23:59:42 | Searching for files..
+23:59:42 | Found 50 files!  (seek time: 35.0746ms)
+
+23:59:42 | Start comparing...
+23:59:42 | Error on line 40 of document file:/C:/Users/allen/Desktop/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileDTDFaulty.xml: The element type "ARTIKEL" must be terminated by the matching end-tag "</ARTIKEL>".
+23:59:42 | Error on line 15 of document file:/C:/Users/allen/Desktop/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileFaultyXML.xml: Element type "PREISment4" must be followed by either attribute specifications, ">" or "/>".
+23:59:42 | Error on line 13 of document file:/C:/Users/allen/Desktop/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileMap3.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+23:59:42 | Error on line 13 of document file:/C:/Users/allen/Desktop/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileMap4.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+23:59:43 | Error on line 40 of document file:/C:/Users/allen/Desktop/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileDTDFaulty.xml: The element type "ARTIKEL" must be terminated by the matching end-tag "</ARTIKEL>".
+23:59:43 | Error on line 15 of document file:/C:/Users/allen/Desktop/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileFaultyXML.xml: Element type "PREISment4" must be followed by either attribute specifications, ">" or "/>".
+23:59:43 | Error on line 13 of document file:/C:/Users/allen/Desktop/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileMap3.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+23:59:43 | Error on line 13 of document file:/C:/Users/allen/Desktop/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileMap4.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".

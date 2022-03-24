@@ -1,0 +1,453 @@
+17:21:51 | Open Application MultiTextCompare (30.05.2021)
+17:21:55 | Configuration has been saved
+17:21:57 | Searching for files..
+17:21:59 | Found 136 files!  (seek time: 1.89s)
+
+17:22:09 | Searching for files..
+17:22:09 | Found 70 files!  (seek time: 34.6572ms)
+
+17:22:10 | Start comparing...
+17:22:11 | Error on line 40 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileDTDFaulty.xml: The element type "ARTIKEL" must be terminated by the matching end-tag "</ARTIKEL>".
+17:22:11 | Error on line 15 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileFaultyXML.xml: Element type "PREISment4" must be followed by either attribute specifications, ">" or "/>".
+17:22:11 | Error on line 13 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileMap3.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+17:22:11 | Error on line 13 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileMap4.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+17:22:11 | Error on line 40 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileDTDFaulty.xml: The element type "ARTIKEL" must be terminated by the matching end-tag "</ARTIKEL>".
+17:22:11 | Error on line 15 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileFaultyXML.xml: Element type "PREISment4" must be followed by either attribute specifications, ">" or "/>".
+17:22:11 | Error on line 13 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileMap3.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+17:22:11 | Error on line 13 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileMap4.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+17:22:12 | Comparison finished
+17:22:12 | A matrix with 70 files has been created, but the file selection contained 8 XML errors. (time taken: 1.8s)
+17:22:33 | V and AF  have been selected.
+17:22:33 | Comparison is now visible
+17:23:20 | Start comparing...
+17:23:20 | Error on line 40 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileDTDFaulty.xml: The element type "ARTIKEL" must be terminated by the matching end-tag "</ARTIKEL>".
+17:23:20 | Error on line 15 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileFaultyXML.xml: Element type "PREISment4" must be followed by either attribute specifications, ">" or "/>".
+17:23:20 | Error on line 13 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileMap3.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+17:23:20 | Error on line 13 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileMap4.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+17:23:20 | Error on line 40 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileDTDFaulty.xml: The element type "ARTIKEL" must be terminated by the matching end-tag "</ARTIKEL>".
+17:23:20 | Error on line 15 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileFaultyXML.xml: Element type "PREISment4" must be followed by either attribute specifications, ">" or "/>".
+17:23:20 | Error on line 13 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileMap3.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+17:23:20 | Error on line 13 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileMap4.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+17:23:21 | Comparison finished
+17:23:21 | A matrix with 70 files has been created, but the file selection contained 8 XML errors. (time taken: 1.48s)
+17:23:30 | Exit Application MultiTextCompare
+
+
+17:23:31 | Open Application MultiTextCompare (30.05.2021)
+17:23:32 | Searching for files..
+17:23:32 | Found 70 files!  (seek time: 35.3663ms)
+
+17:23:33 | Start comparing...
+17:23:33 | Error on line 40 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileDTDFaulty.xml: The element type "ARTIKEL" must be terminated by the matching end-tag "</ARTIKEL>".
+17:23:33 | Error on line 15 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileFaultyXML.xml: Element type "PREISment4" must be followed by either attribute specifications, ">" or "/>".
+17:23:33 | Error on line 13 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileMap3.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+17:23:33 | Error on line 13 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileMap4.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+17:23:33 | Error on line 40 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileDTDFaulty.xml: The element type "ARTIKEL" must be terminated by the matching end-tag "</ARTIKEL>".
+17:23:33 | Error on line 15 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileFaultyXML.xml: Element type "PREISment4" must be followed by either attribute specifications, ">" or "/>".
+17:23:33 | Error on line 13 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileMap3.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+17:23:33 | Error on line 13 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileMap4.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+17:23:35 | Comparison finished
+17:23:35 | A matrix with 70 files has been created, but the file selection contained 8 XML errors. (time taken: 1.64s)
+17:23:55 | V and AF  have been selected.
+17:23:55 | Comparison is now visible
+17:24:23 | Exit Application MultiTextCompare
+
+
+17:25:04 | Open Application MultiTextCompare (30.05.2021)
+17:25:19 | Start comparing...
+17:25:19 | Comparison finished
+17:25:19 | A matrix with 2 files has been created successfully! (time taken: 98.778ms)
+17:25:25 | Start comparing...
+17:25:25 | Comparison finished
+17:25:25 | A matrix with 2 files has been created successfully! (time taken: 40.4059ms)
+17:25:32 | Exit Application MultiTextCompare
+
+
+17:25:38 | Open Application MultiTextCompare (30.05.2021)
+17:25:40 | Searching for files..
+17:25:40 | Found 26 files!  (seek time: 35.6425ms)
+
+17:25:41 | Start comparing...
+17:25:41 | Comparison finished
+17:25:41 | A matrix with 26 files has been created successfully! (time taken: 190.2683ms)
+17:25:48 | Start comparing...
+17:25:48 | Comparison finished
+17:25:48 | A matrix with 2 files has been created successfully! (time taken: 38.9658ms)
+17:26:04 | Start comparing...
+17:26:04 | Comparison finished
+17:26:04 | A matrix with 2 files has been created successfully! (time taken: 41.787ms)
+17:26:41 | Start comparing...
+17:26:41 | Comparison finished
+17:26:41 | A matrix with 2 files has been created successfully! (time taken: 42.5515ms)
+17:27:01 | A and B  have been selected.
+17:27:01 | Comparison is now visible
+17:27:37 | Start comparing...
+17:27:37 | Error on line 11 of document file:/F:/Home/SYP2020/xmlTest/testRecursionList2.xml: XML document structures must start and end within the same entity.
+17:27:37 | Comparison finished
+17:27:37 | A matrix with 2 files has been created, but the file selection contained 1 XML errors. (time taken: 39.0266ms)
+17:27:47 | Start comparing...
+17:27:47 | Comparison finished
+17:27:47 | A matrix with 2 files has been created successfully! (time taken: 40.7666ms)
+17:44:43 | Searching for files..
+17:44:43 | Found 2 files!  (seek time: 34.3104ms)
+
+17:44:44 | Start comparing...
+17:44:44 | Comparison finished
+17:44:44 | A matrix with 2 files has been created successfully! (time taken: 40.7382ms)
+17:45:19 | Exit Application MultiTextCompare
+
+
+17:45:36 | Open Application MultiTextCompare (30.05.2021)
+17:45:38 | Searching for files..
+17:45:38 | Found 2 files!  (seek time: 35.2995ms)
+
+17:45:39 | Start comparing...
+17:45:39 | Comparison finished
+17:45:39 | A matrix with 2 files has been created successfully! (time taken: 109.7545ms)
+17:45:40 | A and B  have been selected.
+17:45:40 | Comparison is now visible
+17:46:26 | Exit Application MultiTextCompare
+
+
+17:46:34 | Open Application MultiTextCompare (30.05.2021)
+17:46:36 | Searching for files..
+17:46:36 | Found 2 files!  (seek time: 35.0935ms)
+
+17:46:36 | Start comparing...
+17:50:55 | Exit Application MultiTextCompare
+
+
+17:51:11 | Open Application MultiTextCompare (30.05.2021)
+17:51:12 | Searching for files..
+17:51:12 | Found 2 files!  (seek time: 34.5518ms)
+
+17:51:13 | Start comparing...
+17:51:13 | Comparison finished
+17:51:13 | A matrix with 2 files has been created successfully! (time taken: 109.8146ms)
+17:51:16 | A and B  have been selected.
+17:51:16 | Comparison is now visible
+17:51:21 | Exit Application MultiTextCompare
+
+
+17:51:45 | Open Application MultiTextCompare (30.05.2021)
+17:51:47 | Searching for files..
+17:51:47 | Found 2 files!  (seek time: 35.0327ms)
+
+17:51:48 | Start comparing...
+17:59:58 | Comparison finished
+17:59:58 | A matrix with 2 files has been created successfully! (time taken: 490.3s)
+18:00:03 | Start comparing...
+18:01:05 | Open Application MultiTextCompare (30.05.2021)
+18:01:07 | Searching for files..
+18:01:07 | Found 2 files!  (seek time: 35.182ms)
+
+18:01:08 | Start comparing...
+18:01:08 | Comparison finished
+18:01:08 | A matrix with 2 files has been created successfully! (time taken: 109.9426ms)
+18:01:10 | A and B  have been selected.
+18:01:10 | Comparison is now visible
+18:01:14 | Searching for files..
+18:01:14 | No more files found 
+
+18:01:18 | Searching for files..
+18:01:18 | Found 28 files!  (seek time: 33.8845ms)
+
+18:01:19 | Start comparing...
+18:01:19 | Comparison finished
+18:01:19 | A matrix with 28 files has been created successfully! (time taken: 175.4538ms)
+18:01:30 | AA and AB  have been selected.
+18:01:30 | Comparison is now visible
+18:01:41 | A and B  have been selected.
+18:01:41 | Comparison is now visible
+18:01:59 | E and B  have been selected.
+18:01:59 | Comparison is now visible
+18:02:06 | Configuration has been saved
+18:02:07 | E and B  have been selected.
+18:02:07 | Comparison is now visible
+18:02:18 | Configuration has been saved
+18:02:19 | G and H  have been selected.
+18:02:19 | Comparison is now visible
+18:05:18 | Exit Application MultiTextCompare
+
+
+18:05:34 | Open Application MultiTextCompare (30.05.2021)
+18:05:36 | Searching for files..
+18:05:36 | Found 28 files!  (seek time: 36.0084ms)
+
+18:05:37 | Start comparing...
+18:05:37 | Comparison finished
+18:05:37 | A matrix with 28 files has been created successfully! (time taken: 234.0796ms)
+18:05:48 | U and S  have been selected.
+18:05:48 | Comparison is now visible
+18:06:08 | G and H  have been selected.
+18:06:08 | Comparison is now visible
+18:06:27 | U and T  have been selected.
+18:06:27 | Comparison is now visible
+18:07:46 | S and U  have been selected.
+18:07:46 | Comparison is now visible
+18:08:07 | Exit Application MultiTextCompare
+
+
+18:08:15 | Open Application MultiTextCompare (30.05.2021)
+18:08:16 | Exit Application MultiTextCompare
+
+
+18:08:18 | Open Application MultiTextCompare (30.05.2021)
+18:08:32 | Start comparing...
+18:14:23 | Exit Application MultiTextCompare
+
+
+18:14:24 | Open Application MultiTextCompare (30.05.2021)
+18:14:37 | Exit Application MultiTextCompare
+
+
+18:14:56 | Open Application MultiTextCompare (30.05.2021)
+18:15:02 | Start comparing...
+18:15:02 | Comparison finished
+18:15:02 | A matrix with 2 files has been created successfully! (time taken: 105.8891ms)
+18:15:08 | Searching for files..
+18:15:08 | Found 28 files!  (seek time: 35.7793ms)
+
+18:15:08 | Start comparing...
+18:15:08 | Comparison finished
+18:15:08 | A matrix with 28 files has been created successfully! (time taken: 196.1775ms)
+18:15:08 | Start comparing...
+18:15:09 | Comparison finished
+18:15:09 | A matrix with 28 files has been created successfully! (time taken: 117.3274ms)
+18:15:11 | C and D  have been selected.
+18:15:11 | Comparison is now visible
+18:16:24 | Configuration has been saved
+18:16:25 | C and D  have been selected.
+18:16:25 | Comparison is now visible
+18:20:17 | E and F  have been selected.
+18:20:17 | Comparison is now visible
+18:20:23 | G and H  have been selected.
+18:20:23 | Comparison is now visible
+18:20:29 | G and H  have been selected.
+18:20:29 | Comparison is now visible
+18:20:36 | N and O  have been selected.
+18:20:36 | Comparison is now visible
+18:20:46 | Y and Z  have been selected.
+18:20:46 | Comparison is now visible
+18:20:48 | W and X  have been selected.
+18:20:48 | Comparison is now visible
+18:20:50 | U and V  have been selected.
+18:20:50 | Comparison is now visible
+18:22:46 | Configuration has been saved
+18:22:47 | AA and AB  have been selected.
+18:22:47 | Comparison is now visible
+18:22:49 | W and X  have been selected.
+18:22:49 | Comparison is now visible
+18:22:52 | S and T  have been selected.
+18:22:52 | Comparison is now visible
+18:23:05 | U and V  have been selected.
+18:23:05 | Comparison is now visible
+18:23:24 | S and T  have been selected.
+18:23:24 | Comparison is now visible
+18:25:15 | Start comparing...
+18:25:15 | Comparison finished
+18:25:15 | A matrix with 28 files has been created successfully! (time taken: 102.8564ms)
+18:25:21 | S and T  have been selected.
+18:25:21 | Comparison is now visible
+18:28:54 | Q and R  have been selected.
+18:28:54 | Comparison is now visible
+18:28:59 | Exit Application MultiTextCompare
+
+
+18:31:06 | Open Application MultiTextCompare (30.05.2021)
+18:31:18 | Searching for files..
+18:31:19 | Found 2 files!  (seek time: 35.4916ms)
+
+18:31:19 | Start comparing...
+19:42:54 | Open Application MultiTextCompare (30.05.2021)
+19:42:56 | Searching for files..
+19:42:56 | Found 2 files!  (seek time: 35.185ms)
+
+19:42:58 | Exit Application MultiTextCompare
+
+
+19:43:25 | Open Application MultiTextCompare (30.05.2021)
+19:43:27 | Searching for files..
+19:43:27 | Found 2 files!  (seek time: 35.3668ms)
+
+19:43:27 | Start comparing...
+19:43:27 | Comparison finished
+19:43:27 | A matrix with 2 files has been created successfully! (time taken: 102.4491ms)
+19:43:29 | A and B  have been selected.
+19:43:29 | Comparison is now visible
+19:43:31 | Exit Application MultiTextCompare
+
+
+19:43:49 | Open Application MultiTextCompare (30.05.2021)
+19:43:50 | Searching for files..
+19:43:50 | Found 2 files!  (seek time: 36.4098ms)
+
+19:43:51 | Start comparing...
+19:44:04 | Comparison finished
+19:44:04 | A matrix with 2 files has been created successfully! (time taken: 13.29s)
+19:44:19 | Exit Application MultiTextCompare
+
+
+19:44:39 | Open Application MultiTextCompare (30.05.2021)
+19:44:41 | Searching for files..
+19:44:41 | Found 2 files!  (seek time: 35.8589ms)
+
+19:44:42 | Start comparing...
+19:44:42 | Comparison finished
+19:44:42 | A matrix with 2 files has been created successfully! (time taken: 102.2597ms)
+19:44:50 | Searching for files..
+19:44:50 | Found 28 files!  (seek time: 35.6358ms)
+
+19:44:51 | Start comparing...
+19:44:51 | Comparison finished
+19:44:51 | A matrix with 28 files has been created successfully! (time taken: 192.437ms)
+19:45:04 | S and T  have been selected.
+19:45:04 | Comparison is now visible
+19:45:07 | T and U  have been selected.
+19:45:07 | Comparison is now visible
+19:45:10 | AA and AB  have been selected.
+19:45:10 | Comparison is now visible
+19:45:20 | C and D  have been selected.
+19:45:20 | Comparison is now visible
+19:45:24 | G and H  have been selected.
+19:45:24 | Comparison is now visible
+19:46:27 | G and H  have been selected.
+19:46:27 | Comparison is now visible
+19:47:16 | Exit Application MultiTextCompare
+
+
+19:48:03 | Open Application MultiTextCompare (30.05.2021)
+19:48:09 | Searching for files..
+19:48:09 | Found 2 files!  (seek time: 35.3191ms)
+
+19:48:10 | Start comparing...
+19:52:19 | Open Application MultiTextCompare (30.05.2021)
+19:52:22 | Searching for files..
+19:52:22 | Found 2 files!  (seek time: 34.8052ms)
+
+19:52:22 | Start comparing...
+19:52:22 | Comparison finished
+19:52:22 | A matrix with 2 files has been created successfully! (time taken: 108.5216ms)
+19:52:25 | A and B  have been selected.
+19:52:25 | Comparison is now visible
+19:52:29 | Searching for files..
+19:52:29 | No more files found 
+
+19:52:35 | Searching for files..
+19:52:35 | Found 28 files!  (seek time: 35.5109ms)
+
+19:52:36 | Start comparing...
+19:52:36 | Comparison finished
+19:52:36 | A matrix with 28 files has been created successfully! (time taken: 177.8678ms)
+19:52:41 | L and M  have been selected.
+19:52:41 | Comparison is now visible
+19:52:46 | L and M  have been selected.
+19:52:47 | Comparison is now visible
+19:52:56 | P and Q  have been selected.
+19:52:56 | Comparison is now visible
+19:53:01 | AA and AB  have been selected.
+19:53:01 | Comparison is now visible
+19:53:05 | L and M  have been selected.
+19:53:05 | Comparison is now visible
+19:53:51 | Exit Application MultiTextCompare
+
+
+19:53:57 | Open Application MultiTextCompare (30.05.2021)
+19:54:04 | Start comparing...
+19:54:04 | Comparison finished
+19:54:04 | A matrix with 2 files has been created successfully! (time taken: 110.5767ms)
+19:54:17 | Start comparing...
+19:57:18 | Open Application MultiTextCompare (30.05.2021)
+19:57:26 | Start comparing...
+19:57:26 | Comparison finished
+19:57:26 | A matrix with 2 files has been created successfully! (time taken: 101.9123ms)
+19:57:27 | A and B  have been selected.
+19:57:27 | Comparison is now visible
+19:57:30 | Exit Application MultiTextCompare
+
+
+20:03:43 | Open Application MultiTextCompare (30.05.2021)
+20:03:54 | Searching for files..
+20:03:54 | Found 2 files!  (seek time: 34.8536ms)
+
+20:03:55 | Start comparing...
+20:03:55 | Comparison finished
+20:03:55 | A matrix with 2 files has been created successfully! (time taken: 105.4887ms)
+20:04:08 | Exit Application MultiTextCompare
+
+
+20:07:34 | Open Application MultiTextCompare (30.05.2021)
+20:07:36 | Searching for files..
+20:07:36 | Found 2 files!  (seek time: 35.4283ms)
+
+20:07:36 | Start comparing...
+20:07:36 | Comparison finished
+20:07:36 | A matrix with 2 files has been created successfully! (time taken: 108.4391ms)
+20:07:37 | A and B  have been selected.
+20:07:38 | Comparison is now visible
+20:07:58 | Exit Application MultiTextCompare
+
+
+20:08:04 | Open Application MultiTextCompare (30.05.2021)
+20:08:06 | Searching for files..
+20:08:06 | Found 2 files!  (seek time: 35.3313ms)
+
+20:08:07 | Start comparing...
+20:11:02 | Open Application MultiTextCompare (30.05.2021)
+20:11:03 | Searching for files..
+20:11:03 | Found 2 files!  (seek time: 35.5827ms)
+
+20:11:04 | Start comparing...
+20:11:04 | Comparison finished
+20:11:04 | A matrix with 2 files has been created successfully! (time taken: 108.2176ms)
+20:11:05 | A and B  have been selected.
+20:11:05 | Comparison is now visible
+20:11:47 | Searching for files..
+20:11:47 | Found 28 files!  (seek time: 33.8902ms)
+
+20:11:48 | Start comparing...
+20:11:48 | Comparison finished
+20:11:48 | A matrix with 28 files has been created successfully! (time taken: 140.3726ms)
+20:11:52 | E and F  have been selected.
+20:11:52 | Comparison is now visible
+20:12:13 | J and K  have been selected.
+20:12:13 | Comparison is now visible
+20:12:17 | L and M  have been selected.
+20:12:17 | Comparison is now visible
+20:12:19 | N and O  have been selected.
+20:12:19 | Comparison is now visible
+20:12:37 | P and Q  have been selected.
+20:12:37 | Comparison is now visible
+20:12:41 | U and V  have been selected.
+20:12:41 | Comparison is now visible
+20:12:49 | N and O  have been selected.
+20:12:49 | Comparison is now visible
+20:12:59 | I and F  have been selected.
+20:12:59 | Comparison is now visible
+20:13:11 | Configuration has been saved
+20:13:12 | I and F  have been selected.
+20:13:12 | Comparison is now visible
+20:13:39 | Exit Application MultiTextCompare
+
+
+20:16:46 | Open Application MultiTextCompare (30.05.2021)
+20:16:48 | Searching for files..
+20:16:48 | Found 28 files!  (seek time: 35.5983ms)
+
+20:16:48 | Start comparing...
+20:16:49 | Comparison finished
+20:16:49 | A matrix with 28 files has been created successfully! (time taken: 233.5317ms)
+20:16:54 | G and H  have been selected.
+20:16:54 | Comparison is now visible
+20:17:05 | AA and AB  have been selected.
+20:17:05 | Comparison is now visible
+20:17:13 | E and F  have been selected.
+20:17:13 | Comparison is now visible
+20:17:17 | G and T  have been selected.
+20:17:17 | Comparison is now visible
+20:17:24 | Configuration has been saved
+20:17:25 | C and D  have been selected.
+20:17:25 | Comparison is now visible
+20:18:13 | Exit Application MultiTextCompare
+
+

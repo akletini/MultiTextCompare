@@ -1,0 +1,1058 @@
+11:27:08 | Open Application MultiTextCompare (22.07.2021)
+11:27:08 | Successfully loaded comparison Kolloquium.mtc
+11:27:08 | Successfully opened last comparison
+11:27:13 | Configuration has been saved
+12:10:28 | Exit Application MultiTextCompare
+
+
+12:10:32 | Open Application MultiTextCompare (22.07.2021)
+12:10:42 | Successfully loaded configuration F:\Home\SYP2020\team06\MultiTextCompare\configs\config.properties
+12:10:51 | Searching for files..
+12:10:51 | Found 3 files!  (seek time: 34.6457ms)
+
+12:10:55 | Start comparing...
+12:10:55 | Comparison finished
+12:10:55 | A matrix with 3 files has been created successfully! (time taken: 35.1196ms)
+12:11:02 | A and B  have been selected.
+12:11:02 | Comparison is now visible
+12:11:22 | A and B  have been selected.
+12:11:22 | Comparison is now visible
+12:11:47 | Configuration has been saved
+12:11:48 | Start comparing...
+12:11:48 | Comparison finished
+12:11:49 | A matrix with 3 files has been created successfully! (time taken: 40.8218ms)
+12:11:50 | A and B  have been selected.
+12:11:50 | Comparison is now visible
+12:12:01 | A and C  have been selected.
+12:12:01 | Comparison is now visible
+12:12:29 | A and C  have been selected.
+12:12:29 | Comparison is now visible
+12:12:38 | Configuration has been saved
+12:12:40 | Start comparing...
+12:12:40 | Comparison finished
+12:12:40 | A matrix with 3 files has been created successfully! (time taken: 40.531ms)
+12:12:42 | A and C  have been selected.
+12:12:42 | Comparison is now visible
+12:13:29 | A and C  have been selected.
+12:13:29 | Comparison is now visible
+12:14:10 | A and B have been selected as reference.
+12:14:18 | A and C have been selected as reference.
+12:14:18 | Comparison is now visible
+12:19:32 | Searching for files..
+12:19:32 | Found 2 files!  (seek time: 36.7191ms)
+
+12:19:36 | Start comparing...
+12:19:36 | Comparison finished
+12:19:36 | A matrix with 2 files has been created successfully! (time taken: 112.1615ms)
+12:20:13 | Configuration has been saved
+12:20:27 | Configuration has been saved
+12:20:30 | Successfully loaded configuration F:\Home\SYP2020\team06\MultiTextCompare\configs\showSemantic.properties
+12:20:33 | Start comparing...
+12:20:33 | Comparison finished
+12:20:33 | A matrix with 2 files has been created successfully! (time taken: 39.9763ms)
+12:20:34 | A and B  have been selected.
+12:20:34 | Comparison is now visible
+12:20:38 | Configuration has been saved
+12:20:39 | A and B  have been selected.
+12:20:39 | Comparison is now visible
+12:20:44 | Start comparing...
+12:20:44 | Comparison finished
+12:20:44 | A matrix with 2 files has been created successfully! (time taken: 41.1397ms)
+12:20:45 | A and B  have been selected.
+12:20:45 | Comparison is now visible
+12:20:49 | Searching for files..
+12:20:49 | No more files found 
+
+12:20:51 | Searching for files..
+12:20:51 | No more files found 
+
+12:20:56 | Searching for files..
+12:20:56 | No more files found 
+
+12:20:59 | Searching for files..
+12:20:59 | No more files found 
+
+12:21:14 | Exit Application MultiTextCompare
+
+
+12:22:42 | Open Application MultiTextCompare (22.07.2021)
+12:22:48 | Successfully loaded configuration F:\Home\SYP2020\team06\MultiTextCompare\configs\config.properties
+12:23:04 | Configuration has been saved
+12:23:08 | Successfully loaded configuration F:\Home\SYP2020\team06\MultiTextCompare\configs\showSemantic.properties
+12:23:18 | Exit Application MultiTextCompare
+
+
+12:25:24 | Open Application MultiTextCompare (22.07.2021)
+12:25:32 | Successfully loaded configuration F:\Home\SYP2020\team06\MultiTextCompare\configs\config.properties
+12:30:11 | Successfully loaded configuration F:\Home\SYP2020\team06\MultiTextCompare\configs\showSemantic.properties
+12:30:24 | Searching for files..
+12:30:24 | Found 2 files!  (seek time: 35.4933ms)
+
+12:30:25 | Start comparing...
+12:30:25 | Comparison finished
+12:30:25 | A matrix with 2 files has been created successfully! (time taken: 105.4542ms)
+12:30:29 | A and B  have been selected.
+12:30:29 | Comparison is now visible
+12:30:50 | Configuration has been saved
+12:30:53 | Start comparing...
+12:30:53 | Comparison finished
+12:30:53 | A matrix with 2 files has been created successfully! (time taken: 40.1151ms)
+12:30:54 | A and B  have been selected.
+12:30:54 | Comparison is now visible
+12:31:01 | Configuration has been saved
+12:31:03 | Start comparing...
+12:31:03 | Comparison finished
+12:31:03 | A matrix with 2 files has been created successfully! (time taken: 40.4884ms)
+12:31:04 | A and B  have been selected.
+12:31:04 | Comparison is now visible
+12:31:39 | Configuration has been saved
+12:31:41 | A and B  have been selected.
+12:31:41 | Comparison is now visible
+12:31:44 | Start comparing...
+12:31:44 | Comparison finished
+12:31:44 | A matrix with 2 files has been created successfully! (time taken: 40.2048ms)
+12:31:45 | A and B  have been selected.
+12:31:45 | Comparison is now visible
+12:31:47 | Exit Application MultiTextCompare
+
+
+12:31:51 | Open Application MultiTextCompare (22.07.2021)
+12:31:54 | Searching for files..
+12:31:54 | Found 2 files!  (seek time: 34.8717ms)
+
+12:31:54 | Start comparing...
+12:31:55 | Comparison finished
+12:31:55 | A matrix with 2 files has been created successfully! (time taken: 97.9493ms)
+12:31:55 | A and B  have been selected.
+12:31:55 | Comparison is now visible
+12:32:01 | Exit Application MultiTextCompare
+
+
+12:35:28 | Open Application MultiTextCompare (22.07.2021)
+12:35:32 | Searching for files..
+12:35:32 | Found 2 files!  (seek time: 34.548ms)
+
+12:35:33 | Start comparing...
+12:35:33 | Comparison finished
+12:35:33 | A matrix with 2 files has been created successfully! (time taken: 99.4599ms)
+12:35:34 | A and B  have been selected.
+12:35:34 | Comparison is now visible
+12:35:38 | Configuration has been saved
+12:35:39 | Start comparing...
+12:35:39 | Comparison finished
+12:35:39 | A matrix with 2 files has been created successfully! (time taken: 41.8189ms)
+12:35:40 | A and B  have been selected.
+12:35:40 | Comparison is now visible
+12:35:49 | Configuration has been saved
+12:35:50 | Start comparing...
+12:35:50 | Comparison finished
+12:35:50 | A matrix with 2 files has been created successfully! (time taken: 39.87ms)
+12:35:51 | A and B  have been selected.
+12:35:51 | Comparison is now visible
+12:36:52 | Searching for files..
+12:36:52 | Found 3 files!  (seek time: 33.804ms)
+
+12:36:53 | Start comparing...
+12:36:54 | Unexpected character ('A' (code 65)): was expecting a colon to separate field name and value at line: 2, column: 17
+12:36:54 | Parse errors present, please remove or correct these files to use semantic comparison
+12:37:03 | It is not possible to display the file names after altering the file selection.
+12:37:03 | It is not possible to display the file names after altering the file selection.
+12:37:03 | It is not possible to display the file names after altering the file selection.
+12:37:03 | It is not possible to display the file names after altering the file selection.
+12:37:03 | It is not possible to display the file names after altering the file selection.
+12:37:17 | Start comparing...
+12:37:17 | Unexpected character ('A' (code 65)): was expecting a colon to separate field name and value at line: 2, column: 17
+12:37:17 | Parse errors present, please remove or correct these files to use semantic comparison
+12:37:43 | Start comparing...
+12:37:43 | Comparison finished
+12:37:43 | A matrix with 2 files has been created successfully! (time taken: 119.1822ms)
+12:37:48 | A and B  have been selected.
+12:37:48 | Comparison is now visible
+12:39:27 | Searching for files..
+12:39:27 | Found 2 files!  (seek time: 35.5441ms)
+
+12:39:27 | Start comparing...
+12:39:27 | Comparison finished
+12:39:27 | A matrix with 2 files has been created successfully! (time taken: 39.8507ms)
+12:39:28 | A and B  have been selected.
+12:39:29 | Comparison is now visible
+12:39:35 | Configuration has been saved
+12:39:37 | Start comparing...
+12:39:37 | Comparison finished
+12:39:37 | A matrix with 2 files has been created successfully! (time taken: 39.9072ms)
+12:39:38 | A and B  have been selected.
+12:39:38 | Comparison is now visible
+12:41:24 | Start comparing...
+12:41:24 | Comparison finished
+12:41:24 | A matrix with 2 files has been created successfully! (time taken: 41.8614ms)
+12:41:28 | A and B  have been selected.
+12:41:28 | Comparison is now visible
+12:41:35 | Configuration has been saved
+12:41:36 | Start comparing...
+12:41:37 | Comparison finished
+12:41:37 | A matrix with 2 files has been created successfully! (time taken: 38.9255ms)
+12:41:37 | A and B  have been selected.
+12:41:37 | Comparison is now visible
+12:42:02 | Start comparing...
+12:42:02 | Comparison finished
+12:42:02 | A matrix with 2 files has been created successfully! (time taken: 40.9579ms)
+12:42:05 | A and B  have been selected.
+12:42:05 | Comparison is now visible
+12:48:46 | Start comparing...
+12:48:46 | Comparison finished
+12:48:46 | A matrix with 2 files has been created successfully! (time taken: 39.1642ms)
+12:48:47 | A and B  have been selected.
+12:48:47 | Comparison is now visible
+12:51:00 | Successfully loaded configuration F:\Home\SYP2020\team06\MultiTextCompare\configs\defaultRootPath.properties
+12:51:05 | Searching for files..
+12:51:05 | Found 79 files!  (seek time: 76.3789ms)
+
+12:51:12 | Start comparing...
+12:51:44 | Comparison finished
+12:51:44 | A matrix with 79 files has been created successfully! (time taken: 31.56s)
+12:53:46 | K and L have been selected as reference.
+12:54:23 | Comparison is now visible
+12:54:40 | Successfully saved comparison
+12:55:04 | Configuration has been saved
+12:55:06 | Exit Application MultiTextCompare
+
+
+12:55:12 | Open Application MultiTextCompare (22.07.2021)
+12:55:12 | java.io.FileNotFoundException: F:\Home\SYP2020\team06\MultiTextCompare\comparisons\test (Access is denied)
+12:55:12 | Successfully opened last comparison
+12:55:22 | Exit Application MultiTextCompare
+
+
+12:55:23 | Open Application MultiTextCompare (22.07.2021)
+12:55:23 | java.io.FileNotFoundException: F:\Home\SYP2020\team06\MultiTextCompare\comparisons\test (Access is denied)
+12:55:23 | Successfully opened last comparison
+12:55:44 | Successfully loaded comparison test.mtc
+12:56:13 | Exit Application MultiTextCompare
+
+
+12:56:15 | Open Application MultiTextCompare (22.07.2021)
+12:56:15 | java.io.FileNotFoundException: F:\Home\SYP2020\team06\MultiTextCompare\comparisons\test (Access is denied)
+12:56:15 | Successfully opened last comparison
+12:56:32 | Configuration has been saved
+12:56:33 | Exit Application MultiTextCompare
+
+
+12:56:35 | Open Application MultiTextCompare (22.07.2021)
+12:56:39 | Successfully loaded comparison Kolloquium.mtc
+12:56:42 | Successfully loaded comparison test.mtc
+12:56:55 | Configuration has been saved
+12:56:56 | Exit Application MultiTextCompare
+
+
+12:56:58 | Open Application MultiTextCompare (22.07.2021)
+12:56:58 | Successfully loaded comparison test.mtc
+12:56:58 | Successfully opened last comparison
+12:57:08 | Configuration has been saved
+12:57:11 | java.io.IOException: The system cannot find the path specified
+12:57:11 | Successfully saved comparison to test.mtc
+12:58:25 | Exit Application MultiTextCompare
+
+
+12:58:27 | Open Application MultiTextCompare (22.07.2021)
+12:58:30 | Searching for files..
+12:58:30 | Found 79 files!  (seek time: 35.7985ms)
+
+12:58:36 | Successfully loaded comparison Kolloquium.mtc
+12:58:38 | java.io.IOException: The system cannot find the path specified
+12:58:38 | Successfully saved comparison to Kolloquium.mtc
+12:59:17 | Successfully loaded configuration F:\Home\SYP2020\team06\MultiTextCompare\configs\config.properties
+12:59:23 | java.io.IOException: The system cannot find the path specified
+12:59:24 | Successfully saved comparison to Kolloquium.mtc
+13:00:56 | java.io.IOException: The system cannot find the path specified
+13:00:56 | Successfully saved comparison to Kolloquium.mtc
+13:01:34 | Exit Application MultiTextCompare
+
+
+13:01:35 | Open Application MultiTextCompare (22.07.2021)
+13:01:50 | Successfully loaded configuration F:\Home\SYP2020\team06\MultiTextCompare\configs\defaultRootPath.properties
+13:01:54 | Searching for files..
+13:01:54 | Found 79 files!  (seek time: 34.7926ms)
+
+13:01:55 | Start comparing...
+13:02:07 | Open Application MultiTextCompare (22.07.2021)
+13:02:24 | Successfully loaded comparison Kolloquium.mtc
+13:30:48 | Open Application MultiTextCompare (22.07.2021)
+13:30:50 | Please create a comparison first
+13:30:55 | Successfully loaded comparison Kolloquium.mtc
+13:31:00 | java.io.IOException: The system cannot find the path specified
+13:31:00 | Successfully saved comparison to Kolloquium.mtc
+13:31:09 | Exit Application MultiTextCompare
+
+
+13:32:05 | Open Application MultiTextCompare (22.07.2021)
+13:32:22 | Successfully loaded comparison Kolloquium.mtc
+13:33:18 | Successfully saved comparison to comparisons
+13:33:28 | Exit Application MultiTextCompare
+
+
+13:36:04 | Open Application MultiTextCompare (22.07.2021)
+13:36:16 | Successfully loaded comparison Kolloquium.mtc
+13:37:36 | Open Application MultiTextCompare (22.07.2021)
+13:37:39 | Successfully loaded comparison Kolloquium.mtc
+13:38:03 | Successfully saved comparison to test1
+13:39:42 | H and J  have been selected.
+13:39:42 | Comparison is now visible
+13:40:12 | Exit Application MultiTextCompare
+
+
+13:40:47 | Open Application MultiTextCompare (22.07.2021)
+13:40:53 | Successfully loaded comparison test1.mtc
+13:40:55 | E and F  have been selected.
+13:40:55 | Comparison is now visible
+13:41:01 | Successfully saved comparison to test2
+13:41:09 | Configuration has been saved
+13:41:10 | Exit Application MultiTextCompare
+
+
+13:41:11 | Open Application MultiTextCompare (22.07.2021)
+13:41:11 | java.io.FileNotFoundException: F:\Home\SYP2020\team06\MultiTextCompare\comparisons\test2 (Access is denied)
+13:41:11 | Successfully opened last comparison
+13:41:39 | Exit Application MultiTextCompare
+
+
+13:42:16 | Open Application MultiTextCompare (22.07.2021)
+13:42:31 | java.io.FileNotFoundException: F:\Home\SYP2020\team06\MultiTextCompare\comparisons\test2 (Access is denied)
+13:42:33 | Successfully opened last comparison
+13:44:29 | Successfully loaded comparison test2.mtc
+13:44:38 | Exit Application MultiTextCompare
+
+
+13:44:40 | Open Application MultiTextCompare (22.07.2021)
+13:44:47 | java.io.FileNotFoundException: F:\Home\SYP2020\team06\MultiTextCompare\comparisons\test2 (Access is denied)
+13:44:47 | Successfully opened last comparison
+13:46:05 | Exit Application MultiTextCompare
+
+
+13:46:29 | Open Application MultiTextCompare (22.07.2021)
+13:46:29 | java.io.FileNotFoundException: F:\Home\SYP2020\team06\MultiTextCompare\comparisons\test2 (Access is denied)
+13:46:29 | Successfully opened last comparison
+13:46:33 | Exit Application MultiTextCompare
+
+
+13:46:55 | Open Application MultiTextCompare (22.07.2021)
+13:46:55 | java.io.FileNotFoundException: F:\Home\SYP2020\team06\MultiTextCompare\comparisons\test2 (Access is denied)
+13:46:55 | Successfully opened last comparison
+13:47:01 | Configuration has been saved
+13:47:14 | Successfully loaded comparison Kolloquium.mtc
+13:47:19 | Configuration has been saved
+13:47:25 | Exit Application MultiTextCompare
+
+
+13:47:27 | Open Application MultiTextCompare (22.07.2021)
+13:47:27 | Successfully loaded comparison Kolloquium.mtc
+13:47:27 | Successfully opened last comparison
+13:47:35 | Successfully loaded comparison test2.mtc
+13:47:36 | Exit Application MultiTextCompare
+
+
+13:47:38 | Open Application MultiTextCompare (22.07.2021)
+13:47:38 | Successfully loaded comparison Kolloquium.mtc
+13:47:38 | Successfully opened last comparison
+13:47:45 | Successfully loaded comparison test2.mtc
+13:47:49 | Configuration has been saved
+13:47:51 | Exit Application MultiTextCompare
+
+
+13:47:53 | Open Application MultiTextCompare (22.07.2021)
+13:47:53 | Successfully loaded comparison test2.mtc
+13:47:53 | Successfully opened last comparison
+13:48:00 | Exit Application MultiTextCompare
+
+
+13:48:04 | Open Application MultiTextCompare (22.07.2021)
+13:48:04 | Successfully loaded comparison test2.mtc
+13:48:04 | Successfully opened last comparison
+13:52:10 | Exit Application MultiTextCompare
+
+
+13:52:11 | Open Application MultiTextCompare (22.07.2021)
+13:52:12 | Successfully loaded comparison test2.mtc
+13:52:12 | Successfully opened last comparison
+13:52:19 | Successfully saved comparison to aaa
+13:52:40 | Exit Application MultiTextCompare
+
+
+13:52:41 | Open Application MultiTextCompare (22.07.2021)
+13:52:42 | Successfully loaded comparison test2.mtc
+13:52:42 | Successfully opened last comparison
+13:52:51 | Successfully loaded comparison aaa.mtc
+13:53:08 | Exit Application MultiTextCompare
+
+
+13:54:11 | Open Application MultiTextCompare (22.07.2021)
+13:54:11 | Successfully loaded comparison aaa.mtc
+13:54:11 | Successfully opened last comparison
+13:54:17 | Successfully saved comparison to khj
+13:54:35 | Exit Application MultiTextCompare
+
+
+13:54:38 | Open Application MultiTextCompare (22.07.2021)
+13:54:38 | Successfully loaded comparison aaa.mtc
+13:54:38 | Successfully opened last comparison
+13:54:43 | Successfully saved comparison to tsfr
+13:54:47 | Configuration has been saved
+13:54:49 | Exit Application MultiTextCompare
+
+
+13:54:50 | Open Application MultiTextCompare (22.07.2021)
+13:54:50 | java.io.FileNotFoundException: F:\Home\SYP2020\team06\MultiTextCompare\comparisons\tsfr (Access is denied)
+13:54:50 | Successfully opened last comparison
+13:54:52 | Exit Application MultiTextCompare
+
+
+13:54:59 | Open Application MultiTextCompare (22.07.2021)
+13:54:59 | java.io.FileNotFoundException: F:\Home\SYP2020\team06\MultiTextCompare\comparisons\tsfr (Access is denied)
+13:54:59 | Successfully opened last comparison
+13:55:04 | Successfully loaded comparison tsfr.mtc
+13:55:08 | Successfully saved comparison to sfy
+13:55:17 | Exit Application MultiTextCompare
+
+
+13:56:28 | Open Application MultiTextCompare (22.07.2021)
+13:56:28 | java.io.FileNotFoundException: F:\Home\SYP2020\team06\MultiTextCompare\comparisons\tsfr (The system cannot find the file specified)
+13:56:28 | Successfully opened last comparison
+13:56:31 | Exit Application MultiTextCompare
+
+
+13:57:10 | Open Application MultiTextCompare (22.07.2021)
+13:57:10 | java.io.FileNotFoundException: F:\Home\SYP2020\team06\MultiTextCompare\comparisons\tsfr (The system cannot find the file specified)
+13:57:10 | Successfully opened last comparison
+13:57:15 | Successfully loaded comparison Kolloquium.mtc
+13:57:19 | Successfully saved comparison to test
+13:57:32 | Exit Application MultiTextCompare
+
+
+13:57:33 | Open Application MultiTextCompare (22.07.2021)
+13:57:33 | java.io.FileNotFoundException: F:\Home\SYP2020\team06\MultiTextCompare\comparisons\tsfr (The system cannot find the file specified)
+13:57:33 | Successfully opened last comparison
+13:57:41 | Successfully loaded comparison test.mtc
+13:57:43 | Configuration has been saved
+13:57:45 | Exit Application MultiTextCompare
+
+
+13:57:46 | Open Application MultiTextCompare (22.07.2021)
+13:57:47 | Successfully loaded comparison test.mtc
+13:57:47 | Successfully opened last comparison
+13:58:00 | Successfully loaded comparison Kolloquium.mtc
+13:58:03 | Exit Application MultiTextCompare
+
+
+13:58:51 | Open Application MultiTextCompare (22.07.2021)
+13:58:51 | Successfully loaded comparison Kolloquium.mtc
+13:58:51 | Successfully opened last comparison
+13:58:53 | Exit Application MultiTextCompare
+
+
+13:58:59 | Open Application MultiTextCompare (22.07.2021)
+13:58:59 | Successfully loaded comparison Kolloquium.mtc
+13:58:59 | Successfully opened last comparison
+13:59:05 | Successfully saved comparison to tgafes
+13:59:10 | Configuration has been saved
+13:59:12 | Exit Application MultiTextCompare
+
+
+13:59:14 | Open Application MultiTextCompare (22.07.2021)
+13:59:14 | Successfully loaded comparison tgafes.mtc
+13:59:14 | Successfully opened last comparison
+13:59:17 | Exit Application MultiTextCompare
+
+
+13:59:28 | Open Application MultiTextCompare (22.07.2021)
+13:59:28 | java.io.FileNotFoundException: F:\Home\SYP2020\team06\MultiTextCompare\comparisons\tgafes\tgafes.mtc (The system cannot find the path specified)
+13:59:28 | Successfully opened last comparison
+13:59:43 | Successfully loaded comparison Kolloquium.mtc
+13:59:47 | Successfully saved comparison to arsa
+13:59:55 | Exit Application MultiTextCompare
+
+
+13:59:56 | Open Application MultiTextCompare (22.07.2021)
+13:59:56 | java.io.FileNotFoundException: F:\Home\SYP2020\team06\MultiTextCompare\comparisons\tgafes\tgafes.mtc (The system cannot find the path specified)
+13:59:56 | Successfully opened last comparison
+14:00:06 | Exit Application MultiTextCompare
+
+
+14:00:25 | Open Application MultiTextCompare (22.07.2021)
+14:00:25 | java.io.FileNotFoundException: F:\Home\SYP2020\team06\MultiTextCompare\comparisons\tgafes\tgafes.mtc (The system cannot find the path specified)
+14:00:25 | Successfully opened last comparison
+14:00:29 | Successfully loaded comparison Kolloquium.mtc
+14:00:38 | Exit Application MultiTextCompare
+
+
+14:00:40 | Open Application MultiTextCompare (22.07.2021)
+14:00:40 | java.io.FileNotFoundException: F:\Home\SYP2020\team06\MultiTextCompare\comparisons\tgafes\tgafes.mtc (The system cannot find the path specified)
+14:00:40 | Successfully opened last comparison
+14:01:05 | Successfully loaded comparison Kolloquium.mtc
+14:01:43 | Successfully saved comparison to tas
+14:01:50 | Exit Application MultiTextCompare
+
+
+14:01:51 | Open Application MultiTextCompare (22.07.2021)
+14:01:52 | Successfully loaded comparison tas.mtc
+14:01:52 | Successfully opened last comparison
+14:01:57 | Exit Application MultiTextCompare
+
+
+14:01:58 | Open Application MultiTextCompare (22.07.2021)
+14:01:58 | Successfully loaded comparison tas.mtc
+14:01:58 | Successfully opened last comparison
+14:02:05 | Exit Application MultiTextCompare
+
+
+14:06:06 | Open Application MultiTextCompare (22.07.2021)
+14:06:06 | Successfully loaded comparison tas.mtc
+14:06:06 | Successfully opened last comparison
+14:06:32 | Searching for files..
+14:06:32 | Found 79 files!  (seek time: 34.9422ms)
+
+14:06:35 | Start comparing...
+14:07:04 | Comparison finished
+14:07:04 | A matrix with 79 files has been created successfully! (time taken: 28.71s)
+14:08:08 | java.io.IOException: The system cannot find the path specified
+14:08:08 | Successfully saved comparison to test.mtc
+14:12:59 | Exit Application MultiTextCompare
+
+
+14:13:00 | Open Application MultiTextCompare (22.07.2021)
+14:13:01 | Successfully loaded comparison tas.mtc
+14:13:01 | Successfully opened last comparison
+14:13:05 | Configuration has been saved
+14:13:09 | Successfully loaded comparison Kolloquium.mtc
+14:13:12 | java.io.IOException: The system cannot find the path specified
+14:13:12 | Successfully saved comparison to Kolloquium.mtc
+14:13:53 | Open Application MultiTextCompare (22.07.2021)
+14:13:58 | Successfully loaded comparison Kolloquium.mtc
+14:13:59 | java.io.IOException: The system cannot find the path specified
+14:13:59 | Successfully saved comparison to Kolloquium.mtc
+14:14:15 | Exit Application MultiTextCompare
+
+
+14:14:19 | Open Application MultiTextCompare (22.07.2021)
+14:14:22 | Successfully loaded comparison Kolloquium.mtc
+14:14:23 | java.io.IOException: The system cannot find the path specified
+14:14:23 | Successfully saved comparison to Kolloquium.mtc
+14:14:51 | Exit Application MultiTextCompare
+
+
+14:15:51 | Open Application MultiTextCompare (22.07.2021)
+14:15:55 | Successfully loaded comparison Kolloquium.mtc
+14:15:56 | java.io.IOException: The system cannot find the path specified
+14:15:56 | Successfully saved comparison to Kolloquium.mtc
+14:15:59 | Exit Application MultiTextCompare
+
+
+14:18:05 | Open Application MultiTextCompare (22.07.2021)
+14:18:17 | Successfully loaded comparison Kolloquium.mtc
+14:18:21 | java.io.IOException: The system cannot find the path specified
+14:19:10 | Successfully saved comparison to Kolloquium.mtc
+14:19:29 | Open Application MultiTextCompare (22.07.2021)
+14:19:32 | Successfully loaded comparison Kolloquium.mtc
+14:19:34 | java.io.IOException: The system cannot find the path specified
+14:19:34 | Successfully saved comparison to Kolloquium.mtc
+14:19:47 | Exit Application MultiTextCompare
+
+
+14:19:49 | Open Application MultiTextCompare (22.07.2021)
+14:19:53 | Successfully loaded comparison Kolloquium.mtc
+14:19:56 | java.io.IOException: The system cannot find the path specified
+14:20:08 | Successfully saved comparison to Kolloquium.mtc
+14:20:55 | Searching for files..
+14:20:56 | Found 79 files!  (seek time: 42.3113ms)
+
+14:20:56 | Start comparing...
+14:21:26 | Comparison finished
+14:21:27 | A matrix with 79 files has been created successfully! (time taken: 30.16s)
+14:21:43 | java.io.IOException: The system cannot find the path specified
+14:21:58 | Successfully saved comparison to Kolloquium.mtc
+14:22:16 | Configuration has been saved
+14:22:18 | Exit Application MultiTextCompare
+
+
+14:22:20 | Open Application MultiTextCompare (22.07.2021)
+14:22:20 | Successfully loaded comparison Kolloquium.mtc
+14:22:20 | Successfully opened last comparison
+14:23:34 | Exit Application MultiTextCompare
+
+
+14:23:56 | Open Application MultiTextCompare (22.07.2021)
+14:23:56 | Successfully loaded comparison Kolloquium.mtc
+14:23:56 | Successfully opened last comparison
+14:24:00 | Searching for files..
+14:24:00 | Found 79 files!  (seek time: 34.8439ms)
+
+14:24:01 | Start comparing...
+14:24:31 | Comparison finished
+14:24:32 | A matrix with 79 files has been created successfully! (time taken: 30.43s)
+14:24:36 | Successfully saved comparison to Kolloquium.mtc
+14:24:48 | Exit Application MultiTextCompare
+
+
+14:26:07 | Open Application MultiTextCompare (22.07.2021)
+14:26:07 | Successfully loaded comparison Kolloquium.mtc
+14:26:07 | Successfully opened last comparison
+14:26:14 | Searching for files..
+14:26:14 | Found 79 files!  (seek time: 35.7755ms)
+
+14:26:15 | Start comparing...
+14:26:45 | Comparison finished
+14:26:45 | A matrix with 79 files has been created successfully! (time taken: 30.45s)
+14:28:00 | Open Application MultiTextCompare (22.07.2021)
+14:28:01 | Successfully loaded comparison Kolloquium.mtc
+14:28:01 | Successfully opened last comparison
+14:28:01 | Exit Application MultiTextCompare
+
+
+14:28:05 | Successfully saved comparison to Kolloquium.mtc
+14:28:35 | Exit Application MultiTextCompare
+
+
+14:28:43 | Open Application MultiTextCompare (22.07.2021)
+14:28:43 | Successfully loaded comparison Kolloquium.mtc
+14:28:43 | Successfully opened last comparison
+14:28:46 | Successfully saved comparison to Kolloquium.mtc
+14:30:00 | Exit Application MultiTextCompare
+
+
+14:30:02 | Open Application MultiTextCompare (22.07.2021)
+14:30:02 | Successfully loaded comparison Kolloquium.mtc
+14:30:02 | Successfully opened last comparison
+14:30:04 | Successfully saved comparison to Kolloquium.mtc
+14:30:17 | Searching for files..
+14:30:17 | Found 79 files!  (seek time: 34.4263ms)
+
+14:30:18 | Start comparing...
+14:30:48 | Comparison finished
+14:30:48 | A matrix with 79 files has been created successfully! (time taken: 30.63s)
+14:30:51 | Successfully saved comparison to Kolloquium.mtc
+14:32:49 | Successfully saved comparison to Kolloquium.mtc
+14:38:02 | Exit Application MultiTextCompare
+
+
+14:38:04 | Open Application MultiTextCompare (22.07.2021)
+14:38:05 | Successfully loaded comparison Kolloquium.mtc
+14:38:05 | Successfully opened last comparison
+14:38:24 | Successfully saved comparison to Kolloquium.mtc
+14:43:08 | Configuration has been saved
+14:43:08 | Exit Application MultiTextCompare
+
+
+14:43:10 | Open Application MultiTextCompare (22.07.2021)
+14:43:16 | Successfully loaded comparison Kolloquium.mtc
+14:43:18 | Successfully saved comparison to Kolloquium.mtc
+14:43:21 | Searching for files..
+14:43:21 | Found 79 files!  (seek time: 35.4546ms)
+
+14:43:23 | Start comparing...
+14:43:54 | Comparison finished
+14:43:54 | A matrix with 79 files has been created successfully! (time taken: 31.01s)
+14:44:15 | Successfully saved comparison to Kolloquium.mtc
+14:44:31 | Exit Application MultiTextCompare
+
+
+14:44:32 | Open Application MultiTextCompare (22.07.2021)
+14:44:36 | Successfully loaded comparison Kolloquium.mtc
+14:44:41 | Successfully saved comparison to Kolloquium.mtc
+14:44:43 | Successfully saved comparison to Kolloquium.mtc
+14:44:45 | Exit Application MultiTextCompare
+
+
+14:49:40 | Open Application MultiTextCompare (22.07.2021)
+14:49:44 | Please create a comparison first
+14:49:46 | Please create a comparison first
+14:49:50 | Successfully loaded comparison Kolloquium.mtc
+14:54:37 | Open Application MultiTextCompare (22.07.2021)
+14:54:40 | Successfully loaded comparison Kolloquium.mtc
+14:54:41 | Successfully saved comparison to Kolloquium.mtc
+14:54:46 | Successfully saved comparison to test
+14:54:52 | Configuration has been saved
+14:54:53 | Exit Application MultiTextCompare
+
+
+14:54:55 | Open Application MultiTextCompare (22.07.2021)
+14:54:55 | Successfully loaded comparison test.mtc
+14:54:55 | Successfully opened last comparison
+14:55:02 | Successfully loaded comparison Kolloquium.mtc
+14:55:12 | C and D  have been selected.
+14:55:12 | Comparison is now visible
+14:55:15 | Exit Application MultiTextCompare
+
+
+15:01:14 | Open Application MultiTextCompare (22.07.2021)
+15:01:14 | Successfully loaded comparison test.mtc
+15:01:14 | Successfully opened last comparison
+15:01:17 | Configuration has been saved
+15:01:20 | Exit Application MultiTextCompare
+
+
+15:01:21 | Open Application MultiTextCompare (22.07.2021)
+15:01:23 | Searching for files..
+15:01:23 | Found 79 files!  (seek time: 35.6793ms)
+
+15:01:24 | Start comparing...
+15:01:53 | Comparison finished
+15:01:53 | A matrix with 79 files has been created successfully! (time taken: 29.05s)
+15:02:20 | Successfully saved comparison
+15:02:29 | Configuration has been saved
+15:02:29 | Exit Application MultiTextCompare
+
+
+15:02:31 | Open Application MultiTextCompare (22.07.2021)
+15:02:31 | java.io.FileNotFoundException: F:\Home\SYP2020\team06\MultiTextCompare\comparisons\final (Access is denied)
+15:02:31 | Successfully opened last comparison
+15:02:33 | Exit Application MultiTextCompare
+
+
+15:02:41 | Open Application MultiTextCompare (22.07.2021)
+15:02:41 | java.io.FileNotFoundException: F:\Home\SYP2020\team06\MultiTextCompare\comparisons\final (Access is denied)
+15:02:41 | Successfully opened last comparison
+15:02:46 | Successfully loaded comparison final.mtc
+15:02:51 | Successfully saved comparison to aaa
+15:02:59 | Exit Application MultiTextCompare
+
+
+15:03:00 | Open Application MultiTextCompare (22.07.2021)
+15:03:00 | java.io.FileNotFoundException: F:\Home\SYP2020\team06\MultiTextCompare\comparisons\final (Access is denied)
+15:03:00 | Successfully opened last comparison
+15:03:07 | Configuration has been saved
+15:03:15 | Searching for files..
+15:03:15 | Found 79 files!  (seek time: 35.6057ms)
+
+15:03:16 | Start comparing...
+15:03:43 | Comparison finished
+15:03:43 | A matrix with 79 files has been created successfully! (time taken: 27.57s)
+15:03:49 | Successfully saved comparison
+15:04:04 | Exit Application MultiTextCompare
+
+
+15:04:59 | Open Application MultiTextCompare (22.07.2021)
+15:05:00 | Exit Application MultiTextCompare
+
+
+15:05:49 | Open Application MultiTextCompare (22.07.2021)
+15:05:51 | Exit Application MultiTextCompare
+
+
+15:05:53 | Open Application MultiTextCompare (22.07.2021)
+15:05:56 | Searching for files..
+15:05:56 | Found 79 files!  (seek time: 36.1479ms)
+
+15:05:58 | Start comparing...
+15:06:26 | Comparison finished
+15:06:26 | A matrix with 79 files has been created successfully! (time taken: 28.89s)
+15:08:53 | Open Application MultiTextCompare (22.07.2021)
+15:08:55 | Searching for files..
+15:08:55 | Found 79 files!  (seek time: 35.6212ms)
+
+15:09:00 | Start comparing...
+15:09:03 | Comparison finished
+15:09:03 | A matrix with 25 files has been created successfully! (time taken: 3.37s)
+15:09:10 | Successfully saved comparison
+15:09:23 | Configuration has been saved
+15:09:25 | Exit Application MultiTextCompare
+
+
+15:09:26 | Open Application MultiTextCompare (22.07.2021)
+15:09:26 | Successfully loaded comparison joa.mtc
+15:09:26 | Successfully opened last comparison
+15:10:27 | Successfully loaded comparison Kolloquium.mtc
+15:10:34 | Successfully saved comparison to teest
+15:10:43 | Successfully saved comparison to teest
+15:10:53 | Configuration has been saved
+15:10:54 | Exit Application MultiTextCompare
+
+
+15:10:55 | Open Application MultiTextCompare (22.07.2021)
+15:10:55 | java.io.FileNotFoundException: F:\Home\SYP2020\team06\MultiTextCompare\comparisons\teest (Access is denied)
+15:10:55 | Successfully opened last comparison
+15:10:56 | Exit Application MultiTextCompare
+
+
+15:11:33 | Open Application MultiTextCompare (22.07.2021)
+15:11:33 | java.io.FileNotFoundException: F:\Home\SYP2020\team06\MultiTextCompare\comparisons\teest (Access is denied)
+15:11:33 | Successfully opened last comparison
+15:12:13 | Exit Application MultiTextCompare
+
+
+15:12:18 | Open Application MultiTextCompare (22.07.2021)
+15:12:18 | java.io.FileNotFoundException: F:\Home\SYP2020\team06\MultiTextCompare\comparisons\teest (The system cannot find the file specified)
+15:12:18 | Successfully opened last comparison
+15:12:22 | Successfully loaded comparison Kolloquium.mtc
+15:12:39 | Configuration has been saved
+15:12:47 | Start comparing...
+15:12:47 | Comparison finished
+15:12:47 | A matrix with 23 files has been created successfully! (time taken: 94.3113ms)
+15:12:54 | Successfully saved comparison to test
+15:12:58 | Successfully saved comparison to test
+15:13:10 | Exit Application MultiTextCompare
+
+
+15:13:42 | Open Application MultiTextCompare (22.07.2021)
+15:14:31 | Searching for files..
+15:14:31 | Found 79 files!  (seek time: 35.7494ms)
+
+15:14:39 | Start comparing...
+15:14:39 | Comparison finished
+15:14:39 | A matrix with 28 files has been created successfully! (time taken: 115.6011ms)
+15:14:50 | Successfully saved comparison
+15:15:01 | Configuration has been saved
+15:15:03 | Exit Application MultiTextCompare
+
+
+15:15:13 | Open Application MultiTextCompare (22.07.2021)
+15:15:13 | Successfully loaded comparison ja.mtc
+15:15:13 | Successfully opened last comparison
+15:15:29 | B and C  have been selected.
+15:15:29 | Comparison is now visible
+15:15:33 | Exit Application MultiTextCompare
+
+
+16:07:33 | Open Application MultiTextCompare (22.07.2021)
+16:07:33 | java.io.FileNotFoundException: F:\Home\SYP2020\team06\MultiTextCompare\comparisons\ja\ja.mtc (The system cannot find the path specified)
+16:07:33 | Successfully opened last comparison
+16:07:41 | Configuration has been saved
+16:07:58 | Exit Application MultiTextCompare
+
+
+16:08:00 | Open Application MultiTextCompare (22.07.2021)
+16:08:04 | Successfully loaded configuration F:\Home\SYP2020\team06\MultiTextCompare\configs\config.properties
+16:08:10 | Searching for files..
+16:08:10 | No more files found 
+
+16:08:40 | Configuration has been saved
+16:08:46 | Successfully loaded configuration F:\Home\SYP2020\team06\MultiTextCompare\configs\defaultRootPath.properties
+16:08:54 | Successfully loaded configuration F:\Home\SYP2020\team06\MultiTextCompare\configs\showSemantic.properties
+16:09:26 | Configuration has been saved
+16:09:30 | Successfully loaded configuration F:\Home\SYP2020\team06\MultiTextCompare\configs\config.properties
+16:09:31 | Exit Application MultiTextCompare
+
+
+16:09:34 | Open Application MultiTextCompare (22.07.2021)
+16:09:38 | Searching for files..
+16:09:38 | Found 3 files!  (seek time: 35.3991ms)
+
+16:09:42 | Start comparing...
+16:09:42 | Comparison finished
+16:09:42 | A matrix with 3 files has been created successfully! (time taken: 45.7983ms)
+16:09:48 | Configuration has been saved
+16:09:50 | Start comparing...
+16:09:50 | Comparison finished
+16:09:50 | A matrix with 3 files has been created successfully! (time taken: 41.1535ms)
+16:10:59 | A and B  have been selected.
+16:10:59 | Comparison is now visible
+16:11:17 | A and C  have been selected.
+16:11:17 | Comparison is now visible
+16:11:21 | A and B  have been selected.
+16:11:21 | Comparison is now visible
+16:11:28 | Configuration has been saved
+16:11:29 | A and B  have been selected.
+16:11:29 | Comparison is now visible
+16:11:32 | A and C  have been selected.
+16:11:32 | Comparison is now visible
+16:11:54 | Configuration has been saved
+16:11:55 | Start comparing...
+16:11:55 | Comparison finished
+16:11:55 | A matrix with 3 files has been created successfully! (time taken: 40.2785ms)
+16:11:56 | A and C  have been selected.
+16:11:56 | Comparison is now visible
+16:12:02 | Configuration has been saved
+16:12:04 | Start comparing...
+16:12:04 | Comparison finished
+16:12:04 | A matrix with 3 files has been created successfully! (time taken: 39.4559ms)
+16:12:05 | A and C  have been selected.
+16:12:05 | Comparison is now visible
+16:12:16 | Configuration has been saved
+16:12:19 | Start comparing...
+16:12:19 | Comparison finished
+16:12:19 | A matrix with 3 files has been created successfully! (time taken: 39.4222ms)
+16:12:20 | A and C  have been selected.
+16:12:20 | Comparison is now visible
+16:12:37 | Configuration has been saved
+16:12:44 | Successfully loaded configuration F:\Home\SYP2020\team06\MultiTextCompare\configs\showSemantic.properties
+16:12:52 | Searching for files..
+16:12:52 | Found 2 files!  (seek time: 35.2844ms)
+
+16:12:53 | Start comparing...
+16:12:54 | Comparison finished
+16:12:54 | A matrix with 2 files has been created successfully! (time taken: 87.0366ms)
+16:12:55 | A and B  have been selected.
+16:12:55 | Comparison is now visible
+16:13:00 | Configuration has been saved
+16:13:02 | Start comparing...
+16:13:02 | Comparison finished
+16:13:02 | A matrix with 2 files has been created successfully! (time taken: 39.6546ms)
+16:13:03 | A and B  have been selected.
+16:13:03 | Comparison is now visible
+16:13:22 | Configuration has been saved
+16:13:25 | Start comparing...
+16:13:25 | Comparison finished
+16:13:25 | A matrix with 2 files has been created successfully! (time taken: 41.7462ms)
+16:13:25 | A and B  have been selected.
+16:13:25 | Comparison is now visible
+16:13:45 | Searching for files..
+16:13:46 | Found 3 files!  (seek time: 33.928ms)
+
+16:13:46 | Start comparing...
+16:13:46 | Unexpected character ('A' (code 65)): was expecting a colon to separate field name and value at line: 2, column: 17
+16:13:46 | Parse errors present, please remove or correct these files to use semantic comparison
+16:14:50 | Start comparing...
+16:14:50 | Comparison finished
+16:14:50 | A matrix with 2 files has been created successfully! (time taken: 130.4378ms)
+16:14:56 | A and B  have been selected.
+16:14:56 | Comparison is now visible
+16:16:03 | Searching for files..
+16:16:03 | Found 2 files!  (seek time: 34.8272ms)
+
+16:16:04 | Start comparing...
+16:16:04 | Comparison finished
+16:16:04 | A matrix with 2 files has been created successfully! (time taken: 38.6171ms)
+16:16:13 | A and B  have been selected.
+16:16:13 | Comparison is now visible
+16:16:47 | Configuration has been saved
+16:16:49 | Start comparing...
+16:16:49 | Comparison finished
+16:16:49 | A matrix with 2 files has been created successfully! (time taken: 38.2915ms)
+16:16:50 | A and B  have been selected.
+16:16:50 | Comparison is now visible
+16:18:35 | Start comparing...
+16:18:35 | Comparison finished
+16:18:35 | A matrix with 2 files has been created successfully! (time taken: 39.7873ms)
+16:18:38 | A and B  have been selected.
+16:18:38 | Comparison is now visible
+16:18:52 | Exit Application MultiTextCompare
+
+
+16:19:03 | Open Application MultiTextCompare (22.07.2021)
+16:19:05 | Searching for files..
+16:19:05 | Found 2 files!  (seek time: 35.1383ms)
+
+16:19:06 | Start comparing...
+16:19:06 | Comparison finished
+16:19:06 | A matrix with 2 files has been created successfully! (time taken: 232.9392ms)
+16:19:07 | A and B  have been selected.
+16:19:07 | Comparison is now visible
+16:19:31 | Configuration has been saved
+16:19:33 | Start comparing...
+16:19:33 | Comparison finished
+16:19:33 | A matrix with 2 files has been created successfully! (time taken: 42.1038ms)
+16:19:34 | A and B  have been selected.
+16:19:34 | Comparison is now visible
+16:20:32 | Successfully loaded configuration F:\Home\SYP2020\team06\MultiTextCompare\configs\defaultRootPath.properties
+16:20:46 | Configuration has been saved
+16:20:50 | Searching for files..
+16:20:50 | Found 79 files!  (seek time: 34.2319ms)
+
+16:21:11 | Start comparing...
+16:21:40 | Comparison finished
+16:21:40 | A matrix with 79 files has been created successfully! (time taken: 28.52s)
+16:23:00 | H and J have been selected as reference.
+16:23:42 | M and BX have been selected as reference.
+16:23:59 | Successfully saved comparison
+16:24:30 | Exit Application MultiTextCompare
+
+
+16:24:33 | Open Application MultiTextCompare (22.07.2021)
+16:24:40 | Successfully loaded comparison Testdateien.mtc
+16:24:45 | H and I have been selected as reference.
+16:24:46 | H and J have been selected as reference.
+16:24:47 | H and I have been selected as reference.
+16:24:48 | H and AA have been selected as reference.
+16:24:50 | H and I have been selected as reference.
+16:24:59 | Opening help file...
+16:25:45 | Successfully saved comparison to Testdateien Kopie
+16:33:00 | Exit Application MultiTextCompare
+
+
+20:03:04 | Open Application MultiTextCompare (22.07.2021)
+20:04:51 | Exit Application MultiTextCompare
+
+
+20:22:56 | Open Application MultiTextCompare (22.07.2021)
+20:23:01 | Successfully loaded configuration F:\Home\SYP2020\team06\MultiTextCompare\configs\config.properties
+20:23:03 | Searching for files..
+20:23:03 | Found 3 files!  (seek time: 34.6939ms)
+
+20:23:26 | Start comparing...
+20:23:26 | Comparison finished
+20:23:26 | A matrix with 3 files has been created successfully! (time taken: 36.4329ms)
+20:23:28 | A and B  have been selected.
+20:23:28 | Comparison is now visible
+20:24:09 | Successfully loaded configuration F:\Home\SYP2020\team06\MultiTextCompare\configs\showSemantic.properties
+20:24:19 | Searching for files..
+20:24:19 | Found 2 files!  (seek time: 35.3495ms)
+
+20:24:22 | Start comparing...
+20:24:22 | Comparison finished
+20:24:22 | A matrix with 2 files has been created successfully! (time taken: 86.238ms)
+20:24:24 | A and B  have been selected.
+20:24:24 | Comparison is now visible
+20:24:44 | Configuration has been saved
+20:24:46 | Start comparing...
+20:24:46 | Comparison finished
+20:24:46 | A matrix with 2 files has been created successfully! (time taken: 40.8865ms)
+20:24:47 | A and B  have been selected.
+20:24:47 | Comparison is now visible
+20:25:41 | Configuration has been saved
+20:25:44 | Start comparing...
+20:25:44 | Comparison finished
+20:25:44 | A matrix with 2 files has been created successfully! (time taken: 38.9997ms)
+20:25:48 | A and B  have been selected.
+20:25:48 | Comparison is now visible
+20:26:42 | Searching for files..
+20:26:42 | Found 3 files!  (seek time: 34.8837ms)
+
+20:26:45 | Start comparing...
+20:26:45 | Unexpected character ('A' (code 65)): was expecting a colon to separate field name and value at line: 2, column: 17
+20:26:45 | Parse errors present, please remove or correct these files to use semantic comparison
+20:27:51 | Start comparing...
+20:27:51 | Comparison finished
+20:27:51 | A matrix with 2 files has been created successfully! (time taken: 118.7255ms)
+20:28:15 | A and B  have been selected.
+20:28:15 | Comparison is now visible
+20:29:20 | Searching for files..
+20:29:20 | Found 2 files!  (seek time: 33.9686ms)
+
+20:29:22 | Start comparing...
+20:29:22 | Comparison finished
+20:29:22 | A matrix with 2 files has been created successfully! (time taken: 25.5463ms)
+20:29:27 | A and B  have been selected.
+20:29:27 | Comparison is now visible
+20:30:06 | Configuration has been saved
+20:30:08 | Start comparing...
+20:30:08 | Comparison finished
+20:30:08 | A matrix with 2 files has been created successfully! (time taken: 39.6611ms)
+20:30:10 | A and B  have been selected.
+20:30:10 | Comparison is now visible
+20:30:47 | Successfully loaded configuration F:\Home\SYP2020\team06\MultiTextCompare\configs\defaultRootPath.properties
+20:30:57 | Searching for files..
+20:30:57 | Found 79 files!  (seek time: 34.3427ms)
+
+20:31:00 | Start comparing...
+20:31:29 | Comparison finished
+20:31:29 | A matrix with 79 files has been created successfully! (time taken: 29.55s)
+20:32:01 | I and BV have been selected as reference.
+20:32:23 | I and J have been selected as reference.
+20:32:29 | Comparison is now visible
+20:32:53 | Successfully saved comparison
+20:33:05 | Exit Application MultiTextCompare
+
+
+20:33:10 | Open Application MultiTextCompare (22.07.2021)
+20:33:23 | Successfully loaded comparison test.mtc
+20:33:26 | E and F have been selected as reference.
+20:33:31 | H and I have been selected as reference.
+20:33:31 | H and J have been selected as reference.
+20:33:31 | Comparison is now visible
+20:34:54 | Opening help file...
+20:35:59 | Successfully loaded configuration F:\Home\SYP2020\team06\MultiTextCompare\configs\defaultRootPath.properties
+20:36:04 | Successfully loaded configuration F:\Home\SYP2020\team06\MultiTextCompare\configs\showSemantic.properties
+20:36:31 | Configuration has been saved
+20:39:11 | Configuration has been saved
+20:39:14 | Successfully loaded configuration F:\Home\SYP2020\team06\MultiTextCompare\configs\config.properties
+20:39:24 | Configuration has been saved
+20:39:25 | Exit Application MultiTextCompare
+
+

@@ -1,0 +1,398 @@
+13:48:58 | Open Application MultiTextCompare (26.04.2021)
+13:49:00 | Searching for files..
+13:49:00 | Found 35 files!  (seek time: 35.4976ms)
+
+13:50:13 | Start comparing...
+13:50:18 | Comparison finished
+13:50:18 | A matrix with 35 files has been created successfully! (time taken: 4.84s)
+13:50:29 | H and AE have been selected. Total: 2
+13:51:06 | AE has been selected. Total: 3
+13:51:06 | Comparison is now visible
+13:51:32 | S and T have been selected. Total: 2
+13:51:33 | T has been selected. Total: 3
+13:51:46 | Comparison is now visible
+13:52:01 | Configuration has been saved
+13:52:03 | T has been selected. Total: 3
+13:52:12 | Comparison is now visible
+13:53:07 | Exit Application MultiTextCompare
+
+
+13:53:42 | Open Application MultiTextCompare (26.04.2021)
+13:53:44 | Searching for files..
+13:53:44 | Found 35 files!  (seek time: 35.0935ms)
+
+13:53:45 | Start comparing...
+13:53:49 | Comparison finished
+13:53:50 | A matrix with 35 files has been created successfully! (time taken: 4.87s)
+13:54:01 | O and U have been selected. Total: 2
+13:54:02 | O and P have been selected. Total: 3
+13:54:04 | Comparison is now visible
+13:55:37 | Exit Application MultiTextCompare
+
+
+13:56:55 | Open Application MultiTextCompare (26.04.2021)
+13:56:57 | Searching for files..
+13:56:57 | Found 35 files!  (seek time: 35.2898ms)
+
+13:56:57 | Start comparing...
+13:57:02 | Comparison finished
+13:57:02 | A matrix with 35 files has been created successfully! (time taken: 4.87s)
+13:57:06 | Exit Application MultiTextCompare
+
+
+13:58:09 | Open Application MultiTextCompare (26.04.2021)
+13:58:10 | Searching for files..
+13:58:10 | Found 35 files!  (seek time: 34.8212ms)
+
+13:58:11 | Start comparing...
+13:58:41 | Comparison finished
+13:58:41 | A matrix with 35 files has been created successfully! (time taken: 30.24s)
+13:58:57 | Exit Application MultiTextCompare
+
+
+14:32:54 | Open Application MultiTextCompare (26.04.2021)
+14:32:56 | Searching for files..
+14:32:56 | Found 35 files!  (seek time: 35.8815ms)
+
+14:32:57 | Start comparing...
+14:33:01 | Comparison finished
+14:33:01 | A matrix with 35 files has been created successfully! (time taken: 4.83s)
+14:33:03 | E and H have been selected. Total: 2
+14:33:04 | E and F have been selected. Total: 3
+14:33:04 | Comparison is now visible
+14:33:20 | Exit Application MultiTextCompare
+
+
+14:37:48 | Open Application MultiTextCompare (26.04.2021)
+14:37:50 | Searching for files..
+14:37:50 | Found 35 files!  (seek time: 36.1801ms)
+
+14:37:50 | Start comparing...
+14:37:55 | Comparison finished
+14:37:55 | A matrix with 35 files has been created successfully! (time taken: 4.89s)
+14:37:58 | D and F have been selected. Total: 2
+14:37:58 | F has been selected. Total: 3
+14:37:58 | Comparison is now visible
+14:38:29 | Exit Application MultiTextCompare
+
+
+14:40:23 | Open Application MultiTextCompare (26.04.2021)
+14:40:31 | Searching for files..
+14:40:31 | Found 2 files!  (seek time: 34.5772ms)
+
+14:40:32 | Start comparing...
+14:40:32 | Comparison finished
+14:40:32 | A matrix with 2 files has been created successfully! (time taken: 127.0004ms)
+14:40:34 | A & B  have been selected. Total: 2
+14:40:34 | Comparison is now visible
+14:40:37 | Exit Application MultiTextCompare
+
+
+14:46:02 | Open Application MultiTextCompare (26.04.2021)
+14:46:05 | Exit Application MultiTextCompare
+
+
+14:47:01 | Open Application MultiTextCompare (26.04.2021)
+14:47:03 | Searching for files..
+14:47:03 | Found 3 files!  (seek time: 35.7707ms)
+
+14:47:04 | Start comparing...
+14:47:04 | Comparison finished
+14:47:04 | A matrix with 3 files has been created successfully! (time taken: 150.9891ms)
+14:47:07 | A and C have been selected. Total: 2
+14:47:07 | A and B have been selected. Total: 3
+14:47:08 | Comparison is now visible
+14:47:48 | Searching for files..
+14:47:48 | No more files found 
+
+14:47:50 | Start comparing...
+14:47:50 | Comparison finished
+14:47:50 | A matrix with 3 files has been created successfully! (time taken: 92.0873ms)
+14:47:52 | A & B  have been selected. Total: 2
+14:47:53 | Comparison is now visible
+14:47:57 | B & C  have been selected. Total: 2
+14:47:58 | Comparison is now visible
+14:48:14 | Configuration has been saved
+14:48:15 | Searching for files..
+14:48:15 | No more files found 
+
+14:48:17 | Start comparing...
+14:48:17 | Comparison finished
+14:48:17 | A matrix with 3 files has been created successfully! (time taken: 520.4911ms)
+14:49:41 | A and C have been selected. Total: 2
+14:49:43 | A and C have been selected. Total: 2
+14:49:44 | A and B have been selected. Total: 3
+14:49:45 | Comparison is now visible
+14:50:00 | Exit Application MultiTextCompare
+
+
+14:53:26 | Open Application MultiTextCompare (26.04.2021)
+14:53:28 | Searching for files..
+14:53:28 | Found 3 files!  (seek time: 37.0326ms)
+
+14:53:29 | Start comparing...
+14:53:29 | Comparison finished
+14:53:29 | A matrix with 3 files has been created successfully! (time taken: 51.5661ms)
+14:53:30 | A and C have been selected. Total: 2
+14:53:30 | A and B have been selected. Total: 3
+14:53:30 | Comparison is now visible
+14:53:54 | Exit Application MultiTextCompare
+
+
+14:56:17 | Open Application MultiTextCompare (26.04.2021)
+14:56:18 | Searching for files..
+14:56:18 | Found 3 files!  (seek time: 34.2888ms)
+
+14:56:19 | Start comparing...
+14:56:19 | Comparison finished
+14:56:19 | A matrix with 3 files has been created successfully! (time taken: 49.7107ms)
+14:56:20 | A and C have been selected. Total: 2
+14:56:21 | A and B have been selected. Total: 3
+14:56:21 | Comparison is now visible
+14:56:36 | Exit Application MultiTextCompare
+
+
+14:57:00 | Open Application MultiTextCompare (26.04.2021)
+14:57:01 | Searching for files..
+14:57:01 | Found 3 files!  (seek time: 35.0876ms)
+
+14:57:02 | Start comparing...
+14:57:02 | Comparison finished
+14:57:02 | A matrix with 3 files has been created successfully! (time taken: 51.416ms)
+14:57:03 | A and C have been selected. Total: 2
+14:57:04 | A and B have been selected. Total: 3
+14:57:04 | Comparison is now visible
+14:57:54 | Open Application MultiTextCompare (26.04.2021)
+14:57:57 | Exit Application MultiTextCompare
+
+
+14:57:58 | Searching for files..
+14:57:58 | Found 3 files!  (seek time: 34.7505ms)
+
+14:57:59 | Start comparing...
+14:57:59 | Comparison finished
+14:57:59 | A matrix with 3 files has been created successfully! (time taken: 51.864ms)
+14:58:00 | A and C have been selected. Total: 2
+14:58:00 | A and B have been selected. Total: 3
+14:58:00 | Comparison is now visible
+14:59:03 | Exit Application MultiTextCompare
+
+
+14:59:04 | Open Application MultiTextCompare (26.04.2021)
+14:59:05 | Searching for files..
+14:59:05 | Found 3 files!  (seek time: 34.482ms)
+
+14:59:06 | Start comparing...
+14:59:06 | Comparison finished
+14:59:06 | A matrix with 3 files has been created successfully! (time taken: 50.0841ms)
+14:59:07 | A and C have been selected. Total: 2
+14:59:07 | A and B have been selected. Total: 3
+14:59:08 | Comparison is now visible
+14:59:29 | Exit Application MultiTextCompare
+
+
+15:35:09 | Open Application MultiTextCompare (26.04.2021)
+15:35:20 | Searching for files..
+15:35:20 | Found 35 files!  (seek time: 35.0223ms)
+
+15:35:20 | Start comparing...
+15:35:36 | Configuration has been saved
+15:35:58 | Comparison finished
+15:35:58 | A matrix with 35 files has been created successfully! (time taken: 37.62s)
+15:36:13 | F & H  have been selected. Total: 2
+15:36:13 | Comparison is now visible
+15:38:09 | Exit Application MultiTextCompare
+
+
+15:38:30 | Open Application MultiTextCompare (26.04.2021)
+15:38:33 | Searching for files..
+15:38:33 | Found 35 files!  (seek time: 35.4565ms)
+
+15:38:34 | Start comparing...
+15:38:39 | Comparison finished
+15:38:39 | A matrix with 35 files has been created successfully! (time taken: 4.95s)
+15:38:43 | H and J have been selected.
+15:38:44 | H and I have been selected.
+15:38:44 | Comparison is now visible
+15:38:52 | Configuration has been saved
+15:38:52 | H and I have been selected.
+15:38:52 | Comparison is now visible
+15:39:48 | L and M have been selected.
+15:39:50 | L and K have been selected.
+15:39:50 | Comparison is now visible
+15:40:00 | L and AF have been selected.
+15:40:00 | Comparison is now visible
+15:40:07 | L and AH have been selected.
+15:40:07 | Comparison is now visible
+15:40:12 | M has been selected.
+15:40:12 | Comparison is now visible
+15:40:23 | Exit Application MultiTextCompare
+
+
+15:42:08 | Open Application MultiTextCompare (26.04.2021)
+15:42:10 | Searching for files..
+15:42:10 | Found 35 files!  (seek time: 38.4151ms)
+
+15:42:15 | Configuration has been saved
+15:42:17 | Start comparing...
+15:42:55 | Comparison finished
+15:42:55 | A matrix with 35 files has been created successfully! (time taken: 38.08s)
+15:43:00 | D and F have been selected.
+15:43:00 | F has been selected.
+15:43:00 | Comparison is now visible
+15:43:17 | Exit Application MultiTextCompare
+
+
+15:45:52 | Open Application MultiTextCompare (26.04.2021)
+15:45:57 | Configuration has been saved
+15:45:59 | Searching for files..
+15:45:59 | Found 35 files!  (seek time: 35.6766ms)
+
+15:46:00 | Start comparing...
+15:46:05 | Comparison finished
+15:46:05 | A matrix with 35 files has been created successfully! (time taken: 4.97s)
+15:46:08 | L and M have been selected.
+15:46:23 | L and M have been selected.
+15:46:24 | L and M have been selected.
+15:46:26 | L and M have been selected.
+15:46:26 | L and M have been selected.
+15:46:27 | L and M have been selected.
+15:46:27 | L and M have been selected.
+15:46:27 | L and M have been selected.
+15:46:27 | L and M have been selected.
+15:46:28 | L and M have been selected.
+15:46:28 | L and M have been selected.
+15:46:28 | L and M have been selected.
+15:46:28 | L and M have been selected.
+15:46:28 | L and M have been selected.
+15:46:29 | L and M have been selected.
+15:46:29 | L and M have been selected.
+15:46:30 | L and K have been selected.
+15:46:30 | Comparison is now visible
+15:46:34 | L and M have been selected.
+15:46:34 | L and M have been selected.
+15:46:34 | L and M have been selected.
+15:46:45 | L and AG have been selected.
+15:46:45 | Comparison is now visible
+15:46:49 | L and AG have been selected.
+15:46:49 | Comparison is now visible
+15:47:16 | L and X have been selected.
+15:47:16 | Comparison is now visible
+15:48:01 | M has been selected.
+15:48:01 | Comparison is now visible
+15:48:12 | M has been selected.
+15:48:12 | Comparison is now visible
+15:48:14 | M has been selected.
+15:48:14 | Comparison is now visible
+15:48:58 | Searching for files..
+15:48:58 | No more files found 
+
+15:49:01 | Searching for files..
+15:49:01 | Found 34 files!  (seek time: 35.2798ms)
+
+15:49:03 | Start comparing...
+15:49:04 | Comparison finished
+15:49:04 | A matrix with 34 files has been created successfully! (time taken: 1.57s)
+15:49:07 | L and M have been selected.
+15:49:28 | Start comparing...
+15:49:29 | Comparison finished
+15:49:29 | A matrix with 34 files has been created successfully! (time taken: 1.54s)
+15:49:31 | Start comparing...
+15:49:33 | Comparison finished
+15:49:33 | A matrix with 34 files has been created successfully! (time taken: 1.54s)
+15:49:37 | K & M  have been selected.
+15:49:37 | Comparison is now visible
+15:50:01 | Exit Application MultiTextCompare
+
+
+15:51:25 | Open Application MultiTextCompare (26.04.2021)
+15:51:27 | Searching for files..
+15:51:27 | Found 34 files!  (seek time: 34.8442ms)
+
+15:51:35 | Searching for files..
+15:51:35 | Found 37 files!  (seek time: 33.9451ms)
+
+15:51:36 | java.lang.NullPointerException
+15:51:37 | Searching for files..
+15:51:37 | Found 3 files!  (seek time: 34.4607ms)
+
+15:51:49 | Start comparing...
+15:51:49 | Comparison finished
+15:51:50 | A matrix with 3 files has been created successfully! (time taken: 145.9176ms)
+15:52:33 | Searching for files..
+15:52:33 | Found 3 files!  (seek time: 35.1345ms)
+
+15:53:27 | Open Application MultiTextCompare (26.04.2021)
+15:53:41 | Searching for files..
+15:53:41 | Found 4 files!  (seek time: 35.4396ms)
+
+15:53:42 | Start comparing...
+15:53:42 | Comparison finished
+15:53:42 | A matrix with 4 files has been created successfully! (time taken: 139.0774ms)
+15:53:43 | A & C  have been selected.
+15:53:43 | Comparison is now visible
+15:54:03 | Configuration has been saved
+15:54:05 | Start comparing...
+15:54:05 | Comparison finished
+15:54:05 | A matrix with 4 files has been created successfully! (time taken: 41.2117ms)
+15:54:49 | A & D  have been selected.
+15:54:49 | Comparison is now visible
+15:55:53 | Exit Application MultiTextCompare
+
+
+15:55:55 | Open Application MultiTextCompare (26.04.2021)
+15:56:05 | Searching for files..
+15:56:05 | Found 4 files!  (seek time: 34.6609ms)
+
+15:56:05 | Start comparing...
+15:56:05 | Comparison finished
+15:56:05 | A matrix with 4 files has been created successfully! (time taken: 135.2447ms)
+15:56:16 | It is not possible to show side-by-side comparisons after altering the file selection. Please generate a new matrix.
+15:56:16 | It is not possible to show side-by-side comparisons after altering the file selection. Please generate a new matrix.
+15:56:19 | It is not possible to display the file names after altering the file selection.
+15:56:26 | It is not possible to display the file names after altering the file selection.
+15:56:28 | It is not possible to display the file names after altering the file selection.
+15:56:45 | Start comparing...
+15:56:45 | Comparison finished
+15:56:45 | A matrix with 2 files has been created successfully! (time taken: 41.5455ms)
+15:56:49 | A & B  have been selected.
+15:56:49 | Comparison is now visible
+15:56:55 | Exit Application MultiTextCompare
+
+
+15:57:21 | Open Application MultiTextCompare (26.04.2021)
+15:57:28 | Start comparing...
+16:00:56 | Open Application MultiTextCompare (26.04.2021)
+16:01:03 | Start comparing...
+16:01:03 | Comparison finished
+16:01:03 | A matrix with 2 files has been created successfully! (time taken: 129.5729ms)
+16:01:04 | A & B  have been selected.
+16:01:04 | Comparison is now visible
+16:01:09 | A & B  have been selected.
+16:01:09 | Comparison is now visible
+16:01:11 | Exit Application MultiTextCompare
+
+
+16:03:55 | Open Application MultiTextCompare (26.04.2021)
+16:04:05 | Searching for files..
+16:04:05 | Found 34 files!  (seek time: 34.846ms)
+
+16:04:06 | Start comparing...
+16:04:07 | Comparison finished
+16:04:07 | A matrix with 34 files has been created successfully! (time taken: 1.74s)
+16:04:21 | I & AC  have been selected.
+16:04:21 | Comparison is now visible
+16:04:24 | D & X  have been selected.
+16:04:24 | Comparison is now visible
+16:04:27 | B & V  have been selected.
+16:04:27 | Comparison is now visible
+16:04:43 | H and J have been selected.
+16:04:47 | H and AB have been selected.
+16:04:47 | Comparison is now visible
+16:04:50 | H and AD have been selected.
+16:04:50 | Comparison is now visible
+16:04:51 | H and AC have been selected.
+16:04:51 | Comparison is now visible
+16:04:53 | Exit Application MultiTextCompare
+
+

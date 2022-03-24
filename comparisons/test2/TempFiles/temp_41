@@ -1,0 +1,532 @@
+15:13:33 | Open Application MultiTextCompare (20.07.2021)
+15:25:39 | Configuration has been saved
+15:31:41 | Searching for files..
+15:31:41 | Found 2 files!  (seek time: 35.0736ms)
+
+15:31:48 | Searching for files..
+15:31:48 | Found 5 files!  (seek time: 34.2885ms)
+
+15:31:50 | Searching for files..
+15:31:50 | Found 3 files!  (seek time: 35.088ms)
+
+15:31:51 | Start comparing...
+15:31:51 | Unexpected character ('A' (code 65)): was expecting a colon to separate field name and value at line: 2, column: 17
+15:31:52 | Parse errors present, please remove or correct these files to use semantic comparison
+15:33:22 | Start comparing...
+15:33:22 | Comparison finished
+15:33:22 | A matrix with 2 files has been created successfully! (time taken: 148.6299ms)
+15:33:23 | A and B  have been selected.
+15:33:23 | Comparison is now visible
+15:42:07 | Exit Application MultiTextCompare
+
+
+16:14:36 | Open Application MultiTextCompare (20.07.2021)
+16:15:02 | Configuration has been saved
+16:15:08 | Searching for files..
+16:15:08 | Found 3 files!  (seek time: 35.5282ms)
+
+16:15:10 | Start comparing...
+16:15:10 | Comparison finished
+16:15:10 | A matrix with 3 files has been created successfully! (time taken: 43.8729ms)
+16:15:13 | A and B  have been selected.
+16:15:13 | Comparison is now visible
+16:15:22 | Configuration has been saved
+16:15:22 | A and B  have been selected.
+16:15:22 | Comparison is now visible
+16:15:33 | Configuration has been saved
+16:15:34 | A and B  have been selected.
+16:15:34 | Comparison is now visible
+16:15:42 | A and C  have been selected.
+16:15:42 | Comparison is now visible
+16:16:07 | Configuration has been saved
+16:16:12 | A and C  have been selected.
+16:16:12 | Comparison is now visible
+16:16:29 | Start comparing...
+16:16:29 | Comparison finished
+16:16:30 | A matrix with 3 files has been created successfully! (time taken: 40.5832ms)
+16:16:34 | B and C  have been selected.
+16:16:34 | Comparison is now visible
+16:16:52 | Searching for files..
+16:16:52 | Found 2 files!  (seek time: 34.7266ms)
+
+16:16:53 | Start comparing...
+16:16:53 | Comparison finished
+16:16:53 | A matrix with 2 files has been created successfully! (time taken: 107.0097ms)
+16:16:56 | A and B  have been selected.
+16:16:56 | Comparison is now visible
+16:17:23 | Configuration has been saved
+16:17:24 | Start comparing...
+16:17:24 | Comparison finished
+16:17:24 | A matrix with 2 files has been created successfully! (time taken: 43.6674ms)
+16:17:25 | A and B  have been selected.
+16:17:25 | Comparison is now visible
+16:17:42 | Searching for files..
+16:17:42 | No more files found 
+
+16:17:43 | Searching for files..
+16:17:43 | Found 2 files!  (seek time: 34.8551ms)
+
+16:17:44 | Start comparing...
+16:17:44 | Comparison finished
+16:17:45 | A matrix with 2 files has been created successfully! (time taken: 210.6406ms)
+16:17:46 | A and B  have been selected.
+16:17:46 | Comparison is now visible
+16:19:04 | It is not possible to show side-by-side comparisons after altering the file selection. Please generate a new matrix.
+16:19:04 | It is not possible to show side-by-side comparisons after altering the file selection. Please generate a new matrix.
+16:19:07 | Searching for files..
+16:19:07 | No more files found 
+
+16:19:09 | Searching for files..
+16:19:09 | Found 2 files!  (seek time: 35.2284ms)
+
+16:19:10 | Start comparing...
+16:19:10 | Comparison finished
+16:19:10 | A matrix with 2 files has been created successfully! (time taken: 39.0829ms)
+16:19:11 | A and B  have been selected.
+16:19:11 | Comparison is now visible
+16:19:37 | Searching for files..
+16:19:37 | No more files found 
+
+16:19:39 | Searching for files..
+16:19:39 | Found 2 files!  (seek time: 34.0229ms)
+
+16:19:40 | Start comparing...
+16:19:40 | Comparison finished
+16:19:40 | A matrix with 2 files has been created successfully! (time taken: 39.4641ms)
+16:19:49 | Searching for files..
+16:19:49 | Found 2 files!  (seek time: 35.1277ms)
+
+16:19:57 | Searching for files..
+16:19:57 | Found 3 files!  (seek time: 33.9739ms)
+
+16:19:58 | Start comparing...
+16:19:58 | Comparison finished
+16:19:58 | A matrix with 3 files has been created successfully! (time taken: 38.7136ms)
+16:20:01 | A and B have been selected as reference.
+16:20:01 | A and C have been selected as reference.
+16:20:01 | Comparison is now visible
+16:21:04 | Exit Application MultiTextCompare
+
+
+16:40:51 | Open Application MultiTextCompare (20.07.2021)
+16:41:27 | Configuration has been saved
+16:41:38 | Configuration has been saved
+16:42:26 | Open Application MultiTextCompare (20.07.2021)
+16:43:08 | Configuration has been saved
+16:43:08 | Configuration has been saved
+16:43:13 | Successfully loaded configuration F:\Home\SYP2020\team06\MultiTextCompare\configs\config.properties
+16:46:58 | Configuration has been saved
+16:46:58 | Configuration has been saved
+16:47:11 | Searching for files..
+16:47:11 | Found 78 files!  (seek time: 76.1616ms)
+
+16:47:15 | Start comparing...
+16:48:21 | Comparison finished
+16:48:21 | A matrix with 78 files has been created successfully! (time taken: 65.75s)
+16:48:47 | Configuration has been saved
+16:48:49 | Searching for files..
+16:48:50 | No more files found 
+
+16:48:51 | Start comparing...
+16:49:57 | Comparison finished
+16:49:57 | A matrix with 78 files has been created successfully! (time taken: 65.9s)
+16:50:15 | Configuration has been saved
+16:50:19 | Start comparing...
+16:51:07 | Exit Application MultiTextCompare
+
+
+16:53:32 | Open Application MultiTextCompare (20.07.2021)
+16:53:34 | Searching for files..
+16:53:34 | Found 78 files!  (seek time: 35.8472ms)
+
+16:53:35 | Start comparing...
+16:54:03 | Comparison finished
+16:54:03 | A matrix with 78 files has been created successfully! (time taken: 27.72s)
+16:54:40 | C and D have been selected as reference.
+16:54:47 | C and BP have been selected as reference.
+16:54:47 | Comparison is now visible
+16:55:09 | Successfully saved comparison
+16:55:20 | Exit Application MultiTextCompare
+
+
+16:55:22 | Open Application MultiTextCompare (20.07.2021)
+16:55:35 | Successfully loaded comparison KOLL.mtc
+16:55:45 | C and D  have been selected.
+16:55:46 | Comparison is now visible
+16:56:05 | Configuration has been saved
+16:56:07 | Exit Application MultiTextCompare
+
+
+16:56:09 | Open Application MultiTextCompare (20.07.2021)
+16:56:09 | Successfully loaded comparison KOLL.mtc
+16:56:09 | Successfully opened last comparison
+16:56:14 | C and D  have been selected.
+16:56:14 | Comparison is now visible
+16:56:18 | Configuration has been saved
+16:56:19 | Exit Application MultiTextCompare
+
+
+16:56:20 | Open Application MultiTextCompare (20.07.2021)
+16:56:22 | Exit Application MultiTextCompare
+
+
+19:08:16 | Open Application MultiTextCompare (20.07.2021)
+19:08:29 | Successfully loaded configuration F:\Home\SYP2020\team06\MultiTextCompare\configs\config.properties
+19:08:44 | Successfully loaded configuration F:\Home\SYP2020\team06\MultiTextCompare\configs\defaultRootPath.properties
+19:08:51 | Successfully loaded configuration F:\Home\SYP2020\team06\MultiTextCompare\configs\config.properties
+19:08:57 | Successfully loaded configuration F:\Home\SYP2020\team06\MultiTextCompare\configs\showSemantic.properties
+19:09:05 | Successfully loaded configuration F:\Home\SYP2020\team06\MultiTextCompare\configs\config.properties
+19:09:59 | Searching for files..
+19:09:59 | Found 2 files!  (seek time: 34.8015ms)
+
+19:10:03 | Start comparing...
+19:10:03 | Comparison finished
+19:10:03 | A matrix with 2 files has been created successfully! (time taken: 232.2791ms)
+19:10:05 | A and B  have been selected.
+19:10:05 | Comparison is now visible
+19:10:17 | Configuration has been saved
+19:10:18 | A and B  have been selected.
+19:10:18 | Comparison is now visible
+19:10:21 | Start comparing...
+19:10:21 | Comparison finished
+19:10:21 | A matrix with 2 files has been created successfully! (time taken: 40.0025ms)
+19:10:22 | A and B  have been selected.
+19:10:22 | Comparison is now visible
+19:11:19 | A and B  have been selected.
+19:11:19 | Comparison is now visible
+19:11:41 | Exit Application MultiTextCompare
+
+
+19:11:42 | Open Application MultiTextCompare (20.07.2021)
+19:11:46 | Searching for files..
+19:11:46 | Found 2 files!  (seek time: 35.5704ms)
+
+19:11:47 | Start comparing...
+19:11:47 | Comparison finished
+19:11:47 | A matrix with 2 files has been created successfully! (time taken: 242.096ms)
+19:11:48 | A and B  have been selected.
+19:11:48 | Comparison is now visible
+19:11:55 | Configuration has been saved
+19:11:56 | Start comparing...
+19:11:56 | Comparison finished
+19:11:56 | A matrix with 2 files has been created successfully! (time taken: 41.4412ms)
+19:11:57 | A and B  have been selected.
+19:11:57 | Comparison is now visible
+19:12:00 | Exit Application MultiTextCompare
+
+
+19:12:01 | Open Application MultiTextCompare (20.07.2021)
+19:12:03 | Searching for files..
+19:12:03 | Found 2 files!  (seek time: 34.6021ms)
+
+19:12:03 | Start comparing...
+19:12:03 | Comparison finished
+19:12:03 | A matrix with 2 files has been created successfully! (time taken: 235.3768ms)
+19:12:04 | A and B  have been selected.
+19:12:04 | Comparison is now visible
+19:12:11 | Exit Application MultiTextCompare
+
+
+19:12:24 | Open Application MultiTextCompare (20.07.2021)
+19:12:26 | Searching for files..
+19:12:26 | Found 2 files!  (seek time: 34.3631ms)
+
+19:12:27 | Start comparing...
+19:12:27 | Comparison finished
+19:12:27 | A matrix with 2 files has been created successfully! (time taken: 235.6213ms)
+19:12:38 | Configuration has been saved
+19:12:42 | Start comparing...
+19:12:42 | Comparison finished
+19:12:42 | A matrix with 2 files has been created successfully! (time taken: 41.7157ms)
+19:12:43 | A and B  have been selected.
+19:12:43 | Comparison is now visible
+19:12:45 | Exit Application MultiTextCompare
+
+
+19:13:17 | Open Application MultiTextCompare (20.07.2021)
+19:13:21 | Configuration has been saved
+19:13:22 | Exit Application MultiTextCompare
+
+
+19:13:24 | Open Application MultiTextCompare (20.07.2021)
+19:13:25 | Searching for files..
+19:13:25 | Found 2 files!  (seek time: 35.6617ms)
+
+19:13:26 | Start comparing...
+19:13:26 | Comparison finished
+19:13:26 | A matrix with 2 files has been created successfully! (time taken: 235.4874ms)
+19:13:27 | A and B  have been selected.
+19:13:27 | Comparison is now visible
+19:13:29 | Exit Application MultiTextCompare
+
+
+19:13:52 | Open Application MultiTextCompare (20.07.2021)
+19:13:53 | Searching for files..
+19:13:53 | Found 2 files!  (seek time: 35.4647ms)
+
+19:13:54 | Start comparing...
+19:13:54 | Comparison finished
+19:13:54 | A matrix with 2 files has been created successfully! (time taken: 235.8428ms)
+19:13:57 | Exit Application MultiTextCompare
+
+
+19:14:06 | Open Application MultiTextCompare (20.07.2021)
+19:14:13 | Exit Application MultiTextCompare
+
+
+19:14:14 | Open Application MultiTextCompare (20.07.2021)
+19:14:27 | Searching for files..
+19:14:27 | Found 2 files!  (seek time: 35.4008ms)
+
+19:14:28 | Start comparing...
+19:14:28 | Comparison finished
+19:14:28 | A matrix with 2 files has been created successfully! (time taken: 241.6678ms)
+19:14:44 | Exit Application MultiTextCompare
+
+
+19:14:48 | Open Application MultiTextCompare (20.07.2021)
+19:14:55 | Searching for files..
+19:14:55 | Found 2 files!  (seek time: 35.0961ms)
+
+19:14:55 | Start comparing...
+19:14:56 | Comparison finished
+19:14:56 | A matrix with 2 files has been created successfully! (time taken: 239.7318ms)
+19:14:56 | A and B  have been selected.
+19:14:56 | Comparison is now visible
+19:15:09 | A and B  have been selected.
+19:15:09 | Comparison is now visible
+19:15:18 | Configuration has been saved
+19:15:19 | A and B  have been selected.
+19:15:19 | Comparison is now visible
+19:15:22 | Start comparing...
+19:15:22 | Comparison finished
+19:15:22 | A matrix with 2 files has been created successfully! (time taken: 42.9871ms)
+19:15:25 | A and B  have been selected.
+19:15:25 | Comparison is now visible
+19:15:48 | Exit Application MultiTextCompare
+
+
+19:16:13 | Open Application MultiTextCompare (20.07.2021)
+19:16:24 | Successfully loaded configuration F:\Home\SYP2020\team06\MultiTextCompare\configs\defaultRootPath.properties
+19:16:31 | Exit Application MultiTextCompare
+
+
+19:17:39 | Open Application MultiTextCompare (20.07.2021)
+19:18:00 | Successfully loaded configuration F:\Home\SYP2020\team06\MultiTextCompare\configs\config.properties
+19:18:27 | Successfully loaded configuration F:\Home\SYP2020\team06\MultiTextCompare\configs\showSemantic.properties
+19:18:39 | Successfully loaded configuration F:\Home\SYP2020\team06\MultiTextCompare\configs\defaultRootPath.properties
+19:18:47 | Successfully loaded configuration F:\Home\SYP2020\team06\MultiTextCompare\configs\defaultRootPath.properties
+19:18:53 | Exit Application MultiTextCompare
+
+
+19:20:28 | Open Application MultiTextCompare (20.07.2021)
+19:21:09 | Configuration has been saved
+19:21:13 | Successfully loaded configuration F:\Home\SYP2020\team06\MultiTextCompare\configs\config.properties
+19:21:45 | Configuration has been saved
+19:24:05 | Configuration has been saved
+19:24:13 | Successfully loaded configuration F:\Home\SYP2020\team06\MultiTextCompare\configs\defaultRootPath.properties
+19:24:24 | Configuration has been saved
+19:24:33 | Successfully loaded configuration F:\Home\SYP2020\team06\MultiTextCompare\configs\showSemantic.properties
+19:25:51 | Searching for files..
+19:25:52 | Found 2 files!  (seek time: 34.8644ms)
+
+19:25:52 | Start comparing...
+19:25:52 | Comparison finished
+19:25:52 | A matrix with 2 files has been created successfully! (time taken: 227.4769ms)
+19:25:55 | A and B  have been selected.
+19:25:55 | Comparison is now visible
+19:26:09 | Configuration has been saved
+19:26:09 | A and B  have been selected.
+19:26:09 | Comparison is now visible
+19:26:12 | Start comparing...
+19:26:12 | Comparison finished
+19:26:12 | A matrix with 2 files has been created successfully! (time taken: 39.4418ms)
+19:26:13 | A and B  have been selected.
+19:26:13 | Comparison is now visible
+19:26:30 | Configuration has been saved
+19:26:32 | Start comparing...
+19:26:32 | Comparison finished
+19:26:32 | A matrix with 2 files has been created successfully! (time taken: 38.7475ms)
+19:26:33 | A and B  have been selected.
+19:26:33 | Comparison is now visible
+19:26:37 | Exit Application MultiTextCompare
+
+
+19:26:39 | Open Application MultiTextCompare (20.07.2021)
+19:26:40 | Searching for files..
+19:26:40 | Found 2 files!  (seek time: 35.4044ms)
+
+19:26:41 | Start comparing...
+19:26:41 | Comparison finished
+19:26:41 | A matrix with 2 files has been created successfully! (time taken: 238.9274ms)
+19:26:42 | A and B  have been selected.
+19:26:42 | Comparison is now visible
+19:26:43 | Exit Application MultiTextCompare
+
+
+19:36:14 | Open Application MultiTextCompare (20.07.2021)
+19:36:18 | Configuration has been saved
+19:36:20 | Searching for files..
+19:36:20 | Found 2 files!  (seek time: 35.1437ms)
+
+19:36:21 | Start comparing...
+19:36:21 | Comparison finished
+19:36:21 | A matrix with 2 files has been created successfully! (time taken: 232.8187ms)
+19:36:22 | A and B  have been selected.
+19:36:22 | Comparison is now visible
+19:36:25 | Configuration has been saved
+19:36:27 | Start comparing...
+19:36:27 | Comparison finished
+19:36:27 | A matrix with 2 files has been created successfully! (time taken: 43.1635ms)
+19:36:27 | A and B  have been selected.
+19:36:27 | Comparison is now visible
+19:36:29 | Exit Application MultiTextCompare
+
+
+19:49:58 | Open Application MultiTextCompare (20.07.2021)
+19:50:06 | Searching for files..
+19:50:06 | Found 3 files!  (seek time: 34.3667ms)
+
+19:50:07 | Start comparing...
+19:50:07 | Comparison finished
+19:50:07 | A matrix with 3 files has been created successfully! (time taken: 43.4708ms)
+19:50:13 | Configuration has been saved
+19:50:15 | Start comparing...
+19:50:15 | Comparison finished
+19:50:15 | A matrix with 3 files has been created successfully! (time taken: 40.8307ms)
+19:50:17 | A and B  have been selected.
+19:50:17 | Comparison is now visible
+19:51:07 | Configuration has been saved
+19:51:10 | A and B  have been selected.
+19:51:10 | Comparison is now visible
+19:51:13 | Start comparing...
+19:51:13 | Comparison finished
+19:51:13 | A matrix with 3 files has been created successfully! (time taken: 40.966ms)
+19:51:15 | A and B  have been selected.
+19:51:15 | Comparison is now visible
+19:51:18 | A and C  have been selected.
+19:51:18 | Comparison is now visible
+19:51:37 | Configuration has been saved
+19:51:39 | Start comparing...
+19:51:39 | Comparison finished
+19:51:39 | A matrix with 3 files has been created successfully! (time taken: 41.4259ms)
+19:51:41 | A and C  have been selected.
+19:51:42 | Comparison is now visible
+19:51:55 | A and B have been selected as reference.
+19:51:57 | A and C have been selected as reference.
+19:51:57 | Comparison is now visible
+19:52:01 | Comparison is now visible
+19:52:27 | Opening help file...
+19:57:12 | Searching for files..
+19:57:12 | Found 2 files!  (seek time: 34.7751ms)
+
+19:57:13 | Start comparing...
+19:57:13 | Comparison finished
+19:57:14 | A matrix with 2 files has been created successfully! (time taken: 85.368ms)
+19:57:15 | A and B  have been selected.
+19:57:15 | Comparison is now visible
+19:57:29 | Configuration has been saved
+19:57:31 | Start comparing...
+19:57:31 | Comparison finished
+19:57:31 | A matrix with 2 files has been created successfully! (time taken: 40.9304ms)
+19:57:32 | A and B  have been selected.
+19:57:32 | Comparison is now visible
+19:58:22 | Searching for files..
+19:58:22 | Found 2 files!  (seek time: 33.7441ms)
+
+19:58:23 | Start comparing...
+19:58:23 | Comparison finished
+19:58:23 | A matrix with 2 files has been created successfully! (time taken: 209.2009ms)
+19:58:25 | A and B  have been selected.
+19:58:25 | Comparison is now visible
+19:58:30 | Configuration has been saved
+19:58:32 | Start comparing...
+19:58:32 | Comparison finished
+19:58:32 | A matrix with 2 files has been created successfully! (time taken: 38.399ms)
+19:58:33 | A and B  have been selected.
+19:58:34 | Comparison is now visible
+19:58:51 | Configuration has been saved
+19:58:53 | Start comparing...
+19:58:53 | Comparison finished
+19:58:53 | A matrix with 2 files has been created successfully! (time taken: 40.9754ms)
+19:58:54 | A and B  have been selected.
+19:58:54 | Comparison is now visible
+19:59:15 | Searching for files..
+19:59:15 | Found 4 files!  (seek time: 33.6084ms)
+
+19:59:18 | Searching for files..
+19:59:18 | Found 2 files!  (seek time: 35.1987ms)
+
+19:59:19 | Start comparing...
+19:59:19 | Comparison finished
+19:59:19 | A matrix with 2 files has been created successfully! (time taken: 41.5067ms)
+19:59:34 | A and B  have been selected.
+19:59:34 | Comparison is now visible
+20:01:13 | Searching for files..
+20:01:13 | Found 3 files!  (seek time: 35.4371ms)
+
+20:01:24 | Start comparing...
+20:01:24 | Unexpected character ('A' (code 65)): was expecting a colon to separate field name and value at line: 2, column: 17
+20:01:24 | Parse errors present, please remove or correct these files to use semantic comparison
+20:02:49 | Start comparing...
+20:02:49 | Comparison finished
+20:02:49 | A matrix with 2 files has been created successfully! (time taken: 38.6492ms)
+20:02:52 | A and B  have been selected.
+20:02:52 | Comparison is now visible
+20:03:04 | Successfully loaded configuration F:\Home\SYP2020\team06\MultiTextCompare\configs\defaultRootPath.properties
+20:03:13 | Successfully loaded configuration F:\Home\SYP2020\team06\MultiTextCompare\configs\defaultRootPath.properties
+20:03:42 | Searching for files..
+20:03:42 | Found 78 files!  (seek time: 35.2963ms)
+
+20:04:24 | Start comparing...
+20:04:53 | Comparison finished
+20:04:53 | A matrix with 78 files has been created successfully! (time taken: 28.92s)
+20:05:07 | H and I have been selected as reference.
+20:05:45 | Successfully loaded comparison KOLL.mtc
+20:05:54 | java.io.IOException: The system cannot find the path specified
+20:05:54 | Successfully saved comparison to KOLL.mtc
+20:06:00 | java.io.IOException: The system cannot find the path specified
+20:06:00 | Successfully saved comparison to KOLL.mtc
+20:06:09 | java.io.IOException: The system cannot find the path specified
+20:06:09 | Successfully saved comparison to KOLL.mtc
+20:06:32 | Exit Application MultiTextCompare
+
+
+20:06:33 | Open Application MultiTextCompare (20.07.2021)
+20:06:35 | Searching for files..
+20:06:35 | Found 78 files!  (seek time: 35.4562ms)
+
+20:06:36 | Start comparing...
+20:07:04 | Comparison finished
+20:07:04 | A matrix with 78 files has been created successfully! (time taken: 28.37s)
+20:07:20 | Successfully saved comparison
+20:07:27 | Exit Application MultiTextCompare
+
+
+20:07:30 | Open Application MultiTextCompare (20.07.2021)
+20:07:48 | Successfully loaded comparison Kolloquium.mtc
+20:07:58 | C and D  have been selected.
+20:07:58 | Comparison is now visible
+20:08:02 | B and C  have been selected.
+20:08:02 | Comparison is now visible
+20:08:17 | Exit Application MultiTextCompare
+
+
+20:09:10 | Open Application MultiTextCompare (20.07.2021)
+20:09:25 | Configuration has been saved
+20:09:26 | Exit Application MultiTextCompare
+
+
+20:09:28 | Open Application MultiTextCompare (20.07.2021)
+20:09:28 | java.io.FileNotFoundException: F:\Home\SYP2020\team06\MultiTextCompare\comparisons\KOLL\KOLL.mtc (The system cannot find the path specified)
+20:09:28 | Successfully opened last comparison
+20:09:39 | Successfully loaded comparison Kolloquium.mtc
+20:09:50 | Exit Application MultiTextCompare
+
+
+20:09:51 | Open Application MultiTextCompare (20.07.2021)
+20:09:52 | Successfully loaded comparison Kolloquium.mtc
+20:09:52 | Successfully opened last comparison
+20:10:59 | Exit Application MultiTextCompare
+
+

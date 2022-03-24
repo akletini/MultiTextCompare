@@ -1,0 +1,211 @@
+22:41:38 | Open Application MultiTextCompare (23.05.2021)
+22:41:46 | Configuration has been saved
+22:41:50 | Searching for files..
+22:41:50 | Found 14 files!  (seek time: 35.8581ms)
+
+22:41:51 | Start comparing...
+22:41:51 | Comparison finished
+22:41:51 | A matrix with 14 files has been created successfully! (time taken: 236.4953ms)
+22:42:11 | E and F  have been selected.
+22:42:11 | Comparison is now visible
+22:43:18 | It is not possible to display the file names after altering the file selection.
+22:43:22 | Searching for files..
+22:43:23 | Found 14 files!  (seek time: 35.3542ms)
+
+22:43:23 | Start comparing...
+22:43:23 | Comparison finished
+22:43:23 | A matrix with 14 files has been created successfully! (time taken: 73.7243ms)
+22:43:33 | Start comparing...
+22:43:33 | Comparison finished
+22:43:33 | A matrix with 2 files has been created successfully! (time taken: 41.553ms)
+22:43:34 | A and B  have been selected.
+22:43:34 | Comparison is now visible
+22:43:36 | Exit Application MultiTextCompare
+
+
+22:44:56 | Open Application MultiTextCompare (23.05.2021)
+22:45:01 | Start comparing...
+22:45:01 | Comparison finished
+22:45:01 | A matrix with 2 files has been created successfully! (time taken: 172.8002ms)
+22:45:34 | A and B  have been selected.
+22:45:34 | Comparison is now visible
+22:45:49 | Exit Application MultiTextCompare
+
+
+22:46:03 | Open Application MultiTextCompare (23.05.2021)
+22:46:09 | Start comparing...
+22:50:31 | Comparison finished
+22:50:31 | A matrix with 2 files has been created successfully! (time taken: 262.44s)
+22:51:20 | Start comparing...
+22:55:04 | Open Application MultiTextCompare (23.05.2021)
+22:55:10 | Start comparing...
+22:55:10 | Comparison finished
+22:55:10 | A matrix with 2 files has been created successfully! (time taken: 175.6598ms)
+22:55:11 | A and B  have been selected.
+22:55:11 | Comparison is now visible
+22:55:13 | Exit Application MultiTextCompare
+
+
+23:09:15 | Open Application MultiTextCompare (23.05.2021)
+23:09:17 | Searching for files..
+23:09:17 | Found 14 files!  (seek time: 35.5813ms)
+
+23:09:17 | Start comparing...
+23:09:18 | Comparison finished
+23:09:18 | A matrix with 14 files has been created successfully! (time taken: 202.8806ms)
+23:09:24 | Exit Application MultiTextCompare
+
+
+23:09:44 | Open Application MultiTextCompare (23.05.2021)
+23:09:48 | Searching for files..
+23:09:48 | Found 14 files!  (seek time: 34.4516ms)
+
+23:09:49 | Start comparing...
+23:09:49 | Comparison finished
+23:09:49 | A matrix with 14 files has been created successfully! (time taken: 203.9653ms)
+23:09:52 | C and D  have been selected.
+23:09:52 | Comparison is now visible
+23:09:54 | A and B  have been selected.
+23:09:54 | Comparison is now visible
+23:09:59 | G and H  have been selected.
+23:09:59 | Comparison is now visible
+23:10:01 | E and F  have been selected.
+23:10:01 | Comparison is now visible
+23:10:06 | Exit Application MultiTextCompare
+
+
+23:10:20 | Open Application MultiTextCompare (23.05.2021)
+23:10:22 | Searching for files..
+23:10:22 | Found 14 files!  (seek time: 35.7772ms)
+
+23:10:23 | Start comparing...
+23:10:23 | Comparison finished
+23:10:23 | A matrix with 14 files has been created successfully! (time taken: 202.1115ms)
+23:10:25 | Exit Application MultiTextCompare
+
+
+23:10:44 | Open Application MultiTextCompare (23.05.2021)
+23:10:50 | Start comparing...
+23:10:51 | Comparison finished
+23:10:51 | A matrix with 2 files has been created successfully! (time taken: 175.5096ms)
+23:11:06 | Exit Application MultiTextCompare
+
+
+23:11:21 | Open Application MultiTextCompare (23.05.2021)
+23:11:27 | Start comparing...
+23:15:15 | Open Application MultiTextCompare (23.05.2021)
+23:15:20 | Start comparing...
+23:20:18 | Open Application MultiTextCompare (23.05.2021)
+23:20:23 | Start comparing...
+23:20:23 | Comparison finished
+23:20:23 | A matrix with 2 files has been created successfully! (time taken: 172.5426ms)
+23:20:51 | Open Application MultiTextCompare (23.05.2021)
+23:20:55 | Start comparing...
+23:20:55 | Comparison finished
+23:20:56 | A matrix with 2 files has been created successfully! (time taken: 172.8958ms)
+23:20:57 | Exit Application MultiTextCompare
+
+
+23:21:40 | Exit Application MultiTextCompare
+
+
+23:22:00 | Open Application MultiTextCompare (23.05.2021)
+23:22:06 | Start comparing...
+23:22:06 | Comparison finished
+23:22:06 | A matrix with 2 files has been created successfully! (time taken: 174.7937ms)
+23:22:08 | A and B  have been selected.
+23:22:08 | Comparison is now visible
+23:22:56 | Start comparing...
+23:22:56 | Comparison finished
+23:22:56 | A matrix with 2 files has been created successfully! (time taken: 36.8859ms)
+23:25:06 | Start comparing...
+23:25:07 | Unexpected character ('}' (code 125)): was expecting double-quote to start field name
+ at [Source: (String)"{
+	"object" : {
+		"val" : "val",
+		"arr": [["c", "b", "a"], ["c", "b", "a"]]
+	},
+	"array": ["c", "b", "a"],
+	"arr": [["c", "b", 
+	{"val": "val", "arr":["c", "b", "a"]}
+	,"a"]],
+}"; line: 10, column: 2]
+
+23:25:07 | Unexpected character ('}' (code 125)): was expecting double-quote to start field name
+ at [Source: (String)"{
+	"object" : {
+		"val" : "val",
+		"arr": [["c", "b", "a"], ["c", "b", "a"]]
+	},
+	"array": ["c", "b", "a"],
+	"arr": [["c", "b", 
+	{"val": "val", "arr":["c", "b", "a"]}
+	,"a"]],
+}"; line: 10, column: 2]
+
+23:25:07 | Comparison finished
+23:25:07 | A matrix with 2 files has been created successfully! (time taken: 48.1162ms)
+23:25:27 | Start comparing...
+23:25:27 | Comparison finished
+23:25:27 | A matrix with 2 files has been created successfully! (time taken: 42.6389ms)
+23:25:43 | Start comparing...
+23:25:43 | Comparison finished
+23:25:43 | A matrix with 2 files has been created successfully! (time taken: 42.5897ms)
+23:25:50 | A and B  have been selected.
+23:25:50 | Comparison is now visible
+23:26:04 | Start comparing...
+23:26:04 | Comparison finished
+23:26:04 | A matrix with 2 files has been created successfully! (time taken: 38.6954ms)
+23:26:16 | Start comparing...
+23:26:16 | Comparison finished
+23:26:16 | A matrix with 2 files has been created successfully! (time taken: 40.2126ms)
+23:26:34 | Start comparing...
+23:26:34 | Comparison finished
+23:26:34 | A matrix with 2 files has been created successfully! (time taken: 41.0958ms)
+23:26:50 | Exit Application MultiTextCompare
+
+
+23:27:23 | Open Application MultiTextCompare (23.05.2021)
+23:27:29 | Start comparing...
+23:36:08 | Open Application MultiTextCompare (23.05.2021)
+23:36:13 | Start comparing...
+23:36:13 | Comparison finished
+23:36:13 | A matrix with 2 files has been created successfully! (time taken: 175.5919ms)
+23:36:14 | A and B  have been selected.
+23:36:14 | Comparison is now visible
+23:49:38 | Open Application MultiTextCompare (23.05.2021)
+23:49:44 | Start comparing...
+23:49:44 | Comparison finished
+23:49:44 | A matrix with 2 files has been created successfully! (time taken: 169.2712ms)
+23:49:58 | Exit Application MultiTextCompare
+
+
+23:50:43 | Open Application MultiTextCompare (23.05.2021)
+23:50:50 | Start comparing...
+23:50:50 | Comparison finished
+23:50:50 | A matrix with 2 files has been created successfully! (time taken: 166.5925ms)
+23:50:54 | Exit Application MultiTextCompare
+
+
+23:51:05 | Open Application MultiTextCompare (23.05.2021)
+23:51:11 | Start comparing...
+23:51:11 | Comparison finished
+23:51:11 | A matrix with 2 files has been created successfully! (time taken: 172.6511ms)
+23:54:34 | Searching for files..
+23:54:34 | Found 16 files!  (seek time: 33.9598ms)
+
+23:54:35 | Start comparing...
+23:54:35 | Comparison finished
+23:54:35 | A matrix with 16 files has been created successfully! (time taken: 84.9154ms)
+23:54:40 | E and F  have been selected.
+23:54:40 | Comparison is now visible
+23:55:32 | Start comparing...
+23:55:32 | Comparison finished
+23:55:32 | A matrix with 2 files has been created successfully! (time taken: 40.2608ms)
+23:56:20 | Open Application MultiTextCompare (23.05.2021)
+23:56:22 | Exit Application MultiTextCompare
+
+
+23:56:27 | Start comparing...
+23:58:19 | Open Application MultiTextCompare (23.05.2021)
+23:58:24 | Start comparing...

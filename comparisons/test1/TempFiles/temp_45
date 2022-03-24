@@ -1,0 +1,1223 @@
+01:16:39 | Open Application MultiTextCompare (22.05.2021)
+01:16:54 | Start comparing...
+01:16:54 | Comparison finished
+01:16:54 | A matrix with 2 files has been created successfully! (time taken: 160.0134ms)
+01:16:55 | A and B  have been selected.
+01:16:55 | Comparison is now visible
+01:17:17 | Exit Application MultiTextCompare
+
+
+01:19:01 | Open Application MultiTextCompare (22.05.2021)
+01:19:05 | Searching for files..
+01:19:05 | Found 12 files!  (seek time: 34.8496ms)
+
+01:19:10 | Start comparing...
+01:19:10 | Comparison finished
+01:19:10 | A matrix with 2 files has been created successfully! (time taken: 175.457399ms)
+01:19:13 | Exit Application MultiTextCompare
+
+
+01:19:14 | Open Application MultiTextCompare (22.05.2021)
+01:19:19 | Start comparing...
+01:19:19 | Comparison finished
+01:19:19 | A matrix with 2 files has been created successfully! (time taken: 172.218001ms)
+01:19:32 | Open Application MultiTextCompare (22.05.2021)
+01:19:34 | Exit Application MultiTextCompare
+
+
+01:19:36 | Start comparing...
+01:19:36 | Comparison finished
+01:19:36 | A matrix with 2 files has been created successfully! (time taken: 43.7749ms)
+01:19:39 | Exit Application MultiTextCompare
+
+
+01:19:41 | Open Application MultiTextCompare (22.05.2021)
+01:19:45 | Start comparing...
+01:19:45 | Comparison finished
+01:19:45 | A matrix with 2 files has been created successfully! (time taken: 170.111099ms)
+01:19:50 | Exit Application MultiTextCompare
+
+
+01:29:33 | Open Application MultiTextCompare (22.05.2021)
+01:29:38 | Start comparing...
+01:29:38 | Comparison finished
+01:29:38 | A matrix with 2 files has been created successfully! (time taken: 171.6382ms)
+01:29:39 | A and B  have been selected.
+01:29:39 | Comparison is now visible
+01:32:12 | Start comparing...
+01:32:12 | Comparison finished
+01:32:12 | A matrix with 2 files has been created successfully! (time taken: 42.442401ms)
+01:32:13 | A and B  have been selected.
+01:32:13 | Comparison is now visible
+01:32:37 | Start comparing...
+01:32:37 | Comparison finished
+01:32:38 | A matrix with 2 files has been created successfully! (time taken: 42.8178ms)
+01:32:39 | A and B  have been selected.
+01:32:39 | Comparison is now visible
+01:32:48 | Exit Application MultiTextCompare
+
+
+01:38:13 | Open Application MultiTextCompare (22.05.2021)
+01:38:19 | Start comparing...
+01:38:20 | Unexpected character ('"' (code 34)): was expecting comma to separate Object entries
+ at [Source: (String)"{
+	"object" : {
+		"val" : "val",
+		"arr": ["c", "b", "a"]
+	},
+	"array": ["c", "b", "a"]
+	"arr": [["c", "b", "a"], ["c", "b", "a"]]
+}"; line: 7, column: 3]
+
+01:38:20 | Unexpected character ('"' (code 34)): was expecting comma to separate Object entries
+ at [Source: (String)"{
+	"object" : {
+		"val" : "val",
+		"arr": ["c", "b", "a"]
+	},
+	"array": ["c", "b", "a"]
+	"arr": [["c", "b", "a"], ["c", "b", "a"]]
+}"; line: 7, column: 3]
+
+01:38:20 | Comparison finished
+01:38:20 | A matrix with 2 files has been created successfully! (time taken: 181.7228ms)
+01:38:43 | Start comparing...
+01:38:43 | Comparison finished
+01:38:43 | A matrix with 2 files has been created successfully! (time taken: 43.9764ms)
+01:38:46 | A and B  have been selected.
+01:38:46 | Comparison is now visible
+01:39:05 | Open Application MultiTextCompare (22.05.2021)
+01:39:06 | Exit Application MultiTextCompare
+
+
+01:39:12 | Start comparing...
+01:42:51 | Open Application MultiTextCompare (22.05.2021)
+01:42:56 | Start comparing...
+01:44:14 | Comparison finished
+01:44:14 | A matrix with 2 files has been created successfully! (time taken: 77.69s)
+01:44:17 | A and B  have been selected.
+01:44:17 | Comparison is now visible
+01:44:35 | Exit Application MultiTextCompare
+
+
+01:46:47 | Open Application MultiTextCompare (22.05.2021)
+01:46:52 | Start comparing...
+01:46:52 | Comparison finished
+01:46:52 | A matrix with 2 files has been created successfully! (time taken: 164.539ms)
+01:47:22 | Exit Application MultiTextCompare
+
+
+01:53:43 | Open Application MultiTextCompare (22.05.2021)
+01:53:48 | Start comparing...
+01:53:48 | Comparison finished
+01:53:48 | A matrix with 2 files has been created successfully! (time taken: 160.559599ms)
+01:53:52 | Exit Application MultiTextCompare
+
+
+01:54:01 | Open Application MultiTextCompare (22.05.2021)
+01:54:06 | Start comparing...
+01:55:50 | Open Application MultiTextCompare (22.05.2021)
+01:55:56 | Start comparing...
+01:55:56 | Comparison finished
+01:55:56 | A matrix with 2 files has been created successfully! (time taken: 163.545501ms)
+01:55:57 | A and B  have been selected.
+01:55:57 | Comparison is now visible
+01:56:24 | Start comparing...
+01:56:24 | Comparison finished
+01:56:24 | A matrix with 2 files has been created successfully! (time taken: 42.5917ms)
+01:56:27 | A and B  have been selected.
+01:56:27 | Comparison is now visible
+01:56:36 | Exit Application MultiTextCompare
+
+
+01:57:23 | Open Application MultiTextCompare (22.05.2021)
+01:57:27 | Start comparing...
+01:57:27 | Comparison finished
+01:57:27 | A matrix with 2 files has been created successfully! (time taken: 164.9222ms)
+01:57:33 | A and B  have been selected.
+01:57:33 | Comparison is now visible
+01:57:50 | Exit Application MultiTextCompare
+
+
+02:07:32 | Open Application MultiTextCompare (22.05.2021)
+02:07:36 | Start comparing...
+02:07:36 | Comparison finished
+02:07:36 | A matrix with 2 files has been created successfully! (time taken: 173.5199ms)
+02:07:37 | A and B  have been selected.
+02:07:37 | Comparison is now visible
+02:07:50 | Exit Application MultiTextCompare
+
+
+02:15:56 | Open Application MultiTextCompare (22.05.2021)
+02:16:02 | Start comparing...
+02:16:02 | Comparison finished
+02:16:02 | A matrix with 2 files has been created successfully! (time taken: 178.568499ms)
+02:16:05 | Exit Application MultiTextCompare
+
+
+02:16:07 | Open Application MultiTextCompare (22.05.2021)
+02:16:11 | Start comparing...
+02:16:12 | Comparison finished
+02:16:12 | A matrix with 2 files has been created successfully! (time taken: 176.6216ms)
+02:16:13 | Exit Application MultiTextCompare
+
+
+02:17:03 | Open Application MultiTextCompare (22.05.2021)
+02:17:08 | Start comparing...
+02:17:08 | Comparison finished
+02:17:08 | A matrix with 2 files has been created successfully! (time taken: 175.2081ms)
+02:17:09 | A and B  have been selected.
+02:17:09 | Comparison is now visible
+02:18:56 | Open Application MultiTextCompare (22.05.2021)
+02:18:57 | Exit Application MultiTextCompare
+
+
+02:19:04 | Start comparing...
+02:25:42 | Comparison finished
+02:25:42 | A matrix with 2 files has been created successfully! (time taken: 398.77s)
+02:25:48 | Start comparing...
+02:29:48 | Open Application MultiTextCompare (22.05.2021)
+02:29:53 | Start comparing...
+02:29:53 | Comparison finished
+02:29:54 | A matrix with 2 files has been created successfully! (time taken: 163.0154ms)
+02:30:08 | Exit Application MultiTextCompare
+
+
+02:30:11 | Open Application MultiTextCompare (22.05.2021)
+02:30:16 | Start comparing...
+02:30:16 | Comparison finished
+02:30:16 | A matrix with 2 files has been created successfully! (time taken: 167.3792ms)
+02:30:17 | A and B  have been selected.
+02:30:17 | Comparison is now visible
+02:31:12 | Exit Application MultiTextCompare
+
+
+02:31:20 | Open Application MultiTextCompare (22.05.2021)
+02:31:25 | Start comparing...
+02:35:35 | Comparison finished
+02:35:35 | A matrix with 2 files has been created successfully! (time taken: 250.19s)
+02:35:38 | A and B  have been selected.
+02:35:38 | Comparison is now visible
+02:36:56 | Exit Application MultiTextCompare
+
+
+10:19:17 | Open Application MultiTextCompare (22.05.2021)
+10:19:28 | Start comparing...
+10:24:24 | Open Application MultiTextCompare (22.05.2021)
+10:24:32 | Start comparing...
+10:24:32 | Comparison finished
+10:24:32 | A matrix with 2 files has been created successfully! (time taken: 175.7879ms)
+10:24:34 | A and B  have been selected.
+10:24:34 | Comparison is now visible
+10:25:04 | Start comparing...
+10:25:04 | Comparison finished
+10:25:04 | A matrix with 2 files has been created successfully! (time taken: 40.7666ms)
+10:25:08 | A and B  have been selected.
+10:25:08 | Comparison is now visible
+10:26:11 | Searching for files..
+10:26:12 | Found 54 files!  (seek time: 417.3957ms)
+
+10:26:20 | Start comparing...
+10:26:21 | Comparison finished
+10:26:21 | A matrix with 34 files has been created successfully! (time taken: 120.6026ms)
+10:26:29 | Exit Application MultiTextCompare
+
+
+10:27:59 | Open Application MultiTextCompare (22.05.2021)
+10:28:41 | Searching for files..
+10:28:41 | Found 14 files!  (seek time: 35.2728ms)
+
+10:28:51 | Start comparing...
+10:35:37 | Open Application MultiTextCompare (22.05.2021)
+10:35:46 | Start comparing...
+10:35:46 | Comparison finished
+10:35:46 | A matrix with 2 files has been created successfully! (time taken: 161.4062ms)
+10:38:10 | Open Application MultiTextCompare (22.05.2021)
+10:38:18 | Start comparing...
+10:38:18 | Comparison finished
+10:38:18 | A matrix with 2 files has been created successfully! (time taken: 164.6033ms)
+10:38:20 | A and B  have been selected.
+10:38:20 | Comparison is now visible
+10:38:57 | Exit Application MultiTextCompare
+
+
+10:44:15 | Start comparing...
+10:44:15 | Comparison finished
+10:44:15 | A matrix with 2 files has been created successfully! (time taken: 41.1734ms)
+10:44:18 | A and B  have been selected.
+10:44:18 | Comparison is now visible
+10:45:00 | Start comparing...
+10:45:00 | Comparison finished
+10:45:00 | A matrix with 2 files has been created successfully! (time taken: 46.6992ms)
+10:45:02 | A and B  have been selected.
+10:45:02 | Comparison is now visible
+11:00:40 | Open Application MultiTextCompare (22.05.2021)
+11:00:50 | Start comparing...
+11:00:51 | Comparison finished
+11:00:51 | A matrix with 2 files has been created successfully! (time taken: 163.5513ms)
+11:00:52 | A and B  have been selected.
+11:00:52 | Comparison is now visible
+11:02:57 | Start comparing...
+11:02:57 | Comparison finished
+11:02:57 | A matrix with 2 files has been created successfully! (time taken: 41.5351ms)
+11:02:59 | A and B  have been selected.
+11:02:59 | Comparison is now visible
+11:03:22 | Searching for files..
+11:03:22 | Found 14 files!  (seek time: 34.1906ms)
+
+11:03:24 | Start comparing...
+11:03:24 | Comparison finished
+11:03:24 | A matrix with 14 files has been created successfully! (time taken: 74.276ms)
+11:03:30 | C and D  have been selected.
+11:03:30 | Comparison is now visible
+11:03:35 | A and B  have been selected.
+11:03:35 | Comparison is now visible
+11:07:52 | Searching for files..
+11:07:53 | Found 117 files!  (seek time: 198.5821ms)
+
+11:07:56 | Start comparing...
+11:09:31 | Open Application MultiTextCompare (22.05.2021)
+11:09:35 | Searching for files..
+11:09:35 | Found 117 files!  (seek time: 118.8367ms)
+
+11:09:43 | Start comparing...
+11:09:44 | Unexpected character ('a' (code 97)): was expecting double-quote to start field name
+ at [Source: (String)"{
+ ame" : "Jane",
+    "lastname" 5
+  },
+  "categor [ "Non-Fiction", "Technology" ],
+  "edito
+    "firstname" : "Jane",
+    "lastname" : "Smith"
+  },
+  "isbn" : "123-456-222",
+  "title" : "The Ultimate Database Study Guide"
+}"; line: 2, column: 3]
+
+11:09:44 | Unexpected character (',' (code 44)): expected a valid value (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
+ at [Source: (String)"{
+    "quiz": {
+        "sport": {
+            "q1": {
+                "question":,
+                "options": [],
+                "answer":}
+        },
+        "maths": {
+            "q1": {
+                "question":,
+                "options": [],
+                "answer":},
+            "q2": {
+                "question":,
+                "options": [],
+                "answer":}
+        }
+    }
+}"; line: 5, column: 29]
+
+11:09:44 | Unexpected character ('a' (code 97)): was expecting double-quote to start field name
+ at [Source: (String)"{
+ ame" : "Jane",
+    "lastname" 5
+  },
+  "categor [ "Non-Fiction", "Technology" ],
+  "edito
+    "firstname" : "Jane",
+    "lastname" : "Smith"
+  },
+  "isbn" : "123-456-222",
+  "title" : "The Ultimate Database Study Guide"
+}"; line: 2, column: 3]
+
+11:09:44 | Unexpected character ('a' (code 97)): was expecting double-quote to start field name
+ at [Source: (String)"{
+ ame" : "Jane",
+    "lastname" : 5
+  },
+  "category [ "Non-Fiction", "Technology" ],
+  "editor"
+    "firstname" : "Jane",
+    "lastname" : "Smith"
+  },
+  "isbn" : "123-456-222",
+  "title" : "The Ultimate Database Study Guide"
+}"; line: 2, column: 3]
+
+11:09:44 | Unexpected character ('a' (code 97)): was expecting double-quote to start field name
+ at [Source: (String)"{
+ ame" : "Jane",
+    "lastname" 5
+  },
+  "categor [ "Non-Fiction", "Technology" ],
+  "edito
+    "firstname" : "Jane",
+    "lastname" : "Smith"
+  },
+  "isbn" : "123-456-222",
+  "title" : "The Ultimate Database Study Guide"
+}"; line: 2, column: 3]
+
+11:09:44 | Unexpected character (',' (code 44)): expected a valid value (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
+ at [Source: (String)"{
+    "quiz": {
+        "sport": {
+            "q1": {
+                "question":,
+                "options": [],
+                "answer":}
+        },
+        "maths": {
+            "q1": {
+                "question":,
+                "options": [],
+                "answer":},
+            "q2": {
+                "question":,
+                "options": [],
+                "answer":}
+        }
+    }
+}"; line: 5, column: 29]
+
+11:09:44 | Unexpected character ('a' (code 97)): was expecting double-quote to start field name
+ at [Source: (String)"{
+ ame" : "Jane",
+    "lastname" 5
+  },
+  "categor [ "Non-Fiction", "Technology" ],
+  "edito
+    "firstname" : "Jane",
+    "lastname" : "Smith"
+  },
+  "isbn" : "123-456-222",
+  "title" : "The Ultimate Database Study Guide"
+}"; line: 2, column: 3]
+
+11:09:44 | Unexpected character ('a' (code 97)): was expecting double-quote to start field name
+ at [Source: (String)"{
+ ame" : "Jane",
+    "lastname" : 5
+  },
+  "category [ "Non-Fiction", "Technology" ],
+  "editor"
+    "firstname" : "Jane",
+    "lastname" : "Smith"
+  },
+  "isbn" : "123-456-222",
+  "title" : "The Ultimate Database Study Guide"
+}"; line: 2, column: 3]
+
+11:14:09 | Comparison finished
+11:14:09 | A matrix with 110 files has been created successfully! (time taken: 266.0s)
+12:55:46 | Open Application MultiTextCompare (22.05.2021)
+12:56:01 | Start comparing...
+12:56:01 | Comparison finished
+12:56:01 | A matrix with 2 files has been created successfully! (time taken: 156.2357ms)
+12:56:02 | A and B  have been selected.
+12:56:02 | Comparison is now visible
+12:56:29 | Open Application MultiTextCompare (22.05.2021)
+12:56:37 | Start comparing...
+12:56:37 | Comparison finished
+12:56:37 | A matrix with 2 files has been created successfully! (time taken: 164.191ms)
+12:56:39 | A and B  have been selected.
+12:56:39 | Comparison is now visible
+12:57:04 | Start comparing...
+12:57:04 | Comparison finished
+12:57:05 | A matrix with 2 files has been created successfully! (time taken: 41.7831ms)
+12:57:10 | A and B  have been selected.
+12:57:10 | Comparison is now visible
+12:57:54 | Start comparing...
+12:57:54 | Comparison finished
+12:57:54 | A matrix with 2 files has been created successfully! (time taken: 41.9619ms)
+12:57:58 | A and B  have been selected.
+12:57:58 | Comparison is now visible
+13:10:08 | Exit Application MultiTextCompare
+
+
+13:11:28 | Open Application MultiTextCompare (22.05.2021)
+13:11:36 | Start comparing...
+13:11:36 | Comparison finished
+13:11:36 | A matrix with 2 files has been created successfully! (time taken: 167.3695ms)
+13:12:48 | Exit Application MultiTextCompare
+
+
+13:13:09 | Open Application MultiTextCompare (22.05.2021)
+13:13:18 | Start comparing...
+13:13:18 | Comparison finished
+13:13:18 | A matrix with 2 files has been created successfully! (time taken: 168.0407ms)
+13:13:24 | A and B  have been selected.
+13:13:24 | Comparison is now visible
+13:13:48 | Start comparing...
+13:13:48 | Comparison finished
+13:13:48 | A matrix with 2 files has been created successfully! (time taken: 40.8214ms)
+13:13:54 | A and B  have been selected.
+13:13:54 | Comparison is now visible
+13:18:35 | Open Application MultiTextCompare (22.05.2021)
+13:18:44 | Start comparing...
+13:18:45 | Comparison finished
+13:18:45 | A matrix with 2 files has been created successfully! (time taken: 167.8863ms)
+13:19:31 | Open Application MultiTextCompare (22.05.2021)
+13:19:41 | Start comparing...
+13:19:41 | Comparison finished
+13:19:41 | A matrix with 2 files has been created successfully! (time taken: 168.4057ms)
+13:22:33 | Exit Application MultiTextCompare
+
+
+13:22:35 | Open Application MultiTextCompare (22.05.2021)
+13:22:45 | Start comparing...
+13:22:46 | Comparison finished
+13:22:46 | A matrix with 2 files has been created successfully! (time taken: 169.4595ms)
+13:22:54 | A and B  have been selected.
+13:22:54 | Comparison is now visible
+13:23:04 | Exit Application MultiTextCompare
+
+
+13:49:16 | Open Application MultiTextCompare (22.05.2021)
+13:49:19 | java.lang.NullPointerException
+13:49:34 | Exit Application MultiTextCompare
+
+
+13:50:18 | Open Application MultiTextCompare (22.05.2021)
+13:50:21 | java.lang.NullPointerException
+13:51:08 | Exit Application MultiTextCompare
+
+
+13:51:16 | Open Application MultiTextCompare (22.05.2021)
+13:51:24 | Searching for files..
+13:51:24 | Found 14 files!  (seek time: 35.8271ms)
+
+13:51:38 | Searching for files..
+13:51:38 | Found 117 files!  (seek time: 120.0628ms)
+
+13:51:51 | Start comparing...
+13:51:51 | Unexpected character ('a' (code 97)): was expecting double-quote to start field name
+ at [Source: (String)"{
+ ame" : "Jane",
+    "lastname" 5
+  },
+  "categor [ "Non-Fiction", "Technology" ],
+  "edito
+    "firstname" : "Jane",
+    "lastname" : "Smith"
+  },
+  "isbn" : "123-456-222",
+  "title" : "The Ultimate Database Study Guide"
+}"; line: 2, column: 3]
+
+13:51:51 | Unexpected character (',' (code 44)): expected a valid value (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
+ at [Source: (String)"{
+    "quiz": {
+        "sport": {
+            "q1": {
+                "question":,
+                "options": [],
+                "answer":}
+        },
+        "maths": {
+            "q1": {
+                "question":,
+                "options": [],
+                "answer":},
+            "q2": {
+                "question":,
+                "options": [],
+                "answer":}
+        }
+    }
+}"; line: 5, column: 29]
+
+13:51:52 | Unexpected character ('a' (code 97)): was expecting double-quote to start field name
+ at [Source: (String)"{
+ ame" : "Jane",
+    "lastname" 5
+  },
+  "categor [ "Non-Fiction", "Technology" ],
+  "edito
+    "firstname" : "Jane",
+    "lastname" : "Smith"
+  },
+  "isbn" : "123-456-222",
+  "title" : "The Ultimate Database Study Guide"
+}"; line: 2, column: 3]
+
+13:51:52 | Unexpected character ('a' (code 97)): was expecting double-quote to start field name
+ at [Source: (String)"{
+ ame" : "Jane",
+    "lastname" : 5
+  },
+  "category [ "Non-Fiction", "Technology" ],
+  "editor"
+    "firstname" : "Jane",
+    "lastname" : "Smith"
+  },
+  "isbn" : "123-456-222",
+  "title" : "The Ultimate Database Study Guide"
+}"; line: 2, column: 3]
+
+13:51:52 | Unexpected character ('a' (code 97)): was expecting double-quote to start field name
+ at [Source: (String)"{
+ ame" : "Jane",
+    "lastname" 5
+  },
+  "categor [ "Non-Fiction", "Technology" ],
+  "edito
+    "firstname" : "Jane",
+    "lastname" : "Smith"
+  },
+  "isbn" : "123-456-222",
+  "title" : "The Ultimate Database Study Guide"
+}"; line: 2, column: 3]
+
+13:51:52 | Unexpected character (',' (code 44)): expected a valid value (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
+ at [Source: (String)"{
+    "quiz": {
+        "sport": {
+            "q1": {
+                "question":,
+                "options": [],
+                "answer":}
+        },
+        "maths": {
+            "q1": {
+                "question":,
+                "options": [],
+                "answer":},
+            "q2": {
+                "question":,
+                "options": [],
+                "answer":}
+        }
+    }
+}"; line: 5, column: 29]
+
+13:51:52 | Unexpected character ('a' (code 97)): was expecting double-quote to start field name
+ at [Source: (String)"{
+ ame" : "Jane",
+    "lastname" 5
+  },
+  "categor [ "Non-Fiction", "Technology" ],
+  "edito
+    "firstname" : "Jane",
+    "lastname" : "Smith"
+  },
+  "isbn" : "123-456-222",
+  "title" : "The Ultimate Database Study Guide"
+}"; line: 2, column: 3]
+
+13:51:52 | Unexpected character ('a' (code 97)): was expecting double-quote to start field name
+ at [Source: (String)"{
+ ame" : "Jane",
+    "lastname" : 5
+  },
+  "category [ "Non-Fiction", "Technology" ],
+  "editor"
+    "firstname" : "Jane",
+    "lastname" : "Smith"
+  },
+  "isbn" : "123-456-222",
+  "title" : "The Ultimate Database Study Guide"
+}"; line: 2, column: 3]
+
+13:52:05 | Searching for files..
+13:52:05 | Found 117 files!  (seek time: 230.8435ms)
+
+13:52:18 | A matrix with 110 files has been created successfully! (time taken: 27.14s)
+13:52:42 | Open Application MultiTextCompare (22.05.2021)
+13:52:48 | Searching for files..
+13:52:49 | Found 117 files!  (seek time: 121.3842ms)
+
+13:52:56 | Start comparing...
+13:52:56 | Unexpected character ('a' (code 97)): was expecting double-quote to start field name
+ at [Source: (String)"{
+ ame" : "Jane",
+    "lastname" 5
+  },
+  "categor [ "Non-Fiction", "Technology" ],
+  "edito
+    "firstname" : "Jane",
+    "lastname" : "Smith"
+  },
+  "isbn" : "123-456-222",
+  "title" : "The Ultimate Database Study Guide"
+}"; line: 2, column: 3]
+
+13:52:56 | Unexpected character (',' (code 44)): expected a valid value (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
+ at [Source: (String)"{
+    "quiz": {
+        "sport": {
+            "q1": {
+                "question":,
+                "options": [],
+                "answer":}
+        },
+        "maths": {
+            "q1": {
+                "question":,
+                "options": [],
+                "answer":},
+            "q2": {
+                "question":,
+                "options": [],
+                "answer":}
+        }
+    }
+}"; line: 5, column: 29]
+
+13:52:56 | Unexpected character ('a' (code 97)): was expecting double-quote to start field name
+ at [Source: (String)"{
+ ame" : "Jane",
+    "lastname" 5
+  },
+  "categor [ "Non-Fiction", "Technology" ],
+  "edito
+    "firstname" : "Jane",
+    "lastname" : "Smith"
+  },
+  "isbn" : "123-456-222",
+  "title" : "The Ultimate Database Study Guide"
+}"; line: 2, column: 3]
+
+13:52:56 | Unexpected character ('a' (code 97)): was expecting double-quote to start field name
+ at [Source: (String)"{
+ ame" : "Jane",
+    "lastname" : 5
+  },
+  "category [ "Non-Fiction", "Technology" ],
+  "editor"
+    "firstname" : "Jane",
+    "lastname" : "Smith"
+  },
+  "isbn" : "123-456-222",
+  "title" : "The Ultimate Database Study Guide"
+}"; line: 2, column: 3]
+
+13:52:56 | Unexpected character ('a' (code 97)): was expecting double-quote to start field name
+ at [Source: (String)"{
+ ame" : "Jane",
+    "lastname" 5
+  },
+  "categor [ "Non-Fiction", "Technology" ],
+  "edito
+    "firstname" : "Jane",
+    "lastname" : "Smith"
+  },
+  "isbn" : "123-456-222",
+  "title" : "The Ultimate Database Study Guide"
+}"; line: 2, column: 3]
+
+13:52:56 | Unexpected character (',' (code 44)): expected a valid value (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
+ at [Source: (String)"{
+    "quiz": {
+        "sport": {
+            "q1": {
+                "question":,
+                "options": [],
+                "answer":}
+        },
+        "maths": {
+            "q1": {
+                "question":,
+                "options": [],
+                "answer":},
+            "q2": {
+                "question":,
+                "options": [],
+                "answer":}
+        }
+    }
+}"; line: 5, column: 29]
+
+13:52:56 | Unexpected character ('a' (code 97)): was expecting double-quote to start field name
+ at [Source: (String)"{
+ ame" : "Jane",
+    "lastname" 5
+  },
+  "categor [ "Non-Fiction", "Technology" ],
+  "edito
+    "firstname" : "Jane",
+    "lastname" : "Smith"
+  },
+  "isbn" : "123-456-222",
+  "title" : "The Ultimate Database Study Guide"
+}"; line: 2, column: 3]
+
+13:52:56 | Unexpected character ('a' (code 97)): was expecting double-quote to start field name
+ at [Source: (String)"{
+ ame" : "Jane",
+    "lastname" : 5
+  },
+  "category [ "Non-Fiction", "Technology" ],
+  "editor"
+    "firstname" : "Jane",
+    "lastname" : "Smith"
+  },
+  "isbn" : "123-456-222",
+  "title" : "The Ultimate Database Study Guide"
+}"; line: 2, column: 3]
+
+13:53:13 | A matrix with 110 files has been created successfully! (time taken: 17.48s)
+13:55:10 | Open Application MultiTextCompare (22.05.2021)
+13:55:13 | Searching for files..
+13:55:14 | Found 117 files!  (seek time: 120.5095ms)
+
+13:55:21 | Start comparing...
+13:55:22 | Unexpected character ('a' (code 97)): was expecting double-quote to start field name
+ at [Source: (String)"{
+ ame" : "Jane",
+    "lastname" 5
+  },
+  "categor [ "Non-Fiction", "Technology" ],
+  "edito
+    "firstname" : "Jane",
+    "lastname" : "Smith"
+  },
+  "isbn" : "123-456-222",
+  "title" : "The Ultimate Database Study Guide"
+}"; line: 2, column: 3]
+
+13:55:22 | Unexpected character (',' (code 44)): expected a valid value (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
+ at [Source: (String)"{
+    "quiz": {
+        "sport": {
+            "q1": {
+                "question":,
+                "options": [],
+                "answer":}
+        },
+        "maths": {
+            "q1": {
+                "question":,
+                "options": [],
+                "answer":},
+            "q2": {
+                "question":,
+                "options": [],
+                "answer":}
+        }
+    }
+}"; line: 5, column: 29]
+
+13:55:22 | Unexpected character ('a' (code 97)): was expecting double-quote to start field name
+ at [Source: (String)"{
+ ame" : "Jane",
+    "lastname" 5
+  },
+  "categor [ "Non-Fiction", "Technology" ],
+  "edito
+    "firstname" : "Jane",
+    "lastname" : "Smith"
+  },
+  "isbn" : "123-456-222",
+  "title" : "The Ultimate Database Study Guide"
+}"; line: 2, column: 3]
+
+13:55:22 | Unexpected character ('a' (code 97)): was expecting double-quote to start field name
+ at [Source: (String)"{
+ ame" : "Jane",
+    "lastname" : 5
+  },
+  "category [ "Non-Fiction", "Technology" ],
+  "editor"
+    "firstname" : "Jane",
+    "lastname" : "Smith"
+  },
+  "isbn" : "123-456-222",
+  "title" : "The Ultimate Database Study Guide"
+}"; line: 2, column: 3]
+
+13:55:22 | Unexpected character ('a' (code 97)): was expecting double-quote to start field name
+ at [Source: (String)"{
+ ame" : "Jane",
+    "lastname" 5
+  },
+  "categor [ "Non-Fiction", "Technology" ],
+  "edito
+    "firstname" : "Jane",
+    "lastname" : "Smith"
+  },
+  "isbn" : "123-456-222",
+  "title" : "The Ultimate Database Study Guide"
+}"; line: 2, column: 3]
+
+13:55:22 | Unexpected character (',' (code 44)): expected a valid value (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
+ at [Source: (String)"{
+    "quiz": {
+        "sport": {
+            "q1": {
+                "question":,
+                "options": [],
+                "answer":}
+        },
+        "maths": {
+            "q1": {
+                "question":,
+                "options": [],
+                "answer":},
+            "q2": {
+                "question":,
+                "options": [],
+                "answer":}
+        }
+    }
+}"; line: 5, column: 29]
+
+13:55:22 | Unexpected character ('a' (code 97)): was expecting double-quote to start field name
+ at [Source: (String)"{
+ ame" : "Jane",
+    "lastname" 5
+  },
+  "categor [ "Non-Fiction", "Technology" ],
+  "edito
+    "firstname" : "Jane",
+    "lastname" : "Smith"
+  },
+  "isbn" : "123-456-222",
+  "title" : "The Ultimate Database Study Guide"
+}"; line: 2, column: 3]
+
+13:55:22 | Unexpected character ('a' (code 97)): was expecting double-quote to start field name
+ at [Source: (String)"{
+ ame" : "Jane",
+    "lastname" : 5
+  },
+  "category [ "Non-Fiction", "Technology" ],
+  "editor"
+    "firstname" : "Jane",
+    "lastname" : "Smith"
+  },
+  "isbn" : "123-456-222",
+  "title" : "The Ultimate Database Study Guide"
+}"; line: 2, column: 3]
+
+13:55:46 | A matrix with 110 files has been created successfully! (time taken: 25.12s)
+14:01:16 | Open Application MultiTextCompare (22.05.2021)
+14:01:19 | Searching for files..
+14:01:19 | Found 117 files!  (seek time: 120.0243ms)
+
+14:01:25 | Start comparing...
+14:01:25 | Unexpected character ('a' (code 97)): was expecting double-quote to start field name
+ at [Source: (String)"{
+ ame" : "Jane",
+    "lastname" 5
+  },
+  "categor [ "Non-Fiction", "Technology" ],
+  "edito
+    "firstname" : "Jane",
+    "lastname" : "Smith"
+  },
+  "isbn" : "123-456-222",
+  "title" : "The Ultimate Database Study Guide"
+}"; line: 2, column: 3]
+
+14:01:25 | Unexpected character (',' (code 44)): expected a valid value (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
+ at [Source: (String)"{
+    "quiz": {
+        "sport": {
+            "q1": {
+                "question":,
+                "options": [],
+                "answer":}
+        },
+        "maths": {
+            "q1": {
+                "question":,
+                "options": [],
+                "answer":},
+            "q2": {
+                "question":,
+                "options": [],
+                "answer":}
+        }
+    }
+}"; line: 5, column: 29]
+
+14:01:25 | Unexpected character ('a' (code 97)): was expecting double-quote to start field name
+ at [Source: (String)"{
+ ame" : "Jane",
+    "lastname" 5
+  },
+  "categor [ "Non-Fiction", "Technology" ],
+  "edito
+    "firstname" : "Jane",
+    "lastname" : "Smith"
+  },
+  "isbn" : "123-456-222",
+  "title" : "The Ultimate Database Study Guide"
+}"; line: 2, column: 3]
+
+14:01:25 | Unexpected character ('a' (code 97)): was expecting double-quote to start field name
+ at [Source: (String)"{
+ ame" : "Jane",
+    "lastname" : 5
+  },
+  "category [ "Non-Fiction", "Technology" ],
+  "editor"
+    "firstname" : "Jane",
+    "lastname" : "Smith"
+  },
+  "isbn" : "123-456-222",
+  "title" : "The Ultimate Database Study Guide"
+}"; line: 2, column: 3]
+
+14:01:25 | Unexpected character ('a' (code 97)): was expecting double-quote to start field name
+ at [Source: (String)"{
+ ame" : "Jane",
+    "lastname" 5
+  },
+  "categor [ "Non-Fiction", "Technology" ],
+  "edito
+    "firstname" : "Jane",
+    "lastname" : "Smith"
+  },
+  "isbn" : "123-456-222",
+  "title" : "The Ultimate Database Study Guide"
+}"; line: 2, column: 3]
+
+14:01:26 | Unexpected character (',' (code 44)): expected a valid value (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
+ at [Source: (String)"{
+    "quiz": {
+        "sport": {
+            "q1": {
+                "question":,
+                "options": [],
+                "answer":}
+        },
+        "maths": {
+            "q1": {
+                "question":,
+                "options": [],
+                "answer":},
+            "q2": {
+                "question":,
+                "options": [],
+                "answer":}
+        }
+    }
+}"; line: 5, column: 29]
+
+14:01:26 | Unexpected character ('a' (code 97)): was expecting double-quote to start field name
+ at [Source: (String)"{
+ ame" : "Jane",
+    "lastname" 5
+  },
+  "categor [ "Non-Fiction", "Technology" ],
+  "edito
+    "firstname" : "Jane",
+    "lastname" : "Smith"
+  },
+  "isbn" : "123-456-222",
+  "title" : "The Ultimate Database Study Guide"
+}"; line: 2, column: 3]
+
+14:01:26 | Unexpected character ('a' (code 97)): was expecting double-quote to start field name
+ at [Source: (String)"{
+ ame" : "Jane",
+    "lastname" : 5
+  },
+  "category [ "Non-Fiction", "Technology" ],
+  "editor"
+    "firstname" : "Jane",
+    "lastname" : "Smith"
+  },
+  "isbn" : "123-456-222",
+  "title" : "The Ultimate Database Study Guide"
+}"; line: 2, column: 3]
+
+14:01:46 | A matrix with 110 files has been created successfully! (time taken: 21.11s)
+14:03:50 | Searching for files..
+14:03:50 | Found 133 files!  (seek time: 206.4245ms)
+
+14:04:04 | Searching for files..
+14:04:04 | Found 54 files!  (seek time: 112.2018ms)
+
+14:04:05 | Start comparing...
+14:04:06 | Comparison finished
+14:04:06 | A matrix with 54 files has been created successfully! (time taken: 651.6111ms)
+14:04:17 | C and D  have been selected.
+14:04:17 | Comparison is now visible
+14:04:26 | Configuration has been saved
+14:04:30 | Start comparing...
+14:04:35 | A matrix with 54 files has been created successfully! (time taken: 4.54s)
+14:04:44 | Searching for files..
+14:04:44 | Found 54 files!  (seek time: 92.9626ms)
+
+14:04:58 | Searching for files..
+14:04:58 | Found 54 files!  (seek time: 91.1109ms)
+
+14:05:02 | Searching for files..
+14:05:03 | Found 54 files!  (seek time: 92.0211ms)
+
+14:05:06 | Start comparing...
+14:05:08 | Searching for files..
+14:05:09 | No more files found 
+
+14:05:13 | A matrix with 54 files has been created successfully! (time taken: 6.85s)
+14:05:15 | Searching for files..
+14:05:15 | Found 54 files!  (seek time: 61.7034ms)
+
+14:05:19 | Searching for files..
+14:05:19 | Found 54 files!  (seek time: 91.7482ms)
+
+14:05:23 | Start comparing...
+14:05:28 | A matrix with 54 files has been created successfully! (time taken: 4.65s)
+14:05:34 | Searching for files..
+14:05:34 | Found 54 files!  (seek time: 72.7131ms)
+
+14:05:35 | Start comparing...
+14:05:51 | Comparison finished
+14:05:51 | A matrix with 54 files has been created successfully! (time taken: 16.18s)
+14:11:05 | Open Application MultiTextCompare (22.05.2021)
+14:11:08 | Searching for files..
+14:11:08 | Found 54 files!  (seek time: 101.8133ms)
+
+14:11:10 | Start comparing...
+14:11:14 | A matrix with 54 files has been created successfully! (time taken: 4.08s)
+14:11:19 | Searching for files..
+14:11:19 | Found 54 files!  (seek time: 92.1543ms)
+
+14:11:21 | Start comparing...
+14:11:37 | Comparison finished
+14:11:37 | A matrix with 54 files has been created successfully! (time taken: 15.93s)
+14:11:44 | E and F  have been selected.
+14:11:44 | Comparison is now visible
+14:11:54 | A and I  have been selected.
+14:11:54 | Comparison is now visible
+14:12:00 | Start comparing...
+14:12:15 | Comparison finished
+14:12:15 | A matrix with 54 files has been created successfully! (time taken: 15.66s)
+14:12:42 | Configuration has been saved
+14:12:45 | Start comparing...
+14:13:02 | Comparison finished
+14:13:02 | A matrix with 54 files has been created successfully! (time taken: 16.72s)
+14:13:54 | C and E  have been selected.
+14:13:54 | Comparison is now visible
+14:48:10 | Exit Application MultiTextCompare
+
+
+15:11:06 | Open Application MultiTextCompare (22.05.2021)
+15:11:49 | Start comparing...
+15:11:49 | Comparison finished
+15:11:49 | A matrix with 2 files has been created successfully! (time taken: 168.439ms)
+15:11:52 | A and B  have been selected.
+15:11:52 | Comparison is now visible
+15:12:05 | Exit Application MultiTextCompare
+
+
+15:15:26 | Open Application MultiTextCompare (22.05.2021)
+15:15:48 | Start comparing...
+15:15:49 | Comparison finished
+15:15:49 | A matrix with 2 files has been created successfully! (time taken: 168.414ms)
+15:15:50 | A and B  have been selected.
+15:15:50 | Comparison is now visible
+15:16:35 | Start comparing...
+15:16:35 | Comparison finished
+15:16:35 | A matrix with 2 files has been created successfully! (time taken: 41.8926ms)
+15:16:38 | A and B  have been selected.
+15:16:38 | Comparison is now visible
+15:16:48 | Exit Application MultiTextCompare
+
+
+15:24:48 | Open Application MultiTextCompare (22.05.2021)
+15:24:55 | Searching for files..
+15:24:55 | Found 14 files!  (seek time: 34.8772ms)
+
+15:25:03 | Start comparing...
+15:25:04 | Comparison finished
+15:25:04 | A matrix with 2 files has been created successfully! (time taken: 170.7816ms)
+15:25:05 | A and B  have been selected.
+15:25:05 | Comparison is now visible
+15:26:01 | Start comparing...
+15:26:01 | Comparison finished
+15:26:01 | A matrix with 2 files has been created successfully! (time taken: 41.3805ms)
+15:26:05 | A and B  have been selected.
+15:26:05 | Comparison is now visible
+15:28:32 | Start comparing...
+15:28:32 | Comparison finished
+15:28:32 | A matrix with 2 files has been created successfully! (time taken: 43.3488ms)
+15:28:35 | A and B  have been selected.
+15:28:35 | Comparison is now visible
+15:29:24 | Exit Application MultiTextCompare
+
+
+15:33:35 | Open Application MultiTextCompare (22.05.2021)
+15:33:47 | Start comparing...
+15:33:47 | Comparison finished
+15:33:47 | A matrix with 2 files has been created successfully! (time taken: 175.1855ms)
+15:33:49 | A and B  have been selected.
+15:33:49 | Comparison is now visible
+15:34:02 | Exit Application MultiTextCompare
+
+
+15:34:58 | Open Application MultiTextCompare (22.05.2021)
+15:35:05 | Start comparing...
+15:35:05 | Unexpected character ('"' (code 34)): was expecting comma to separate Object entries
+ at [Source: (String)"{
+	"arr": [["c", "b", {"val": "val", "arr":["c", "b", "a"]},"a"],
+	{"val": "val", "arr":["c", "b", "a"]},
+	[{"val": "e"}, "c", "a"],
+	[{"val": "e"}, "c", "b"]
+	]
+	"o1": {
+		"val": "val",
+		"arr":["c", "b", "a"]
+	},
+	"o2": {
+		"val": "val",
+		"arr":["c", "b", "a"]
+	}
+}"; line: 7, column: 3]
+
+15:35:05 | Comparison finished
+15:35:05 | A matrix with 2 files has been created successfully! (time taken: 175.3577ms)
+15:35:37 | Start comparing...
+15:35:37 | Comparison finished
+15:35:37 | A matrix with 2 files has been created successfully! (time taken: 42.7601ms)
+15:35:41 | A and B  have been selected.
+15:35:41 | Comparison is now visible
+15:37:10 | Open Application MultiTextCompare (22.05.2021)
+15:37:18 | Start comparing...
+15:37:18 | Comparison finished
+15:37:18 | A matrix with 2 files has been created successfully! (time taken: 172.5574ms)
+15:57:21 | Open Application MultiTextCompare (22.05.2021)
+15:57:29 | Start comparing...
+15:57:29 | Comparison finished
+15:57:29 | A matrix with 2 files has been created successfully! (time taken: 172.3759ms)
+15:57:30 | A and B  have been selected.
+15:57:30 | Comparison is now visible
+15:57:40 | Exit Application MultiTextCompare
+
+
+16:17:25 | Open Application MultiTextCompare (22.05.2021)
+16:17:35 | Start comparing...
+16:17:35 | Comparison finished
+16:17:35 | A matrix with 2 files has been created successfully! (time taken: 174.0481ms)
+16:17:37 | A and B  have been selected.
+16:17:37 | Comparison is now visible
+16:17:46 | Exit Application MultiTextCompare
+
+
+18:24:04 | Open Application MultiTextCompare (22.05.2021)
+18:24:09 | Searching for files..
+18:24:09 | Found 14 files!  (seek time: 35.3094ms)
+
+18:24:11 | Start comparing...
+18:24:14 | Comparison finished
+18:24:14 | A matrix with 14 files has been created successfully! (time taken: 3.36s)
+18:24:35 | Exit Application MultiTextCompare
+
+
+18:24:44 | Open Application MultiTextCompare (22.05.2021)
+18:24:47 | Searching for files..
+18:24:47 | Found 14 files!  (seek time: 35.4414ms)
+
+18:24:48 | Start comparing...
+18:24:49 | Comparison finished
+18:24:49 | A matrix with 14 files has been created successfully! (time taken: 642.3665ms)
+18:25:03 | Start comparing...
+18:25:04 | Comparison finished
+18:25:04 | A matrix with 14 files has been created successfully! (time taken: 536.4904ms)
+18:25:31 | Exit Application MultiTextCompare
+
+

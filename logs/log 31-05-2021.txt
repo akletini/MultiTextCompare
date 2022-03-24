@@ -1,0 +1,90 @@
+14:30:06 | Open Application MultiTextCompare (31.05.2021)
+14:30:12 | Searching for files..
+14:30:13 | Found 141 files!  (seek time: 576.8228ms)
+
+14:30:13 | Start comparing...
+14:30:48 | Exit Application MultiTextCompare
+
+
+14:30:49 | Open Application MultiTextCompare (31.05.2021)
+14:30:52 | Searching for files..
+14:30:52 | Found 141 files!  (seek time: 126.0143ms)
+
+14:31:05 | Start comparing...
+14:31:32 | Comparison finished
+14:31:32 | A matrix with 74 files has been created successfully! (time taken: 26.56s)
+14:31:37 | I and P have been selected as reference.
+14:31:43 | H and P have been selected as reference.
+14:31:53 | Exit Application MultiTextCompare
+
+
+14:31:55 | Open Application MultiTextCompare (31.05.2021)
+14:32:00 | Searching for files..
+14:32:00 | Found 62 files!  (seek time: 105.8484ms)
+
+14:32:01 | Start comparing...
+14:32:29 | Comparison finished
+14:32:29 | A matrix with 62 files has been created successfully! (time taken: 27.69s)
+14:32:37 | L and M have been selected as reference.
+14:33:49 | C and D have been selected as reference.
+14:34:00 | L and M have been selected as reference.
+14:34:45 | Exit Application MultiTextCompare
+
+
+14:42:51 | Open Application MultiTextCompare (31.05.2021)
+14:42:54 | Searching for files..
+14:42:54 | Found 62 files!  (seek time: 108.5751ms)
+
+14:42:55 | Start comparing...
+14:43:23 | Comparison finished
+14:43:23 | A matrix with 62 files has been created successfully! (time taken: 27.54s)
+14:43:41 | K and L have been selected as reference.
+14:48:08 | Exit Application MultiTextCompare
+
+
+15:05:51 | Open Application MultiTextCompare (31.05.2021)
+15:56:57 | Successfully loaded configuration F:\Home\SYP2020\team06\MultiTextCompare\configs\configNeu.properties
+15:57:06 | Exit Application MultiTextCompare
+
+
+15:57:21 | Open Application MultiTextCompare (31.05.2021)
+15:57:29 | Exit Application MultiTextCompare
+
+
+15:57:36 | Open Application MultiTextCompare (31.05.2021)
+15:57:40 | Exit Application MultiTextCompare
+
+
+20:13:22 | Open Application MultiTextCompare (31.05.2021)
+20:13:36 | Exit Application MultiTextCompare
+
+
+20:13:45 | Open Application MultiTextCompare (31.05.2021)
+20:13:49 | Searching for files..
+20:13:49 | Found 62 files!  (seek time: 110.5ms)
+
+20:13:53 | Exit Application MultiTextCompare
+
+
+20:17:14 | Open Application MultiTextCompare (31.05.2021)
+20:17:19 | Searching for files..
+20:17:19 | Found 70 files!  (seek time: 106.2599ms)
+
+20:17:21 | Start comparing...
+20:17:21 | Error on line 40 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileDTDFaulty.xml: The element type "ARTIKEL" must be terminated by the matching end-tag "</ARTIKEL>".
+20:17:21 | Error on line 15 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileFaultyXML.xml: Element type "PREISment4" must be followed by either attribute specifications, ">" or "/>".
+20:17:21 | Error on line 13 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileMap3.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+20:17:21 | Error on line 13 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/bin/test/testFiles/XMLTestFiles/TestFileMap4.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+20:17:21 | Error on line 40 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileDTDFaulty.xml: The element type "ARTIKEL" must be terminated by the matching end-tag "</ARTIKEL>".
+20:17:21 | Error on line 15 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileFaultyXML.xml: Element type "PREISment4" must be followed by either attribute specifications, ">" or "/>".
+20:17:21 | Error on line 13 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileMap3.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+20:17:21 | Error on line 13 of document file:/F:/Home/SYP2020/team06/MultiTextCompare/src/test/testFiles/XMLTestFiles/TestFileMap4.xml: Element type "Pttr" must be followed by either attribute specifications, ">" or "/>".
+20:17:22 | Comparison finished
+20:17:22 | A matrix with 70 files has been created, but the file selection contained 8 XML errors. (time taken: 638.8341ms)
+20:17:27 | K and L  have been selected.
+20:17:27 | Comparison is now visible
+20:17:39 | P and Q  have been selected.
+20:17:39 | Comparison is now visible
+20:18:11 | Exit Application MultiTextCompare
+
+
