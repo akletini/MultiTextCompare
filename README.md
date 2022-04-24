@@ -1,5 +1,13 @@
 # README - MultiTextCompare
 
+MultiTextCompare ist eine Java-Desktopanwendung zum Vergleich beliebig vieler textbasierter Dateien. Unterstützt werden die Formate .txt, .xml und .json, wobei für die letzten beiden Formate spezielle Operationen verfügbar sind. Alle Vergleichsergebnisse werden in einer Matrix farbig dargestellt. Auf Wunsch kann der Benutzer sich die Diff für bis zu 3 Dateien gleichzeitig anzeigen und zeichengenau markieren lassen. Eine Übersicht über die Anwendung kann im  [Benutzerhandbuch](https://github.com/akletini/bachelorarbeit/blob/master/help_docs/help.pdf) gefunden werden. Informationen zur technischen Umsetzung sind in der [schriftlichen Ausarbeitung](https://github.com/akletini/bachelorarbeit_latex/blob/main/BA_Allen_Kletinitch.pdf) zu finden.
+
+---
+
+**Unterhalb dieser Notiz sind Informationen, die größtenteils nur für die Abgabe des Projekts im Rahmen der Bachelorarbeit relevant waren.**
+
+---
+
 ## Voraussetzungen
 
 - Eclipse IDE Luna SR2
@@ -8,7 +16,7 @@
 
 ---
 
-**Note**: Java 1.7 ist empfohlen, Java 1.8 ist die höchste getestete Java-Version um die Anwendung über die JAR-Datei zu starten.
+**Note** : Java 1.7 ist empfohlen, Java 1.8 ist die höchste getestete Java-Version um die Anwendung über die JAR-Datei zu starten.
 
 ---
 
@@ -17,10 +25,9 @@
 Clonen Sie folgendes Repository:
 
 ```
-$ git clone https://gerona.nt.fh-koeln.de/gitlab/syp20/team06.git
+$ git clone https://github.com/akletini/bachelorarbeit.git
 ```
 
-oder verwenden Sie das per Google Drive übertragene Workspace.
 
 ## Run-Commands
 
