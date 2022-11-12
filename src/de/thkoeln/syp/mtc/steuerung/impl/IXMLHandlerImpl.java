@@ -1,16 +1,9 @@
 package de.thkoeln.syp.mtc.steuerung.impl;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-
+import de.thkoeln.syp.mtc.datenhaltung.api.*;
+import de.thkoeln.syp.mtc.datenhaltung.impl.IXMLParseErrorImpl;
+import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
+import de.thkoeln.syp.mtc.steuerung.services.IXMLHandler;
 import org.apache.commons.io.FileUtils;
 import org.jdom2.Attribute;
 import org.jdom2.Document;
@@ -24,17 +17,14 @@ import org.jdom2.input.sax.XMLReaders;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
-import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
-import de.thkoeln.syp.mtc.datenhaltung.api.IParseError;
-import de.thkoeln.syp.mtc.datenhaltung.api.IXMLAttributeComparator;
-import de.thkoeln.syp.mtc.datenhaltung.api.IXMLElementComparator;
-import de.thkoeln.syp.mtc.datenhaltung.api.IXMLParseError;
-import de.thkoeln.syp.mtc.datenhaltung.impl.IXMLParseErrorImpl;
-import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
-import de.thkoeln.syp.mtc.steuerung.services.IXMLHandler;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 
 /**
- * Bereitet XML-Dateien für den Vergleich vor. Verantwortlich für das Parsen,
+ * Bereitet XML-Dateien fï¿½r den Vergleich vor. Verantwortlich fï¿½r das Parsen,
  * Sortieren und Manipulieren.
  * 
  * @author Matthias Pooth
@@ -400,7 +390,7 @@ public class IXMLHandlerImpl implements IXMLHandler {
 
 	
 	/**
-	 * Ersetzt aus gegebenem String, welcher ein vollständiges XMLDokument darstellt,
+	 * Ersetzt aus gegebenem String, welcher ein vollstï¿½ndiges XMLDokument darstellt,
 	 * alle Attribute innerhalb der einzelnen XML-Tags
 	 * 
 	 * @param xmlFile
@@ -413,7 +403,7 @@ public class IXMLHandlerImpl implements IXMLHandler {
 			
 			String[] xmlFileArray = xmlFile.split("");
 		
-			String content = "";
+			StringBuilder content = new StringBuilder();
 			
 			boolean openingTagIndicatorFound = false;
 			boolean closingTagIndicatorFound = false;
@@ -427,14 +417,13 @@ public class IXMLHandlerImpl implements IXMLHandler {
 					
 					openingTagIndicatorAtIndex = index;
 					openingTagIndicatorFound = true;
-					closingTagIndicatorFound = false;
-					content="";
+					content = new StringBuilder();
 					
 				}
 				
-				if(openingTagIndicatorFound = true && closingTagIndicatorFound == false){
+				if(openingTagIndicatorFound){
 					
-					content = content + xmlFileArray[index];
+					content.append(xmlFileArray[index]);
 					
 				}
 							
@@ -443,13 +432,13 @@ public class IXMLHandlerImpl implements IXMLHandler {
 					closingTagIndicatorAtIndex = index;
 					closingTagIndicatorFound = true;
 									
-					if(this.isTag(content) && !this.isClosingTag(content)){
+					if(this.isTag(content.toString()) && !this.isClosingTag(content.toString())){
 							
-						if(content.contains("=")){
+						if(content.toString().contains("=")){
 							
 							boolean firstSpaceSeperator = false;
 												
-							if(this.isShortNotation(content)){
+							if(this.isShortNotation(content.toString())){
 								
 								for(int i = openingTagIndicatorAtIndex; i<closingTagIndicatorAtIndex-2;i++){
 									
@@ -474,7 +463,7 @@ public class IXMLHandlerImpl implements IXMLHandler {
 										openingTagIndicatorFound = false;
 										closingTagIndicatorFound = false;
 										firstSpaceSeperator = false;
-										content = "";	
+										content = new StringBuilder();
 										break;
 									}
 									
@@ -492,23 +481,23 @@ public class IXMLHandlerImpl implements IXMLHandler {
 						
 					openingTagIndicatorFound = false;
 					closingTagIndicatorFound = false;
-					content = "";	
+					content = new StringBuilder();
 								
 				}
 						
 			}
 			
-			String returnString = "";
+			StringBuilder returnString = new StringBuilder();
 			for(String x : xmlFileArray){
-				returnString = returnString + x;
+				returnString.append(x);
 			}
-			return returnString;
+			return returnString.toString();
 			
 		}
 	
 	
 	/**
-	 * Ersetzt aus gegebenem String, welcher ein vollständiges XMLDokument darstellt,
+	 * Ersetzt aus gegebenem String, welcher ein vollstï¿½ndiges XMLDokument darstellt,
 	 * alle Kommentare
 	 * 
 	 * @param xmlFile
@@ -570,12 +559,12 @@ public class IXMLHandlerImpl implements IXMLHandler {
 						
 		}
 		
-		String returnString = "";
+		StringBuilder returnString = new StringBuilder();
 		for(String x : xmlFileArray){
-			returnString = returnString + x;
+			returnString.append(x);
 		}
 		
-		return returnString;	
+		return returnString.toString();
 	}
 	
 	/**
@@ -614,10 +603,9 @@ public class IXMLHandlerImpl implements IXMLHandler {
 				priorOpeningTagIndicatorAtIndex = openingTagIndicatorAtIndex;
 				openingTagIndicatorAtIndex = index;
 				openingTagIndicatorFound = true;
-				closingTagIndicatorFound = false;
 			}
 	
-			if(openingTagIndicatorFound = true && closingTagIndicatorFound == false){
+			if(openingTagIndicatorFound){
 				
 				content = content + xmlFileArray[index];
 				
@@ -626,9 +614,8 @@ public class IXMLHandlerImpl implements IXMLHandler {
 			if(xmlFileArray[index].equals(">")){
 				priorClosingTagIndicatorAtIndex = closingTagIndicatorAtIndex;
 				closingTagIndicatorAtIndex = index;
-				closingTagIndicatorFound = true;
-	
-	
+
+
 				if(this.isClosingTag(content) && this.isTag(priorContent) && this.isMatchingEndTag(priorContent, content) && priorClosingTagIndicatorAtIndex != -1){
 					
 					for(int i = priorClosingTagIndicatorAtIndex+1; i<openingTagIndicatorAtIndex; i++){
@@ -638,14 +625,12 @@ public class IXMLHandlerImpl implements IXMLHandler {
 					}
 					
 					openingTagIndicatorFound = false;
-					closingTagIndicatorFound = false;
 					priorContent = content;
 					content = "";
 					
 				}else{
 						
 					openingTagIndicatorFound = false;
-					closingTagIndicatorFound = false;
 					priorContent = content;
 					content = "";
 				}				
@@ -654,15 +639,15 @@ public class IXMLHandlerImpl implements IXMLHandler {
 			
 		}
 		
-		String returnString = "";
+		StringBuilder returnString = new StringBuilder();
 		for(String x : xmlFileArray){
-			returnString = returnString + x;
+			returnString.append(x);
 		}
 		
 		
 		
 		
-		return returnString;
+		return returnString.toString();
 	}
 
 
@@ -741,7 +726,7 @@ public class IXMLHandlerImpl implements IXMLHandler {
 
 	/**
 	 * Hilfsmethode um festzustellen, ob der uebergebene String formal
-	 * ein Element-Tag und das dazugehoerige schließende Tag wiederspiegelt.
+	 * ein Element-Tag und das dazugehoerige schlieï¿½ende Tag wiederspiegelt.
 	 * Diese Methode setzt vorraus, dass das XML-Dokument bereits erfolgreich geparst wurde!
 	 * 
 	 * @param  startTag
@@ -761,13 +746,13 @@ public class IXMLHandlerImpl implements IXMLHandler {
 			}
 		}
 		
-		String tempString = "";
+		StringBuilder tempString = new StringBuilder();
 		for(String s : startTagArray){
-			tempString = tempString + s;
+			tempString.append(s);
 		}
 		
 		
-		if(endTag.contains(tempString)){
+		if(endTag.contains(tempString.toString())){
 			return true;
 		}
 		

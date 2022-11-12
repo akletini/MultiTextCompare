@@ -1,31 +1,5 @@
 package de.thkoeln.syp.mtc.gui.view;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.Insets;
-import java.awt.event.MouseWheelListener;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map.Entry;
-
-import javax.imageio.ImageIO;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
-import javax.swing.JTextPane;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingWorker;
-import javax.swing.border.EmptyBorder;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyleContext;
-
 import de.thkoeln.syp.mtc.datenhaltung.api.IDiffChar;
 import de.thkoeln.syp.mtc.datenhaltung.api.IDiffLine;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IDiffCharImpl;
@@ -39,6 +13,22 @@ import de.thkoeln.syp.mtc.steuerung.impl.IDiffHelperImpl;
 import de.thkoeln.syp.mtc.steuerung.impl.IMatchHelperImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IDiffHelper;
 import de.thkoeln.syp.mtc.steuerung.services.IMatchHelper;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
+import java.awt.*;
+import java.awt.event.MouseWheelListener;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map.Entry;
 
 /**
  * Visualisierung der Diff-Panels
@@ -162,8 +152,7 @@ public class ComparisonView extends JFrame {
 					if (selection.size() == 1)
 						selection.add(selection.get(0));
 
-					selectedTempFiles = selection.toArray(new File[selection
-							.size()]);
+					selectedTempFiles = selection.toArray(new File[0]);
 					matchHelper.setMATCH_AT(management.getFileImporter()
 							.getConfig().getMatchAt());
 					matchHelper.setLOOKAHEAD(management.getFileImporter()
@@ -332,7 +321,7 @@ public class ComparisonView extends JFrame {
 		IDiffLine copy = new IDiffLineImpl();
 		for(int i = 0; i < diffLine.getDiffedLine().size(); i++){
 			IDiffChar c = diffLine.getDiffedLine().get(i);
-			copy.getDiffedLine().add(new IDiffCharImpl(new Character(c.getCurrentChar()), c.getCharColor()));
+			copy.getDiffedLine().add(new IDiffCharImpl(c.getCurrentChar(), c.getCharColor()));
 		}
 		return copy;
 	}

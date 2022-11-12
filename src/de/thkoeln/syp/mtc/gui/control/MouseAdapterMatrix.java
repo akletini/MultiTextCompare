@@ -1,24 +1,15 @@
 package de.thkoeln.syp.mtc.gui.control;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
-import javax.swing.JTable;
-
 import de.thkoeln.syp.mtc.gui.view.ComparisonView;
 import de.thkoeln.syp.mtc.gui.view.FileView;
 import de.thkoeln.syp.mtc.logging.Logger;
+
+import javax.swing.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.*;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * Extra Klasse fuer die Klickbarkeit der Matrix bzw. die Auswahl der Diff-Dateien.
@@ -81,7 +72,7 @@ public class MouseAdapterMatrix extends MouseAdapter {
 					// Tu nichts
 					e.consume();
 				}
-				// Doppelklick ohne STRG => öffnet 2er Diff
+				// Doppelklick ohne STRG => ï¿½ffnet 2er Diff
 				else if (isDoubleClick(e) && !e.isControlDown() && !controlMode) {
 					fetchFilesFromCellClick(rowIndex, columnIndex);
 					logClickInCell(rowIndex, columnIndex);
@@ -154,13 +145,6 @@ public class MouseAdapterMatrix extends MouseAdapter {
 									selectedFiles.add(entry.getValue());
 									fileIndices.add(rowIndex);
 								}
-								// Logausgabe
-//								logger.setMessage(
-//										management.getCurrentFileSelection()
-//												.get(columnIndex).split("\\|")[0]
-//												.trim()
-//												+ " has been selected.",
-//										logger.LEVEL_INFO);
 							}
 						}
 					}

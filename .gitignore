@@ -103,5 +103,4 @@ TempFiles/*
 out/*
 src/test/testFiles/config.properties
 Beispiel/*
-*.jar
 

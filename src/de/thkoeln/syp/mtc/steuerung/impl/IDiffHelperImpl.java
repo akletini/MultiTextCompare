@@ -1,21 +1,20 @@
 package de.thkoeln.syp.mtc.steuerung.impl;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.LineIterator;
-import org.apache.commons.text.diff.CommandVisitor;
-import org.apache.commons.text.diff.StringsComparator;
-
 import de.thkoeln.syp.mtc.datenhaltung.api.IDiffChar;
 import de.thkoeln.syp.mtc.datenhaltung.api.IDiffLine;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IDiffCharImpl;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IDiffLineImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IDiffHelper;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.LineIterator;
+import org.apache.commons.text.diff.CommandVisitor;
+import org.apache.commons.text.diff.StringsComparator;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Berechnet die Diff (Difference) zwischen zwei oder drei Dateien und speichert
@@ -433,11 +432,11 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 	 *            Die Liste deren Zeilen befllt werden sollen
 	 */
 	private void writeToDiffLines(List<IDiffChar> file, List<IDiffLine> lines) {
-		String diffedFile = "";
+		StringBuilder diffedFile = new StringBuilder();
 		for (IDiffChar c : file) {
-			diffedFile += c.getCurrentChar().toString();
+			diffedFile.append(c.getCurrentChar().toString());
 		}
-		String[] getLinesFromDiffedFile = diffedFile.split("\n");
+		String[] getLinesFromDiffedFile = diffedFile.toString().split("\n");
 		String[] linesAsStrings = new String[getLinesFromDiffedFile.length];
 		for (int i = 0; i < linesAsStrings.length; i++) {
 			linesAsStrings[i] = getLinesFromDiffedFile[i] + "\n";
@@ -445,12 +444,12 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 		}
 
 		int stringIndex = 0;
-		for (int i = 0; i < linesAsStrings.length; i++) {
+		for (String linesAsString : linesAsStrings) {
 			IDiffLine diffLine = new IDiffLineImpl();
 			List<IDiffChar> temp = file.subList(stringIndex, stringIndex
-					+ linesAsStrings[i].length());
+					+ linesAsString.length());
 			diffLine.setDiffedLine(temp);
-			stringIndex = stringIndex + linesAsStrings[i].length();
+			stringIndex = stringIndex + linesAsString.length();
 			lines.add(diffLine);
 		}
 
@@ -710,7 +709,7 @@ class FileCommandVisitor implements CommandVisitor<Character> {
 		List<Boolean> isEmptyLine = new ArrayList<Boolean>();
 		for (int i = 0; i < lines.size(); i++) {
 			line = lines.get(i).toString();
-			if (line.replaceAll("[0-9]", "").equals("  \n")) {
+			if (line.replaceAll("\\d", "").equals("  \n")) {
 				isEmptyLine.add(true);
 			} else {
 				isEmptyLine.add(false);

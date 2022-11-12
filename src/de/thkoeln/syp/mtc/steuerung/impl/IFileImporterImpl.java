@@ -1,24 +1,11 @@
 package de.thkoeln.syp.mtc.steuerung.impl;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-
 import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IConfigImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
+
+import java.io.*;
+import java.util.*;
 
 /**
  * Verwaltet die zu vergleichenden Textdateien und die Konfiguration der
@@ -135,7 +122,7 @@ public class IFileImporterImpl implements IFileImporter {
 	 * Versucht die uebergebene Config zu importieren, wenn nicht moeglich dann
 	 * wird die Default-Config geladen
 	 * 
-	 * @param configPfad
+	 * @param config
 	 *            die Config, welche importiert und uebernommen werden soll als
 	 *            Pfad
 	 * 
@@ -154,7 +141,7 @@ public class IFileImporterImpl implements IFileImporter {
 			return false;
 
 		if (!config.exists()) {
-			// übergebene Datei existiert nicht im Dateisystem
+			// ï¿½bergebene Datei existiert nicht im Dateisystem
 			// Default config existiert nicht
 			if (!DEFAULT_CONFIG.exists()) {
 				try {
@@ -177,7 +164,7 @@ public class IFileImporterImpl implements IFileImporter {
 					return false;
 				}
 			}
-			// übergebene Datei existiert nicht und Default existiert
+			// ï¿½bergebene Datei existiert nicht und Default existiert
 			else {
 				try {
 					inputStream = new FileInputStream(DEFAULT_CONFIG);
@@ -633,7 +620,7 @@ public class IFileImporterImpl implements IFileImporter {
 
 		for (File f : this.tempFiles.keySet()) {
 			File temp = tempFiles.get(f);
-			String text = "";
+			StringBuilder text = new StringBuilder();
 
 			try {
 				reader = new BufferedReader(new InputStreamReader(
@@ -651,14 +638,14 @@ public class IFileImporterImpl implements IFileImporter {
 					if (!iConfig.getKeepWhitespaces())
 						line = line.replaceAll("\\s", "\n");
 
-					text += line + "\n";
+					text.append(line).append("\n");
 				}
 				reader.close();
 
 				writer = new BufferedWriter(new OutputStreamWriter(
 						new FileOutputStream(temp), "UTF-8"));
 
-				writer.write(text);
+				writer.write(text.toString());
 				writer.close();
 			} catch (IOException e) {
 				e.printStackTrace();

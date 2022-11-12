@@ -1,34 +1,20 @@
 package de.thkoeln.syp.mtc.gui.view;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.util.Hashtable;
-
-import javax.imageio.ImageIO;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSlider;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.ToolTipManager;
-import javax.swing.border.EmptyBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
-import net.miginfocom.swing.MigLayout;
 import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
 import de.thkoeln.syp.mtc.gui.control.ConfigController;
 import de.thkoeln.syp.mtc.gui.control.Management;
 import de.thkoeln.syp.mtc.logging.Logger;
+import net.miginfocom.swing.MigLayout;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.*;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.Hashtable;
 
 /**
  * Visualisierung des Config-Panels
@@ -473,8 +459,8 @@ public class ConfigView extends JFrame {
 
 	public void setLookaheadText() {
 		try {
-			Integer lookahead = config.getMatchingLookahead();
-			String lookeheadText = lookahead.toString();
+			int lookahead = config.getMatchingLookahead();
+			String lookeheadText = Integer.toString(lookahead);
 			textFieldLookahead.setText(lookeheadText);
 
 		} catch (NumberFormatException e) {

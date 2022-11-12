@@ -1,9 +1,9 @@
 package de.thkoeln.syp.mtc.datenhaltung.impl;
 
+import de.thkoeln.syp.mtc.datenhaltung.api.IComparison;
+
 import java.io.File;
 import java.io.Serializable;
-
-import de.thkoeln.syp.mtc.datenhaltung.api.IComparison;
 
 public class IComparisonImpl implements IComparison, Serializable {
 
@@ -83,8 +83,6 @@ public class IComparisonImpl implements IComparison, Serializable {
 
 	@Override
 	public String toString() {
-		// return "Compare " + von.getName() + " with " + zu.getName() + " ID: "
-		// + id + ", weight: " + weight;
 		return "" + id;
 	}
 }

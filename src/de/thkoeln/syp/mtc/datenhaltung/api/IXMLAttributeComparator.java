@@ -1,7 +1,8 @@
 package de.thkoeln.syp.mtc.datenhaltung.api;
 
-import java.util.Comparator;
 import org.jdom2.Attribute;
+
+import java.util.Comparator;
 
 public class IXMLAttributeComparator implements Comparator<Attribute> {
 	

@@ -1,21 +1,5 @@
 package de.thkoeln.syp.mtc.steuerung.impl;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -25,7 +9,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-
 import de.thkoeln.syp.mtc.datenhaltung.api.IConfig;
 import de.thkoeln.syp.mtc.datenhaltung.api.IJSONParseError;
 import de.thkoeln.syp.mtc.datenhaltung.api.IParseError;
@@ -34,8 +17,14 @@ import de.thkoeln.syp.mtc.datenhaltung.impl.IJSONSortNodeFactoryImpl;
 import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
 import de.thkoeln.syp.mtc.steuerung.services.IJSONHandler;
 
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
+
 /**
- * Bereitet JSON-Dateien für den Vergleich vor. Verantwortlich für das Parsen,
+ * Bereitet JSON-Dateien fï¿½r den Vergleich vor. Verantwortlich fï¿½r das Parsen,
  * Sortieren und Manipulieren.
  * 
  * @author Matthias Pooth
@@ -122,7 +111,7 @@ public class IJSONHandlerImpl extends JsonNodeFactory implements IJSONHandler {
 	}
 
 	/**
-	 * Ersetzt aus gegebenem String, welcher ein vollständiges JSON Dokument
+	 * Ersetzt aus gegebenem String, welcher ein vollstï¿½ndiges JSON Dokument
 	 * darstellt, alle Values
 	 * 
 	 * @param String
@@ -253,11 +242,11 @@ public class IJSONHandlerImpl extends JsonNodeFactory implements IJSONHandler {
 			seperatorFound = false;
 
 		}
-		String returnString = "";
+		StringBuilder returnString = new StringBuilder();
 		for (String x : jsonStringArray) {
-			returnString = returnString + x;
+			returnString.append(x);
 		}
-		return returnString;
+		return returnString.toString();
 
 	}
 
@@ -455,7 +444,7 @@ public class IJSONHandlerImpl extends JsonNodeFactory implements IJSONHandler {
 		this.iConfig = config;
 	}
 
-	class JsonArrayComparator implements Comparator<JsonNode> {
+	static class JsonArrayComparator implements Comparator<JsonNode> {
 
 		@Override
 		public int compare(JsonNode o1, JsonNode o2) {

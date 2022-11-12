@@ -1,23 +1,5 @@
 package de.thkoeln.syp.mtc.steuerung.impl;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.text.similarity.LevenshteinDistance;
-import org.jdom2.JDOMException;
-
 import de.thkoeln.syp.mtc.datenhaltung.api.IComparison;
 import de.thkoeln.syp.mtc.datenhaltung.api.IMatrix;
 import de.thkoeln.syp.mtc.datenhaltung.impl.IComparisonImpl;
@@ -25,16 +7,21 @@ import de.thkoeln.syp.mtc.datenhaltung.impl.IMatrixImpl;
 import de.thkoeln.syp.mtc.gui.control.FileSelectionController.CompareListener.CompareThread;
 import de.thkoeln.syp.mtc.gui.control.Management;
 import de.thkoeln.syp.mtc.logging.Logger;
-import de.thkoeln.syp.mtc.steuerung.services.IFileImporter;
-import de.thkoeln.syp.mtc.steuerung.services.IJSONCompare;
-import de.thkoeln.syp.mtc.steuerung.services.IMatchHelper;
-import de.thkoeln.syp.mtc.steuerung.services.ITextvergleicher;
-import de.thkoeln.syp.mtc.steuerung.services.IXMLCompare;
+import de.thkoeln.syp.mtc.steuerung.services.*;
+import org.apache.commons.text.similarity.LevenshteinDistance;
+import org.jdom2.JDOMException;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.util.*;
 
 /**
  * Verwaltet alle Vergleichsalgorithmen und das Setup von Vergleichen. Dabei
  * werden die Dateien von IFileImporter nach Vergleichen aufgeteilt und nach
- * Gewicht sortiert auf verfügbare CPU-Threads verteilt.
+ * Gewicht sortiert auf verfï¿½gbare CPU-Threads verteilt.
  * 
  * @author Allen Kletinitch
  *
@@ -65,9 +52,9 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	public void vergleicheZeilenweise(List<IComparisonImpl> batch) {
 		compareThread = Management.getInstance().getCompareThread();
 		i = 0;
-		List<String> referenceLines = null;
-		List<String> comparisonLines = null;
-		Object[] matchedFiles = null;
+		List<String> referenceLines;
+		List<String> comparisonLines;
+		Object[] matchedFiles;
 		final int MATCHING_LOOKAHEAD = fileImporter.getConfig()
 				.getMatchingLookahead();
 		final double MATCH_AT_VALUE = fileImporter.getConfig().getMatchAt();
@@ -90,9 +77,9 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 					String[] refArray = (String[]) matchedFiles[0];
 					String[] compArray = (String[]) matchedFiles[1];
 
-					referenceLines = new ArrayList<String>(
+					referenceLines = new ArrayList<>(
 							Arrays.asList(refArray));
-					comparisonLines = new ArrayList<String>(
+					comparisonLines = new ArrayList<>(
 							Arrays.asList(compArray));
 				} else {
 					referenceLines = fileToLines(ref);
@@ -102,7 +89,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 				double maxFileSize = calculateLineWeight(referenceLines.size(),
 						comparisonLines.size());
 				double weightPerLine = 1 / maxFileSize;
-				double similarity = 0;
+				double similarity;
 
 				similarity = calculateSimilarityMetric(weightPerLine,
 						referenceLines, comparisonLines);
@@ -133,28 +120,28 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 				List<String> refList = fileToLines(a.getFrom());
 				List<String> vglList = fileToLines(a.getTo());
 
-				String referenzString = "", vergleichsString = "";
+				StringBuilder referenzString = new StringBuilder();
+				StringBuilder vergleichsString = new StringBuilder();
 				for (String s : refList) {
-					referenzString += s;
+					referenzString.append(s);
 				}
 				for (String s : vglList) {
-					vergleichsString += s;
+					vergleichsString.append(s);
 				}
-				char[] referenzArray = referenzString.toCharArray();
-				char[] vergleichsArray = vergleichsString.toCharArray();
+				char[] referenzArray = referenzString.toString().toCharArray();
+				char[] vergleichsArray = vergleichsString.toString().toCharArray();
 
 				Arrays.sort(referenzArray);
 				Arrays.sort(vergleichsArray);
 
-				referenzString = new String(referenzArray);
-				vergleichsString = new String(vergleichsArray);
+				referenzString = new StringBuilder(new String(referenzArray));
+				vergleichsString = new StringBuilder(new String(vergleichsArray));
 
-				double maxSize = (double) Math.max(referenzArray.length,
+				double maxSize = Math.max(referenzArray.length,
 						vergleichsArray.length);
 
-				double levenshtein = (double) calculateLevenshteinDist(
-						referenzString, vergleichsString, new Integer(
-								MAXLINELENGTH));
+				double levenshtein = calculateLevenshteinDist(
+						referenzString.toString(), vergleichsString.toString(), MAXLINELENGTH);
 
 				double metrik = (maxSize - levenshtein) / maxSize;
 				a.setValue(metrik);
@@ -169,7 +156,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	}
 
 	/**
-	 * Ruft den strukturellen Vergleich für JSON-Dateien auf und speichert das
+	 * Ruft den strukturellen Vergleich fï¿½r JSON-Dateien auf und speichert das
 	 * Ergebnis
 	 */
 	@Override
@@ -196,7 +183,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	}
 
 	/**
-	 * Ruft den strukturellen Vergleich für JSON-Dateien auf und speichert das
+	 * Ruft den strukturellen Vergleich fï¿½r JSON-Dateien auf und speichert das
 	 * Ergebnis
 	 */
 	@Override
@@ -227,7 +214,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	 */
 	@Override
 	public void getTempfilesFromHashMap(Map<File, File> map) {
-		tempFiles = new ArrayList<File>();
+		tempFiles = new ArrayList<>();
 		Map<File, File> sorted = sortHashMapByValue(map);
 		for (Map.Entry<File, File> entry : sorted.entrySet()) {
 			tempFiles.add(entry.getValue());
@@ -245,29 +232,26 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	 * @return eine sortierte Hashmap
 	 */
 	private HashMap<File, File> sortHashMapByValue(Map<File, File> map) {
-		List<Map.Entry<File, File>> list = new ArrayList<Map.Entry<File, File>>(
+		List<Map.Entry<File, File>> list = new ArrayList<>(
 				map.entrySet());
 
 		// Sort the list
-		Collections.sort(list, new Comparator<Map.Entry<File, File>>() {
-			public int compare(Map.Entry<File, File> o1,
-					Map.Entry<File, File> o2) {
-				try {
-					Integer von = Integer.parseInt(o1.getValue().getName()
-							.replace("temp_", ""));
-					Integer zu = Integer.parseInt(o2.getValue().getName()
-							.replace("temp_", ""));
-					return von.compareTo(zu);
-				} catch (NumberFormatException e) {
-					e.printStackTrace();
-					return -1;
-				}
-
+		list.sort((o1, o2) -> {
+			try {
+				Integer von = Integer.parseInt(o1.getValue().getName()
+						.replace("temp_", ""));
+				Integer zu = Integer.parseInt(o2.getValue().getName()
+						.replace("temp_", ""));
+				return von.compareTo(zu);
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+				return -1;
 			}
+
 		});
 
 		// put data from sorted list to hashmap
-		HashMap<File, File> temp = new LinkedHashMap<File, File>();
+		HashMap<File, File> temp = new LinkedHashMap<>();
 		for (Map.Entry<File, File> aa : list) {
 			temp.put(aa.getKey(), aa.getValue());
 		}
@@ -283,7 +267,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	 * @return lines Liste mit Zeilen von file
 	 */
 	private List<String> fileToLines(File file) throws IOException {
-		final List<String> lines = new ArrayList<String>();
+		final List<String> lines = new ArrayList<>();
 		String line;
 		final BufferedReader in = Files.newBufferedReader(file.toPath(),
 				StandardCharsets.UTF_8);
@@ -331,9 +315,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		final int MAXLINELENGTH = fileImporter.getConfig().getMaxLineLength();
 		int norm = normalizeStringLists(refList, compList);
 		int max = refList.size();
-		if (norm == 0) {
-			max = refList.size();
-		} else if (norm == 1) {
+		if (norm == 1) {
 			max = compList.size();
 		}
 
@@ -341,30 +323,23 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		for (int i = 0; i < max; i++) {
 			String ref = refList.get(i);
 			String comp = compList.get(i);
-			int longestString;
 
-			if (ref.length() >= comp.length()) {
-				longestString = ref.length();
-			} else {
-				longestString = comp.length();
-			}
-
-			double lengthOfLongestString = (double) longestString;
+			double lengthOfLongestString = Math.max(ref.length(), comp.length());
 			double levenshteinDist;
 
 			levenshteinDist = calculateLevenshteinDist(ref, comp, MAXLINELENGTH);
 
 			if (lengthOfLongestString != 0) {
 				metricPerLine[i] = weight
-						* (double) ((lengthOfLongestString - levenshteinDist) / lengthOfLongestString);
+						* ((lengthOfLongestString - levenshteinDist) / lengthOfLongestString);
 			} else {
-				metricPerLine[i] = weight * 1.0;
+				metricPerLine[i] = weight;
 			}
 
 		}
 		double similarity = 0;
-		for (int i = 0; i < metricPerLine.length; i++) {
-			similarity += metricPerLine[i];
+		for (double v : metricPerLine) {
+			similarity += v;
 		}
 		return similarity;
 	}
@@ -405,9 +380,9 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	 *         Aehnlichkeitswert
 	 */
 	public List<IComparisonImpl> getVergleiche(List<File> files) {
-		paarungen = new ArrayList<IComparisonImpl>();
+		paarungen = new ArrayList<>();
 		int id = 0;
-		IComparison vergleich = new IComparisonImpl();
+		IComparisonImpl vergleich;
 		for (int i = 0; i < files.size(); i++) {
 			for (int j = i + 1; j < files.size(); j++) {
 				id++;
@@ -421,7 +396,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				paarungen.add((IComparisonImpl) vergleich);
+				paarungen.add(vergleich);
 			}
 		}
 
@@ -429,7 +404,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	}
 
 	/**
-	 * Errechnet für einen Vergleich das Gewicht. Das Gewicht ist die Anzahl
+	 * Errechnet fï¿½r einen Vergleich das Gewicht. Das Gewicht ist die Anzahl
 	 * aller Zeichen in beiden zu vergleichenden Dateien
 	 * 
 	 * @param ref
@@ -440,7 +415,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	 * @throws IOException
 	 */
 	private int getWeightFromComparison(File ref, File comp) throws IOException {
-		String line = "";
+		String line;
 		int weight = 0;
 		BufferedReader in = Files.newBufferedReader(ref.toPath(),
 				StandardCharsets.UTF_8);
@@ -457,40 +432,39 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	}
 
 	/**
-	 * Erstellt Batches je nach Anzahl der verfügbaren CPU-Threads und teils
-	 * Vergleiche gleichmäßig auf diesen auf.
+	 * Erstellt Batches je nach Anzahl der verfï¿½gbaren CPU-Threads und teils
+	 * Vergleiche gleichmï¿½ï¿½ig auf diesen auf.
 	 */
 	@Override
 	public void createBatches() {
-		batches = new ArrayList<IMatrixImpl>();
+		batches = new ArrayList<>();
 		int numThreads = Runtime.getRuntime().availableProcessors();
-		Collections.sort(paarungen, new SortIAehnlichkeitByWeight());
+		paarungen.sort(new SortIAehnlichkeitByWeight());
 		batches = distributeBatches(paarungen, numThreads);
 
 	}
 
 	/**
-	 * Fügt Batches nach Vergleich in eine einzige Liste zusammen und sortiert
+	 * Fï¿½gt Batches nach Vergleich in eine einzige Liste zusammen und sortiert
 	 * diese nach ihrer ID
 	 */
 	@Override
 	public void mergeBatches() {
 		paarungen.clear();
-		for (int i = 0; i < batches.size(); i++) {
-			List<IComparisonImpl> currentBatch = batches.get(i).getInhalt();
-			for (int j = 0; j < currentBatch.size(); j++) {
-				IComparison currentComparison = currentBatch.get(j);
+		for (IMatrixImpl batch : batches) {
+			List<IComparisonImpl> currentBatch = batch.getInhalt();
+			for (IComparison currentComparison : currentBatch) {
 				paarungen.add(new IComparisonImpl(currentComparison.getFrom(),
 						currentComparison.getTo(), currentComparison
-								.getWeight(), currentComparison.getId(),
+						.getWeight(), currentComparison.getId(),
 						currentComparison.getValue()));
 			}
 		}
-		Collections.sort(paarungen, new SortIAehnlichkeitByID());
+		paarungen.sort(new SortIAehnlichkeitByID());
 	}
 
 	/**
-	 * Verteilt Vergleiche nach dem Round Robin Prinzip auf die verfügbaren
+	 * Verteilt Vergleiche nach dem Round Robin Prinzip auf die verfï¿½gbaren
 	 * Batches in Abhaengigkeit der Vergleichsgewichte
 	 * 
 	 * @param iterable
@@ -508,7 +482,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 		Iterator<IComparisonImpl> iterator = iterable.iterator();
 		for (int i = 0; iterator.hasNext(); i++)
 			batches.get(i % partitions).getInhalt()
-					.add((IComparisonImpl) iterator.next());
+					.add(iterator.next());
 
 		return batches;
 	}
@@ -520,9 +494,9 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	/**
 	 * Berechnet die Levenshtein Distanz zwischen s1 und s2
 	 * 
-	 * @param s1
+	 * @param ref
 	 *            Referenz-String
-	 * @param s2
+	 * @param comp
 	 *            Vergleichs-String
 	 * @return die LevenShtein Distanz zwischen s1 und s2
 	 */
@@ -572,7 +546,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	 * @author Allen Kletinitch
 	 *
 	 */
-	class SortIAehnlichkeitByID implements Comparator<IComparison> {
+	static class SortIAehnlichkeitByID implements Comparator<IComparison> {
 
 		@Override
 		public int compare(IComparison o1, IComparison o2) {
@@ -587,7 +561,7 @@ public class ITextvergleicherImpl implements ITextvergleicher {
 	 * @author Allen Kletinitch
 	 *
 	 */
-	class SortIAehnlichkeitByWeight implements Comparator<IComparison> {
+	static class SortIAehnlichkeitByWeight implements Comparator<IComparison> {
 
 		@Override
 		public int compare(IComparison o1, IComparison o2) {

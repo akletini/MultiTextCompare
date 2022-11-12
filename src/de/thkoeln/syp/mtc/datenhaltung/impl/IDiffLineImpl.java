@@ -1,10 +1,10 @@
 package de.thkoeln.syp.mtc.datenhaltung.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import de.thkoeln.syp.mtc.datenhaltung.api.IDiffChar;
 import de.thkoeln.syp.mtc.datenhaltung.api.IDiffLine;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class IDiffLineImpl implements IDiffLine{
 	private List<IDiffChar> diffedLine;
@@ -25,10 +25,10 @@ public class IDiffLineImpl implements IDiffLine{
 	
 	@Override
 	public String toString(){
-		String s = "";
+		StringBuilder s = new StringBuilder();
 		for(IDiffChar c : diffedLine){
-			s += c.getCurrentChar().toString();
+			s.append(c.getCurrentChar().toString());
 		}
-		return s;
+		return s.toString();
 	}
 }
